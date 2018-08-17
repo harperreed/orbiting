@@ -1,0 +1,33 @@
+<html>
+  <title>🌌 Orbiting</title>
+  <head>
+    <style>
+    #orbit {
+       height: 100vh;
+      overflow: scroll;
+       width: 100vw;
+       position:fixed;
+       top:0;
+       left:0;
+       padding:10px;
+       font-size: 15vh;
+       font-family: sans-serif;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="orbit" contenteditable="true"></div>
+  </body>
+  <script src="/js/jquery-latest.js"></script>
+  <script src="/js/jquery.mobile-events.min.js"></script>
+<script type="text/javascript">
+$(function(){
+//code
+  $('#orbit').focus()
+});
+
+$('#orbit').on('swipeleft', function(e) { 
+  $('#orbit').html('')
+});
+</script>
+</html>
