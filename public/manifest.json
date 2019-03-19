@@ -4,7 +4,7 @@
  "lang": "en-US",
  "display": "standalone",
  "orientation": "portrait",
- "start_url": "/?homescreen=1",
+ "start_url": "/?homescreen=1&utm_source=web_app_manifest&utm_medium=web_app_manifest",
  "background_color": "#fff",
  "icons": [
   {
