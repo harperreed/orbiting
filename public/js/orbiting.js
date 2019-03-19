@@ -44,23 +44,43 @@ function clearStoredText(){
 function displayStoredMessages(){
     var messages = getStoredText();
     console.log(messages);
-    //<li><a class="drawer-menu-item" href="#">history item</a></li>
+
     var history = $("#message-history");
+    history.html("");
     for (var i = 0; i < messages.length; i++ ) {
         var item = $("<li/>");
-        item.addClass("drawer-menu-item");
+        item.addClass("list-group-item");
         item.html(messages[i])
         history.append(item);
     }
 }
 
+function firstView(){
+
+    var firstView = JSON.parse(localStorage.getItem("first-view"));
+    if (firstView==null){
+        $('#helpModal').modal('show');
+        localStorage.setItem("first-view", JSON.stringify(true));
+    }
+    
+}
 
 /* Handle the interface */
 
 
+/* links */
+
+
+$("#clear-history-link"). click(function(){
+    clearStoredText();
+    displayStoredMessages();
+    return false;
+});
+
 /* Drawer */
 $(document).ready(function() {
     $('.drawer').drawer();
+    firstView();
   });
 
 $('.drawer').on('drawer.opened', function(){
@@ -74,13 +94,18 @@ $(function(){
 });
 
 /* Motion and swipes */
-$("#orbit").on("swipeleft", function(e) { 
-    resetScroll();
-    clearText();
+
+$("#orbit").on("taphold", function(e) {
+    $('.drawer').drawer("open");
 });
 
 $("#orbit").on("swiperight", function(e) {
     $('.drawer').drawer("open");
+});
+
+$("#orbit").on("swipeleft", function(e) { 
+    resetScroll();
+    clearText();
 });
 
 $("#orbit").on("tap", function(e) { 

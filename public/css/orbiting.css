@@ -14,7 +14,8 @@
     font-family: sans-serif;
     color: #000;
     line-height: 80%;
-
+    margin: 0px;
+    border: 0px solid; 
  }
 
  .no-scroll {
@@ -26,4 +27,20 @@
   font-size: 15vh;
     font-weight:bold;
   font-family: sans-serif;
+}
+
+#about{
+  display: none;
+  z-index: 1000;
+  background: #fff;
+  
+}
+
+.history-container{
+
+  overflow: scroll;
+}
+
+div{
+  
 }
