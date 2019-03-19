@@ -34,28 +34,78 @@ function storeText(){
     var enteredText = $("#orbit").text();
     messages.unshift(enteredText);
     localStorage.setItem("messages", JSON.stringify(messages));
+    displayStoredMessages();
 }
 
 function clearStoredText(){
     localStorage.setItem("messages", JSON.stringify([]));
 }
 
+function displayStoredMessages(){
+    var messages = getStoredText();
 
+
+    var history = $("#message-history");
+    history.html("");
+    for (var i = 0; i < messages.length; i++ ) {
+        var item = $("<li/>");
+        item.addClass("list-group-item");
+        item.html(messages[i]);
+        history.append(item);
+    }
+}
+
+function firstView(){
+
+    var firstView = JSON.parse(localStorage.getItem("first-view"));
+    if (firstView==null){
+        $("#helpModal").modal("show");
+        localStorage.setItem("first-view", JSON.stringify(true));
+    }
+    
+}
 
 /* Handle the interface */
 
 
+/* links */
+
+
+$("#clear-history-link"). click(function(){
+    clearStoredText();
+    displayStoredMessages();
+    return false;
+});
+
+/* Drawer */
+$(document).ready(function() {
+    $(".drawer").drawer();
+    firstView();
+});
+
+$(".drawer").on("drawer.opened", function(){
+
+});
+
+
 $(function(){
+    displayStoredMessages();
     $("#orbit").focus();
 });
 
 /* Motion and swipes */
+
+$("#orbit").on("taphold", function(e) {
+    $(".drawer").drawer("open");
+});
+
+$("#orbit").on("swiperight", function(e) {
+    $(".drawer").drawer("open");
+});
+
 $("#orbit").on("swipeleft", function(e) { 
     resetScroll();
     clearText();
-});
-
-$("#orbit").on("swiperight", function(e) { 
 });
 
 $("#orbit").on("tap", function(e) { 

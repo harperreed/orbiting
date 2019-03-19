@@ -53,9 +53,11 @@
 
     <meta name="theme-color" content="#ffffff">
 
-
     <!--STYLES-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/orbiting.css">
+    <link rel="stylesheet" href="/css/drawer.css">
+
 
     <!--GOOGLE ANALYTICS-->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70650-72"></script>
@@ -68,11 +70,100 @@
     </script>
     
   </head>
-  <body id="b">
+  <body id="b" class="drawer drawer--left">
+    <header role="banner">
+      
+      <nav class="drawer-nav" role="navigation">
+        
+          <h1 >History</h1>
+          <div class="history-container">
+            <ul class="list-group" id="message-history"></ul>
+          </div>
+          <a class="btn btn-lg btn-primary" href="#" id="clear-history-link">Clear History</a>
+          <hr>
+
+          <h1 >Orbiting</h1>
+          <a class=" btn btn-lg btn-primary" href="#" data-toggle="modal" data-target="#helpModal">Help</a>
+          <a class=" btn btn-lg btn-primary" href="#" data-toggle="modal" data-target="#aboutModal">About</a>
+          <hr>
+
+          <small>Orbiting</small> <br />
+          <small>Created by Harper and CSK 😍</small>
+
+      </nav>
+    </header>
+    
     <div id="orbit" class="orbit" contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">type here</div>
+    
+
+    <!--About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalTitle"><img src="/imgs/favicon-32x32.png" align="right "/>&nbsp;Orbiting.com</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <p>A simple messaging app for your eyeballs.  </p>
+              <p>Orbiting is a simple visual communication app for groups.</p>
+              <p>A person is able to use it to type and display the message to those around. We want to create a very simple experience that doesn't require a lot of tech knowledge or experience.</p>
+              <hr>
+              <p>Made with love by <a target="_blank" href="https://twitter.com/harper">Harper Reed</a> and <a target="_blank" href="https://twitter.com/chrisunkim">Christine Sun Kim</a></p>
+              <p>Please send us feedback. We want it! <a href="mailto:feedback@orbiting.com">feedback@orbiting.com</a></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="helpModalTitle"><img src="/imgs/favicon-32x32.png" align="right "/>&nbsp;How to use Orbiting</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p>Orbiting is simple to use. </p>
+                <p>Tap and start typing. Your message will display loud and clear!</p>
+                <p>To clear your message - <strong>swipe left</strong> <br />
+                  To display the history - <strong>swipe right</strong></p>
+                <hr>
+                <p>You can add the app to your homescreen and launch it anytime. </p>
+
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    <div id="about">
+        
+      </div>
   </body>
-  <script src="/js/jquery-latest.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
   <script src="/js/jquery.mobile-events.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+  <script src="/js/drawer.min.js"></script>
   <script src="/js/orbiting.js"></script>
 
 </html>
