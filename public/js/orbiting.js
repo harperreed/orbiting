@@ -86,7 +86,7 @@ function toggleVideo(){
     var video = document.querySelector("#videoElement");
     
     if ($("#videoElement").is(":hidden")){
-
+        $("#orbit").addClass("video-text")
         $("#videoElement").toggle();
         if (navigator.mediaDevices.getUserMedia) {       
             navigator.mediaDevices.getUserMedia({video: true})
@@ -112,6 +112,7 @@ function toggleVideo(){
                 });
         }
         $("#toggle-video-button").text("Enable Video");
+        $("#orbit").removeClass("video-text")
         $("#videoElement").toggle();
         
     }
