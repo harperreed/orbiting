@@ -40,3 +40,28 @@
   max-height: 50%;
   overflow: scroll;
 }
+
+#videoElement {
+  hdeight: 100vh;
+  width: 100vw;
+  background-color: #000;
+  opacity: 0.5;
+  marging: 0px;
+  padding: 0px;
+  background-size: auto;
+  display: none;
+}
+
+#toggle-video-button{
+
+  display: none;
+}
+
+.video-text {
+	text-shadow:
+		-1px -1px 0 #fff,
+		1px -1px 0 #fff,
+		-1px 1px 0 #fff,
+    1px 1px 0 #fff;
+
+}
