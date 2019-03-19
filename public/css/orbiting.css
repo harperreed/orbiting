@@ -40,3 +40,14 @@
   max-height: 50%;
   overflow: scroll;
 }
+
+#videoElement {
+  hdeight: 100vh;
+  width: 100vw;
+  background-color: #000;
+  opacity: 0.5;
+  marging: 0px;
+  padding: 0px;
+  background-size: auto;
+  display: none;
+}
