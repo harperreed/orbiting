@@ -80,6 +80,46 @@ function historyClickHandler(e)
 
     return false;
 }
+
+
+function toggleVideo(){
+    var video = document.querySelector("#videoElement");
+    
+    if ($("#videoElement").is(":hidden")){
+        console.log("hidden");
+        $("#videoElement").toggle();
+        if (navigator.mediaDevices.getUserMedia) {       
+            navigator.mediaDevices.getUserMedia({video: true})
+                .then(function(stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function(err0r) {
+                    console.log("Something went wrong!");
+                });
+        }
+        $("#toggle-video-button").text("Disable Video")
+    }else{
+        video.pause();
+        video.srcObject = null;
+        if (navigator.mediaDevices.getUserMedia) {       
+            navigator.getUserMedia({audio: false, video: true},
+                function(stream) {
+                    var track = stream.getTracks()[0];  // if only one media track
+                    track.stop();
+                },
+                function(error){
+                    console.log('getUserMedia() error', error);
+                });
+        }
+        $("#toggle-video-button").text("Enable Video")
+        $("#videoElement").toggle();
+        
+    }
+
+   
+    
+}
+
 /* Handle the interface */
 
 
@@ -90,6 +130,13 @@ $("#clear-history-link").click(function(){
     displayStoredMessages();
     return false;
 });
+
+$("#toggle-video-button").click(function(){
+    toggleVideo();
+    
+    return false;
+});
+
 
 /* Drawer */
 $(document).ready(function() {
