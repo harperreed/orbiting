@@ -48,10 +48,15 @@ function displayStoredMessages(){
     var history = $("#message-history");
     history.html("");
     for (var i = 0; i < messages.length; i++ ) {
-        var item = $("<li/>");
-        item.addClass("list-group-item");
+        var item_li = $("<li/>");
+        item_li.addClass("list-group-item");
+        var item = $("<a/>");
         item.html(messages[i]);
-        history.append(item);
+        item.attr("data-id", i);
+        item.attr("href", "#");
+        item.click(historyClickHandler);
+        item_li.append(item);
+        history.append(item_li);
     }
 }
 
@@ -65,13 +70,22 @@ function firstView(){
     
 }
 
+function historyClickHandler(e)
+{
+    var messageId =$(e.currentTarget).data("id");
+    var messages = getStoredText();
+    var message = messages[messageId];
+    $("#orbit").html(message);
+    $(".drawer").drawer("close");
+
+    return false;
+}
 /* Handle the interface */
 
 
 /* links */
 
-
-$("#clear-history-link"). click(function(){
+$("#clear-history-link").click(function(){
     clearStoredText();
     displayStoredMessages();
     return false;
