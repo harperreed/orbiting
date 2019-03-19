@@ -13,7 +13,7 @@
     font-weight:bold;
     font-family: sans-serif;
     color: #000;
-    line-height: 90%;
+    line-height: 95%;
     margin: 0px;
     border: 0px solid; 
  }
@@ -39,8 +39,4 @@
 .history-container{
   max-height: 50%;
   overflow: scroll;
-}
-
-div{
-  
 }

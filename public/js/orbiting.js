@@ -122,6 +122,12 @@ $("#orbit").on("swipeleft", function(e) {
     clearText();
 });
 
+$("#orbit").on("doubletap", function(e) { 
+    resetScroll();
+    clearText();
+});
+
+
 $("#orbit").on("tap", function(e) { 
     resetScroll();
     clearInitialText();
