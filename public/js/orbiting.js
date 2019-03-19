@@ -1,59 +1,96 @@
+
+/* Functionality */
+ 
+function clearText(){
+    storeText();
+    $("#orbit").html("");
+
+}
+
+function clearInitialText(){
+    if ($("#orbit").html()=="type here"){
+        $("#orbit").html(""); 
+    }
+}
+
+function resetScroll(){
+    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
+}
+
+function dynamicResize() {
+
+}
+
+function getStoredText(){
+    var messages = JSON.parse(localStorage.getItem("messages"));
+    if (messages == null){
+        messages = [];
+    }
+    return messages;
+}
+
+function storeText(){
+    var messages = getStoredText();
+    var enteredText = $("#orbit").text();
+    messages.unshift(enteredText);
+    localStorage.setItem("messages", JSON.stringify(messages));
+}
+
+function clearStoredText(){
+    localStorage.setItem("messages", JSON.stringify([]));
+}
+
+
+
+/* Handle the interface */
+
+
 $(function(){
-    $('#orbit').focus()
-
-  });
-
-
-
-$('#orbit').on('swipeleft', function(e) { 
-    $('#orbit').html('')
-    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
+    $("#orbit").focus();
 });
 
-$('#orbit').on('tap', function(e) { 
-    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
-   if ($('#orbit').html()=="type here"){
-    $('#orbit').html('')   
-  }
+/* Motion and swipes */
+$("#orbit").on("swipeleft", function(e) { 
+    resetScroll();
+    clearText();
 });
 
-$('#orbit').on('click', function(e) { 
-    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
-   if ($('#orbit').html()=="type here"){
-    $('#orbit').html('')   
-  }
+$("#orbit").on("swiperight", function(e) { 
 });
 
-var textarea = $('#orbit');
-textarea.bind('change input', function() {
-  //textarea.css({'font-size':(textarea.css('font-size').replace('px','')-3)});
-  dynamicResize()
+$("#orbit").on("tap", function(e) { 
+    resetScroll();
+    clearInitialText();
+});
+
+$("#orbit").on("click", function(e) { 
+    resetScroll();
+    clearInitialText();
+});
+
+/* Dynamic resizing */
+
+var textarea = $("#orbit");
+textarea.bind("change input", function() {
+    //textarea.css({"font-size":(textarea.css("font-size").replace("px","")-3)});
+    dynamicResize();
   
 }); 
 
-function dynamicResize() {
-    //console.log("this should resize the font when it gets too big")
-    
-    /*
-  $("#orbit").fitText();
-      http://jsfiddle.net/aj9tarnu/
 
-    */
-}
 
- 
 
 
 
 /* we need this only on touch devices */
-    /* cache dom references */ 
-    var $body = jQuery('body'); 
+/* cache dom references */ 
+var $body = jQuery("body"); 
 
-    /* bind events */
-    $(document)
-    .on('focus', 'input', function() {
-        $body.addClass('no-scroll');
+/* bind events */
+$(document)
+    .on("focus", "input", function() {
+        $body.addClass("no-scroll");
     })
-    .on('blur', 'input', function() {
-        $body.removeClass('no-scroll');
+    .on("blur", "input", function() {
+        $body.removeClass("no-scroll");
     });
