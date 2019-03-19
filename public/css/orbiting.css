@@ -22,3 +22,8 @@
    position: absolute; 
  }
 
+.drawer-brand {
+  font-size: 15vh;
+    font-weight:bold;
+  font-family: sans-serif;
+}

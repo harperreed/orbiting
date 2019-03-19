@@ -34,18 +34,42 @@ function storeText(){
     var enteredText = $("#orbit").text();
     messages.unshift(enteredText);
     localStorage.setItem("messages", JSON.stringify(messages));
+    displayStoredMessages();
 }
 
 function clearStoredText(){
     localStorage.setItem("messages", JSON.stringify([]));
 }
 
+function displayStoredMessages(){
+    var messages = getStoredText();
+    console.log(messages);
+    //<li><a class="drawer-menu-item" href="#">history item</a></li>
+    var history = $("#message-history");
+    for (var i = 0; i < messages.length; i++ ) {
+        var item = $("<li/>");
+        item.addClass("drawer-menu-item");
+        item.html(messages[i])
+        history.append(item);
+    }
+}
 
 
 /* Handle the interface */
 
 
+/* Drawer */
+$(document).ready(function() {
+    $('.drawer').drawer();
+  });
+
+$('.drawer').on('drawer.opened', function(){
+
+});
+
+
 $(function(){
+    displayStoredMessages()
     $("#orbit").focus();
 });
 
@@ -55,7 +79,8 @@ $("#orbit").on("swipeleft", function(e) {
     clearText();
 });
 
-$("#orbit").on("swiperight", function(e) { 
+$("#orbit").on("swiperight", function(e) {
+    $('.drawer').drawer("open");
 });
 
 $("#orbit").on("tap", function(e) { 

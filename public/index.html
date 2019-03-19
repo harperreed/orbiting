@@ -53,9 +53,9 @@
 
     <meta name="theme-color" content="#ffffff">
 
-
     <!--STYLES-->
     <link rel="stylesheet" href="/css/orbiting.css">
+    <link rel="stylesheet" href="/css/drawer.css">
 
     <!--GOOGLE ANALYTICS-->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70650-72"></script>
@@ -68,11 +68,36 @@
     </script>
     
   </head>
-  <body id="b">
+  <body id="b" class="drawer drawer--left">
+      <header role="banner">
+          
+          <nav class="drawer-nav" role="navigation">
+            
+            <ul class="drawer-menu">
+              <li><span class="drawer-brand" href="#"></a>Orbiting!</span></li>
+              <li><a class="drawer-menu-item" href="about.html">about</a></li>
+            </ul>
+
+            <ul class="drawer-menu">
+                <li><span class="drawer-brand" href="#">History</span></li>
+            </ul>
+            <ul class="drawer-menu" id="message-history"></ul>
+
+            <ul class="drawer-menu">
+                <li><a class="drawer-brand" href="#" id="clear-history">Clear History</a></li>
+            </ul>
+            <hr>
+            <ul class="drawer-menu">
+                <li><span class="drawer-menu-item" href="#">A CSK and Harper Project</span></li>
+            </ul>
+          </nav>
+        </header>
     <div id="orbit" class="orbit" contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">type here</div>
   </body>
   <script src="/js/jquery-latest.js"></script>
   <script src="/js/jquery.mobile-events.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+  <script src="/js/drawer.min.js"></script>
   <script src="/js/orbiting.js"></script>
 
 </html>
