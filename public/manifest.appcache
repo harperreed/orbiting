@@ -11,14 +11,15 @@ CACHE:
 
 
 #style sheets
-
+https://orbiting.com/css/orbiting.css
 
 #style sheet images
 
 
 #javascript files
-https://orbiting-14a48.firebaseapp.com/js/jquery-latest.js
-https://orbiting-14a48.firebaseapp.com/js/jquery.mobile-events.min.js
+https://orbiting.com/js/jquery-latest.js
+https://orbiting.com/js/jquery.mobile-events.min.js
+https://orbiting.com/js/orbiting.js
 
 NETWORK:
 *
