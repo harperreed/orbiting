@@ -43,14 +43,14 @@ function clearStoredText(){
 
 function displayStoredMessages(){
     var messages = getStoredText();
-    console.log(messages);
+
 
     var history = $("#message-history");
     history.html("");
     for (var i = 0; i < messages.length; i++ ) {
         var item = $("<li/>");
         item.addClass("list-group-item");
-        item.html(messages[i])
+        item.html(messages[i]);
         history.append(item);
     }
 }
@@ -59,7 +59,7 @@ function firstView(){
 
     var firstView = JSON.parse(localStorage.getItem("first-view"));
     if (firstView==null){
-        $('#helpModal').modal('show');
+        $("#helpModal").modal("show");
         localStorage.setItem("first-view", JSON.stringify(true));
     }
     
@@ -79,28 +79,28 @@ $("#clear-history-link"). click(function(){
 
 /* Drawer */
 $(document).ready(function() {
-    $('.drawer').drawer();
+    $(".drawer").drawer();
     firstView();
-  });
+});
 
-$('.drawer').on('drawer.opened', function(){
+$(".drawer").on("drawer.opened", function(){
 
 });
 
 
 $(function(){
-    displayStoredMessages()
+    displayStoredMessages();
     $("#orbit").focus();
 });
 
 /* Motion and swipes */
 
 $("#orbit").on("taphold", function(e) {
-    $('.drawer').drawer("open");
+    $(".drawer").drawer("open");
 });
 
 $("#orbit").on("swiperight", function(e) {
-    $('.drawer').drawer("open");
+    $(".drawer").drawer("open");
 });
 
 $("#orbit").on("swipeleft", function(e) { 
