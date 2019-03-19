@@ -51,3 +51,8 @@
   background-size: auto;
   display: none;
 }
+
+#toggle-video-button{
+
+  display: none;
+}
