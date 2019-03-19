@@ -18,6 +18,19 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimal-ui">
     <!-- Disable automatic phone number detection. -->
     <meta name="format-detection" content="telephone=no">
+
+    <!-- IOS SPLASHSCREENS -->
+
+    <link href="/imgs/splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+    <link href="/imgs/splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
     
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="57x57" href="/imgs/apple-icon-57x57.png">
@@ -40,33 +53,11 @@
 
     <meta name="theme-color" content="#ffffff">
 
-    <style>
-    #orbit {
-       height: 100vh;
-       overflow: scroll;
-       width: 100vw;
-       position:fixed;
-       top:0;
-       left:0;
-       padding-left:20px;
-       padding-top:20px;
-       padding-right:20px;
-       padding-bottom:50px;
-       font-size: 15vh;
-       font-weight:bold;
-       font-family: sans-serif;
-      color: #000;
 
-    }
+    <!--STYLES-->
+    <link rel="stylesheet" href="/css/orbiting.css">
 
-    .no-scroll {
-      overflow:hidden;
-      position: absolute; 
-    }
-
-
-    </style>
-
+    <!--GOOGLE ANALYTICS-->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70650-72"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -77,49 +68,14 @@
     </script>
     
   </head>
-  <body>
-    <div id="orbit" contenteditable="true">type here</div>
+  <body id="b">
+    <div id="orbit" class="orbit" contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">type here</div>
   </body>
   <script src="/js/jquery-latest.js"></script>
   <script src="/js/jquery.mobile-events.min.js"></script>
-<script type="text/javascript">
-$(function(){
-  $('#orbit').focus()
-});
+  <script src="/js/orbiting.js"></script>
 
-$('#orbit').on('swipeleft', function(e) { 
-    $('#orbit').html('')
-    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
-});
-
-$('#orbit').on('tap', function(e) { 
-    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
-   if ($('#orbit').html()=="type here"){
-    $('#orbit').html('')   
-  }
-});
-
-$('#orbit').on('click', function(e) { 
-    window.setTimeout(function() {window.scrollTo(0,0);}, 0);
-   if ($('#orbit').html()=="type here"){
-    $('#orbit').html('')   
-  }
-});
-
-
-
-/* we need this only on touch devices */
-    /* cache dom references */ 
-    var $body = jQuery('body'); 
-
-    /* bind events */
-    $(document)
-    .on('focus', 'input', function() {
-        $body.addClass('no-scroll');
-    })
-    .on('blur', 'input', function() {
-        $body.removeClass('no-scroll');
-    });
-
+  <script type="text/javascript">
+  
 </script>
 </html>

@@ -1,0 +1,25 @@
+#orbit {
+    height: 100vh;
+    overflow: scroll;
+    width: 100vw;
+    position:fixed;
+    top:0;
+    left:0;
+    padding-left:20px;
+    padding-top:20px;
+    padding-right:20px;
+    padding-bottom:50px;
+    sfont-size: 15vh;
+    font-size: 15vh;
+    font-weight:bold;
+    font-family: sans-serif;
+    color: #000;
+    line-height: 80%;
+
+ }
+
+ .no-scroll {
+   overflow:hidden;
+   position: absolute; 
+ }
+
