@@ -64,7 +64,7 @@ function firstView(){
 
     var firstView = JSON.parse(localStorage.getItem("first-view"));
     if (firstView==null){
-        $("#helpModal").modal("show");
+        $("#welcomeModal").modal("show");
         localStorage.setItem("first-view", JSON.stringify(true));
     }
     
@@ -130,6 +130,52 @@ function mobileAndTabletcheck() {
 
 
 /* links */
+
+
+/* modals */
+$('#aboutModal').modal({ show: false })
+$("#show-about-link").click(function () {
+    $(".drawer").drawer("close");
+    $('#aboutModal').modal('show');
+    return false;
+});
+
+$('#aboutModal').on('hidden.bs.modal', function () {
+    $("#orbit").focus();
+})
+
+$('#helpModal').modal({ show: false })
+$("#show-help-link").click(function () {
+    $(".drawer").drawer("close");
+    $('#helpModal').modal('show');
+    return false;
+});
+
+$('#helpModal').on('hidden.bs.modal', function () {
+    $("#orbit").focus();
+})
+
+$('#welcomeModal').modal({ show: false })
+$("#show-welcome-link").click(function () {
+    $('#welcomeModal').modal('show');
+    return false;
+});
+
+$('#welcomeModal').on('hidden.bs.modal', function () {
+    $("#orbit").focus();
+})
+
+$('#settingsModal').modal({ show: false })
+$("#show-settings-link").click(function () {
+    $(".drawer").drawer("close");
+    $('#settingsModal').modal('show');
+    return false;
+});
+
+$('#settingsModal').on('hidden.bs.modal', function () {
+    $("#orbit").focus();
+})
+
 
 $("#clear-history-link").click(function(){
     clearStoredText();
@@ -205,6 +251,10 @@ $("#orbit").on("tap", function(e) {
 $("#orbit").on("click", function(e) { 
     resetScroll();
     clearInitialText();
+});
+
+$('.drawer').on('drawer.closed', function () { 
+    $("#orbit").focus();
 });
 
 /* Dynamic resizing */

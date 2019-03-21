@@ -61,7 +61,7 @@
 
     <!--STYLES-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/orbiting.css?cache=break">
+    <link rel="stylesheet" href="/css/orbiting.css?cache=breakapart">
     <link rel="stylesheet" href="/css/drawer.css">
 
 
@@ -80,17 +80,18 @@
     <header role="banner">
       
       <nav class="drawer-nav" role="navigation">
-        
-          <h1 >History</h1>
+
+          <h2 >History</h2>
           <div class="history-container">
             <ul class="list-group" id="message-history"></ul>
           </div>
-          <a class="btn btn-lg btn-primary" href="#" id="clear-history-link">Clear History</a>
+          <a class="btn btn-sm btn-primary" href="#" id="clear-history-link">Clear History</a>
           <hr>
 
-          <h1 >Orbiting</h1>
-          <a class=" btn btn-lg btn-primary" href="#" data-toggle="modal" data-target="#helpModal">Help</a>
-          <a class=" btn btn-lg btn-primary" href="#" data-toggle="modal" data-target="#aboutModal">About</a>
+          <h2 >Orbiting</h2>
+          <a class=" btn btn-sm btn-primary" href="#" id="show-help-link">Help</a>
+          <a class=" btn btn-sm btn-primary" href="#" id="show-settings-link">Settings</a>
+          <a class=" btn btn-sm btn-primary" href="#" id="show-about-link">About</a>
           
           <hr>
 
@@ -112,7 +113,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="aboutModalTitle"><img src="/imgs/favicon-32x32.png" align="right "/>&nbsp;Orbiting.com</h5>
+            <h5 class="modal-title" id="aboutModalTitle"><img src="/imgs/favicon-32x32.png" align="right "/>&nbsp; About Orbiting.com</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -148,11 +149,7 @@
                 <p>To clear your message - <strong>swipe left</strong> <br />
                   To display the history - <strong>swipe right</strong></p>
                 <hr>
-                <p>You can add the app to your homescreen and launch it anytime. </p>
-                <p><a href="#" class="btn btn-sm btn-primary" id="toggle-video-button">Enable Video</a></p>
-
-
-
+                
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -161,9 +158,54 @@
         </div>
       </div>
 
+    <!--Welcome Modal -->
+    <div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="welcomeModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="welcomeModalTitle"><img src="/imgs/favicon-32x32.png" align="right " />&nbsp;Welcome to Orbiting</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Orbiting is simple to use. </p>
+            <p>Tap and start typing. Your message will display loud and clear!</p>
+            <p>To view the menu and settings - <strong>swipe left</strong> <br />
+              To display the history - <strong>swipe right</strong></p>
+            <hr>
+            <p>You can add the app to your homescreen and launch it anytime. </p>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-
-
+    <!--Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalTitle"><img src="/imgs/favicon-32x32.png" align="right " />&nbsp;Orbiting Settings</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Here are a few ways to customize Orbiting </p>
+      
+            <p>You can add the app to your homescreen and launch it anytime. </p>
+            <p><a href="#" class="btn btn-sm btn-primary" id="toggle-video-button">Enable Video</a></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="about">
         
@@ -175,6 +217,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
   <script src="/js/jquery.mobile-events.min.js"></script>
   <script src="/js/drawer.min.js"></script>
-  <script src="/js/orbiting.js?cache=break"></script>
+  <script src="/js/orbiting.js?cache=breakapart"></script>
 
 </html>
