@@ -30,11 +30,19 @@ function getStoredText(){
 }
 
 function storeText(){
-    var messages = getStoredText();
     var enteredText = $("#orbit").text();
-    messages.unshift(enteredText);
-    localStorage.setItem("messages", JSON.stringify(messages));
-    displayStoredMessages();
+    if (enteredText != "type here"){
+        if (enteredText != "") {
+            var messages = getStoredText();
+            messages.unshift(enteredText);
+            localStorage.setItem("messages", JSON.stringify(messages));
+            displayStoredMessages();
+            
+        }
+
+    }
+    
+    
 }
 
 function clearStoredText(){
