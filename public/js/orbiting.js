@@ -153,11 +153,9 @@ function flashStop(){
 
 }
 
-
-
 function flashScreen() {
     var flasher = setInterval(flashToggle, 500);
-    setTimeout(clearTimeout, 2000, flasher);
+    setTimeout(clearTimeout, 3000, flasher);
 }
 
 
