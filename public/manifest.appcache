@@ -57,6 +57,7 @@ https://orbiting.com/imgs/splashscreens/iphonexsmax_splash.png
 https://orbiting.com/css/orbiting.css
 https://orbiting.com/css/drawer.css
 https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css
+https://orbiting.com/css/bootstrap-toggle.min.css
 
 #style sheet images
 
@@ -66,6 +67,9 @@ https://code.jquery.com/jquery-3.3.1.slim.min.js
 https://orbiting.com/js/jquery.mobile-events.min.js
 https://orbiting.com/js/orbiting.js
 https://orbiting.com/js/drawer.min.js
+https://orbiting.com/js/deviceshake.js
+https://orbiting.com/js/bootstrap-toggle.min.js
+https://orbiting.com/js/bootstrap-toggle.min.js.map
 https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js
 https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js
 https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js

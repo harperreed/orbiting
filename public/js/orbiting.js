@@ -128,14 +128,14 @@ function mobileAndTabletcheck() {
 
 function flashScreenNormal() {
     console.log("Normal")
-    $("#orbit").removeClass("inverted");
+    $("body").removeClass("inverted");
     return true
 }
 
 
 function flashScreenInvert(){
     console.log("Invert")
-    $("#orbit").addClass("inverted");
+    $("body").addClass("inverted");
 
     
 
