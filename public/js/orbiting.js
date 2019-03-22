@@ -126,6 +126,43 @@ function mobileAndTabletcheck() {
     return check;
 }
 
+function flashScreenNormal() {
+    console.log("Normal")
+    $("#orbit").removeClass("inverted");
+    return true
+}
+
+
+function flashScreenInvert(){
+    console.log("Invert")
+    $("#orbit").addClass("inverted");
+
+    
+
+    return true
+}
+
+function flashToggle(){
+    flashScreenInvert();
+    setTimeout(flashScreenNormal, 250);
+    //flashScreenNormal();
+    return true;
+}
+
+function flashStop(){
+
+}
+
+
+
+function flashScreen() {
+    var flasher = setInterval(flashToggle, 500);
+    setTimeout(clearTimeout, 2000, flasher);
+}
+
+
+//var clr = setInterval(flash, 1000);
+
 /* Handle the interface */
 
 
@@ -216,6 +253,10 @@ $(".drawer").on("drawer.opened", function(){
 
 });
 
+window.addEventListener('deviceshake', function () {
+    flashScreen()
+}, false);
+
 
 $(function(){
     displayStoredMessages();
@@ -254,6 +295,7 @@ $("#orbit").on("click", function(e) {
 });
 
 $('.drawer').on('drawer.closed', function () { 
+    $("#orbit").focus();
     $("#orbit").focus();
 });
 
