@@ -19,6 +19,9 @@ function resetScroll(){
 
 function dynamicResize() {
 
+
+
+    
 }
 
 function getStoredText(){
