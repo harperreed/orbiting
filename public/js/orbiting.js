@@ -7,8 +7,6 @@ function clearText(){
     container.css('font-size', 20+"vh");
     container.html("");
     container.focus("");
-
-
 }
 
 function clearInitialText(){
@@ -16,8 +14,8 @@ function clearInitialText(){
     if (container.html()=="type here"){
         container.html("");
         container.focus("");
-    }
 }
+
 
 function resetScroll(){
     window.setTimeout(function() {window.scrollTo(0,0);}, 0);
