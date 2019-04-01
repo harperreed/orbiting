@@ -113,7 +113,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="aboutModalTitle"><img src="/imgs/favicon-32x32.png" align="right "/>&nbsp; About Orbiting.com</h5>
+            <h5 class="modal-title" id="aboutModalTitle"><img src="/imgs/favicon-32x32.png" align="right " alt="Orbiting!!"/>&nbsp; About Orbiting.com</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -138,7 +138,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="helpModalTitle"><img src="/imgs/favicon-32x32.png" align="right "/>&nbsp;How to use Orbiting</h5>
+              <h5 class="modal-title" id="helpModalTitle"><img src="/imgs/favicon-32x32.png" align="right " alt="Orbiting!!"/>&nbsp;How to use Orbiting</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -163,7 +163,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="welcomeModalTitle"><img src="/imgs/favicon-32x32.png" align="right " />&nbsp;Welcome to Orbiting</h5>
+            <h5 class="modal-title" id="welcomeModalTitle"><img src="/imgs/favicon-32x32.png" align="right " alt="Orbiting!!"/>&nbsp;Welcome to Orbiting</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -189,7 +189,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="settingsModalTitle"><img src="/imgs/favicon-32x32.png" align="right " />&nbsp;Orbiting Settings</h5>
+            <h5 class="modal-title" id="settingsModalTitle"><img src="/imgs/favicon-32x32.png" align="right" alt="Orbiting!!"/>&nbsp;Orbiting Settings</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -222,5 +222,26 @@
   <script src="/js/bootstrap-toggle.min.js"></script>
   <script src="/js/deviceshake.js"></script>
   <script src="/js/orbiting.js?cache=9:13am"></script>
+  <script>
+  // This is the "Offline page" service worker
+
+    // Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
+
+    // Check compatibility for the browser we're running this in
+    if ("serviceWorker" in navigator) {
+      if (navigator.serviceWorker.controller) {
+        console.log("active service worker found, no need to register");
+      } else {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("/js/sw.js", {
+            scope: "./js/"
+          })
+          .then(function (reg) {
+            console.log("Service worker has been registered for scope: " + reg.scope);
+          });
+      }
+    }
+</script>
 
 </html>
