@@ -4,12 +4,12 @@
 function clearText(){
     storeText();
     $("#orbit").html("");
-
+    $("#orbit").focus();
 }
 
 function clearInitialText(){
     if ($("#orbit").html()=="type here"){
-        $("#orbit").html(""); 
+        clearText() 
     }
 }
 
