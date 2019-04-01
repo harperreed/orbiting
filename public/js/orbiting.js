@@ -14,7 +14,9 @@ function clearInitialText(){
     if (container.html()=="type here"){
         container.html("");
         container.focus("");
+    }
 }
+
 
 
 function resetScroll(){
