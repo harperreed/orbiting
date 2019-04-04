@@ -3,25 +3,108 @@
  
 function clearText(){
     storeText();
-    $("#orbit").html("");
-    $("#orbit").focus();
+    var container = $("#orbit")
+    container.css('font-size', 20+"vh");
+    container.html("");
+    container.focus("");
 }
 
 function clearInitialText(){
-    if ($("#orbit").html()=="type here"){
-        clearText() 
+    var container = $("#orbit")
+    if (container.html()=="type here"){
+        container.html("");
+        container.focus("");
     }
 }
+
+
 
 function resetScroll(){
     window.setTimeout(function() {window.scrollTo(0,0);}, 0);
 }
 
 function dynamicResize() {
-
-
-
+    var container = $("#orbit")
+    console.log("resize")
+    /*
+    var container = $("#orbit")
+    var compressor = 1
+    var minFontSize = 10;
+    var maxFontSize = 500;
+    console.log("container width: " + container.width())
+    var value = Math.max(Math.min(container.width() / (compressor * 10), parseFloat(maxFontSize)), parseFloat(minFontSize))
+    console.log(value)
+    setFontSize(value)
+    */
+    var font = $(container).scaleFontSize({ minFontsize: 12 });
+    console.log(font)
     
+}
+
+$.fn.scaleFontSize = function (options) {
+    var defaults = {
+        minFontsize: 16 //px
+    },
+        calcDiff = 2; // weird IE offset/scroll difference
+
+    return $(this).each(function () {
+        options = $.extend(defaults, options);
+        console.log("test")
+        var scrollWidth = this.scrollWidth - calcDiff,
+            offsetWidth = this.offsetWidth,
+            scrollHeight = this.scrollHeight - calcDiff,
+            offsetHeight = this.offsetHeight,
+            fontsize = parseFloat($(this).css('font-size')),
+            minFontsize = parseFloat(options.minFontsize);
+
+        console.log("scrollWidth: " + scrollWidth)
+        console.log("offsetWidth: " + offsetWidth)
+        console.log("scrollHeight: " + scrollHeight)
+        console.log("offsetHeight: " + offsetHeight)
+        console.log("fontsize: " + fontsize)
+        console.log("minFontsize: " + minFontsize)
+
+
+        while (fontsize > minFontsize && (scrollHeight > offsetHeight || scrollWidth > offsetWidth)) {
+            console.log(fontsize);
+            $(this).css('font-size', --fontsize);
+            scrollWidth = this.scrollWidth;
+            scrollHeight = this.scrollHeight;
+        }
+
+    });
+};
+
+
+var resizer = function () {
+    $this.css('font-size', Math.max(Math.min($this.width() / (compressor * 10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)));
+};
+
+function increaseFontSize(increment) {
+    var container = $("#orbit")
+    var fontSize = parseInt(container.css("font-size"));
+    console.log("Old Font size: " + fontSize)
+    fontSize = (fontSize + increment) + "px";
+    console.log("New Font size: " + fontSize)
+    container.css({ 'font-size': fontSize });
+}
+
+function decreaseFontSize(increment) {
+    var container = $("#orbit")
+    var fontSize = parseInt(container.css("font-size"));
+    console.log("Old Font size: " + fontSize)
+    fontSize = (fontSize - increment) + "px";
+    console.log("New Font size: " + fontSize)
+    container.css({ 'font-size': fontSize });
+}
+
+function setFontSize(size) {
+    var container = $("#orbit")
+    var fontSize = parseInt(container.css("font-size"));
+    console.log("Old Font size: " + fontSize)
+    fontSize = (size) + "px";
+    console.log("New Font size: " + fontSize)
+    container.css({ 'font-size': fontSize });
 }
 
 function getStoredText(){
@@ -179,6 +262,8 @@ function flashScreen() {
 
 
 /* modals */
+
+
 $('#aboutModal').modal({ show: false })
 $("#show-about-link").click(function () {
     $(".drawer").drawer("close");
@@ -310,6 +395,7 @@ $('.drawer').on('drawer.closed', function () {
 
 /* Dynamic resizing */
 
+window.addEventListener("resize", dynamicResize);
 var textarea = $("#orbit");
 textarea.bind("change input", function() {
     //textarea.css({"font-size":(textarea.css("font-size").replace("px","")-3)});

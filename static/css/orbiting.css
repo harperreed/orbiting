@@ -13,14 +13,13 @@ body{
     padding-top:20px;
     padding-right:20px;
     padding-bottom:50px;
-    font-size: 15vh;
+    font-size: 20vh;
     font-weight:bold;
     font-family: sans-serif;
     color: #000;
     line-height: 95%;
     margin: 0px;
     border: 0px solid; 
-    text-align: center;
  }
 
  .no-scroll {
