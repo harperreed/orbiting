@@ -262,6 +262,8 @@ function flashScreen() {
 
 
 /* modals */
+
+
 $('#aboutModal').modal({ show: false })
 $("#show-about-link").click(function () {
     $(".drawer").drawer("close");
