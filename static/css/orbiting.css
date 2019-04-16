@@ -20,6 +20,7 @@ body{
     line-height: 95%;
     margin: 0px;
     border: 0px solid; 
+    word-wrap: normal;
  }
 
  .no-scroll {
