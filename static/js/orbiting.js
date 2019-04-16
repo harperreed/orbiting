@@ -4,16 +4,16 @@
 function clearText(){
     storeText();
     var container = $("#orbit")
-    container.css('font-size', 20+"vh");
+    container.css('font-size', 10+"vh");
     container.html("");
-    container.focus("");
+    container.focus();
 }
 
 function clearInitialText(){
     var container = $("#orbit")
     if (container.html()=="type here"){
         container.html("");
-        container.focus("");
+        container.focus();
     }
 }
 
@@ -347,8 +347,9 @@ $(".drawer").on("drawer.opened", function(){
 
 });
 
-window.addEventListener('deviceshake', function () {
-    flashScreen()
+window.addEventListener('deviceshake', function (e) {
+    flashScreen();
+    e.preventDefault();
 }, false);
 
 
