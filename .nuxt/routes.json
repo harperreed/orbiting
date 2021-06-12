@@ -1,0 +1,16 @@
+[
+  {
+    "name": "inspire",
+    "path": "/inspire",
+    "component": "/Users/harper/workspace/personal/orbiting/pages/inspire.vue",
+    "chunkName": "pages/inspire",
+    "_name": "_caf9c60c"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/harper/workspace/personal/orbiting/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_4a5998f2"
+  }
+]
