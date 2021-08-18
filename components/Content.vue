@@ -1,8 +1,11 @@
 <template>
- <div  contenteditable
-    @input="onInput" class="editContent" v-touch:swipeHandler="touchHandler">
+ <div class="shadow w-auto border">
+   
+   <div  contenteditable
+    @input="onInput" class="editContent " >
    {{ content }}
 
+ </div>
  </div>
 </template>
 

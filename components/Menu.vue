@@ -1,5 +1,5 @@
 <template>
-  <div class="border m-4 max-w-xs p-2" >
+  <div class="border m-4 max-w-xs p-2" v-touch:swipe="toggleModal()">
     <h1 class="text-4xl mb-2">History</h1>
 
     <button class="button">Clear History</button>
