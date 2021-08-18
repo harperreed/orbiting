@@ -1,7 +1,7 @@
 <template>
  <div  contenteditable
-    @input="onInput" class="editContent">
-   fuck yea
+    @input="onInput" class="editContent" v-touch:swipeHandler="touchHandler">
+   {{ content }}
 
  </div>
 </template>
@@ -14,6 +14,9 @@ export default {
   methods: {
     onInput(e) {
       console.log(e.target.innerText);
+    },
+    touchHandler(e) {
+      this.content = "fuuuuusss";
     },
   },
 };
