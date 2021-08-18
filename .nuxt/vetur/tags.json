@@ -1,8 +1,8 @@
 {
-  "Card": {
-    "description": "Auto imported from components/Card.vue"
+  "Content": {
+    "description": "Auto imported from components/Content.vue"
   },
-  "Logo": {
-    "description": "Auto imported from components/Logo.vue"
+  "Menu": {
+    "description": "Auto imported from components/Menu.vue"
   }
 }

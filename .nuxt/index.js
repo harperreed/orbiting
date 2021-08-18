@@ -12,8 +12,8 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_481a0856 from 'nuxt_plugin_plugin_481a0856' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_buefy_405483bd from 'nuxt_plugin_buefy_405483bd' // Source: ./buefy.js (mode: 'all')
+import nuxt_plugin_plugin_a06eeaf0 from 'nuxt_plugin_plugin_a06eeaf0' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_vuetouch_737c6982 from 'nuxt_plugin_vuetouch_737c6982' // Source: ../plugins/vue-touch (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -63,7 +63,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"orbiting","htmlAttrs":{"lang":"en"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@5.8.55\u002Fcss\u002Fmaterialdesignicons.min.css","rel":"preload","as":"style","onload":"this.rel='stylesheet'"}],"style":[],"script":[]},
+    head: {"title":"orbiting","htmlAttrs":{"lang":"en"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
 
     router,
     nuxt: {
@@ -177,12 +177,12 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_481a0856 === 'function') {
-    await nuxt_plugin_plugin_481a0856(app.context, inject)
+  if (typeof nuxt_plugin_plugin_a06eeaf0 === 'function') {
+    await nuxt_plugin_plugin_a06eeaf0(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_buefy_405483bd === 'function') {
-    await nuxt_plugin_buefy_405483bd(app.context, inject)
+  if (process.client && typeof nuxt_plugin_vuetouch_737c6982 === 'function') {
+    await nuxt_plugin_vuetouch_737c6982(app.context, inject)
   }
 
   // Lock enablePreview in context
@@ -194,6 +194,13 @@ async function createApp(ssrContext, config = {}) {
 
   // Wait for async component to be resolved first
   await new Promise((resolve, reject) => {
+    // Ignore 404s rather than blindly replacing URL in browser
+    if (process.client) {
+      const { route } = router.resolve(app.context.route.fullPath)
+      if (!route.matched.length) {
+        return resolve()
+      }
+    }
     router.replace(app.context.route.fullPath, resolve, (err) => {
       // https://github.com/vuejs/vue-router/blob/v3.4.3/src/util/errors.js
       if (!err._isRouter) return reject(err)

@@ -11,7 +11,9 @@
   "dependencies": {
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3",
-    "nuxt-buefy": "^0.4.4"
+    "vue2-touch-events": "^3.2.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^4.2.1"
+  }
 }

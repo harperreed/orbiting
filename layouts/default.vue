@@ -1,17 +1,22 @@
 <template>
-  <div>
-        <nuxt />
+  <div class="container border shadow">
+    <Menu />
+
+    <nuxt />
   </div>
 </template>
 
 <script>
+import Menu from "~/components/Menu";
+
 export default {
-  data () {
+  components: {
+    Menu,
+  },
+  data() {
     return {
-      items: [
-       
-      ]
-    }
-  }
-}
+      items: [],
+    };
+  },
+};
 </script>
