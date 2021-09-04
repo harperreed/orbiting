@@ -1,4 +1,4 @@
-export { default as Content } from '../../components/Content.vue'
+export { default as Editor } from '../../components/Editor.vue'
 export { default as Menu } from '../../components/Menu.vue'
 
 // nuxt/nuxt.js#8607

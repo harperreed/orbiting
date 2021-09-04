@@ -1,6 +1,6 @@
 <template>
-  <div class="container border shadow">
-    <Menu />
+  <div class="container">
+    <!-- <Menu /> -->
     <nuxt />
   </div>
 </template>
