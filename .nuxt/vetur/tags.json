@@ -1,12 +1,12 @@
 {
-  "About": {
-    "description": "Auto imported from components/About.vue"
+  "AboutModal": {
+    "description": "Auto imported from components/AboutModal.vue"
   },
   "Editor": {
     "description": "Auto imported from components/Editor.vue"
   },
-  "Help": {
-    "description": "Auto imported from components/Help.vue"
+  "HelpModal": {
+    "description": "Auto imported from components/HelpModal.vue"
   },
   "Menu": {
     "description": "Auto imported from components/Menu.vue"

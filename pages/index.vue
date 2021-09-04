@@ -7,12 +7,12 @@
     v-touch:swipe.right="swipeRightHandler"
     >
     <Editor />
-    <!-- <div class="absolute top-0 left-0">
+    <div class="absolute top-0 left-0">
       
-      <Menu />  
+      <Menu v-if="showAboutModal" v-on:close="showAboutModal = false" />  
         
 
-    </div> -->
+    </div>
   </section>
   
 </template>
@@ -33,12 +33,14 @@ export default {
       content: "",
       eventsLog: [],
       messages: [],
+      showMenu: false,
      };
   },
   methods: {
     swipeRightHandler(e) {
       this.content = "Right Swipe";
       this.eventsLog.push("right")
+      this.showMenu = !this.showMenu;
     },
     swipeTopHandler(e) {
       this.content = "Top Swipe";
