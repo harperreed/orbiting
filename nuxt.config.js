@@ -46,7 +46,7 @@ export default {
 
     // https://pwa.nuxtjs.org/
     '@nuxtjs/pwa',
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
 
 
     // https://github.com/nuxt-community/sentry-module
