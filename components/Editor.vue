@@ -30,6 +30,7 @@ export default {
   methods: {
     clearScreen() {
       this.content = ""
+      this.focusInput();
     },
     swipeLeftHandler(e) {
       this.clearScreen();
