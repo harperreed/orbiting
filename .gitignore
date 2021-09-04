@@ -2,3 +2,7 @@
 .firebase
 dist
 node_modules
+static/sw.js
+static/browserconfig.xml
+static/OneSignalSDKUpdaterWorker.js
+static/OneSignalSDKWorker.js
