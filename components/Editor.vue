@@ -1,11 +1,17 @@
 <template>
-  <div
+  <!-- <div
     contenteditable
     @input="onInput"
     class="text-7xl h-full w-full p-6 font-bold"
   >
     {{ content }}
-  </div>
+  </div> -->
+  <textarea  
+    v-model="content" 
+    class="text-7xl h-full w-full p-6 font-bold" 
+    @input="onInput" 
+    v-touch:swipe="swipeHandler"/> 
+
 </template>
 
 <script>
@@ -17,7 +23,7 @@ export default {
     onInput(e) {
       console.log(e.target.innerText);
     },
-    touchHandler(e) {
+    swipeHandler(e) {
       this.content = "fuuuuusss";
     },
   },
