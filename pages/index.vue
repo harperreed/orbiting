@@ -1,6 +1,6 @@
 <template>
   <section 
-    class="bg-green-100 min-w-screen min-h-screen w-screen h-screen"
+    class="bg-green-100 min-w-screen min-h-screen w-screen h-screen max-w-screen max-h-screen"
     v-touch:swipe.top="swipeTopHandler"
     v-touch:swipe.bottom="swipeBottomHandler"
     v-touch:longtap="longtapHandler"
