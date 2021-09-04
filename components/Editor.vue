@@ -16,6 +16,7 @@
     v-touch:swipe.bottom="swipeBottomHandler"
     v-touch:longtap="longtapHandler"
     ref="editor"
+    spellcheck=”false”
     /> 
 
 </template>
