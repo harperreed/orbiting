@@ -1,5 +1,8 @@
+export { default as About } from '../../components/About.vue'
 export { default as Editor } from '../../components/Editor.vue'
+export { default as Help } from '../../components/Help.vue'
 export { default as Menu } from '../../components/Menu.vue'
+export { default as Settings } from '../../components/Settings.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

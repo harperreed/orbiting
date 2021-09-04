@@ -7,12 +7,12 @@
     v-touch:swipe.right="swipeRightHandler"
     >
     <Editor />
-    <div class="absolute top-0 left-0">
+    <!-- <div class="absolute top-0 left-0">
       
       <Menu />  
         
 
-    </div>
+    </div> -->
   </section>
   
 </template>

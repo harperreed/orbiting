@@ -1,8 +1,17 @@
 {
+  "About": {
+    "description": "Auto imported from components/About.vue"
+  },
   "Editor": {
     "description": "Auto imported from components/Editor.vue"
   },
+  "Help": {
+    "description": "Auto imported from components/Help.vue"
+  },
   "Menu": {
     "description": "Auto imported from components/Menu.vue"
+  },
+  "Settings": {
+    "description": "Auto imported from components/Settings.vue"
   }
 }
