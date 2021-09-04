@@ -1,16 +1,8 @@
 <template>
-<div>
-  <!-- <div
-    contenteditable
-    @input="onInput"
-    class="text-7xl h-full w-full p-6 font-bold"
-  >
-    {{ content }}
-  </div> -->
   <textarea  
     v-model.lazy="content" 
     placeholder="Type here"
-    class="text-7xl h-5/6 w-full p-6 font-bold" 
+    class="text-7xl h-full w-full p-6 font-bold" 
     v-touch:swipe.right="swipeRightHandler"
     v-touch:swipe.left="swipeLeftHandler"
     v-touch:swipe.top="swipeTopHandler"
@@ -19,11 +11,6 @@
     ref="editor"
     spellcheck=”false”
     /> 
-
-    <div class="bg-blue-100 border rounded-lg">
-      <b>{{ eventsLog }}</b>
-    </div>
-  </div>
 </template>
 
 <script>
