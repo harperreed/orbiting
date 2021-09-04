@@ -24,7 +24,10 @@
 <script>
 export default {
   data() {
-    return { content: "" };
+    return { 
+      content: "",
+      messages: [],
+     };
   },
   watch : {
     content : function(val){
@@ -36,8 +39,14 @@ export default {
     this.focusInput()
   },
   methods: {
+    clearScreen() {
+      this.messages.append(this.content);
+      this.content = ""
+
+    },
     swipeLeftHandler(e) {
-      this.content = "Left Swipe";
+      // this.content = "Left Swipe";
+      this.clearScreen();
     },
     swipeRightHandler(e) {
       this.content = "Right Swipe";
