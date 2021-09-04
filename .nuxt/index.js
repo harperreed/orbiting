@@ -13,6 +13,9 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 /* Plugins */
 
 import nuxt_plugin_plugin_a06eeaf0 from 'nuxt_plugin_plugin_a06eeaf0' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_workbox_72f2718c from 'nuxt_plugin_workbox_72f2718c' // Source: ./workbox.js (mode: 'client')
+import nuxt_plugin_metaplugin_6baa344d from 'nuxt_plugin_metaplugin_6baa344d' // Source: ./pwa/meta.plugin.js (mode: 'all')
+import nuxt_plugin_iconplugin_7051d9c1 from 'nuxt_plugin_iconplugin_7051d9c1' // Source: ./pwa/icon.plugin.js (mode: 'all')
 import nuxt_plugin_vuetouch_737c6982 from 'nuxt_plugin_vuetouch_737c6982' // Source: ../plugins/vue-touch (mode: 'client')
 
 // Component: <ClientOnly>
@@ -179,6 +182,18 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_plugin_a06eeaf0 === 'function') {
     await nuxt_plugin_plugin_a06eeaf0(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_workbox_72f2718c === 'function') {
+    await nuxt_plugin_workbox_72f2718c(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_metaplugin_6baa344d === 'function') {
+    await nuxt_plugin_metaplugin_6baa344d(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_iconplugin_7051d9c1 === 'function') {
+    await nuxt_plugin_iconplugin_7051d9c1(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_vuetouch_737c6982 === 'function') {

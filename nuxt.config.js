@@ -1,6 +1,9 @@
+const isDev = process.env.NODE_ENV !== 'production'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  modern: !isDev,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -38,7 +41,25 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    // https://http.nuxtjs.org/
+    // '@nuxt/http',
 
+    // https://pwa.nuxtjs.org/
+    '@nuxtjs/pwa',
+    '@nuxtjs/eslint-module',
+
+
+    // https://github.com/nuxt-community/sentry-module
+    // "@nuxtjs/sentry",
+
+    // https://github.com/nuxt-community/analytics-module
+    // [
+    //   "@nuxtjs/google-analytics",
+    //   {
+    //     // TODO: Change this id to your Google Analytics ID
+    //     id: process.env.GOOGLE_ANALYTICS
+    //   }
+    // ]
   ],
 
   tailwindcss: {
@@ -47,8 +68,39 @@ export default {
     exposeConfig: false,
     config: {}
   },
+  buildModules: [
+    // Doc: https://github.com/nuxt-community/eslint-module
+    
+    // Doc: https://github.com/nuxt-community/stylelint-module
+    '@nuxtjs/stylelint-module',
+    // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
+    '@nuxtjs/tailwindcss'
+  ],
+  stylelint: {
+    fix: true
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
+  // build: {
+  //   extractCSS: !isDev,
+  //   transpile: ['vee-validate/dist/rules'],
+  //   postcss: {
+  //     plugins: {
+  //       'postcss-nested': {}
+  //     }
+  //   },
+  //   extend(config, { isDev, isClient }) {
+  //     if (isDev && isClient) {
+  //       config.module.rules.push({
+  //         enforce: 'pre',
+  //         test: /\.(js|vue)$/,
+  //         loader: 'eslint-loader',
+  //         exclude: /node_modules/,
+  //         options: {
+  //           fix: true
+  //         }
+  //       })
+  //     }
+  //   }
+  // }
 }
