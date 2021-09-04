@@ -21,7 +21,7 @@
     /> 
 
     <div class="bg-blue-100 border rounded-lg">
-      <b>{{ events }}</b>
+      <b>{{ eventsLog }}</b>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
   data() {
     return { 
       content: "",
-      events: [],
+      eventsLog: [],
       messages: [],
      };
   },
@@ -46,36 +46,36 @@ export default {
   },
   methods: {
     clearScreen() {
-      this.messages.append(this.content);
-      this.events.append("clear")
+      this.messages.push(this.content);
+      this.eventsLog.push("clear")
       this.content = ""
 
     },
     swipeLeftHandler(e) {
       // this.content = "Left Swipe";
-      this.events.append("left")
+      this.eventsLog.push("left")
       this.clearScreen();
     },
     swipeRightHandler(e) {
       this.content = "Right Swipe";
-      this.events.append("right")
+      this.eventsLog.push("right")
     },
     swipeTopHandler(e) {
       this.content = "Top Swipe";
-      this.events.append("top")
+      this.eventsLog.push("top")
     },
     swipeBottomHandler(e) {
       this.content = "Bottom Swipe";
-      this.events.append("bottom")
+      this.eventsLog.push("bottom")
     },
     longtapHandler(e) {
       this.content = "Long Hold";
-      this.events.append("long hold")
+      this.eventsLog.push("long hold")
     },
 
     focusInput() {
       this.$refs.editor.focus();
-      this.events.append("focus")
+      this.eventsLog.push("focus")
     }
   },
 };
