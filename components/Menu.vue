@@ -1,66 +1,125 @@
 <template>
-  <div class="border-b-2 border-r-2 rounded-br-lg max-w-xs p-2 bg-white shadow-xl">
-    <h1 class="text-4xl mb-2">History</h1>
+  <div
+    class="
+      absolute
+      top-0
+      bottom-0
+      left-0
+      w-8/12
+      border
+      max-w-xs
+      shadow-xl
+      bg-white
+    "
+  >
 
-    <button class="button">Clear History</button>
+    <button class="px-3 py-2 border rounded float-right m-2 bg-red-100 hover:bg-red-300" @click="$emit('close')">
+      ❌
+    </button>
 
-    <h1 class="text-4xl mt-4 mb-2">Menu</h1>
+    <div class="p-2 ">
+      <div v-if="showHistory">
+        <h1 class="text-4xl mb-2">History</h1>
+        <ul>
+          <li>history</li>
+          <li>history</li>
+        </ul>
+      </div>
+      <div v-if="showHelp">
+        <h1 class="text-4xl mb-2">Help</h1>
+        <p>Help</p>
+      </div>
+      <div v-if="showSettings">
+        <h1 class="text-4xl mb-2">Settings</h1>
+        <p>Settings</p>
+      </div>
+      <div v-if="showAbout">
+        <h1 class="text-4xl mb-2">About</h1>
+        <h3 class="text-sm">
+          Created by Christine Sun Kim, Harper Reed and Nick Ng
+        </h3>
+        <h3 class="text-3xl">😍😍😍</h3>
+        p
+      </div>
+    </div>
 
-    <button class="button" v-on:click="toggleHelpModal()" type="button">Help</button>
-    <button class="button">Settings</button>
-    <button class="button" v-on:click="toggleAboutModal()" type="button">About</button>
+    <!-- <button class="button">Clear History</button> -->
 
-    <h1 class="text-4xl mt-4 mb-2">Orbiting</h1>
-    <h3 class="text-sm">
-      Created by Christine Sun Kim, Harper Reed and Nick Ng
-    </h3>
-    <h3 class="text-3xl">😍😍😍</h3>
-     <div>
-    <!-- <button class="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" v-on:click="toggleModal()">
-      Open large modal
-    </button> -->
-
-    <HelpModal v-if="showHelpModal" v-on:close="showHelpModal = false" />
-    <AboutModal v-if="showAboutModal" v-on:close="showAboutModal = false" />
-
-    
-  </div>
+    <div
+      class="
+        absolute
+        inset-x-0
+        bottom-0
+        bg-gray-300
+        border
+        flex
+        justify-evenly
+      "
+    >
+      <button class="footer-button" @click="toggleHistory">
+        <p class="text-lg">📜</p>
+        <p class="text-gray-400 text-sm">History</p>
+      </button>
+      <button class="footer-button" @click="toggleHelp">
+        <p class="text-lg">🆘</p>
+        <p class="text-gray-400 text-sm">Help</p>
+      </button>
+      <button class="footer-button" @click="toggleSettings">
+        <p class="text-lg">⚙️</p>
+        <p class="text-gray-400 text-sm">Settings</p>
+      </button>
+      <button class="footer-button" @click="toggleAbout">
+        <p class="text-lg">ℹ️</p>
+        <p class="text-gray-400 text-sm">About</p>
+      </button>
+    </div>
   </div>
 </template>
 
 
 <script>
-
-import HelpModal from "~/components/HelpModal";
-import AboutModal from "~/components/AboutModal";
-
 export default {
-  name: "large-modal",
-  components: {
-    HelpModal,
-    AboutModal
-  },
+  name: "Menu",
+  components: {},
   data() {
     return {
-      showHelpModal: false,
-      showAboutModal: false,
-      showSettingsModal: false,
-    }
+      routerState: "history",
+    };
+  },
+  computed: {
+    showHistory() {
+      return this.routerState === "history";
+    },
+    showHelp() {
+      return this.routerState === "help";
+    },
+    showSettings() {
+      return this.routerState === "settings";
+    },
+    showAbout() {
+      return this.routerState === "about";
+    },
   },
   methods: {
-    toggleHelpModal: function(){
-      this.showHelpModal = !this.showHelpModal;
+    toggleHistory() {
+      this.routerState = "history";
     },
-    toggleAboutModal: function(){
-      this.showAboutModal = !this.showAboutModal;
-    }
-  }
-}
+    toggleHelp() {
+      this.routerState = "help";
+    },
+    toggleSettings() {
+      this.routerState = "settings";
+    },
+    toggleAbout() {
+      this.routerState = "about";
+    },
+  },
+};
 </script>
 
 <style>
-.button {
-  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
-  @apply hover:shadow-lg;
+.footer-button {
+  @apply border-t-2 px-4 py-2 text-center bg-gray-200;
+  @apply hover:bg-gray-100;
 }
 </style>

@@ -8,7 +8,7 @@ import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
 import '../assets/css/tailwind.css'
 
-import _6f6c098b from '../layouts/default.vue'
+import _6f6c098b from './layouts/default.vue'
 
 const layouts = { "_default": sanitizeComponent(_6f6c098b) }
 
