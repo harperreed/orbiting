@@ -10,6 +10,9 @@
       max-w-xs
       shadow-xl
       bg-white
+      
+      
+      mb-8
     "
   >
 
@@ -51,7 +54,7 @@
         inset-x-0
         bottom-0
         bg-gray-300
-        border
+        w-full
         flex
         justify-evenly
       "
@@ -119,7 +122,7 @@ export default {
 
 <style>
 .footer-button {
-  @apply border-t-2 px-4 py-2 text-center bg-gray-200;
+  @apply border-t-2 px-3 py-2 text-center bg-gray-200;
   @apply hover:bg-gray-100;
 }
 </style>

@@ -1,23 +1,15 @@
 <template>
   <section 
-    class="min-w-full min-h-full w-full h-full "
+    class="min-w-full min-h-full w-full h-screen  "
     v-touch:swipe.top="swipeTopHandler"
     v-touch:swipe.bottom="swipeBottomHandler"
     v-touch:longtap="longtapHandler"
     v-touch:swipe.right="swipeRightHandler"
     >
-    <!-- {{ showMenu}} -->
-    <!-- <button :onclick="showMenu = true">showMenu</button> -->
-    <!-- <Editor /> -->
-
     <Menu  v-if="showMenu" v-on:close="showMenu = false"/>  
+    <button v-if="!showMenu" @click="toggleMenu" class="rounded px-2 py-4 border sm:block hidden bg-gray-200 hover:bg-gray-300 absolute bottom-1.5  left-0">🎉</button>
+    <Editor  />
 
-    <!-- <div class=" absolute top-0 bottom-0 left-0 w-8/12 " v-if="showMenu" v-on:close="showMenu = false">
-      
-      <Menu  />  
-        
-
-    </div> -->
   </section>
   
 </template>
@@ -38,16 +30,15 @@ export default {
       content: "",
       eventsLog: [],
       messages: [],
-      showMenu: true,
+      showMenu: false,
      };
   },
   methods: {
     swipeRightHandler(e) {
       // this.content = "Right Swipe";
-      this.toggleMenu()
-      // this.eventsLog.push("right")
-      
-      // alert("Right Swipe");
+      // this.toggleMenu();
+      this.showMenu = true;
+      this.eventsLog.push("right")
     },
     swipeTopHandler(e) {
       this.content = "Top Swipe";
