@@ -1,17 +1,20 @@
 {
-  "AboutModal": {
-    "description": "Auto imported from components/AboutModal.vue"
-  },
   "Editor": {
     "description": "Auto imported from components/Editor.vue"
-  },
-  "HelpModal": {
-    "description": "Auto imported from components/HelpModal.vue"
   },
   "Menu": {
     "description": "Auto imported from components/Menu.vue"
   },
-  "Settings": {
-    "description": "Auto imported from components/Settings.vue"
+  "ContentAbout": {
+    "description": "Auto imported from components/Content/About.vue"
+  },
+  "ContentHelp": {
+    "description": "Auto imported from components/Content/Help.vue"
+  },
+  "ContentHistory": {
+    "description": "Auto imported from components/Content/History.vue"
+  },
+  "ContentSettings": {
+    "description": "Auto imported from components/Content/Settings.vue"
   }
 }

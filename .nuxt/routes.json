@@ -3,6 +3,7 @@
     "name": "index",
     "path": "/",
     "component": "/workspaces/orbiting/pages/index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_3e668200"
   }
 ]

@@ -1,6 +1,7 @@
 
 .firebase
 dist
+.nuxt
 node_modules
 static/sw.js
 static/browserconfig.xml

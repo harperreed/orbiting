@@ -1,10 +1,9 @@
 <template>
   <textarea  
-    v-model="content" 
+    v-model.lazy="content" 
     placeholder="Type here"
     class="text-7xl h-full w-full p-6 font-bold focus:outline-none focus:ring focus:border-0 border-0" 
     v-touch:swipe.left="swipeLeftHandler"
-    v-touch:swipe.right="swipeRightHandler"
     ref="editor"
     spellcheck=”false”
     autocomplete="off" 
@@ -23,6 +22,7 @@ export default {
   watch : {
     content : function(val){
       this.$emit('input', val);
+      this.addHistory(val);
     }
   },
   mounted() {
@@ -30,20 +30,19 @@ export default {
   },
   methods: {
     clearScreen() {
+      this.addHistory(this.content);
       this.content = ""
       this.focusInput();
     },
     swipeLeftHandler(e) {
       this.clearScreen();
     },
-    swipeRightHandler(e) {
-      
-      $emit('rightSwipe');
-      this.content = "right";
-    },
     focusInput() {
       this.$refs.editor.focus();
-    }
+    },
+    addHistory (message) {
+      this.$store.commit('history/add', message)
+    },
   },
 };
 </script>

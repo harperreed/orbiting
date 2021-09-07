@@ -10,8 +10,6 @@
       max-w-xs
       shadow-xl
       bg-white
-      
-      
       mb-8
     "
   >
@@ -21,29 +19,12 @@
     </button>
 
     <div class="p-2 ">
-      <div v-if="showHistory">
-        <h1 class="text-4xl mb-2">History</h1>
-        <ul>
-          <li>history</li>
-          <li>history</li>
-        </ul>
-      </div>
-      <div v-if="showHelp">
-        <h1 class="text-4xl mb-2">Help</h1>
-        <p>Help</p>
-      </div>
-      <div v-if="showSettings">
-        <h1 class="text-4xl mb-2">Settings</h1>
-        <p>Settings</p>
-      </div>
-      <div v-if="showAbout">
-        <h1 class="text-4xl mb-2">About</h1>
-        <h3 class="text-sm">
-          Created by Christine Sun Kim, Harper Reed and Nick Ng
-        </h3>
-        <h3 class="text-3xl">😍😍😍</h3>
-        p
-      </div>
+      <History v-if="showHistory" />
+       
+      <Help v-if="showHelp" />
+       
+      <Settings v-if="showSettings" />
+      <About v-if="showAbout" />
     </div>
 
     <!-- <button class="button">Clear History</button> -->
@@ -81,9 +62,20 @@
 
 
 <script>
+import About from "~/components/Content/About";
+import Help from "~/components/Content/Help";
+import Settings from "~/components/Content/Settings";
+import History from "~/components/Content/History";
+
 export default {
   name: "Menu",
-  components: {},
+  components: {
+    About,
+    Settings,
+    Help,
+    History
+
+  },
   data() {
     return {
       routerState: "history",

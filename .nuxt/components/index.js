@@ -1,8 +1,9 @@
-export { default as AboutModal } from '../../components/AboutModal.vue'
 export { default as Editor } from '../../components/Editor.vue'
-export { default as HelpModal } from '../../components/HelpModal.vue'
 export { default as Menu } from '../../components/Menu.vue'
-export { default as Settings } from '../../components/Settings.vue'
+export { default as ContentAbout } from '../../components/Content/About.vue'
+export { default as ContentHelp } from '../../components/Content/Help.vue'
+export { default as ContentHistory } from '../../components/Content/History.vue'
+export { default as ContentSettings } from '../../components/Content/Settings.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {
