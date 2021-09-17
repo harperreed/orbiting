@@ -11,6 +11,9 @@
       shadow-xl
       bg-white
       mb-8
+      dark:bg-gray-700
+      dark:text-white
+      text-black
     "
   >
 
@@ -34,10 +37,14 @@
         absolute
         inset-x-0
         bottom-0
-        bg-gray-300
         w-full
         flex
         justify-evenly
+        dark:bg-gray-500
+        dark:text-white
+        text-black
+        bg-grey-500
+
       "
     >
       <button class="footer-button" @click="toggleHistory">
@@ -114,7 +121,7 @@ export default {
 
 <style>
 .footer-button {
-  @apply border-t-2 px-3 py-2 text-center bg-gray-200;
+  @apply border-t-2 dark:border-gray-500 px-3 py-2 text-center bg-gray-200 dark:text-white dark:bg-gray-700;
   @apply hover:bg-gray-100;
 }
 </style>

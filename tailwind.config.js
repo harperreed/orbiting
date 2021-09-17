@@ -8,6 +8,7 @@ module.exports = {
       }
     }
   },
+  darkMode: "media",
   variants: {},
   plugins: [],
   purge: {

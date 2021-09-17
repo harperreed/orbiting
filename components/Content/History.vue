@@ -4,7 +4,7 @@
 
     <!-- {{ history }} -->
     <!-- <div class="border rounded px-4 py-2"> {{history}}</div> -->
-    <div v-for="message in history" :key="message.text" class="bg-white  hover:bg-gray-200 py-2">
+    <div v-for="message in history" :key="message.text" class=" hover:bg-gray-200 py-2">
       <span class=" ">{{ message.text }}</span>
     </div>
 

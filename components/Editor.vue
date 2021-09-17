@@ -2,7 +2,7 @@
   <textarea  
     v-model.lazy="content" 
     placeholder="Type here"
-    class="text-7xl h-full w-full p-6 font-bold focus:outline-none focus:ring focus:border-0 border-0" 
+    class="text-7xl h-full w-full p-6 font-bold focus:outline-none focus:ring focus:border-0 border-0 dark:bg-black bg-white dark:text-white" 
     v-touch:swipe.left="swipeLeftHandler"
     ref="editor"
     spellcheck=”false”
