@@ -49,7 +49,7 @@ export default {
     // '@nuxtjs/eslint-module',
 
     ['nuxt-vuex-localstorage', {
-      localStorage: ['history'],  //  If not entered, “localStorage” is the default value
+      localStorage: ['history', 'settings'],  //  If not entered, “localStorage” is the default value
     }],
     // https://github.com/nuxt-community/sentry-module
     // "@nuxtjs/sentry",

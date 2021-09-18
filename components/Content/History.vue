@@ -29,7 +29,7 @@ export default {
   computed: {
     history() {
       const history = this.$store.state.history.list;
-
+      
       return history;
     },
   },

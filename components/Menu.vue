@@ -12,12 +12,13 @@
       bg-white
       mb-8
       dark:bg-gray-700
+      dark:border-black
       dark:text-white
       text-black
     "
   >
 
-    <button class="px-3 py-2 border rounded float-right m-2 bg-red-100 hover:bg-red-300" @click="$emit('close')">
+    <button class="px-3 py-2 border dark:border-black rounded float-right m-2 bg-red-100 hover:bg-red-300 dark:bg-red-300 dark:hover:bg-red-100" @click="$emit('close')">
       ❌
     </button>
 
@@ -43,25 +44,28 @@
         dark:bg-gray-500
         dark:text-white
         text-black
-        bg-grey-500
+        bg-gray-500
+        border-t-2 
+        dark:border-gray-500
+        bg-gray-300
 
       "
     >
-      <button class="footer-button" @click="toggleHistory">
+      <button class="footer-button group" @click="toggleHistory">
         <p class="text-lg">📜</p>
-        <p class="text-gray-400 text-sm">History</p>
+        <p class="footer-link-text">History</p>
       </button>
-      <button class="footer-button" @click="toggleHelp">
+      <button class="footer-button group" @click="toggleHelp">
         <p class="text-lg">🆘</p>
-        <p class="text-gray-400 text-sm">Help</p>
+        <p class="footer-link-text">Help</p>
       </button>
-      <button class="footer-button" @click="toggleSettings">
+      <button class="footer-button group" @click="toggleSettings">
         <p class="text-lg">⚙️</p>
-        <p class="text-gray-400 text-sm">Settings</p>
+        <p class="footer-link-text">Settings</p>
       </button>
-      <button class="footer-button" @click="toggleAbout">
+      <button class="footer-button group" @click="toggleAbout">
         <p class="text-lg">ℹ️</p>
-        <p class="text-gray-400 text-sm">About</p>
+        <p class="footer-link-text">About</p>
       </button>
     </div>
   </div>
@@ -120,8 +124,16 @@ export default {
 </script>
 
 <style>
+
+.menu{}
 .footer-button {
-  @apply border-t-2 dark:border-gray-500 px-3 py-2 text-center bg-gray-200 dark:text-white dark:bg-gray-700;
-  @apply hover:bg-gray-100;
+  @apply rounded-lg px-3 py-2 my-1  text-center bg-gray-200 ;
+  @apply dark:text-white dark:bg-gray-700 dark:border-gray-500;
+  @apply hover:bg-gray-100 dark:hover:bg-gray-300 dark:hover:text-gray-900;
+}
+
+.footer-link-text{
+  @apply text-gray-600 dark:text-gray-100 text-sm;
+  @apply group-hover:bg-gray-100 group-hover:text-gray-800  dark:group-hover:bg-gray-300 dark:group-hover:text-gray-900;
 }
 </style>
