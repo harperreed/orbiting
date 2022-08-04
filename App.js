@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, useColorScheme } from 'react-native';
+import { StyleSheet, TextInput, View, useColorScheme } from 'react-native';
 
 export default function App() {
 
@@ -17,14 +17,24 @@ export default function App() {
       <TextInput
         style={[styles.editor, themeTextStyle]}
         placeholder="type here"
-        onChangeText={newText => setText(newText)}
+        placeholderTextColor="gray"
+        
         defaultValue={text}
+        
+        autoComplete="off"
+        autoCorrect={false}
+        autoCapitalize="none"
+        spellCheck={false}
+        textContentType="none"
+        
         multiline={true}
-        // autoFocus={true}
-        adjustsFontSizeToFit={true}
-        // clearTextOnFocus={true}
         numberOfLines={4}
-
+        adjustsFontSizeToFit={true}
+        
+        // autoFocus={true}
+        // clearTextOnFocus={true}
+        
+        onChangeText={newText => setText(newText)}
       />
       <StatusBar style="auto" />
     </View>
