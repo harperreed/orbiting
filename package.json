@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@babel/core": "^7.18.10",
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3",
     "nuxt-vuex-localstorage": "^1.3.0",
