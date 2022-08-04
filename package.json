@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/webpack-config": "^0.17.0",
     "expo": "~46.0.2",
     "expo-status-bar": "~1.4.0",
     "react": "18.2.0",
