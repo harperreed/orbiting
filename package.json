@@ -11,9 +11,9 @@
     "@expo/webpack-config": "^0.17.0",
     "expo": "~46.0.2",
     "expo-status-bar": "~1.4.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.3",
     "react-native-web": "~0.18.7"
   },
   "devDependencies": {
