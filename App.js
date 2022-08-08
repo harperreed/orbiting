@@ -1,9 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text,  TextInput, View, useColorScheme } from 'react-native';
+// import 'react-native-gesture-handler';
+import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// import localizations from './localizations';
+
 
 import EditorScreen from './Screens/Editor'
 import HistoryScreen from './Screens/History'
@@ -13,12 +15,11 @@ import AboutScreen from './Screens/About'
 
 const Stack = createNativeStackNavigator();
 
-
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator  initialRouteName="Editor" >
-        <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false  }}/>
+      <Stack.Navigator  initialRouteName="About" >
+        <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title:'Orbiting' }}/>
         <Stack.Screen name="History" component={HistoryScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Help" component={HelpScreen} />
