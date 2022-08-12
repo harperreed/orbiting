@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator  initialRouteName="About" >
+      <Stack.Navigator  initialRouteName="Editor" >
         <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title:'Orbiting' }}/>
         <Stack.Screen name="History" component={HistoryScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
