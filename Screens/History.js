@@ -1,10 +1,11 @@
 
-import {  Text,  View } from 'react-native';
+import { View } from 'react-native';
+import { Headline, Paragraph, Subheading, Button, Text, Title} from 'react-native-paper';
 
 function History() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>About Screen</Text>
+      <Headline>History Screen</Headline>
     </View>
   );
 }
