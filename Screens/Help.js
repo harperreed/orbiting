@@ -1,10 +1,12 @@
 
-import {  Text,  View } from 'react-native';
+
+import {   View } from 'react-native';
+import { Headline, Paragraph, Subheading, Button, Text, Title} from 'react-native-paper';
 
 function Help() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>About Screen</Text>
+      <Text>Help Screen</Text>
     </View>
   );
 }
