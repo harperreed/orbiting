@@ -40,7 +40,7 @@ function Editor({ navigation }) {
       />
       <StatusBar style="auto" />
       <FAB
-        
+
         label='🎉'
         style={[styles.fab, themFabStyle]}
         onPress={() => navigation.navigate('History')}
