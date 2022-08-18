@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Provider as PaperProvider } from 'react-native-paper';
+// import { Provider as PaperProvider } from 'react-native-paper';
 
 import CustomNavigationBar from './components/NavBar';
 import { MaterialIcons } from "@expo/vector-icons";
@@ -29,7 +29,7 @@ const UtilityTab = createBottomTabNavigator();
 
 function UtilityStackScreen() {
   return (
-    <UtilityTab.Navigator backBehavior='history' screenOptions={{
+    <UtilityTab.Navigator backBehavior='history'  initialRouteName="Settings" screenOptions={{
       tabBarStyle: { position: 'absolute' },
 
     }}>
@@ -73,20 +73,20 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <StateProvider>
-      <PaperProvider >
+      {/* <PaperProvider > */}
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="Editor"
+            initialRouteName="Utility"
             screenOptions={{
               header: (props) => <CustomNavigationBar {...props} />,
             }}>
 
             <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title: 'Orbiting' }} />
-            <Stack.Screen name="History" component={UtilityStackScreen} />
+            <Stack.Screen name="Utility" component={UtilityStackScreen} />
 
           </Stack.Navigator>
         </NavigationContainer>
-      </PaperProvider>
+      {/* </PaperProvider> */}
     </StateProvider>
   );
 }
