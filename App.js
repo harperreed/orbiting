@@ -13,6 +13,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 // import localizations from './localizations';
 
+// State Context
+import { StateContext, StateProvider } from './StateContext';
+
+
 
 import EditorScreen from './Screens/Editor'
 import HistoryScreen from './Screens/History'
@@ -68,20 +72,22 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <PaperProvider >
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Editor"
-          screenOptions={{
-            header: (props) => <CustomNavigationBar {...props} />,
-          }}>
+    <StateProvider>
+      <PaperProvider >
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Editor"
+            screenOptions={{
+              header: (props) => <CustomNavigationBar {...props} />,
+            }}>
 
-          <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title: 'Orbiting' }} />
-          <Stack.Screen name="History" component={UtilityStackScreen} />
+            <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title: 'Orbiting' }} />
+            <Stack.Screen name="History" component={UtilityStackScreen} />
 
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </StateProvider>
   );
 }
 
