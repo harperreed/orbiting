@@ -33,7 +33,7 @@ function Settings() {
         <Text>Double tap to flash</Text>
         <Switch value={enableDoubleTap} onValueChange={setEnableDoubleTap} />
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'left' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text>Save history </Text>
         <Switch value={enableHistory} onValueChange={setEnableHistory} />
       </View>
