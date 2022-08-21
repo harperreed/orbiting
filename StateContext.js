@@ -11,8 +11,8 @@ export const StateProvider = ({ children }) => {
   const [enableHistory, setEnableHistory] = useState(true);
   const [enableShake, setEnableShake] = useState(true);
   const [enableDoubleTap, setEnableDoubleTap] = useState(true);
-  
-  
+
+
   return (
     <StateContext.Provider value={{
       messageHistory,
