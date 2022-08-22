@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View, useColorScheme, Platform } from 'react-native';
 import { FAB } from 'react-native-paper';
-
+import { useSwipe } from '../hooks/useSwipe'
+import { StateContext } from '../StateContext';
 
 function Editor({ navigation }) {
 
@@ -13,15 +14,41 @@ function Editor({ navigation }) {
   const themeContainerStyle = colorScheme === 'light' ? styles.lightContainer : styles.darkContainer;
   const fabVisible = Platform.OS === 'web' ? true : false;
 
-  const [text, setText] = useState('');
+  const { message, setMessage } = React.useContext(StateContext);
+  const { messageHistory, setMessageHistory } = React.useContext(StateContext);
+
+  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6)
+
+  function addToHistory(message) {
+    const history = messageHistory;
+    const messageObject = {
+      message: message,
+      date: new Date(),
+      id: history.length + 1
+    }
+    history.push(messageObject);
+    setMessageHistory(history);
+
+  }
+
+  function onSwipeLeft() {
+    addToHistory(message);
+    setMessage('')
+    
+  }
+  function onSwipeRight() {
+    console.log("swipe right");
+    navigation.navigate('Utility');
+  }
+
   return (
-    <View style={[styles.container, themeContainerStyle]}>
+    <View style={[styles.container, themeContainerStyle]} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <TextInput
         style={[styles.editor, themeTextStyle]}
         placeholder="type here"
         placeholderTextColor="gray"
 
-        defaultValue={text}
+        defaultValue={message}
 
         autoComplete="off"
         autoCorrect={false}
@@ -36,14 +63,14 @@ function Editor({ navigation }) {
         // autoFocus={true}
         // clearTextOnFocus={true}
 
-        onChangeText={newText => setText(newText)}
+        onChangeText={newMessage => setMessage(newMessage)}
       />
       <StatusBar style="auto" />
       <FAB
 
         label='🎉'
         style={[styles.fab, themFabStyle]}
-        onPress={() => navigation.navigate('History')}
+        onPress={() => navigation.navigate('Utility')}
         color={themeTextStyle.color}
         visible={fabVisible}
       />
