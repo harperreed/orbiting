@@ -5,10 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import { Provider as PaperProvider } from 'react-native-paper';
-
-import CustomNavigationBar from './components/NavBar';
 import { MaterialIcons } from "@expo/vector-icons";
 
 // import localizations from './localizations';
@@ -74,14 +70,12 @@ function App() {
   return (
     <StateProvider>
 
-      <PaperProvider >
+
         
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Editor"
-              screenOptions={{
-                header: (props) => <CustomNavigationBar {...props} />,
-              }}>
+            >
 
               <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title: 'Orbiting' }} />
               <Stack.Screen name="Utility" component={UtilityStackScreen} />
@@ -89,7 +83,7 @@ function App() {
             </Stack.Navigator>
           </NavigationContainer>
 
-      </PaperProvider>
+
 
     </StateProvider>
   );

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, TextInput, View, useColorScheme, Platform } from 'react-native';
-import { FAB } from 'react-native-paper';
+import { SafeAreaView, StyleSheet, TextInput, View, Button, useColorScheme, Platform } from 'react-native';
+
 import { useSwipe } from '../hooks/useSwipe'
 import { StateContext } from '../StateContext';
 function Editor({ navigation }) {
@@ -65,14 +65,16 @@ function Editor({ navigation }) {
         onChangeText={newMessage => setMessage(newMessage)}
       />
       <StatusBar style="auto" />
-      <FAB
+      <Button
 
         label='🎉'
         style={[styles.fab, themFabStyle]}
         onPress={() => navigation.navigate('Utility')}
         color={themeTextStyle.color}
         visible={fabVisible}
-      />
+      >
+        Menu
+      </Button>
     </SafeAreaView>
   );
 }

@@ -1,7 +1,7 @@
 
 
-import {   View } from 'react-native';
-import { Headline, Paragraph, Subheading, Button, Text, Title} from 'react-native-paper';
+import {   Text, View } from 'react-native';
+
 
 
 

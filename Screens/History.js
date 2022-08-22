@@ -1,8 +1,8 @@
 
 
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Avatar, DataTable, Headline, Paragraph, Subheading, ToggleButton, RadioButton, Button, Text, Switch, Title, Divider } from 'react-native-paper';
+import { StyleSheet, View, Text } from 'react-native';
+
 import { StateContext } from '../StateContext';
 
 
@@ -14,10 +14,10 @@ function History() {
 
   return (
     <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'flex-start', marginLeft: 10 }}>
-      <Headline>History Screen</Headline>
+      <Text>History Screen</Text>
       {/* <Paragraph>{messageHistory}</Paragraph> */}
       <Text>{message}</Text>
-      <DataTable>
+      {/* <DataTable>
       <DataTable.Header>
         <DataTable.Title>Message</DataTable.Title>
 
@@ -29,7 +29,7 @@ function History() {
 
      </DataTable.Row>
       ))}
-    </DataTable>
+    </DataTable> */}
     </View>
   );
 }

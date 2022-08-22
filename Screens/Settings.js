@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Avatar, Headline, Paragraph, Subheading, ToggleButton,  RadioButton, Button, Text, Switch, Title, Divider } from 'react-native-paper';
+import { StyleSheet, View,  Button, Text, } from 'react-native';
+
 import { StateContext } from '../StateContext';
 
 
@@ -18,10 +18,10 @@ function Settings() {
     <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'flex-start', marginLeft: 10 }}>
 
       <View style={{ flexDirection: 'row', alignItems: 'stretch', border: 1 }}>
-        <Title>General</Title>
+        <Text>General</Text>
       </View>
       
-
+{/* 
 
       <View style={{ flexDirection: 'row', alignItems: 'stretch' }}>
         <Text>Shake to clear</Text>
@@ -75,7 +75,7 @@ function Settings() {
       <RadioButton.Item label="Second item" value="Bubble Gum" />
       <RadioButton.Item label="Second item" value="Bubble Gum" />
     </RadioButton.Group>
-
+ */}
 
 
     </View>
