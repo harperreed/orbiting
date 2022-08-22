@@ -19,10 +19,20 @@ function Editor({ navigation }) {
 
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 6)
 
-  function onSwipeLeft() {
+  function addToHistory(message) {
     const history = messageHistory;
-    history.push(message);
+    const messageObject = {
+      message: message,
+      date: new Date(),
+      id: history.length + 1
+    }
+    history.push(messageObject);
     setMessageHistory(history);
+
+  }
+
+  function onSwipeLeft() {
+    addToHistory(message);
     setMessage('')
     
   }
