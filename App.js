@@ -29,7 +29,7 @@ const UtilityTab = createBottomTabNavigator();
 
 function UtilityStackScreen() {
   return (
-    <UtilityTab.Navigator backBehavior='history'  initialRouteName="History" screenOptions={{
+    <UtilityTab.Navigator backBehavior='history' initialRouteName="History" screenOptions={{
       tabBarStyle: { position: 'absolute' },
 
     }}>
@@ -73,20 +73,24 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <StateProvider>
+
       <PaperProvider >
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Editor"
-            screenOptions={{
-              header: (props) => <CustomNavigationBar {...props} />,
-            }}>
+        
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="Editor"
+              screenOptions={{
+                header: (props) => <CustomNavigationBar {...props} />,
+              }}>
 
-            <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title: 'Orbiting' }} />
-            <Stack.Screen name="Utility" component={UtilityStackScreen} />
+              <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title: 'Orbiting' }} />
+              <Stack.Screen name="Utility" component={UtilityStackScreen} />
 
-          </Stack.Navigator>
-        </NavigationContainer>
+            </Stack.Navigator>
+          </NavigationContainer>
+
       </PaperProvider>
+
     </StateProvider>
   );
 }

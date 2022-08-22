@@ -1,10 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, useColorScheme, Platform } from 'react-native';
+import { SafeAreaView, StyleSheet, TextInput, View, useColorScheme, Platform } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { useSwipe } from '../hooks/useSwipe'
 import { StateContext } from '../StateContext';
-
 function Editor({ navigation }) {
 
   const colorScheme = useColorScheme();
@@ -42,7 +41,7 @@ function Editor({ navigation }) {
   }
 
   return (
-    <View style={[styles.container, themeContainerStyle]} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+    <SafeAreaView style={[styles.container, themeContainerStyle]} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} bounces={false} alwaysBounceVertical={false}>
       <TextInput
         style={[styles.editor, themeTextStyle]}
         placeholder="type here"
@@ -74,7 +73,7 @@ function Editor({ navigation }) {
         color={themeTextStyle.color}
         visible={fabVisible}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
