@@ -43,7 +43,7 @@ function Editor({ navigation }) {
 
         label='🎉'
         style={[styles.fab, themFabStyle]}
-        onPress={() => navigation.navigate('History')}
+        onPress={() => navigation.navigate('Utility')}
         color={themeTextStyle.color}
         visible={fabVisible}
       />
