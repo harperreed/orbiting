@@ -75,6 +75,10 @@ function App() {
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="Editor"
+              screenOptions={{
+                gestureDirection: 'horizontal-inverted',
+
+              }}
             >
 
               <Stack.Screen name="Editor" component={EditorScreen} options={{ headerShown: false, title: 'Orbiting' }} />
