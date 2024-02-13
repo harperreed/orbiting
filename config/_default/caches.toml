@@ -1,0 +1,10 @@
+
+############################ Caches ##############################
+
+[images]
+dir = ":resourceDir/_gen"
+maxAge = "720h"
+
+[assets]
+dir = ":resourceDir/_gen"
+maxAge = "720h"

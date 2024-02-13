@@ -1,0 +1,20 @@
+######################## Params ####################
+
+
+ga_id = "UA-70650-72"
+description = "Orbiting is a visual message app that helps people communicate with text. A person is able to use it to type and display the message to those around. We want to create a very simple experience that doesn't require a lot of tech knowledge or experience"
+keywords = "orbiting, bigwords, deaf, accessibility, big text, chat, typing"
+favicon = "icon.png"
+
+[site_verification]
+google = "Q-oVaBUkWA7bvQLe2Fw_4xtxRJvDhqik61j9HAX4rUM" # Your verification code
+bing = ""                                              # Your verification code
+baidu = ""                                             # Your verification code
+facebook = ""                                          # Your verification code
+mastodon = ""                                          # Your verification code
+
+[metadata]
+keywords = ["orbiting, bigwords, deaf, accessibility, big text, chat, typing"]
+description = "Orbiting is a visual message app that helps people communicate with text. A person is able to use it to type and display the message to those around. We want to create a very simple experience that doesn't require a lot of tech knowledge or experience"
+author = "Harper Reed"
+image = "https://harperreed.com/imgs/og.png"                                                                                                                                                                                                                                # this image will be used as fallback if a page has no image of its own
