@@ -1,0 +1,7 @@
+
+
+########################### Media types ###########################
+
+["application/manifest+json"]
+suffixes = ["webmanifest"]
+

@@ -1,0 +1,53 @@
+html {
+  /* font-size: 16px; */
+  @apply text-base;
+}
+
+body{
+  @apply bg-white;
+}
+
+#orbit {
+    @apply h-full overflow-scroll w-full fixed top-0 left-0 px-5 pt-5 pb-12 text-[10vh] font-bold  text-black leading-[95%] m-0 border-0 ;
+    font-family: sans-serif;
+    word-wrap: normal;
+ }
+
+ .no-scroll {
+   @apply overflow-hidden absolute;
+ }
+
+.drawer-brand {
+  @apply text-[15vh] font-bold;
+}
+
+#about{
+  @apply hidden z-50 bg-white;
+
+}
+
+.history-container{
+  @apply max-h-[50%] overflow-scroll;
+}
+
+#videoElement {
+  @apply h-screen w-screen bg-black opacity-50 m-0 p-0 bg-auto hidden;
+}
+
+#toggle-video-button{
+
+  @apply hidden;
+}
+
+.video-text {
+	@apply shadow-[0_0_0px_#fff] shadow-[1px_0_0px_#fff] shadow-[-1px_0_0px_#fff] shadow-[0_1px_0px_#fff] shadow-[0_-1px_0px_#fff];
+	@apply bg-transparent;
+}
+
+.normal {
+  @apply invert-0 bg-white;
+}
+
+.inverted {
+  @apply invert bg-black;
+}
