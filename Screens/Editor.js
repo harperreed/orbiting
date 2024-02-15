@@ -10,6 +10,7 @@ import {
 import { FAB } from "react-native-paper";
 import { useSwipe } from "../hooks/useSwipe";
 import { StateContext } from "../StateContext";
+import * as Haptics from "expo-haptics";
 
 function Editor({ navigation }) {
     const colorScheme = useColorScheme();
@@ -65,6 +66,7 @@ function Editor({ navigation }) {
             );
             addToHistory(message);
             setMessage("");
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Light);
         } else {
             console.debug(
                 "Swipe left detected but no message to add to history.",
