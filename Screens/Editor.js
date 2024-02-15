@@ -11,6 +11,7 @@ import { FAB } from "react-native-paper";
 import { useSwipe } from "../hooks/useSwipe";
 import { StateContext } from "../StateContext";
 import * as Haptics from "expo-haptics";
+// import "react-native-gesture-handler";
 
 function Editor({ navigation }) {
     const colorScheme = useColorScheme();
@@ -43,6 +44,11 @@ function Editor({ navigation }) {
      * @param {string} newMessage - The message to be added to the history.
      */
     function addToHistory(newMessage) {
+        if (newMessage.trim() === "") {
+            console.debug("Attempted to add empty message to history.");
+            return;
+        }
+
         console.debug("Adding message to history:", newMessage);
 
         // Create a new history entry.
@@ -50,6 +56,7 @@ function Editor({ navigation }) {
             message: newMessage,
             date: new Date(),
             id: messageHistory.length + 1,
+            isFavorite: false,
         };
 
         // Update the message history state with the new entry.
@@ -116,6 +123,7 @@ function Editor({ navigation }) {
                     addToHistory(message);
                 }}
             />
+
             <StatusBar style="auto" />
             <FAB
                 label="🎉"
