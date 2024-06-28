@@ -4,8 +4,21 @@ url = "index.html"
 
 +++
 
-<div id="container">
-    <video autoplay="true" id="videoElement"></video>
-</div>
+
+<video autoplay="true" id="videoElement" style="display: none;"></video>
+
+
 <div id="orbit" class="orbit" contenteditable="true" autocapitalize="off"
     spellcheck="false">type here</div>
+
+<div id="controls" class="controls">
+     <button id="showHistoryBtn" class="control-btn" title="Show History (Ctrl+H)">
+       <span class="icon">&#x1F4D6;</span>
+     </button>
+     <button id="clearTextBtn" class="control-btn" title="Clear Text (Ctrl+X)">
+       <span class="icon">&#x1F5D1;</span>
+     </button>
+     <button id="toggleVideoBtn" class="control-btn" title="Toggle Video">
+       <span class="icon">&#x1F3A5;</span>
+     </button>
+   </div>

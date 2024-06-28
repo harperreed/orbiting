@@ -51,30 +51,12 @@
   <meta name="theme-color" content="#ffffff">
 </head>
 
-<body id="b" class="drawer drawer--left">
-  <header role="banner">
-    <nav class="drawer-nav" role="navigation">
-      <h2>History</h2>
-      <div class="history-container">
-        <ul class="list-group" id="message-history"></ul>
-      </div>
-      <a class="btn btn-sm btn-primary" href="#" id="clear-history-link">Clear History</a>
-      <hr>
+<body>
+  <main>
+    {{ .Content }}
+  </main>
 
-      <h2>Orbiting</h2>
-      <a class="btn btn-sm btn-primary modal-trigger" href="#" data-modal="helpModal">Help</a>
-      <a class="btn btn-sm btn-primary modal-trigger" href="#" data-modal="settingsModal">Settings</a>
-      <a class="btn btn-sm btn-primary modal-trigger" href="#" data-modal="aboutModal">About</a>
-      <hr>
-
-      <small>Orbiting</small> <br />
-      <small>Created by Harper, Nick Ng and CK</small><br />
-      <small>😍😍😍</small>
-    </nav>
-  </header>
-
-  {{ .Content }}
-
+  <!-- Modals -->
   {{ partial "modals.html" . }}
 
   <!-- Scripts -->

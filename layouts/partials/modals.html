@@ -1,25 +1,54 @@
-{{ define "modals" }}
+
+<!-- About Modal -->
 <div id="aboutModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>About Orbiting</h2>
-    {{ .Site.Data.about | markdownify }}
+    {{ with .Site.GetPage "modal/about.html" }}
+      {{ .Content }}
+    {{ end }}
   </div>
 </div>
 
+<!-- Help Modal -->
 <div id="helpModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2>Help</h2>
-    {{ .Site.Data.help | markdownify }}
+    <h2>How to use Orbiting</h2>
+    {{ with .Site.GetPage "modal/help.html" }}
+      {{ .Content }}
+    {{ end }}
   </div>
 </div>
 
+<!-- Settings Modal -->
 <div id="settingsModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <h2>Settings</h2>
+    {{ with .Site.GetPage "modal/settings.html" }}
+      {{ .Content }}
+    {{ end }}
     <button id="toggle-video-button">Enable Video</button>
   </div>
 </div>
-{{ end }}
+
+<!-- Welcome Modal -->
+<div id="welcomeModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Welcome to Orbiting</h2>
+    {{ with .Site.GetPage "modal/welcome.html" }}
+      {{ .Content }}
+    {{ end }}
+  </div>
+</div>
+
+<!-- History Modal -->
+<div id="historyModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Message History</h2>
+    <div id="historyContent" class="history-content"></div>
+  </div>
+</div>
