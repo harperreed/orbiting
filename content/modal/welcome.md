@@ -6,9 +6,11 @@ slug = "welcome"
 
 # Welcome to Orbiting
 
-Orbiting is an app that helps you communicate with people around you. It's a simple and fun way to send messages to people in your vicinity.
+A simple messaging app for your eyeballs.
 
-Orbiting was built by Christine Sun Kim and Harper Reed. It was inspired by the need to communicate with people in the same space, but with different communications needs.
+Orbiting is a simple visual communication app for groups.
+
+A person is able to use it to type and display the message to those around. We want to create a very simple experience that doesn't require a lot of tech knowledge or experience.
 
 ## Orbiting is simple to use.
 
@@ -21,3 +23,13 @@ Orbiting was built by Christine Sun Kim and Harper Reed. It was inspired by the 
 ---
 
 You can add the app to your homescreen and launch it anytime.
+
+----
+
+# About
+
+Orbiting was built by Christine Sun Kim and Harper Reed. It was inspired by the need to communicate with people in the same space, but with different communications needs.
+
+Made with love by [Harper Reed](https://twitter.com/harper), and [Christine Sun Kim](https://twitter.com/chrisunkim)
+
+Please send us feedback. We want it! [feedback@orbiting.com](mailto:feedback@orbiting.com)

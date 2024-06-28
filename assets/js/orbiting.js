@@ -2,7 +2,6 @@ class Orbiting {
     constructor() {
         this.orbit = document.getElementById("orbit");
         this.videoElement = document.getElementById("videoElement");
-        this.toggleVideoButton = document.getElementById("toggle-video-button");
         this.messageHistory = document.getElementById("message-history");
 
         this.minFontSize = 2; // vh
@@ -10,6 +9,8 @@ class Orbiting {
         this.currentFontSize = this.maxFontSize;
 
         this.toggleVideoBtn = document.getElementById("toggleVideoBtn");
+        this.historyModal = document.getElementById("historyModal");
+        this.helpBtn = document.getElementById("helpBtn");
 
         this.setupEventListeners();
         this.checkFirstView();
@@ -27,8 +28,12 @@ class Orbiting {
 
         this.setupKeyboardShortcuts();
         this.setupButtons();
-        this.historyModal = document.getElementById('historyModal');
+
         this.setupSwipeToDismiss();
+
+
+        this.setupHelpButton();
+        this.setupSwipeDown();
 
         this.log("Orbiting initialized");
     }
@@ -46,10 +51,7 @@ class Orbiting {
         this.orbit.addEventListener("touchend", this.handleTouchEnd.bind(this));
         window.addEventListener("resize", this.debouncedResizeText.bind(this));
 
-        this.toggleVideoButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            this.toggleVideo();
-        });
+
 
         document.querySelectorAll(".modal-trigger").forEach((trigger) => {
             trigger.addEventListener("click", (e) => {
@@ -70,6 +72,7 @@ class Orbiting {
             .addEventListener("click", () => this.clearText());
 
         this.toggleVideoBtn.addEventListener("click", () => this.toggleVideo());
+        this.helpBtn.addEventListener("click", () => this.showHelp());
     }
 
     debouncedResizeText() {
@@ -146,40 +149,48 @@ class Orbiting {
     }
 
     showHistory() {
-      try {
-        const messages = this.getStoredText();
-        if (messages.length === 0) {
-          document.getElementById('historyContent').innerHTML = '<div class="history-empty">No history available</div>';
-        } else {
-          const historyHTML = messages.map((message, index) =>
-            `<div class="history-item" data-id="${index}">${message}</div>`
-          ).join('');
-          document.getElementById('historyContent').innerHTML = historyHTML;
+        try {
+            const messages = this.getStoredText();
+            if (messages.length === 0) {
+                document.getElementById("historyContent").innerHTML =
+                    '<div class="history-empty">No history available</div>';
+            } else {
+                const historyHTML = messages
+                    .map(
+                        (message, index) =>
+                            `<div class="history-item" data-id="${index}">${message}</div>`,
+                    )
+                    .join("");
+                document.getElementById("historyContent").innerHTML =
+                    historyHTML;
+            }
+
+            this.showModal("historyModal");
+
+            document.querySelectorAll(".history-item").forEach((item) => {
+                item.addEventListener(
+                    "click",
+                    this.historyItemClickHandler.bind(this),
+                );
+            });
+
+            this.adjustModalForMobile("historyModal");
+
+            this.log("History displayed");
+        } catch (error) {
+            this.logError("Error showing history:", error);
         }
-
-        this.showModal('historyModal');
-
-        document.querySelectorAll('.history-item').forEach(item => {
-          item.addEventListener('click', this.historyItemClickHandler.bind(this));
-        });
-
-        this.adjustModalForMobile('historyModal');
-
-        this.log('History displayed');
-      } catch (error) {
-        this.logError('Error showing history:', error);
-      }
     }
 
     adjustModalForMobile(modalId) {
-      const modal = document.getElementById(modalId);
-      const isMobile = window.innerWidth <= 768;
+        const modal = document.getElementById(modalId);
+        const isMobile = window.innerWidth <= 768;
 
-      if (isMobile) {
-        modal.classList.add('mobile-view');
-      } else {
-        modal.classList.remove('mobile-view');
-      }
+        if (isMobile) {
+            modal.classList.add("mobile-view");
+        } else {
+            modal.classList.remove("mobile-view");
+        }
     }
 
     historyItemClickHandler(e) {
@@ -263,21 +274,66 @@ class Orbiting {
         this.handleSwipe();
     }
 
+    setupSwipeDown() {
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const minSwipeDistance = 50;
+
+        document.addEventListener(
+            "touchstart",
+            (e) => {
+                touchStartY = e.touches[0].clientY;
+            },
+            false,
+        );
+
+        document.addEventListener(
+            "touchend",
+            (e) => {
+                touchEndY = e.changedTouches[0].clientY;
+                this.handleSwipeDown();
+            },
+            false,
+        );
+
+        this.handleSwipeDown = () => {
+            const swipeDistance = touchEndY - touchStartY;
+            if (swipeDistance > minSwipeDistance) {
+                this.showHelp();
+            }
+        };
+    }
+
+    showHelp() {
+        this.showModal("helpModal");
+    }
+
     handleSwipe() {
         const deltaX = this.touchEndX - this.touchStartX;
         const deltaY = this.touchEndY - this.touchStartY;
-        const swipeThreshold = 50; // minimum distance for a swipe
+        const swipeThreshold = 50;
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             // Horizontal swipe
             if (Math.abs(deltaX) > swipeThreshold) {
-                this.clearText();
+                if (deltaX > 0) {
+                    // Swipe right
+                    this.showHistory();
+                } else {
+                    // Swipe left
+                    this.clearText();
+                }
             }
         } else {
             // Vertical swipe
-            if (deltaY < -swipeThreshold) {
-                // Swipe up
-                this.showHistory();
+            if (Math.abs(deltaY) > swipeThreshold) {
+                if (deltaY < 0) {
+                    // Swipe up
+                    this.showHistory();
+                } else {
+                    // Swipe down
+                    this.showHelp();
+                }
             }
         }
     }
@@ -323,34 +379,41 @@ class Orbiting {
         let startX;
         const threshold = 100; // minimum distance traveled to be considered swipe
 
-        this.historyModal.addEventListener('touchstart', (e) => {
-          const touches = e.touches[0];
-          startY = touches.clientY;
-          startX = touches.clientX;
-        }, false);
+        this.historyModal.addEventListener(
+            "touchstart",
+            (e) => {
+                const touches = e.touches[0];
+                startY = touches.clientY;
+                startX = touches.clientX;
+            },
+            false,
+        );
 
-        this.historyModal.addEventListener('touchmove', (e) => {
-          if (!startY || !startX) {
-            return;
-          }
+        this.historyModal.addEventListener(
+            "touchmove",
+            (e) => {
+                if (!startY || !startX) {
+                    return;
+                }
 
-          let moveY = e.touches[0].clientY;
-          let moveX = e.touches[0].clientX;
+                let moveY = e.touches[0].clientY;
+                let moveX = e.touches[0].clientX;
 
-          let diffY = startY - moveY;
-          let diffX = startX - moveX;
+                let diffY = startY - moveY;
+                let diffX = startX - moveX;
 
-          if (Math.abs(diffX) > Math.abs(diffY)) {
-            // Horizontal swipe
-            if (Math.abs(diffX) > threshold) {
-              this.hideModal('historyModal');
-              startY = null;
-              startX = null;
-            }
-          }
-        }, false);
-      }
-
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    // Horizontal swipe
+                    if (Math.abs(diffX) > threshold) {
+                        this.hideModal("historyModal");
+                        startY = null;
+                        startX = null;
+                    }
+                }
+            },
+            false,
+        );
+    }
 }
 
 // Initialize the app
