@@ -31,8 +31,6 @@ class Orbiting {
 
         this.setupSwipeToDismiss();
 
-
-        this.setupHelpButton();
         this.setupSwipeDown();
 
         this.log("Orbiting initialized");
@@ -43,6 +41,9 @@ class Orbiting {
             "input",
             this.debouncedResizeText.bind(this),
         );
+        this.orbit.addEventListener("input", this.handleManualClear.bind(this));
+
+        this.orbit.addEventListener("focus", this.clearInitialText.bind(this));
         this.orbit.addEventListener("click", this.clearInitialText.bind(this));
         this.orbit.addEventListener(
             "touchstart",
@@ -50,8 +51,6 @@ class Orbiting {
         );
         this.orbit.addEventListener("touchend", this.handleTouchEnd.bind(this));
         window.addEventListener("resize", this.debouncedResizeText.bind(this));
-
-
 
         document.querySelectorAll(".modal-trigger").forEach((trigger) => {
             trigger.addEventListener("click", (e) => {
@@ -82,6 +81,21 @@ class Orbiting {
                 this.resizeText();
             });
         }, this.debounceDelay);
+    }
+
+    handleManualClear(event) {
+        if (this.orbit.textContent.trim().length === 0) {
+            const previousContent = event.target.previousContent;
+            if (
+                previousContent &&
+                previousContent.trim() !== "" &&
+                previousContent !== "type here"
+            ) {
+                this.storeText(previousContent);
+                this.log("Message added to history after manual clear");
+            }
+        }
+        event.target.previousContent = this.orbit.textContent;
     }
 
     resizeText() {
@@ -134,9 +148,9 @@ class Orbiting {
         }
     }
 
-    storeText() {
+    storeText(text = null) {
         try {
-            const enteredText = this.orbit.textContent;
+            const enteredText = text || this.orbit.textContent;
             if (enteredText && enteredText !== "type here") {
                 const messages = this.getStoredText();
                 messages.unshift(enteredText);
