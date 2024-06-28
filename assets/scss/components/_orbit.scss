@@ -1,0 +1,86 @@
+body {
+  background: #fff;
+}
+
+#orbit {
+  height: 100vh;
+  overflow: scroll;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: {
+    left: 20px;
+    top: 20px;
+    right: 20px;
+    bottom: 50px;
+  }
+  font: {
+    size: 10vh;
+    weight: bold;
+    family: sans-serif;
+  }
+  color: #000;
+  line-height: 95%;
+  margin: 0;
+  border: 0 solid;
+  word-wrap: normal;
+}
+
+.no-scroll {
+  overflow: hidden;
+  position: absolute;
+}
+
+.drawer-brand {
+  font: {
+    size: 15vh;
+    weight: bold;
+    family: sans-serif;
+  }
+}
+
+#about {
+  display: none;
+  z-index: 1000;
+  background: #fff;
+}
+
+.history-container {
+  max-height: 50%;
+  overflow: scroll;
+}
+
+#videoElement {
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
+  opacity: 0.5;
+  margin: 0;
+  padding: 0;
+  background-size: auto;
+  display: none;
+}
+
+#toggle-video-button {
+  display: none;
+}
+
+.video-text {
+  text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+  background: transparent;
+}
+
+.normal {
+  filter: invert(0%);
+  background: #fff;
+}
+
+.inverted {
+  filter: invert(100%);
+  background: #000;
+}

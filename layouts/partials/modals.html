@@ -1,0 +1,25 @@
+{{ define "modals" }}
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>About Orbiting</h2>
+    {{ .Site.Data.about | markdownify }}
+  </div>
+</div>
+
+<div id="helpModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Help</h2>
+    {{ .Site.Data.help | markdownify }}
+  </div>
+</div>
+
+<div id="settingsModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Settings</h2>
+    <button id="toggle-video-button">Enable Video</button>
+  </div>
+</div>
+{{ end }}

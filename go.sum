@@ -1,0 +1,16 @@
+github.com/gethugothemes/hugo-modules/gzip-caching v0.0.0-20240125040205-f89da7357d93 h1:3kNNS96YsNxq8sPd0jNIe7VCTQniYGQEFuLeqfWnu7c=
+github.com/gethugothemes/hugo-modules/gzip-caching v0.0.0-20240125040205-f89da7357d93/go.mod h1:0ZMjTZVG4XLZU2/icc8Saqo4mmgMpfRTrUZU2Aa2Pwg=
+github.com/gethugothemes/hugo-modules/gzip-caching v0.0.0-20240602022531-889cbf5dcf58 h1:q8eVGu9SAXjm2+1JKJWOdRBAFqdE7f0pl5Wr/Dcuvw8=
+github.com/gethugothemes/hugo-modules/gzip-caching v0.0.0-20240602022531-889cbf5dcf58/go.mod h1:0ZMjTZVG4XLZU2/icc8Saqo4mmgMpfRTrUZU2Aa2Pwg=
+github.com/gethugothemes/hugo-modules/pwa v0.0.0-20240125040205-f89da7357d93 h1:Xs0FJXSo0QomNFueltAYwrlgQdgSyVF8jNrH8UYFdFA=
+github.com/gethugothemes/hugo-modules/pwa v0.0.0-20240125040205-f89da7357d93/go.mod h1:TRv7iszdfo37O1PbBEE+S8X/enAdpRIxK5DGrp13Qbo=
+github.com/gethugothemes/hugo-modules/pwa v0.0.0-20240602022531-889cbf5dcf58 h1:6YjSYed5yduxHKms1k3yhxR/405cH+NwjOLx1pClZkM=
+github.com/gethugothemes/hugo-modules/pwa v0.0.0-20240602022531-889cbf5dcf58/go.mod h1:TRv7iszdfo37O1PbBEE+S8X/enAdpRIxK5DGrp13Qbo=
+github.com/gethugothemes/hugo-modules/seo-tools/google-tag-manager v0.0.0-20240125040205-f89da7357d93 h1:GCGoC2jb7mqWKkMdNZ/ia8yiUQZfgSB8y2mneeLi/Tk=
+github.com/gethugothemes/hugo-modules/seo-tools/google-tag-manager v0.0.0-20240125040205-f89da7357d93/go.mod h1:cCq50yd55eFTrpqOfeyOK5X0hU5E7qxsqOD7IzTsgLA=
+github.com/gethugothemes/hugo-modules/seo-tools/google-tag-manager v0.0.0-20240602022531-889cbf5dcf58 h1:oY24ueLdMe5llCIvvJylUPWG2ulFcOuuxC4dhYfs0IU=
+github.com/gethugothemes/hugo-modules/seo-tools/google-tag-manager v0.0.0-20240602022531-889cbf5dcf58/go.mod h1:cCq50yd55eFTrpqOfeyOK5X0hU5E7qxsqOD7IzTsgLA=
+github.com/gethugothemes/hugo-modules/seo-tools/site-verifications v0.0.0-20240125040205-f89da7357d93 h1:Zs/GVhiHesVtem9IfgfctXRa88092EblpEbqEW0GPSM=
+github.com/gethugothemes/hugo-modules/seo-tools/site-verifications v0.0.0-20240125040205-f89da7357d93/go.mod h1:iXielaya126qJscz7Bc2G2WB91moloQOoWru6UoBUyE=
+github.com/gethugothemes/hugo-modules/seo-tools/site-verifications v0.0.0-20240602022531-889cbf5dcf58 h1:x+1JvnoTVlhjfEgiyawwWq3p9F6JZZdq4QDDBqLXqWI=
+github.com/gethugothemes/hugo-modules/seo-tools/site-verifications v0.0.0-20240602022531-889cbf5dcf58/go.mod h1:iXielaya126qJscz7Bc2G2WB91moloQOoWru6UoBUyE=
