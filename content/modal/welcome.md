@@ -8,27 +8,25 @@ slug = "welcome"
 
 A simple messaging app for your eyeballs.
 
-Orbiting is a simple visual communication app for groups.
+You can use it to type and display the message to those around you.
 
-A person is able to use it to type and display the message to those around. We want to create a very simple experience that doesn't require a lot of tech knowledge or experience.
+Display a message loud and clear.
 
 ## Orbiting is simple to use.
 
 - Tap and start typing. Your message will display loud and clear!
-- To view the menu and settings -  **swipe left** or **swipe right**
-- To display the history - **swipe up**
+- To clear the display - ⬅️ **swipe left**
+- To view the menu and settings - ➡️ **swipe right**
+- To display the history - ⬆️ **swipe up**
 - You can use it on desktop or mobile
-- On desktop you can access history, video feature and clear the message via icons
 
----
-
-You can add the app to your homescreen and launch it anytime.
+### You can add the app to your homescreen and launch it anytime.
 
 ----
 
 # About
 
-Orbiting was built by Christine Sun Kim and Harper Reed. It was inspired by the need to communicate with people in the same space, but with different communications needs.
+Orbiting was built by [Christine Sun Kim](https://en.wikipedia.org/wiki/Christine_Sun_Kim) and [Harper Reed](https://en.wikipedia.org/wiki/Harper_Reed). It was inspired by the need to communicate with people in the same space, but with different communications needs.
 
 Made with love by [Harper Reed](https://twitter.com/harper), and [Christine Sun Kim](https://twitter.com/chrisunkim)
 

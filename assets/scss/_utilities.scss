@@ -25,3 +25,9 @@
     border-radius: 0;
   }
 }
+
+
+.inverted {
+  filter: invert(100%);
+  background: #000;
+}

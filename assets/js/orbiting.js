@@ -33,6 +33,9 @@ class Orbiting {
 
         this.setupSwipeDown();
 
+        this.clearHistoryBtn = document.getElementById("clearHistory");
+        this.setupClearHistory();
+
         this.log("Orbiting initialized");
     }
 
@@ -82,6 +85,35 @@ class Orbiting {
             });
         }, this.debounceDelay);
     }
+
+    setupClearHistory() {
+           this.clearHistoryBtn.addEventListener("click", () => {
+               localStorage.removeItem("messages");
+               this.updateHistoryDisplay(); // Update the displayed history
+               this.log("History cleared");
+           });
+       }
+
+       updateHistoryDisplay() {
+           const messages = this.getStoredText();
+           const historyContent = document.getElementById("historyContent");
+           if (messages.length === 0) {
+               historyContent.innerHTML = '<div class="history-empty">No history available</div>';
+           } else {
+               const historyHTML = messages
+                   .map(
+                       (message, index) =>
+                           `<div class="history-item" data-id="${index}">${message}</div>`
+                   )
+                   .join("");
+               historyContent.innerHTML = historyHTML;
+           }
+           this.log("History display updated");
+       }
+
+
+
+
 
     handleManualClear(event) {
         if (this.orbit.textContent.trim().length === 0) {
@@ -163,37 +195,9 @@ class Orbiting {
     }
 
     showHistory() {
-        try {
-            const messages = this.getStoredText();
-            if (messages.length === 0) {
-                document.getElementById("historyContent").innerHTML =
-                    '<div class="history-empty">No history available</div>';
-            } else {
-                const historyHTML = messages
-                    .map(
-                        (message, index) =>
-                            `<div class="history-item" data-id="${index}">${message}</div>`,
-                    )
-                    .join("");
-                document.getElementById("historyContent").innerHTML =
-                    historyHTML;
-            }
+           this.updateHistoryDisplay(); // Update history display when showing history
+           this.showModal("historyModal");
 
-            this.showModal("historyModal");
-
-            document.querySelectorAll(".history-item").forEach((item) => {
-                item.addEventListener(
-                    "click",
-                    this.historyItemClickHandler.bind(this),
-                );
-            });
-
-            this.adjustModalForMobile("historyModal");
-
-            this.log("History displayed");
-        } catch (error) {
-            this.logError("Error showing history:", error);
-        }
     }
 
     adjustModalForMobile(modalId) {
@@ -310,12 +314,12 @@ class Orbiting {
             false,
         );
 
-        this.handleSwipeDown = () => {
-            const swipeDistance = touchEndY - touchStartY;
-            if (swipeDistance > minSwipeDistance) {
-                this.showHelp();
-            }
-        };
+        // this.handleSwipeDown = () => {
+        //     const swipeDistance = touchEndY - touchStartY;
+        //     if (swipeDistance > minSwipeDistance) {
+        //         this.showHelp();
+        //     }
+        // };
     }
 
     showHelp() {
@@ -332,7 +336,7 @@ class Orbiting {
             if (Math.abs(deltaX) > swipeThreshold) {
                 if (deltaX > 0) {
                     // Swipe right
-                    this.showHistory();
+                    this.showHelp();
                 } else {
                     // Swipe left
                     this.clearText();
@@ -344,10 +348,11 @@ class Orbiting {
                 if (deltaY < 0) {
                     // Swipe up
                     this.showHistory();
-                } else {
-                    // Swipe down
-                    this.showHelp();
                 }
+                // else {
+                //     // Swipe down
+                //     this.showHelp();
+                // }
             }
         }
     }
