@@ -3,20 +3,19 @@ body {
 }
 
 #orbit {
-  height: 100vh;
-  overflow: scroll;
-  width: 100vw;
+  width: 100%;
+  height: 100vh; // Initial height, will be updated by JavaScript
+  overflow: auto;
   position: fixed;
   top: 0;
   left: 0;
   padding: {
-    left: 20px;
     top: 20px;
     right: 20px;
     bottom: 50px;
+    left: 20px;
   }
   font: {
-    size: 10vh;
     weight: bold;
     family: sans-serif;
   }
@@ -24,7 +23,8 @@ body {
   line-height: 95%;
   margin: 0;
   border: 0 solid;
-  word-wrap: normal;
+  word-wrap: break-word;
+  box-sizing: border-box;
 }
 
 .no-scroll {

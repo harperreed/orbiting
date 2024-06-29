@@ -135,13 +135,39 @@ class Orbiting {
             let fontSize = this.maxFontSize;
             this.orbit.style.fontSize = `${fontSize}vh`;
 
-            while (
-                (this.orbit.scrollHeight > this.orbit.clientHeight ||
-                    this.orbit.scrollWidth > this.orbit.clientWidth) &&
-                fontSize > this.minFontSize
-            ) {
-                fontSize -= 0.5;
-                this.orbit.style.fontSize = `${fontSize}vh`;
+            const resizeForKeyboard = () => {
+                const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+                this.orbit.style.height = `${viewportHeight}px`;
+
+                while (
+                    (this.orbit.scrollHeight > this.orbit.clientHeight ||
+                        this.orbit.scrollWidth > this.orbit.clientWidth) &&
+                    fontSize > this.minFontSize
+                ) {
+                    fontSize -= 0.5;
+                    this.orbit.style.fontSize = `${fontSize}vh`;
+                }
+            };
+
+            resizeForKeyboard();
+
+            // Remove existing listeners to prevent duplicates
+            if (this.resizeHandler) {
+                window.visualViewport.removeEventListener('resize', this.resizeHandler);
+                window.removeEventListener('resize', this.resizeHandler);
+            }
+
+            // Add event listeners for keyboard appearance
+            this.resizeHandler = () => {
+                resizeForKeyboard();
+                this.currentFontSize = fontSize;
+                this.log(`Text resized to ${fontSize}vh`);
+            };
+
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', this.resizeHandler);
+            } else {
+                window.addEventListener('resize', this.resizeHandler);
             }
 
             this.currentFontSize = fontSize;
