@@ -1,5 +1,6 @@
 class Orbiting {
     constructor() {
+        this.firstTimeModalFlag = "first-time-modal"
         this.orbit = document.getElementById("orbit");
         this.videoElement = document.getElementById("videoElement");
         this.messageHistory = document.getElementById("message-history");
@@ -36,6 +37,15 @@ class Orbiting {
         this.clearHistoryBtn = document.getElementById("clearHistory");
         this.setupClearHistory();
 
+        this.setupHistoryHandler();
+
+
+
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+            this.fixMobileInput();
+        }
         this.log("Orbiting initialized");
     }
 
@@ -76,6 +86,37 @@ class Orbiting {
         this.toggleVideoBtn.addEventListener("click", () => this.toggleVideo());
         this.helpBtn.addEventListener("click", () => this.showHelp());
     }
+
+    fixMobileInput() {
+            const focusOrbit = () => {
+                this.orbit.focus();
+                if (this.orbit.textContent === "") {
+
+                this.orbit.textContent = "type here";
+                }
+
+                window.scrollTo(0, 0);
+            };
+
+            window.addEventListener('load', focusOrbit);
+            window.addEventListener('resize', focusOrbit);
+
+            // Ensure contenteditable works on iOS
+            this.orbit.setAttribute('contenteditable', 'true');
+            this.orbit.setAttribute('autocorrect', 'off');
+            this.orbit.setAttribute('autocapitalize', 'off');
+            this.orbit.setAttribute('spellcheck', 'false');
+
+            // Prevent zoom on double tap
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', (e) => {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        }
 
     debouncedResizeText() {
         clearTimeout(this.debounceTimer);
@@ -237,6 +278,11 @@ class Orbiting {
         }
     }
 
+    setupHistoryHandler() {
+            const historyContent = document.getElementById("historyContent");
+            historyContent.addEventListener('click', this.historyItemClickHandler.bind(this));
+        }
+
     historyItemClickHandler(e) {
         try {
             const messageId = e.target.dataset.id;
@@ -255,7 +301,7 @@ class Orbiting {
         const firstView = JSON.parse(localStorage.getItem("first-view"));
         if (firstView === null) {
             this.showModal("welcomeModal");
-            localStorage.setItem("first-view", JSON.stringify(true));
+            localStorage.setItem("first-view-new", JSON.stringify(true));
         }
     }
 

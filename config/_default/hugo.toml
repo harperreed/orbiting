@@ -8,3 +8,7 @@ disableKinds = ["taxonomy", "RSS",  "section"]
 
 [Permalinks]
     page= "/:filename/"
+
+[services]
+    [services.googleAnalytics]
+    ID = 'G-MEASUREMENT_ID'

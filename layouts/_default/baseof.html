@@ -5,6 +5,7 @@
   <title>{{ .Title }}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+
   <meta name="description" content="{{ .Site.Params.description }}">
   <meta name="keywords" content="{{ .Site.Params.keywords }}">
 
@@ -49,6 +50,9 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/imgs/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
+  <meta name="date" content="{{ now.Format "2006-01-02" }}">
+  {{ partial "manifest.html" . }}
+  {{ template "_internal/opengraph.html" . }}
 </head>
 
 <body>
@@ -58,21 +62,12 @@
 
   <!-- Modals -->
   {{ partial "modals.html" . }}
-
+  {{ partial "pwa.html" . }}
   <!-- Scripts -->
   {{ $orbiting := resources.Get "js/orbiting.js" | resources.Minify | resources.Fingerprint }}
-  <script src="{{ $orbiting.RelPermalink }}"></script>
+  <script src="{{ $orbiting.RelPermalink }}?{{ now.Unix }}"></script>
 
-  {{ if .Site.Params.ga_id }}
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.ga_id }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '{{ .Site.Params.ga_id }}');
-  </script>
-  {{ end }}
+  {{ template "_internal/google_analytics.html" . }}
 
 </body>
 </html>

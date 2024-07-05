@@ -6,16 +6,10 @@ useResourceCacheWhen = 'fallback'
 [buildStats]
 enable = true
 [[cachebusters]]
-source = 'assets/watching/hugo_stats\.json'
-target = 'style\.css'
-[[cachebusters]]
-source = '(postcss|tailwind)\.config\.js'
-target = 'css'
-[[cachebusters]]
-source = 'assets/.*\.(js|ts|jsx|tsx)'
+source = 'assets/js/.*\.(js|ts|jsx|tsx)'
 target = 'js'
 [[cachebusters]]
-source = 'assets/.*\.(css|scss|sass)'
+source = 'assets/css/.*\.(css|scss|sass)'
 target = 'css'
 [[cachebusters]]
 source = 'data/.*\.(.*)$'
