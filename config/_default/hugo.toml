@@ -1,0 +1,14 @@
+baseURL = "https://orbiting.com/"
+languageCode = "en-us"
+title = "Orbiting - visual messages"
+
+publishDir = "public"
+
+disableKinds = ["taxonomy", "RSS",  "section"]
+
+[Permalinks]
+    page= "/:filename/"
+
+[services]
+    [services.googleAnalytics]
+    ID = 'G-BBEQRSSN5E'

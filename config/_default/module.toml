@@ -1,0 +1,22 @@
+
+############################# Modules ############################
+
+[[mounts]]
+source = "assets"
+target = "assets"
+
+[[mounts]]
+source = "hugo_stats.json"
+target = "assets/watching/hugo_stats.json"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/pwa"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/seo-tools/site-verifications"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/seo-tools/google-tag-manager"
+
+[[imports]]
+path = "github.com/gethugothemes/hugo-modules/gzip-caching"
