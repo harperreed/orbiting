@@ -1,6 +1,6 @@
 class Orbiting {
     constructor() {
-        this.firstTimeModalFlag = "first-time-modal"
+        this.firstTimeModalFlag = "first-time-modal";
         this.orbit = document.getElementById("orbit");
         this.videoElement = document.getElementById("videoElement");
         this.messageHistory = document.getElementById("message-history");
@@ -39,8 +39,6 @@ class Orbiting {
 
         this.setupHistoryHandler();
 
-
-
         const isMobile = window.innerWidth <= 768;
 
         if (isMobile) {
@@ -56,8 +54,8 @@ class Orbiting {
         );
         this.orbit.addEventListener("input", this.handleManualClear.bind(this));
 
-        this.orbit.addEventListener("focus", this.clearInitialText.bind(this));
-        this.orbit.addEventListener("click", this.clearInitialText.bind(this));
+        // this.orbit.addEventListener("focus", this.clearInitialText.bind(this));
+        // this.orbit.addEventListener("click", this.clearInitialText.bind(this));
         this.orbit.addEventListener(
             "touchstart",
             this.handleTouchStart.bind(this),
@@ -88,35 +86,34 @@ class Orbiting {
     }
 
     fixMobileInput() {
-            const focusOrbit = () => {
-                this.orbit.focus();
-                if (this.orbit.textContent === "") {
+        const focusOrbit = () => {
+            this.orbit.focus();
+            window.scrollTo(0, 0);
+        };
 
-                this.orbit.textContent = "type here";
-                }
+        window.addEventListener("load", focusOrbit);
+        window.addEventListener("resize", focusOrbit);
 
-                window.scrollTo(0, 0);
-            };
+        // Ensure contenteditable works on iOS
+        this.orbit.setAttribute("contenteditable", "true");
+        this.orbit.setAttribute("autocorrect", "off");
+        this.orbit.setAttribute("autocapitalize", "off");
+        this.orbit.setAttribute("spellcheck", "false");
 
-            window.addEventListener('load', focusOrbit);
-            window.addEventListener('resize', focusOrbit);
-
-            // Ensure contenteditable works on iOS
-            this.orbit.setAttribute('contenteditable', 'true');
-            this.orbit.setAttribute('autocorrect', 'off');
-            this.orbit.setAttribute('autocapitalize', 'off');
-            this.orbit.setAttribute('spellcheck', 'false');
-
-            // Prevent zoom on double tap
-            let lastTouchEnd = 0;
-            document.addEventListener('touchend', (e) => {
-                const now = (new Date()).getTime();
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener(
+            "touchend",
+            (e) => {
+                const now = new Date().getTime();
                 if (now - lastTouchEnd <= 300) {
                     e.preventDefault();
                 }
                 lastTouchEnd = now;
-            }, false);
-        }
+            },
+            false,
+        );
+    }
 
     debouncedResizeText() {
         clearTimeout(this.debounceTimer);
@@ -128,41 +125,38 @@ class Orbiting {
     }
 
     setupClearHistory() {
-           this.clearHistoryBtn.addEventListener("click", () => {
-               localStorage.removeItem("messages");
-               this.updateHistoryDisplay(); // Update the displayed history
-               this.log("History cleared");
-           });
-       }
+        this.clearHistoryBtn.addEventListener("click", () => {
+            localStorage.removeItem("messages");
+            this.updateHistoryDisplay(); // Update the displayed history
+            this.log("History cleared");
+        });
+    }
 
-       updateHistoryDisplay() {
-           const messages = this.getStoredText();
-           const historyContent = document.getElementById("historyContent");
-           if (messages.length === 0) {
-               historyContent.innerHTML = '<div class="history-empty">No history available</div>';
-           } else {
-               const historyHTML = messages
-                   .map(
-                       (message, index) =>
-                           `<div class="history-item" data-id="${index}">${message}</div>`
-                   )
-                   .join("");
-               historyContent.innerHTML = historyHTML;
-           }
-           this.log("History display updated");
-       }
-
-
-
-
+    updateHistoryDisplay() {
+        const messages = this.getStoredText();
+        const historyContent = document.getElementById("historyContent");
+        if (messages.length === 0) {
+            historyContent.innerHTML =
+                '<div class="history-empty">No history available</div>';
+        } else {
+            const historyHTML = messages
+                .map(
+                    (message, index) =>
+                        `<div class="history-item" data-id="${index}">${message}</div>`,
+                )
+                .join("");
+            historyContent.innerHTML = historyHTML;
+        }
+        this.log("History display updated");
+    }
 
     handleManualClear(event) {
         if (this.orbit.textContent.trim().length === 0) {
             const previousContent = event.target.previousContent;
             if (
                 previousContent &&
-                previousContent.trim() !== "" &&
-                previousContent !== "type here"
+                previousContent.trim() !== ""
+
             ) {
                 this.storeText(previousContent);
                 this.log("Message added to history after manual clear");
@@ -177,7 +171,9 @@ class Orbiting {
             this.orbit.style.fontSize = `${fontSize}vh`;
 
             const resizeForKeyboard = () => {
-                const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+                const viewportHeight = window.visualViewport
+                    ? window.visualViewport.height
+                    : window.innerHeight;
                 this.orbit.style.height = `${viewportHeight}px`;
 
                 while (
@@ -194,8 +190,11 @@ class Orbiting {
 
             // Remove existing listeners to prevent duplicates
             if (this.resizeHandler) {
-                window.visualViewport.removeEventListener('resize', this.resizeHandler);
-                window.removeEventListener('resize', this.resizeHandler);
+                window.visualViewport.removeEventListener(
+                    "resize",
+                    this.resizeHandler,
+                );
+                window.removeEventListener("resize", this.resizeHandler);
             }
 
             // Add event listeners for keyboard appearance
@@ -206,9 +205,12 @@ class Orbiting {
             };
 
             if (window.visualViewport) {
-                window.visualViewport.addEventListener('resize', this.resizeHandler);
+                window.visualViewport.addEventListener(
+                    "resize",
+                    this.resizeHandler,
+                );
             } else {
-                window.addEventListener('resize', this.resizeHandler);
+                window.addEventListener("resize", this.resizeHandler);
             }
 
             this.currentFontSize = fontSize;
@@ -230,13 +232,7 @@ class Orbiting {
         }
     }
 
-    clearInitialText() {
-        if (this.orbit.textContent === "type here") {
-            this.orbit.textContent = "";
-            this.orbit.focus();
-            this.log("Initial text cleared");
-        }
-    }
+
 
     getStoredText() {
         try {
@@ -250,7 +246,7 @@ class Orbiting {
     storeText(text = null) {
         try {
             const enteredText = text || this.orbit.textContent;
-            if (enteredText && enteredText !== "type here") {
+            if (enteredText && enteredText !== "") {
                 const messages = this.getStoredText();
                 messages.unshift(enteredText);
                 localStorage.setItem("messages", JSON.stringify(messages));
@@ -262,9 +258,8 @@ class Orbiting {
     }
 
     showHistory() {
-           this.updateHistoryDisplay(); // Update history display when showing history
-           this.showModal("historyModal");
-
+        this.updateHistoryDisplay(); // Update history display when showing history
+        this.showModal("historyModal");
     }
 
     adjustModalForMobile(modalId) {
@@ -279,9 +274,12 @@ class Orbiting {
     }
 
     setupHistoryHandler() {
-            const historyContent = document.getElementById("historyContent");
-            historyContent.addEventListener('click', this.historyItemClickHandler.bind(this));
-        }
+        const historyContent = document.getElementById("historyContent");
+        historyContent.addEventListener(
+            "click",
+            this.historyItemClickHandler.bind(this),
+        );
+    }
 
     historyItemClickHandler(e) {
         try {
