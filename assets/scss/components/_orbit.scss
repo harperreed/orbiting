@@ -24,6 +24,8 @@ body {
     margin: 0;
     border: 0 solid;
     word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: keep-all;
     box-sizing: border-box;
     z-index: 10; // Ensure it's above other elements
     -webkit-user-select: text; // iOS Safari
