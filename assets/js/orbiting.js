@@ -506,6 +506,14 @@ class Orbiting {
 }
 
 // Initialize the app
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    console.log('Initializing Orbiting app...');
     new Orbiting();
+    console.log('Orbiting app initialized successfully');
+  } catch (error) {
+    console.error('Error initializing Orbiting app:', error);
+    // Display a user-friendly error message
+    document.body.innerHTML = '<h1>Oops! Something went wrong.</h1><p>Please refresh the page or try again later.</p>';
+  }
 });
