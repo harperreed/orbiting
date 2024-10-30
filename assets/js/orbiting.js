@@ -83,6 +83,11 @@ class Orbiting {
 
         this.toggleVideoBtn.addEventListener("click", () => this.toggleVideo());
         this.helpBtn.addEventListener("click", () => this.showHelp());
+
+        // Add event listener for the new drawing button
+        document
+            .getElementById("toggleDrawingBtn")
+            .addEventListener("click", () => this.toggleDrawing());
     }
 
     fixMobileInput() {
@@ -502,6 +507,60 @@ class Orbiting {
             },
             false,
         );
+    }
+
+    // New method to handle drawing functionality
+    toggleDrawing() {
+        const drawingCanvas = document.getElementById("drawingCanvas");
+        const isDrawingEnabled = drawingCanvas.style.display === "block";
+
+        if (isDrawingEnabled) {
+            drawingCanvas.style.display = "none";
+            this.orbit.style.display = "block";
+        } else {
+            drawingCanvas.style.display = "block";
+            this.orbit.style.display = "none";
+            this.setupDrawingCanvas(drawingCanvas);
+        }
+    }
+
+    setupDrawingCanvas(canvas) {
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+
+        const startDrawing = (e) => {
+            drawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        };
+
+        const draw = (e) => {
+            if (!drawing) return;
+            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.stroke();
+        };
+
+        const stopDrawing = () => {
+            drawing = false;
+        };
+
+        canvas.addEventListener("mousedown", startDrawing);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stopDrawing);
+        canvas.addEventListener("mouseout", stopDrawing);
+
+        canvas.addEventListener("touchstart", (e) => {
+            const touch = e.touches[0];
+            startDrawing(touch);
+        });
+
+        canvas.addEventListener("touchmove", (e) => {
+            const touch = e.touches[0];
+            draw(touch);
+        });
+
+        canvas.addEventListener("touchend", stopDrawing);
+        canvas.addEventListener("touchcancel", stopDrawing);
     }
 }
 
