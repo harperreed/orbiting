@@ -357,6 +357,7 @@ class Orbiting {
     }
 
     handleTouchEnd(e) {
+        e.preventDefault(); // P700b
         this.touchEndX = e.changedTouches[0].clientX;
         this.touchEndY = e.changedTouches[0].clientY;
         this.handleSwipe();
@@ -378,6 +379,7 @@ class Orbiting {
         document.addEventListener(
             "touchend",
             (e) => {
+                e.preventDefault(); // P1161
                 touchEndY = e.changedTouches[0].clientY;
                 this.handleSwipeDown();
             },
