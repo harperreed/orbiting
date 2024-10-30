@@ -386,12 +386,12 @@ class Orbiting {
             false,
         );
 
-        // this.handleSwipeDown = () => {
-        //     const swipeDistance = touchEndY - touchStartY;
-        //     if (swipeDistance > minSwipeDistance) {
-        //         this.showHelp();
-        //     }
-        // };
+        this.handleSwipeDown = () => {
+            const swipeDistance = touchEndY - touchStartY;
+            if (swipeDistance > minSwipeDistance) {
+                this.showHelp();
+            }
+        };
     }
 
     showHelp() {
