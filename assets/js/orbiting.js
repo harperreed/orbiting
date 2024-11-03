@@ -528,39 +528,92 @@ class Orbiting {
         const ctx = canvas.getContext("2d");
         let drawing = false;
 
+        // Set initial canvas dimensions
+        const updateCanvasSize = () => {
+            const viewportHeight = window.visualViewport
+                ? window.visualViewport.height
+                : window.innerHeight;
+            const viewportWidth = window.visualViewport
+                ? window.visualViewport.width
+                : window.innerWidth;
+
+            canvas.width = viewportWidth;
+            canvas.height = viewportHeight;
+
+            // Set up drawing context properties
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+        };
+
+        // Initial setup
+        updateCanvasSize();
+
+        // Add resize handlers
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateCanvasSize);
+        } else {
+            window.addEventListener('resize', updateCanvasSize);
+        }
+
+        const getCoordinates = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            if (e.touches) {
+                return {
+                    x: (e.touches[0].clientX - rect.left) * scaleX,
+                    y: (e.touches[0].clientY - rect.top) * scaleY
+                };
+            }
+            return {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        };
+
         const startDrawing = (e) => {
+            e.preventDefault();
             drawing = true;
+            const coords = getCoordinates(e);
             ctx.beginPath();
-            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.moveTo(coords.x, coords.y);
         };
 
         const draw = (e) => {
+            e.preventDefault();
             if (!drawing) return;
-            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            const coords = getCoordinates(e);
+            ctx.lineTo(coords.x, coords.y);
             ctx.stroke();
         };
 
-        const stopDrawing = () => {
+        const stopDrawing = (e) => {
+            e.preventDefault();
             drawing = false;
+            ctx.closePath();
         };
 
+        // Mouse events
         canvas.addEventListener("mousedown", startDrawing);
         canvas.addEventListener("mousemove", draw);
         canvas.addEventListener("mouseup", stopDrawing);
         canvas.addEventListener("mouseout", stopDrawing);
 
-        canvas.addEventListener("touchstart", (e) => {
-            const touch = e.touches[0];
-            startDrawing(touch);
-        });
-
-        canvas.addEventListener("touchmove", (e) => {
-            const touch = e.touches[0];
-            draw(touch);
-        });
-
+        // Touch events
+        canvas.addEventListener("touchstart", startDrawing);
+        canvas.addEventListener("touchmove", draw);
         canvas.addEventListener("touchend", stopDrawing);
         canvas.addEventListener("touchcancel", stopDrawing);
+
+        // Prevent scrolling while drawing
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        this.log("Drawing canvas initialized");
     }
 }
 
