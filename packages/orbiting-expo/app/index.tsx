@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Text, View, Pressable, TextInput, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { saveMessage } from "../utils/storage";
