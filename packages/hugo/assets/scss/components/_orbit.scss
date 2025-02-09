@@ -8,8 +8,8 @@ html, body {
 
 #orbit {
     width: 100%;
-    height: 100%;
-    position: absolute;
+    height: calc(100% - 64px);
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;

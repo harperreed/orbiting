@@ -56,9 +56,22 @@
 </head>
 
 <body>
-  <main>
-    {{ .Content }}
-  </main>
+  <div id="orbit" contenteditable="true" spellcheck="false" placeholder="Type something..."></div>
+  
+  <div class="controls">
+    <button class="control-btn" id="showHistoryBtn" title="History">
+      <i class="icon">📚</i>
+    </button>
+    <button class="control-btn" id="clearTextBtn" title="Clear">
+      <i class="icon">🗑️</i>
+    </button>
+    <button class="control-btn" id="toggleVideoBtn" title="Camera">
+      <i class="icon">📷</i>
+    </button>
+    <button class="control-btn" id="helpBtn" title="Help">
+      <i class="icon">❓</i>
+    </button>
+  </div>
 
   <!-- Modals -->
   {{ partial "modals.html" . }}
