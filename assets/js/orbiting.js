@@ -346,6 +346,7 @@ class Orbiting {
 
     stopVideo() {
         const stream = this.videoElement.srcObject;
+        if (!stream) return;
         const tracks = stream.getTracks();
         tracks.forEach((track) => track.stop());
         this.videoElement.srcObject = null;
