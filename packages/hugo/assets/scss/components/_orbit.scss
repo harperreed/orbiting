@@ -3,32 +3,28 @@ body {
 }
 
 #orbit {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
-    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font: {
-        weight: bold;
-        family: sans-serif;
-    }
+    font-weight: 900;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: #000;
-    line-height: 95%;
+    line-height: 1;
     margin: 0;
-    border: 0 solid;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    word-break: keep-all;
+    padding: 0;
+    border: none;
     box-sizing: border-box;
-    z-index: 10; // Ensure it's above other elements
-    -webkit-user-select: text; // iOS Safari
-    user-select: text; // Standard syntax
+    z-index: 10;
+    -webkit-user-select: text;
+    user-select: text;
+    background: #fff;
 
     // Additional mobile-specific styles
     @media (max-width: 768px) {

@@ -168,41 +168,48 @@ class Orbiting {
 
     resizeText() {
         try {
-            const text = this.orbit.textContent || '';
-            if (!text.trim()) {
+            const text = this.orbit.textContent?.trim() || '';
+            if (!text) {
                 return;
             }
 
-            let fontSize = this.maxFontSize;
+            // Get viewport dimensions
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.visualViewport 
                 ? window.visualViewport.height 
                 : window.innerHeight;
 
-            // Create a temporary span to measure text
-            const measurer = document.createElement('span');
-            measurer.style.visibility = 'hidden';
-            measurer.style.position = 'absolute';
-            measurer.style.whiteSpace = 'nowrap';
+            // Create measuring element
+            const measurer = document.createElement('div');
+            measurer.style.cssText = `
+                position: absolute;
+                visibility: hidden;
+                height: auto;
+                width: auto;
+                white-space: nowrap;
+                font-weight: 900;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            `;
             measurer.textContent = text;
             document.body.appendChild(measurer);
 
             // Binary search for optimal font size
             let low = this.minFontSize;
             let high = this.maxFontSize;
+            let fontSize = this.maxFontSize;
+            const targetWidth = viewportWidth * 0.95;
+            const targetHeight = viewportHeight * 0.95;
 
             while (low <= high) {
-                fontSize = (low + high) / 2;
+                fontSize = Math.floor((low + high) / 2);
                 measurer.style.fontSize = `${fontSize}vh`;
 
-                const textWidth = measurer.offsetWidth;
-                const textHeight = measurer.offsetHeight;
-
-                // Allow text to take up to 90% of viewport
-                if (textWidth > viewportWidth * 0.9 || textHeight > viewportHeight * 0.9) {
-                    high = fontSize - this.fontSizeStep;
+                const rect = measurer.getBoundingClientRect();
+                
+                if (rect.width > targetWidth || rect.height > targetHeight) {
+                    high = fontSize - 1;
                 } else {
-                    low = fontSize + this.fontSizeStep;
+                    low = fontSize + 1;
                 }
             }
 
