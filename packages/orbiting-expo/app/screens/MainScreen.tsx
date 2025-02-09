@@ -1,9 +1,17 @@
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import { useState } from 'react';
+import { View, StyleSheet, TextInput, Button } from 'react-native';
+import { useState, useEffect } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import { saveMessage } from '../../utils/storage';
 
 export default function MainScreen() {
+  const { message: initialMessage } = useLocalSearchParams();
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (initialMessage) {
+      setMessage(initialMessage);
+    }
+  }, [initialMessage]);
 
   const handleSave = async () => {
     if (message.trim()) {

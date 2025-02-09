@@ -11,9 +11,25 @@ jest.mock('expo-router', () => ({
   useRouter: () => ({
     push: jest.fn(),
   }),
+  useLocalSearchParams: () => ({
+    message: undefined,
+  }),
 }));
 
 describe('MainScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('loads initial message from params', () => {
+    jest.spyOn(require('expo-router'), 'useLocalSearchParams').mockReturnValue({
+      message: 'Initial message',
+    });
+    
+    const { getByTestId } = render(<MainScreen />);
+    const input = getByTestId('message-input');
+    expect(input.props.value).toBe('Initial message');
+  });
   beforeEach(() => {
     jest.clearAllMocks();
   });
