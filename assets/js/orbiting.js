@@ -4,6 +4,13 @@ class Orbiting {
         this.orbit = document.getElementById("orbit");
         this.videoElement = document.getElementById("videoElement");
         this.messageHistory = document.getElementById("message-history");
+        
+        // Store bound event handlers
+        this.boundDebouncedResizeText = this.debouncedResizeText.bind(this);
+        this.boundHandleManualClear = this.handleManualClear.bind(this);
+        this.boundHandleTouchStart = this.handleTouchStart.bind(this);
+        this.boundHandleTouchEnd = this.handleTouchEnd.bind(this);
+        this.boundHistoryItemClickHandler = this.historyItemClickHandler.bind(this);
 
         this.minFontSize = 2; // vh
         this.maxFontSize = 20; // vh
@@ -48,20 +55,11 @@ class Orbiting {
     }
 
     setupEventListeners() {
-        this.orbit.addEventListener(
-            "input",
-            this.debouncedResizeText.bind(this),
-        );
-        this.orbit.addEventListener("input", this.handleManualClear.bind(this));
-
-        // this.orbit.addEventListener("focus", this.clearInitialText.bind(this));
-        // this.orbit.addEventListener("click", this.clearInitialText.bind(this));
-        this.orbit.addEventListener(
-            "touchstart",
-            this.handleTouchStart.bind(this),
-        );
-        this.orbit.addEventListener("touchend", this.handleTouchEnd.bind(this));
-        window.addEventListener("resize", this.debouncedResizeText.bind(this));
+        this.orbit.addEventListener("input", this.boundDebouncedResizeText);
+        this.orbit.addEventListener("input", this.boundHandleManualClear);
+        this.orbit.addEventListener("touchstart", this.boundHandleTouchStart);
+        this.orbit.addEventListener("touchend", this.boundHandleTouchEnd);
+        window.addEventListener("resize", this.boundDebouncedResizeText);
 
         document.querySelectorAll(".modal-trigger").forEach((trigger) => {
             trigger.addEventListener("click", (e) => {
@@ -275,10 +273,7 @@ class Orbiting {
 
     setupHistoryHandler() {
         const historyContent = document.getElementById("historyContent");
-        historyContent.addEventListener(
-            "click",
-            this.historyItemClickHandler.bind(this),
-        );
+        historyContent.addEventListener("click", this.boundHistoryItemClickHandler);
     }
 
     historyItemClickHandler(e) {
@@ -504,17 +499,55 @@ class Orbiting {
             false,
         );
     }
+
+    cleanup() {
+        // Remove orbit listeners
+        this.orbit.removeEventListener("input", this.boundDebouncedResizeText);
+        this.orbit.removeEventListener("input", this.boundHandleManualClear);
+        this.orbit.removeEventListener("touchstart", this.boundHandleTouchStart);
+        this.orbit.removeEventListener("touchend", this.boundHandleTouchEnd);
+        
+        // Remove window listeners
+        window.removeEventListener("resize", this.boundDebouncedResizeText);
+        
+        // Remove history listener
+        const historyContent = document.getElementById("historyContent");
+        if (historyContent) {
+            historyContent.removeEventListener("click", this.boundHistoryItemClickHandler);
+        }
+
+        // Stop video if running
+        this.stopVideo();
+        
+        // Clear any pending debounce timers
+        if (this.debounceTimer) {
+            clearTimeout(this.debounceTimer);
+        }
+
+        this.log("Cleanup completed");
+    }
 }
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
+  let app;
   try {
     console.log('Initializing Orbiting app...');
-    new Orbiting();
+    app = new Orbiting();
     console.log('Orbiting app initialized successfully');
+    
+    // Add cleanup on page unload
+    window.addEventListener('unload', () => {
+      if (app) {
+        app.cleanup();
+      }
+    });
   } catch (error) {
     console.error('Error initializing Orbiting app:', error);
     // Display a user-friendly error message
     document.body.innerHTML = '<h1>Oops! Something went wrong.</h1><p>Please refresh the page or try again later.</p>';
+    if (app) {
+      app.cleanup();
+    }
   }
 });
