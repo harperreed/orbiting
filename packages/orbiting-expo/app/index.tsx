@@ -8,6 +8,14 @@ export default function MainScreen() {
   const [message, setMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
+  useEffect(() => {
+    // @ts-ignore - router.current is available in Expo Router
+    const restoredMessage = router.current?.params?.restoredMessage;
+    if (restoredMessage) {
+      setMessage(restoredMessage);
+    }
+  }, []);
+
   const handleSave = async () => {
     if (!message.trim()) return;
     

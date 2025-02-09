@@ -44,3 +44,15 @@ export async function saveMessage(text: string): Promise<Message> {
     throw error;
   }
 }
+
+/**
+ * Clears all messages from storage
+ */
+export async function clearMessages(): Promise<void> {
+  try {
+    await AsyncStorage.removeItem(MESSAGES_KEY);
+  } catch (error) {
+    console.error('Error clearing messages:', error);
+    throw error;
+  }
+}
