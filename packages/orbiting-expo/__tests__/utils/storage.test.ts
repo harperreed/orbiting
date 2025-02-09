@@ -1,7 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getMessages, saveMessage } from '../../utils/storage';
 
-jest.mock('@react-native-async-storage/async-storage');
+// Mock AsyncStorage implementation
+const mockAsyncStorage = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+
+jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
 describe('Storage Utils', () => {
   beforeEach(() => {
@@ -9,7 +16,7 @@ describe('Storage Utils', () => {
   });
 
   it('should return empty array when no messages exist', async () => {
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+    mockAsyncStorage.getItem.mockResolvedValue(null);
     const messages = await getMessages();
     expect(messages).toEqual([]);
   });
@@ -23,8 +30,8 @@ describe('Storage Utils', () => {
     expect(savedMessage.timestamp).toBeTruthy();
     
     // Verify storage was called with correct data
-    expect(AsyncStorage.setItem).toHaveBeenCalled();
-    const setItemCall = (AsyncStorage.setItem as jest.Mock).mock.calls[0];
+    expect(mockAsyncStorage.setItem).toHaveBeenCalled();
+    const setItemCall = mockAsyncStorage.setItem.mock.calls[0];
     const savedData = JSON.parse(setItemCall[1]);
     expect(savedData[0].text).toBe(mockMessage);
   });
@@ -33,12 +40,12 @@ describe('Storage Utils', () => {
     const existingMessages = [
       { id: '1', text: 'old message', timestamp: 1000 }
     ];
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(existingMessages));
+    mockAsyncStorage.getItem.mockResolvedValue(JSON.stringify(existingMessages));
     
     const newMessage = await saveMessage('new message');
     
     // Verify new message was added to start of array
-    const setItemCall = (AsyncStorage.setItem as jest.Mock).mock.calls[0];
+    const setItemCall = mockAsyncStorage.setItem.mock.calls[0];
     const savedData = JSON.parse(setItemCall[1]);
     expect(savedData[0].id).toBe(newMessage.id);
     expect(savedData[1].id).toBe('1');
