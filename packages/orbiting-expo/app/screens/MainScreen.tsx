@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, TouchableOpacity, Text, SafeAreaView } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity, Text, SafeAreaView, Platform } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { saveMessage } from '../../utils/storage';
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
+    marginBottom: Platform.OS === 'ios' ? 80 : 70, // Add space for navbar
   },
   input: {
     width: '100%',
@@ -107,6 +108,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'space-around',
     backgroundColor: '#f8f8f8',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: Platform.OS === 'ios' ? 20 : 10,
   },
   navButton: {
     paddingVertical: 10,
