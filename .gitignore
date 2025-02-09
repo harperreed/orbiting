@@ -1,3 +1,4 @@
 public
 .firebase
 node_modules
+.aider*
