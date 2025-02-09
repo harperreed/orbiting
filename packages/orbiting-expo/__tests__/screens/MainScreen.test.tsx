@@ -45,6 +45,18 @@ describe('MainScreen', () => {
     expect(getByTestId('main-screen')).toBeTruthy();
     expect(getByTestId('message-input')).toBeTruthy();
     expect(getByTestId('save-button')).toBeTruthy();
+    expect(getByTestId('clear-button')).toBeTruthy();
+  });
+
+  it('clears input when clear button is pressed', () => {
+    const { getByTestId } = render(<MainScreen />);
+    const input = getByTestId('message-input');
+    const clearButton = getByTestId('clear-button');
+    
+    fireEvent.changeText(input, 'Test message');
+    fireEvent.press(clearButton);
+    
+    expect(input.props.value).toBe('');
   });
 
   it('allows typing a message', () => {

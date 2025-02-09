@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Button, Text } from 'react-native';
+import { View, StyleSheet, TextInput, TouchableOpacity, Text, SafeAreaView } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { saveMessage } from '../../utils/storage';
@@ -50,39 +50,76 @@ export default function MainScreen() {
   };
 
   return (
-    <View testID="main-screen" style={styles.container}>
-      <TextInput
-        testID="message-input"
-        style={[styles.input, { fontSize }]}
-        value={message}
-        onChangeText={setMessage}
-        placeholder="Type your message"
-        multiline
-      />
-      <Button
-        testID="save-button"
-        title="Save Message"
-        onPress={handleSave}
-        disabled={!message.trim()}
-      />
-    </View>
+    <SafeAreaView testID="main-screen" style={styles.container}>
+      <View style={styles.content}>
+        <TextInput
+          testID="message-input"
+          style={[styles.input, { fontSize }]}
+          value={message}
+          onChangeText={setMessage}
+          placeholder="Type your message"
+          multiline
+        />
+      </View>
+      <View style={styles.navbar}>
+        <TouchableOpacity
+          testID="save-button"
+          style={[
+            styles.navButton,
+            !message.trim() && styles.navButtonDisabled
+          ]}
+          onPress={handleSave}
+          disabled={!message.trim()}
+        >
+          <Text style={styles.navButtonText}>Save</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          testID="clear-button"
+          style={styles.navButton}
+          onPress={() => setMessage('')}
+        >
+          <Text style={styles.navButtonText}>Clear</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
+    flex: 1,
     padding: 20,
-    alignItems: 'center',
   },
   input: {
     width: '100%',
-    height: 100,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    height: '100%',
     padding: 10,
-    marginBottom: 20,
     textAlignVertical: 'top',
+  },
+  navbar: {
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: 'space-around',
+    backgroundColor: '#f8f8f8',
+  },
+  navButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    backgroundColor: '#007AFF',
+  },
+  navButtonDisabled: {
+    backgroundColor: '#ccc',
+  },
+  navButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
