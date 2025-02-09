@@ -2,9 +2,15 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import MainScreen from '../../app/screens/MainScreen';
 import { saveMessage } from '../../utils/storage';
+import { calculateFontSize } from '../../utils/textResizer';
 
 jest.mock('../../utils/storage', () => ({
   saveMessage: jest.fn(),
+}));
+
+jest.mock('../../utils/textResizer', () => ({
+  calculateFontSize: jest.fn(() => 42),
+  getWindowDimensions: () => ({ width: 400, height: 800 }),
 }));
 
 jest.mock('expo-router', () => ({
@@ -59,6 +65,14 @@ describe('MainScreen', () => {
     await waitFor(() => {
       expect(saveMessage).toHaveBeenCalledWith('Test message');
     });
+  });
+
+  it('adjusts font size when typing', () => {
+    const { getByTestId } = render(<MainScreen />);
+    const input = getByTestId('message-input');
+    
+    fireEvent.changeText(input, 'Test message');
+    expect(calculateFontSize).toHaveBeenCalled();
   });
 
   it('clears input after saving', async () => {
