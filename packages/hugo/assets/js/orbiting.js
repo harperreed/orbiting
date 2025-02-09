@@ -170,16 +170,16 @@ class Orbiting {
         try {
             const text = this.orbit.textContent?.trim() || '';
             if (!text) {
+                this.orbit.style.fontSize = '20vh';
                 return;
             }
 
-            // Get viewport dimensions
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.visualViewport 
+            const padding = 40; // 20px padding on each side
+            const viewportWidth = window.innerWidth - padding;
+            const viewportHeight = (window.visualViewport 
                 ? window.visualViewport.height 
-                : window.innerHeight;
+                : window.innerHeight) - padding;
 
-            // Create measuring element
             const measurer = document.createElement('div');
             measurer.style.cssText = `
                 position: absolute;
@@ -189,16 +189,16 @@ class Orbiting {
                 white-space: nowrap;
                 font-weight: 900;
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                line-height: 1.1;
             `;
             measurer.textContent = text;
             document.body.appendChild(measurer);
 
-            // Binary search for optimal font size
             let low = this.minFontSize;
             let high = this.maxFontSize;
             let fontSize = this.maxFontSize;
-            const targetWidth = viewportWidth * 0.95;
-            const targetHeight = viewportHeight * 0.95;
+            const targetWidth = viewportWidth * 0.98;
+            const targetHeight = viewportHeight * 0.98;
 
             while (low <= high) {
                 fontSize = Math.floor((low + high) / 2);
@@ -208,18 +208,18 @@ class Orbiting {
                 
                 if (rect.width > targetWidth || rect.height > targetHeight) {
                     high = fontSize - 1;
-                } else {
+                } else if (rect.width < targetWidth * 0.9 && rect.height < targetHeight * 0.9) {
                     low = fontSize + 1;
+                } else {
+                    break;
                 }
             }
 
-            // Use the largest size that fits
-            fontSize = high;
+            fontSize = Math.min(high, fontSize);
             this.orbit.style.fontSize = `${fontSize}vh`;
             this.currentFontSize = fontSize;
             
             document.body.removeChild(measurer);
-            this.log(`Text resized to ${fontSize}vh`);
         } catch (error) {
             this.logError("Error in resizeText:", error);
         }
