@@ -1,11 +1,14 @@
-import { useState, useEffect } from "react";
-import { Text, View, Pressable, TextInput, StyleSheet, Modal } from "react-native";
+import { useState, useEffect, useCallback } from "react";
+import { Text, View, Pressable, TextInput, StyleSheet, Modal, LayoutChangeEvent } from "react-native";
+import { calculateFontSize, getWindowDimensions } from "../utils/textResizer";
 import { useRouter } from "expo-router";
 import { saveMessage, isFirstLaunch } from "../utils/storage";
 
 export default function MainScreen() {
   const router = useRouter();
   const [message, setMessage] = useState("");
+  const [fontSize, setFontSize] = useState(72); // Start with max size
+  const [containerSize, setContainerSize] = useState(getWindowDimensions());
   const [isSaving, setIsSaving] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -50,10 +53,30 @@ export default function MainScreen() {
       <TextInput
         testID="message-input"
         value={message}
-        onChangeText={setMessage}
+        onChangeText={(text) => {
+          setMessage(text);
+          // Recalculate font size when text changes
+          const size = calculateFontSize(
+            text,
+            containerSize.width,
+            containerSize.height,
+            (text, fontSize) => ({
+              width: text.length * fontSize * 0.5,
+              height: fontSize * 1.2
+            })
+          );
+          setFontSize(size);
+        }}
         placeholder="Type your message..."
-        style={styles.input}
+        style={[
+          styles.input,
+          { fontSize }
+        ]}
         multiline
+        onLayout={(event: LayoutChangeEvent) => {
+          const { width, height } = event.nativeEvent.layout;
+          setContainerSize({ width, height });
+        }}
       />
       
       <View style={styles.buttonContainer}>

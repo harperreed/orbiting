@@ -1,4 +1,5 @@
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { Dimensions } from 'react-native';
 import MainScreen from '../../app/index';
 import { isFirstLaunch } from '../../utils/storage';
 
@@ -58,6 +59,22 @@ describe('MainScreen', () => {
     const { queryByTestId } = render(<MainScreen />);
     await waitFor(() => {
       expect(queryByTestId('welcome-modal')).toBeFalsy();
+    });
+  });
+
+  it('adjusts font size when typing long text', async () => {
+    const { getByTestId } = render(<MainScreen />);
+    const input = getByTestId('message-input');
+    
+    // Type a long message
+    fireEvent.changeText(input, 'This is a very long message that should cause the font size to decrease');
+    
+    // Check that the font size was adjusted
+    await waitFor(() => {
+      const style = input.props.style;
+      expect(Array.isArray(style)).toBe(true);
+      const fontSize = style.find((s: any) => s.fontSize)?.fontSize;
+      expect(fontSize).toBeLessThan(72); // Should be smaller than max size
     });
   });
 });
