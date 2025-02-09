@@ -256,8 +256,13 @@ class Orbiting {
     }
 
     showHistory() {
-        this.updateHistoryDisplay(); // Update history display when showing history
-        this.showModal("historyModal");
+        try {
+            this.updateHistoryDisplay();
+            this.showModal("historyModal");
+            this.log("History view displayed successfully");
+        } catch (error) {
+            this.logError("Error showing history:", error);
+        }
     }
 
     adjustModalForMobile(modalId) {
@@ -311,40 +316,68 @@ class Orbiting {
     }
 
     toggleVideo() {
-        if (this.videoElement.style.display === "none") {
-            this.orbit.classList.add("video-text");
-            this.videoElement.style.display = "block";
-            this.startVideo();
-            this.toggleVideoBtn.classList.add("active");
-            this.toggleVideoBtn.title = "Disable Video";
-        } else {
+        try {
+            if (this.videoElement.style.display === "none") {
+                this.orbit.classList.add("video-text");
+                this.videoElement.style.display = "block";
+                this.startVideo();
+                this.toggleVideoBtn.classList.add("active");
+                this.toggleVideoBtn.title = "Disable Video";
+                this.log("Video enabled");
+            } else {
+                this.stopVideo();
+                this.toggleVideoBtn.classList.remove("active");
+                this.toggleVideoBtn.title = "Enable Video";
+                this.orbit.classList.remove("video-text");
+                this.videoElement.style.display = "none";
+                this.log("Video disabled");
+            }
+        } catch (error) {
+            this.logError("Error toggling video:", error);
+            // Ensure clean state on error
             this.stopVideo();
             this.toggleVideoBtn.classList.remove("active");
-            this.toggleVideoBtn.title = "Enable Video";
             this.orbit.classList.remove("video-text");
             this.videoElement.style.display = "none";
         }
     }
 
-    startVideo() {
-        if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices
-                .getUserMedia({ video: true })
-                .then((stream) => {
-                    this.videoElement.srcObject = stream;
-                })
-                .catch((error) => {
-                    console.error("Error accessing camera:", error);
-                });
+    async startVideo() {
+        try {
+            if (!navigator.mediaDevices?.getUserMedia) {
+                throw new Error("getUserMedia is not supported in this browser");
+            }
+
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            this.videoElement.srcObject = stream;
+            this.log("Camera stream started successfully");
+        } catch (error) {
+            this.logError("Error accessing camera:", error);
+            // Notify user of camera access failure
+            alert("Unable to access camera. Please check camera permissions.");
+            // Reset video state
+            this.toggleVideo();
         }
     }
 
     stopVideo() {
-        const stream = this.videoElement.srcObject;
-        if (!stream) return;
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-        this.videoElement.srcObject = null;
+        try {
+            const stream = this.videoElement.srcObject;
+            if (!stream) return;
+            
+            const tracks = stream.getTracks();
+            tracks.forEach(track => {
+                try {
+                    track.stop();
+                } catch (trackError) {
+                    this.logError("Error stopping track:", trackError);
+                }
+            });
+            this.videoElement.srcObject = null;
+            this.log("Video stream stopped successfully");
+        } catch (error) {
+            this.logError("Error stopping video:", error);
+        }
     }
 
     handleTouchStart(e) {
