@@ -8,5 +8,22 @@ export default function RootLayout() {
     LogBox.ignoreLogs(['Warning: ...']); // Add specific warnings to ignore
   }, []);
 
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen 
+        name="index" 
+        options={{ 
+          title: "Orbiting",
+          headerShown: true 
+        }} 
+      />
+      <Stack.Screen 
+        name="history" 
+        options={{ 
+          title: "History",
+          headerShown: true 
+        }} 
+      />
+    </Stack>
+  );
 }
