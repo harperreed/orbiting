@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Text, View, Pressable, TextInput, StyleSheet } from "react-native";
+import { Text, View, Pressable, TextInput, StyleSheet, Modal } from "react-native";
 import { useRouter } from "expo-router";
-import { saveMessage } from "../utils/storage";
+import { saveMessage, isFirstLaunch } from "../utils/storage";
 
 export default function MainScreen() {
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   useEffect(() => {
     // @ts-ignore - router.current is available in Expo Router
@@ -14,6 +16,16 @@ export default function MainScreen() {
     if (restoredMessage) {
       setMessage(restoredMessage);
     }
+  }, []);
+
+  useEffect(() => {
+    const checkFirstLaunch = async () => {
+      const isFirst = await isFirstLaunch();
+      if (isFirst) {
+        setShowWelcomeModal(true);
+      }
+    };
+    checkFirstLaunch();
   }, []);
 
   const handleSave = async () => {
@@ -63,7 +75,67 @@ export default function MainScreen() {
         >
           <Text style={styles.buttonText}>View History</Text>
         </Pressable>
+        <Pressable
+          testID="help-button"
+          onPress={() => setShowHelpModal(true)}
+          style={[styles.button, styles.helpButton]}
+        >
+          <Text style={styles.buttonText}>Help</Text>
+        </Pressable>
       </View>
+
+      <Modal
+        testID="help-modal"
+        visible={showHelpModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowHelpModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Help</Text>
+            <Text style={styles.modalText}>
+              • Type your message in the text box{'\n'}
+              • Press "Save Message" to store it{'\n'}
+              • View your message history anytime{'\n'}
+              • Tap any history item to restore it
+            </Text>
+            <Pressable
+              testID="close-help-modal"
+              onPress={() => setShowHelpModal(false)}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Got it!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        testID="welcome-modal"
+        visible={showWelcomeModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowWelcomeModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Welcome to Orbiting!</Text>
+            <Text style={styles.modalText}>
+              This app helps you save and manage your messages.{'\n\n'}
+              Get started by typing a message and saving it.{'\n\n'}
+              You can access help anytime by tapping the Help button.
+            </Text>
+            <Pressable
+              testID="close-welcome-modal"
+              onPress={() => setShowWelcomeModal(false)}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Let's Start!</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -99,5 +171,39 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "500",
+  },
+  helpButton: {
+    backgroundColor: "#5856D6",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
+    width: "80%",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 20,
+    lineHeight: 24,
+    textAlign: "left",
+  },
+  modalButton: {
+    backgroundColor: "#007AFF",
+    padding: 15,
+    borderRadius: 5,
+    width: "100%",
+    alignItems: "center",
   },
 });

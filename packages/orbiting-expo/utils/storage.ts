@@ -1,11 +1,30 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MESSAGES_KEY = '@orbiting:messages';
+const FIRST_LAUNCH_KEY = '@orbiting:firstLaunch';
 
 export interface Message {
   id: string;
   text: string;
   timestamp: number;
+}
+
+/**
+ * Checks if this is the first launch of the app
+ * @returns Promise<boolean>
+ */
+export async function isFirstLaunch(): Promise<boolean> {
+  try {
+    const value = await AsyncStorage.getItem(FIRST_LAUNCH_KEY);
+    if (value === null) {
+      await AsyncStorage.setItem(FIRST_LAUNCH_KEY, 'false');
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error checking first launch:', error);
+    return false;
+  }
 }
 
 /**
