@@ -41,6 +41,12 @@ export default function BigTextDisplay({
     try {
       if (!containerSize.width || !containerSize.height) return;
 
+      // Reset to max size when text is empty or very short
+      if (text.length <= 1) {
+        setFontSize(maxFontSize);
+        return;
+      }
+
       const hasOverflow = 
         contentSize.height > containerSize.height ||
         contentSize.width > containerSize.width;
@@ -48,8 +54,9 @@ export default function BigTextDisplay({
       if (hasOverflow && fontSize > minFontSize) {
         setFontSize(current => Math.max(current - 0.5, minFontSize));
       } else if (!hasOverflow && fontSize < maxFontSize) {
-        // Try increasing if we have room
-        const nextSize = Math.min(fontSize + 0.5, maxFontSize);
+        // More aggressive increase when text is deleted
+        const increaseFactor = text.length < 10 ? 2.0 : 0.5;
+        const nextSize = Math.min(fontSize + increaseFactor, maxFontSize);
         const wouldOverflow = 
           (contentSize.height * (nextSize / fontSize)) > containerSize.height ||
           (contentSize.width * (nextSize / fontSize)) > containerSize.width;
@@ -61,7 +68,7 @@ export default function BigTextDisplay({
     } catch (error) {
       console.error('Error in font size calculation:', error);
     }
-  }, [containerSize, contentSize, fontSize, maxFontSize, minFontSize]);
+  }, [containerSize, contentSize, fontSize, maxFontSize, minFontSize, text]);
 
   // Debounced resize handler
   useEffect(() => {
