@@ -1,23 +1,34 @@
-import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent } from "react-native";
-import { useState, useEffect, useCallback } from "react";
+import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform } from "react-native";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 type BigTextDisplayProps = {
   text: string;
   onChangeText: (text: string) => void;
   maxFontSize?: number;
   minFontSize?: number;
+  debounceMs?: number;
+};
+
+type ViewportSize = {
+  width: number;
+  height: number;
 };
 
 export default function BigTextDisplay({ 
   text, 
   onChangeText,
-  maxFontSize = 120, 
-  minFontSize = 20 
+  maxFontSize = 20, // in vh units
+  minFontSize = 2,  // in vh units
+  debounceMs = 150
 }: BigTextDisplayProps) {
   const { width, height } = useWindowDimensions();
   const [fontSize, setFontSize] = useState(maxFontSize);
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-  const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
+  const [containerSize, setContainerSize] = useState<ViewportSize>({ width: 0, height: 0 });
+  const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
+  
+  const textInputRef = useRef<TextInput>(null);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout>();
+  const rafRef = useRef<number>();
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -28,49 +39,77 @@ export default function BigTextDisplay({
     setContentSize({ width, height });
   }, []);
 
-  useEffect(() => {
-    const calculateIdealFontSize = () => {
-      let newSize = maxFontSize;
+  const calculateAndSetFontSize = useCallback(() => {
+    try {
+      if (!textInputRef.current || !containerSize.width || !containerSize.height) return;
+
+      const input = textInputRef.current;
+      let currentSize = maxFontSize;
+      const vhUnit = containerSize.height / 100;
       
-      if (containerSize.width && containerSize.height) {
-        // Add a small buffer to prevent edge cases
-        const targetHeight = containerSize.height * 0.95;
-        const targetWidth = containerSize.width * 0.95;
+      const checkOverflow = (size: number) => {
+        const pixelSize = size * vhUnit;
+        input.setNativeProps({ style: { fontSize: pixelSize } });
         
-        // Use binary search for faster convergence
-        let min = minFontSize;
-        let max = maxFontSize;
-        
-        while (max - min > 0.5) {
-          newSize = (min + max) / 2;
-          
-          // Estimate content size at this font size
-          const estimatedHeight = (text.split('\n').length) * (newSize * 1.2);
-          const estimatedWidth = Math.max(...text.split('\n').map(line => line.length)) * (newSize * 0.5);
-          
-          if (estimatedHeight > targetHeight || estimatedWidth > targetWidth) {
-            max = newSize;
-          } else {
-            min = newSize;
-          }
+        // Wait for layout to update
+        return new Promise<boolean>((resolve) => {
+          requestAnimationFrame(() => {
+            const hasVerticalOverflow = contentSize.height > containerSize.height;
+            const hasHorizontalOverflow = contentSize.width > containerSize.width;
+            resolve(hasVerticalOverflow || hasHorizontalOverflow);
+          });
+        });
+      };
+
+      const resizeText = async () => {
+        while (currentSize > minFontSize) {
+          const hasOverflow = await checkOverflow(currentSize);
+          if (!hasOverflow) break;
+          currentSize -= 0.5;
         }
+        setFontSize(currentSize);
+      };
+
+      // Clean up previous RAF
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
       }
       
-      return Math.max(Math.min(newSize, maxFontSize), minFontSize);
-    };
-
-    const newSize = calculateIdealFontSize();
-    if (Math.abs(newSize - fontSize) > 0.5) {
-      setFontSize(newSize);
+      rafRef.current = requestAnimationFrame(() => {
+        resizeText();
+      });
+    } catch (error) {
+      console.error('Error in font size calculation:', error);
     }
-  }, [text, containerSize, contentSize, maxFontSize, minFontSize, fontSize]);
+  }, [containerSize, contentSize, maxFontSize, minFontSize]);
+
+  // Debounced resize handler
+  useEffect(() => {
+    if (resizeTimeoutRef.current) {
+      clearTimeout(resizeTimeoutRef.current);
+    }
+
+    resizeTimeoutRef.current = setTimeout(() => {
+      calculateAndSetFontSize();
+    }, debounceMs);
+
+    return () => {
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [text, containerSize, contentSize, calculateAndSetFontSize, debounceMs]);
 
   return (
     <TextInput
+      ref={textInputRef}
       testID="big-text-display"
       style={[styles.text, { 
-        fontSize,
-        lineHeight: fontSize * 1.2 // 120% of font size for comfortable reading
+        fontSize: fontSize * (containerSize.height / 100), // Convert vh to pixels
+        lineHeight: fontSize * (containerSize.height / 100) * 1.2
       }]}
       value={text}
       onChangeText={onChangeText}
@@ -82,6 +121,8 @@ export default function BigTextDisplay({
       onContentSizeChange={(e) => {
         onContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height);
       }}
+      autoCorrect={false}
+      keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'} // Prevents Android keyboard from jumping
     />
   );
 }
