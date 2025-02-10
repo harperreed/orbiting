@@ -4,24 +4,23 @@ import HomeScreen from "../components/HomeScreen";
 describe("HomeScreen", () => {
   it("renders initial Hello Orbiting! text", () => {
     render(<HomeScreen />);
-    const helloText = screen.getByText("Hello Orbiting!");
-    expect(helloText).toBeTruthy();
+    const display = screen.getByTestId("big-text-display");
+    expect(display.props.value).toBe("Hello Orbiting!");
   });
 
-  it("updates displayed text when input changes", () => {
+  it("updates displayed text when edited", () => {
     render(<HomeScreen />);
-    const input = screen.getByTestId("text-input");
+    const display = screen.getByTestId("big-text-display");
     
-    fireEvent.changeText(input, "New Text");
+    fireEvent.changeText(display, "New Text");
     
-    const newText = screen.getByText("New Text");
-    expect(newText).toBeTruthy();
+    expect(display.props.value).toBe("New Text");
   });
 
   it("displays text with large font size for short text", () => {
     const { getByTestId } = render(<HomeScreen />);
-    const bigText = getByTestId("big-text-display");
-    expect(bigText.props.style).toEqual(
+    const display = getByTestId("big-text-display");
+    expect(display.props.style).toEqual(
       expect.objectContaining({
         fontSize: 48
       })
@@ -29,13 +28,12 @@ describe("HomeScreen", () => {
   });
 
   it("reduces font size for long text", () => {
-    render(<HomeScreen />);
-    const input = screen.getByTestId("text-input");
+    const { getByTestId } = render(<HomeScreen />);
+    const display = screen.getByTestId("big-text-display");
     
-    fireEvent.changeText(input, "This is a very long text that should cause the font size to decrease");
+    fireEvent.changeText(display, "This is a very long text that should cause the font size to decrease");
     
-    const bigText = screen.getByTestId("big-text-display");
-    expect(bigText.props.style.fontSize).toBeLessThan(48);
-    expect(bigText.props.style.fontSize).toBeGreaterThanOrEqual(24);
+    expect(display.props.style.fontSize).toBeLessThan(48);
+    expect(display.props.style.fontSize).toBeGreaterThanOrEqual(24);
   });
 });
