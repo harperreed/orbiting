@@ -1,21 +1,36 @@
-import { Stack } from "expo-router";
+import { Tabs } from "expo-router";
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen
+    <Tabs screenOptions={{ headerShown: false }}>
+      <Tabs.Screen
         name="index"
         options={{
-          headerShown: false,
+          title: 'Home',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="home" size={24} color={color} />
+          ),
         }}
       />
-      <Stack.Screen
+      <Tabs.Screen
         name="history"
         options={{
-          presentation: 'modal',
-          title: 'Message History',
+          title: 'History',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="history" size={24} color={color} />
+          ),
         }}
       />
-    </Stack>
+      <Tabs.Screen
+        name="help"
+        options={{
+          title: 'Help',
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="question-circle" size={24} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
