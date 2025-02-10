@@ -29,20 +29,41 @@ export default function BigTextDisplay({
   }, []);
 
   useEffect(() => {
-    let newSize = maxFontSize;
-    
-    if (containerSize.width && containerSize.height) {
-      while (
-        (contentSize.height > containerSize.height || 
-         contentSize.width > containerSize.width) && 
-        newSize > minFontSize
-      ) {
-        newSize -= 0.5;
+    const calculateIdealFontSize = () => {
+      let newSize = maxFontSize;
+      
+      if (containerSize.width && containerSize.height) {
+        // Add a small buffer to prevent edge cases
+        const targetHeight = containerSize.height * 0.95;
+        const targetWidth = containerSize.width * 0.95;
+        
+        // Use binary search for faster convergence
+        let min = minFontSize;
+        let max = maxFontSize;
+        
+        while (max - min > 0.5) {
+          newSize = (min + max) / 2;
+          
+          // Estimate content size at this font size
+          const estimatedHeight = (text.split('\n').length) * (newSize * 1.2);
+          const estimatedWidth = Math.max(...text.split('\n').map(line => line.length)) * (newSize * 0.5);
+          
+          if (estimatedHeight > targetHeight || estimatedWidth > targetWidth) {
+            max = newSize;
+          } else {
+            min = newSize;
+          }
+        }
       }
       
-      setFontSize(Math.max(newSize, minFontSize));
+      return Math.max(Math.min(newSize, maxFontSize), minFontSize);
+    };
+
+    const newSize = calculateIdealFontSize();
+    if (Math.abs(newSize - fontSize) > 0.5) {
+      setFontSize(newSize);
     }
-  }, [text, containerSize, contentSize, maxFontSize, minFontSize]);
+  }, [text, containerSize, contentSize, maxFontSize, minFontSize, fontSize]);
 
   return (
     <TextInput
