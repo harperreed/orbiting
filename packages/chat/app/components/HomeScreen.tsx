@@ -3,7 +3,7 @@ import { useState } from "react";
 import BigTextDisplay from "./BigTextDisplay";
 
 export default function HomeScreen() {
-  const [text, setText] = useState("Hello Orbiting!");
+  const [text, setText] = useState("");
 
   return (
     <View style={styles.container}>
