@@ -61,7 +61,7 @@ export default function BigTextDisplay({
     } catch (error) {
       console.error('Error in font size calculation:', error);
     }
-  }, [containerSize, contentSize, maxFontSize, minFontSize]);
+  }, [containerSize, contentSize, fontSize, maxFontSize, minFontSize]);
 
   // Debounced resize handler
   useEffect(() => {
