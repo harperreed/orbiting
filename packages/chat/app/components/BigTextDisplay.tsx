@@ -47,7 +47,10 @@ export default function BigTextDisplay({
   return (
     <TextInput
       testID="big-text-display"
-      style={[styles.text, { fontSize }]}
+      style={[styles.text, { 
+        fontSize,
+        lineHeight: fontSize * 1.2 // 120% of font size for comfortable reading
+      }]}
       value={text}
       onChangeText={onChangeText}
       multiline
@@ -75,7 +78,6 @@ const styles = StyleSheet.create({
     fontFamily: 'System',  // System font, similar to sans-serif
     color: '#000',
     textAlign: "left",
-    lineHeight: 38,  // Approximately 95% of default
     padding: 20,
     paddingBottom: 50,
     margin: 0,
