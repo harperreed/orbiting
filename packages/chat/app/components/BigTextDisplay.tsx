@@ -11,14 +11,14 @@ type BigTextDisplayProps = {
 export default function BigTextDisplay({ 
   text, 
   onChangeText,
-  maxFontSize = 48, 
-  minFontSize = 24 
+  maxFontSize = 120, 
+  minFontSize = 20 
 }: BigTextDisplayProps) {
   const { width, height } = useWindowDimensions();
   
   const fontSize = useMemo(() => {
     const baseSize = maxFontSize;
-    const reduction = Math.max(0, text.length - 10) * 2;
+    const reduction = Math.max(0, text.length - 5) * 4;
     const calculatedSize = baseSize - reduction;
     return Math.max(minFontSize, calculatedSize);
   }, [text, maxFontSize, minFontSize]);
