@@ -33,6 +33,7 @@ export default function HistoryScreen() {
             try {
               await clearHistory();
               setMessages([]);
+              router.push('/');
             } catch (error) {
               console.error('Failed to clear history:', error);
             }
