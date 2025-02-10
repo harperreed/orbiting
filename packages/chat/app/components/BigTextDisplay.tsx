@@ -31,16 +31,29 @@ export default function BigTextDisplay({
       onChangeText={onChangeText}
       multiline
       placeholder="Type something..."
+      selectionColor="#000"
+      placeholderTextColor="#888"
     />
   );
 }
 
 const styles = StyleSheet.create({
   text: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     width: '100%',
+    height: '100%',
     fontWeight: "bold",
+    fontFamily: 'System',  // System font, similar to sans-serif
+    color: '#000',
     textAlign: "left",
+    lineHeight: 38,  // Approximately 95% of default
     padding: 20,
+    paddingBottom: 50,
+    margin: 0,
+    zIndex: 10,
   },
 });
