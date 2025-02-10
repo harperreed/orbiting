@@ -1,12 +1,19 @@
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { useState, useCallback } from "react";
-import { useRouter } from "expo-router";
+import { useState, useCallback, useEffect } from "react";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import BigTextDisplay from "./BigTextDisplay";
 import { storeMessage } from "../utils/storage";
 
 export default function HomeScreen() {
   const [text, setText] = useState("");
   const router = useRouter();
+  const { text: paramText } = useLocalSearchParams<{ text?: string }>();
+
+  useEffect(() => {
+    if (paramText) {
+      setText(paramText);
+    }
+  }, [paramText]);
 
   const handleTextChange = useCallback(async (newText: string) => {
     setText(newText);
