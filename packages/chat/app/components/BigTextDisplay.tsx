@@ -97,7 +97,7 @@ export default function BigTextDisplay({
       value={text}
       onChangeText={onChangeText}
       multiline
-      placeholder="Type something..."
+      placeholder="Type Here"
       selectionColor="#000"
       placeholderTextColor="#888"
       onLayout={onLayout}
