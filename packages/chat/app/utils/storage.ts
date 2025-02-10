@@ -34,3 +34,12 @@ export async function getMessages(): Promise<StoredMessage[]> {
     throw error;
   }
 }
+
+export async function clearHistory(): Promise<void> {
+  try {
+    await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify([]));
+  } catch (error) {
+    console.error('Error clearing history:', error);
+    throw error;
+  }
+}
