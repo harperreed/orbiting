@@ -26,9 +26,7 @@ export default function BigTextDisplay({
   const [containerSize, setContainerSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
   
-  const textInputRef = useRef<TextInput>(null);
   const resizeTimeoutRef = useRef<NodeJS.Timeout>();
-  const rafRef = useRef<number>();
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -41,43 +39,25 @@ export default function BigTextDisplay({
 
   const calculateAndSetFontSize = useCallback(() => {
     try {
-      if (!textInputRef.current || !containerSize.width || !containerSize.height) return;
+      if (!containerSize.width || !containerSize.height) return;
 
-      const input = textInputRef.current;
-      let currentSize = maxFontSize;
-      const vhUnit = containerSize.height / 100;
-      
-      const checkOverflow = (size: number) => {
-        const pixelSize = size * vhUnit;
-        input.setNativeProps({ style: { fontSize: pixelSize } });
+      const hasOverflow = 
+        contentSize.height > containerSize.height ||
+        contentSize.width > containerSize.width;
+
+      if (hasOverflow && fontSize > minFontSize) {
+        setFontSize(current => Math.max(current - 0.5, minFontSize));
+      } else if (!hasOverflow && fontSize < maxFontSize) {
+        // Try increasing if we have room
+        const nextSize = Math.min(fontSize + 0.5, maxFontSize);
+        const wouldOverflow = 
+          (contentSize.height * (nextSize / fontSize)) > containerSize.height ||
+          (contentSize.width * (nextSize / fontSize)) > containerSize.width;
         
-        // Wait for layout to update
-        return new Promise<boolean>((resolve) => {
-          requestAnimationFrame(() => {
-            const hasVerticalOverflow = contentSize.height > containerSize.height;
-            const hasHorizontalOverflow = contentSize.width > containerSize.width;
-            resolve(hasVerticalOverflow || hasHorizontalOverflow);
-          });
-        });
-      };
-
-      const resizeText = async () => {
-        while (currentSize > minFontSize) {
-          const hasOverflow = await checkOverflow(currentSize);
-          if (!hasOverflow) break;
-          currentSize -= 0.5;
+        if (!wouldOverflow) {
+          setFontSize(nextSize);
         }
-        setFontSize(currentSize);
-      };
-
-      // Clean up previous RAF
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
       }
-      
-      rafRef.current = requestAnimationFrame(() => {
-        resizeText();
-      });
     } catch (error) {
       console.error('Error in font size calculation:', error);
     }
@@ -105,7 +85,6 @@ export default function BigTextDisplay({
 
   return (
     <TextInput
-      ref={textInputRef}
       testID="big-text-display"
       style={[styles.text, { 
         fontSize: fontSize * (containerSize.height / 100), // Convert vh to pixels
