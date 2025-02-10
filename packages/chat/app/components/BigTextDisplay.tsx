@@ -92,11 +92,13 @@ export default function BigTextDisplay({
       testID="big-text-display"
       style={[styles.text, { 
         fontSize: fontSize * (containerSize.height / 100), // Convert vh to pixels
-        lineHeight: fontSize * (containerSize.height / 100) * 1.2
+        lineHeight: fontSize * (containerSize.height / 100) * 1.2,
+        flexWrap: 'nowrap',
+        whiteSpace: 'nowrap'
       }]}
       value={text}
       onChangeText={onChangeText}
-      multiline
+      multiline={false}
       placeholder="Type Here"
       selectionColor="#000"
       placeholderTextColor="#888"
@@ -127,5 +129,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     margin: 0,
     zIndex: 10,
+    flexWrap: 'nowrap',
+    whiteSpace: 'nowrap',
   },
 });
