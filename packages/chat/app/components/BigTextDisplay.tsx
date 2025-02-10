@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
     padding: 20,
   },
 });
