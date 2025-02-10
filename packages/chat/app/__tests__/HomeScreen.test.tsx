@@ -18,7 +18,7 @@ describe("HomeScreen", () => {
     expect(newText).toBeTruthy();
   });
 
-  it("displays text with large font size", () => {
+  it("displays text with large font size for short text", () => {
     const { getByTestId } = render(<HomeScreen />);
     const bigText = getByTestId("big-text-display");
     expect(bigText.props.style).toEqual(
@@ -26,5 +26,16 @@ describe("HomeScreen", () => {
         fontSize: 48
       })
     );
+  });
+
+  it("reduces font size for long text", () => {
+    render(<HomeScreen />);
+    const input = screen.getByTestId("text-input");
+    
+    fireEvent.changeText(input, "This is a very long text that should cause the font size to decrease");
+    
+    const bigText = screen.getByTestId("big-text-display");
+    expect(bigText.props.style.fontSize).toBeLessThan(48);
+    expect(bigText.props.style.fontSize).toBeGreaterThanOrEqual(24);
   });
 });
