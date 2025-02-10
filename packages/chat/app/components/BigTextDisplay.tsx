@@ -5,7 +5,7 @@ type BigTextDisplayProps = {
 };
 
 export default function BigTextDisplay({ text }: BigTextDisplayProps) {
-  return <Text style={styles.text}>{text}</Text>;
+  return <Text testID="big-text-display" style={styles.text}>{text}</Text>;
 }
 
 const styles = StyleSheet.create({
