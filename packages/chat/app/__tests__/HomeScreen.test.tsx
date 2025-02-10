@@ -21,6 +21,8 @@ describe("HomeScreen", () => {
   it("displays text with large font size", () => {
     render(<HomeScreen />);
     const text = screen.getByText("Hello Orbiting!");
-    expect(text).toHaveStyle({ fontSize: 48 });
+    expect(text).toHaveStyle({
+      fontSize: 48
+    });
   });
 });
