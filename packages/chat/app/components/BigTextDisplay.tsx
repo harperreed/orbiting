@@ -1,5 +1,5 @@
-import { TextInput, StyleSheet, useWindowDimensions } from "react-native";
-import { useMemo } from "react";
+import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent } from "react-native";
+import { useState, useEffect, useCallback } from "react";
 
 type BigTextDisplayProps = {
   text: string;
@@ -15,13 +15,34 @@ export default function BigTextDisplay({
   minFontSize = 20 
 }: BigTextDisplayProps) {
   const { width, height } = useWindowDimensions();
-  
-  const fontSize = useMemo(() => {
-    const baseSize = maxFontSize;
-    const reduction = Math.max(0, text.length - 5) * 4;
-    const calculatedSize = baseSize - reduction;
-    return Math.max(minFontSize, calculatedSize);
-  }, [text, maxFontSize, minFontSize]);
+  const [fontSize, setFontSize] = useState(maxFontSize);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
+
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    const { width, height } = event.nativeEvent.layout;
+    setContainerSize({ width, height });
+  }, []);
+
+  const onContentSizeChange = useCallback((width: number, height: number) => {
+    setContentSize({ width, height });
+  }, []);
+
+  useEffect(() => {
+    let newSize = maxFontSize;
+    
+    if (containerSize.width && containerSize.height) {
+      while (
+        (contentSize.height > containerSize.height || 
+         contentSize.width > containerSize.width) && 
+        newSize > minFontSize
+      ) {
+        newSize -= 0.5;
+      }
+      
+      setFontSize(Math.max(newSize, minFontSize));
+    }
+  }, [text, containerSize, contentSize, maxFontSize, minFontSize]);
 
   return (
     <TextInput
@@ -33,6 +54,10 @@ export default function BigTextDisplay({
       placeholder="Type something..."
       selectionColor="#000"
       placeholderTextColor="#888"
+      onLayout={onLayout}
+      onContentSizeChange={(e) => {
+        onContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height);
+      }}
     />
   );
 }
