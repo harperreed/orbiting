@@ -77,9 +77,6 @@ export default function BigTextDisplay({
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
     };
   }, [text, containerSize, contentSize, calculateAndSetFontSize, debounceMs]);
 
