@@ -9,7 +9,7 @@ export default function HelpScreen() {
           • Type or paste your text in the main screen{'\n'}
           • Text will automatically adjust its size to fit{'\n'}
           • All text is automatically saved{'\n'}
-          • Access your saved messages in History tab
+          • Switch tabs to access History or Help
         </Text>
       </View>
       
