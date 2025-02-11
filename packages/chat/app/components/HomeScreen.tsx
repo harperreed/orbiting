@@ -1,10 +1,5 @@
-import {
-    View,
-    StyleSheet,
-    Dimensions,
-    KeyboardAvoidingView,
-    Platform,
-} from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
+import { View, KeyboardAwareView } from "react-native-ui-lib";
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
@@ -59,15 +54,10 @@ export default function HomeScreen() {
     }, [handleTextChange]);
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.container}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
-            contentContainerStyle={styles.keyboardAvoidingContent}
-        >
-            <View style={styles.contentContainer}>
+        <KeyboardAwareView style={styles.container}>
+            <View flex style={styles.contentContainer}>
                 <GestureDetector gesture={panGesture}>
-                    <View style={styles.innerContainer}>
+                    <View flex style={styles.innerContainer}>
                         <BigTextDisplay
                             text={text}
                             onChangeText={handleTextChange}
@@ -79,25 +69,19 @@ export default function HomeScreen() {
                     onHistoryPress={() => router.push("/history")}
                 />
             </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#fff"
     },
     contentContainer: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     innerContainer: {
-        flex: 1,
-        width: "100%",
-    },
-    keyboardAvoidingContent: {
-        flex: 1,
-    },
+        width: "100%"
+    }
 });
