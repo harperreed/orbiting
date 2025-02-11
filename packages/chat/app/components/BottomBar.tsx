@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, useTheme, StyleSheet } from 'rnuilib';
+import { View, Button, useTheme, StyleSheet } from 'react-native-ui-lib';
 
 type BottomBarProps = {
     onClearPress: () => void;
