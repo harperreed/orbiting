@@ -3,24 +3,25 @@ import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { TextProvider } from '../app/context/TextContext';
-import { Typography, ThemeManager, Colors } from 'react-native-ui-lib';
+import { ThemeManager } from 'react-native-ui-lib';
+import { initializeTheme } from './theme/theme';
 
-// Initialize RNUIlib
-Typography.loadTypographies({
-  heading: { fontSize: 24, fontWeight: '600' },
-  subheading: { fontSize: 18, fontWeight: '500' },
-  body: { fontSize: 16 },
-});
+// Initialize theme
+initializeTheme();
 
+// Configure default component themes
 ThemeManager.setComponentTheme('Text', {
-  body: true
+  body: true,
+  color: 'text.primary'
 });
 
-Colors.loadColors({
-  primaryColor: '#007AFF',
-  secondaryColor: '#5856D6',
-  textColor: '#000000',
-  errorColor: '#FF3B30',
+ThemeManager.setComponentTheme('View', {
+  backgroundColor: 'background.primary'
+});
+
+ThemeManager.setComponentTheme('Button', {
+  backgroundColor: 'primary',
+  labelStyle: typography.text.body
 });
 
 export default function RootLayout() {
