@@ -1,0 +1,11 @@
+name = "orbiting"
+
+[build]
+command = "cd packages/hugo; hugo --gc --minify"
+output_directory = "packages/hugo/public"
+
+[env.production]
+# Production-specific settings can go here
+
+[env.preview]
+# Preview branch settings can go here
