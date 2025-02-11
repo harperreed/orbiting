@@ -5,7 +5,7 @@ import {
     Platform,
     Animated,
 } from "react-native";
-import * as Shake from 'expo-shake';
+import RNShake from 'react-native-shake';
 import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect, useState } from "react";
@@ -81,9 +81,9 @@ export default function HomeScreen() {
     }, [shakeMode, handleTextChange, flashAnim]);
 
     useEffect(() => {
-        Shake.addListener(handleShake);
+        const subscription = RNShake.addListener(handleShake);
         return () => {
-            Shake.removeListener(handleShake);
+            subscription.remove();
             handleTextChange("");
         };
     }, [handleShake, handleTextChange]);
