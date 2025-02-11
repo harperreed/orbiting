@@ -141,13 +141,23 @@ class Orbiting {
         } else {
             const historyHTML = messages
                 .map(
-                    (message, index) =>
-                        `<div class="history-item" data-id="${index}">${message}</div>`,
+                    (message, index) => {
+                        const truncatedMessage = message.length > 100 ? 
+                            message.substring(0, 100) + '...' : 
+                            message;
+                        return `
+                            <div class="history-item" data-id="${index}">
+                                <div class="history-text">${truncatedMessage}</div>
+                                <div class="history-meta">
+                                    ${new Date().toLocaleDateString()}
+                                </div>
+                            </div>`;
+                    }
                 )
                 .join("");
             historyContent.innerHTML = historyHTML;
         }
-        this.log("History display updated");
+        this.log("History display updated with message text");
     }
 
     handleManualClear(event) {
