@@ -13,7 +13,7 @@ export default function HelpScreen() {
           • All text is automatically saved{'\n'}
           • Switch tabs to access History or Help
         </Text>
-      </View>
+      </Surface>
       
       <Surface style={styles.section} elevation={0}>
         <Text variant="headlineSmall" style={styles.title}>Features</Text>
