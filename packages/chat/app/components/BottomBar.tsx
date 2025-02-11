@@ -1,5 +1,4 @@
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -14,14 +13,14 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 style={styles.button}
                 testID="clear-button"
             >
-                <FontAwesome name="trash" size={24} color="#666" />
+                <Text style={styles.emoji}>🗑️</Text>
             </TouchableOpacity>
             <TouchableOpacity 
                 onPress={onHistoryPress}
                 style={styles.button}
                 testID="history-button"
             >
-                <FontAwesome name="history" size={24} color="#666" />
+                <Text style={styles.emoji}>⏱️</Text>
             </TouchableOpacity>
         </View>
     );
@@ -39,5 +38,8 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 10,
+    },
+    emoji: {
+        fontSize: 24,
     },
 });
