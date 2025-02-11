@@ -1,7 +1,6 @@
 import { useRouter, usePathname } from "expo-router";
 import { StyleSheet } from "react-native";
 import { View, Button, Colors } from "react-native-ui-lib";
-import { Ionicons } from '@expo/vector-icons';
 
 export default function TabBar() {
     const router = useRouter();
@@ -18,23 +17,23 @@ export default function TabBar() {
     const tabs = [
         {
             label: "Home",
-            icon: (props) => <Ionicons name={currentIndex === 0 ? "home" : "home-outline"} size={24} color={props.tintColor} />,
+            icon: "🏠",
             route: "/",
         },
-        { label: "History", icon: (props) => <Ionicons name="time-outline" size={24} color={props.tintColor} />, route: "/history" },
+        { label: "History", icon: "⏱️", route: "/history" },
         {
             label: "Help",
-            icon: (props) => <Ionicons name={currentIndex === 2 ? "help-circle" : "help-circle-outline"} size={24} color={props.tintColor} />,
+            icon: "❓",
             route: "/help",
         },
         {
             label: "Settings",
-            icon: (props) => <Ionicons name={currentIndex === 3 ? "settings" : "settings-outline"} size={24} color={props.tintColor} />,
+            icon: "⚙️",
             route: "/settings",
         },
         {
             label: "About",
-            icon: (props) => <Ionicons name={currentIndex === 4 ? "information-circle" : "information-circle-outline"} size={24} color={props.tintColor} />,
+            icon: "ℹ️",
             route: "/about",
         },
     ];

@@ -29,14 +29,14 @@ export default function BottomBar({
         <View style={styles.container}>
             <Button
                 testID="history-button"
-                iconSource="history"
+                label="📜"
                 onPress={onHistoryPress}
                 style={styles.button}
                 accessibilityLabel="Show history"
             />
             <Button
                 testID="clear-button"
-                iconSource="delete"
+                label="🗑️"
                 onPress={onClearPress}
                 style={styles.button}
                 accessibilityLabel="Clear text"
