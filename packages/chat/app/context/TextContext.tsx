@@ -103,7 +103,11 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
     return (
         <TextContext.Provider value={{
             text: state.text,
-            setText: (text: string) => setState(prev => ({ ...prev, text })),
+            setText: (text: string) => {
+                const action = { type: 'SET_TEXT' as const, payload: text };
+                dispatch(action);
+                logStateChange(action, state, textReducer(state, action));
+            },
             handleTextChange,
             clearText,
             isDirty: state.isDirty,
