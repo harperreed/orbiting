@@ -1,5 +1,5 @@
-import { StyleSheet, ScrollView, useWindowDimensions, Platform, View } from 'react-native';
-import { Surface } from 'react-native-paper';
+import { StyleSheet, useWindowDimensions, Platform } from 'react-native';
+import { Surface, useTheme, ScrollView } from 'react-native-paper';
 import TabBar from './TabBar';
 
 type PageLayoutProps = {
@@ -8,33 +8,41 @@ type PageLayoutProps = {
 };
 
 export default function PageLayout({ children, scrollable = false }: PageLayoutProps) {
-  const Content = scrollable ? ScrollView : Surface;
+  const theme = useTheme();
   const { width } = useWindowDimensions();
-  
-  // Determine if device is a tablet/desktop based on screen size
   const isLargeScreen = width >= 768;
-  
-  // Show TabBar only on large screens or non-mobile platforms
   const showTabBar = isLargeScreen || (Platform.OS !== 'ios' && Platform.OS !== 'android');
-  
+
   return (
-    <View style={styles.wrapper}>
-      <Surface style={styles.container} elevation={1}>
+    <Surface
+      style={[styles.wrapper, { backgroundColor: theme.colors.background }]}
+      elevation={0}
+    >
+      <Surface
+        style={styles.container}
+        elevation={1}
+      >
         {scrollable ? (
-          <ScrollView 
+          <ScrollView
             style={styles.scrollView}
-            contentContainerStyle={styles.scrollContent}
+            contentContainerStyle={[
+              styles.scrollContent,
+              { backgroundColor: theme.colors.surface }
+            ]}
           >
             {children}
           </ScrollView>
         ) : (
-          <View style={styles.content}>
+          <Surface
+            style={[styles.content, { backgroundColor: theme.colors.surface }]}
+            elevation={0}
+          >
             {children}
-          </View>
+          </Surface>
         )}
       </Surface>
       {showTabBar && <TabBar />}
-    </View>
+    </Surface>
   );
 }
 
@@ -44,18 +52,21 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    margin: 0,
+    borderRadius: 0,
   },
   content: {
     flex: 1,
     padding: 20,
+    borderRadius: 0,
   },
   scrollView: {
     flex: 1,
-    width: '100%',
   },
   scrollContent: {
     padding: 20,
     flexGrow: 1,
     minHeight: '100%',
+    borderRadius: 0,
   },
 });
