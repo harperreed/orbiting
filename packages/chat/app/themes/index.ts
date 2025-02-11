@@ -2,8 +2,8 @@ import { CustomTheme } from '../context/SettingsContext';
 import type { ThemeType } from '../context/SettingsContext';
 
 export const THEMES: { label: string; value: ThemeType; colors: { primary: string; secondary: string } }[] = [
-  { label: 'Contrast', value: 'contrast', colors: { primary: '#ffff00', secondary: '#000000' } },
   { label: 'Mono', value: 'mono', colors: { primary: '#000000', secondary: '#ffffff' } },
+  { label: 'Contrast', value: 'contrast', colors: { primary: '#ffff00', secondary: '#000000' } },
   { label: 'Neon', value: 'neon', colors: { primary: '#00ff00', secondary: '#ff00ff' } },
   { label: 'Candy', value: 'candy', colors: { primary: '#ff1493', secondary: '#9932cc' } },
   { label: 'Classic', value: 'classic', colors: { primary: '#000000', secondary: '#666666' } },
