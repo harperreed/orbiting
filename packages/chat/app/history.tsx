@@ -1,5 +1,5 @@
-import { View, StyleSheet, FlatList, TouchableOpacity, Text, Alert } from 'react-native';
-import TabBar from './components/TabBar';
+import { StyleSheet, FlatList, TouchableOpacity, Text, Alert } from 'react-native';
+import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { StoredMessage, getMessages, clearHistory } from './utils/storage';
@@ -61,7 +61,7 @@ export default function HistoryScreen() {
   ), [router]);
 
   return (
-    <View style={styles.container}>
+    <PageLayout>
       <FlatList
         data={messages}
         renderItem={renderItem}
@@ -76,16 +76,11 @@ export default function HistoryScreen() {
           <Text style={styles.clearButtonText}>Clear History</Text>
         </TouchableOpacity>
       )}
-      <TabBar />
-    </View>
+    </PageLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
   listContent: {
     padding: 16,
   },

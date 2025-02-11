@@ -1,25 +1,19 @@
-import { View, Text, StyleSheet } from 'react-native';
-import TabBar from './components/TabBar';
+import { Text, StyleSheet, View } from 'react-native';
+import PageLayout from './components/PageLayout';
 
 export default function SettingsScreen() {
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
+    <PageLayout>
+      <View style={styles.centered}>
         <Text style={styles.title}>Settings</Text>
       </View>
-      <TabBar />
-    </View>
+    </PageLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  centered: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  content: {
-    flex: 1,
-    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
