@@ -67,8 +67,7 @@ export default function SettingsScreen() {
     colorScheme,
     startingFontSize,
     theme,
-    shakeEnabled,
-    shakeFlashEnabled,
+    shakeMode,
     updateSettings,
     resetSettings,
   } = useSettings();
