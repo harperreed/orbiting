@@ -9,6 +9,11 @@ export interface StoredMessage {
 }
 
 export async function storeMessage(text: string): Promise<void> {
+  // Don't store empty or whitespace-only messages
+  if (!text || !text.trim()) {
+    return;
+  }
+
   try {
     const { messages } = await getMessages(0, Number.MAX_SAFE_INTEGER);
     const newMessage: StoredMessage = {
