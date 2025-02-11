@@ -1,22 +1,22 @@
 import { StyleSheet } from 'react-native';
-import { Surface, Text } from 'react-native-paper';
+import { View, Text } from 'rnuilib';
 import PageLayout from './components/PageLayout';
 
 export default function AboutScreen() {
   return (
     <PageLayout>
-      <Surface style={styles.centered} elevation={1}>
-        <Text variant="displaySmall" style={styles.title}>About</Text>
+      <View style={styles.centered} bg-surface>
+        <Text text40 style={styles.title}>About</Text>
         
-        <Text variant="bodyLarge" style={styles.paragraph}>
+        <Text text65 style={styles.paragraph}>
           Orbiting was created by Christine Sun Kim and Harper Reed. It was inspired by the need to communicate with people in the same space, but with different communications needs.
         </Text>
 
-        <Text variant="bodyLarge" style={styles.paragraph}>
+        <Text text65 style={styles.paragraph}>
           Please send us feedback. We want it!{'\n'}
-          <Text variant="bodyLarge" style={styles.email}>feedback@orbiting.com</Text>
+          <Text text65 style={styles.email}>feedback@orbiting.com</Text>
         </Text>
-      </Surface>
+      </View>
     </PageLayout>
   );
 }

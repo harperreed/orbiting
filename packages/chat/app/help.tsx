@@ -1,18 +1,17 @@
 import { StyleSheet } from "react-native";
-import { Surface, Text, List } from "react-native-paper";
+import { View, Text } from "rnuilib";
 import PageLayout from "./components/PageLayout";
 
 export default function HelpScreen() {
     return (
         <PageLayout scrollable>
-            <List.Section>
-                <List.Subheader style={{ fontSize: 20 }}>About Orbiting</List.Subheader>
-                <List.Item
-                    title="A simple messaging app for your eyeballs"
-                    description="You can use it to type and display messages to those around you. Display a message loud and clear."
-                    left={props => <List.Icon {...props} icon="eye" />}
-                />
-            </List.Section>
+            <View style={styles.section}>
+                <Text text50 style={styles.sectionHeader}>About Orbiting</Text>
+                <View style={styles.listItem}>
+                    <Text text60>A simple messaging app for your eyeballs</Text>
+                    <Text text70>You can use it to type and display messages to those around you. Display a message loud and clear.</Text>
+                </View>
+            </View>
 
             <List.Section>
                 <List.Subheader style={{ fontSize: 20 }}>Gestures</List.Subheader>

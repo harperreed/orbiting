@@ -1,5 +1,5 @@
-import { StyleSheet, View } from 'react-native';
-import { Text, Switch, Button, List, Surface, SegmentedButtons, useTheme } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { View, Text, Switch, Button, SegmentedControl } from 'rnuilib';
 import { useState } from 'react';
 import PageLayout from './components/PageLayout';
 import { useSettings } from './context/SettingsContext';
@@ -39,8 +39,8 @@ export default function SettingsScreen() {
 
   return (
     <PageLayout scrollable>
-      <Surface style={styles.container}>
-        <Text variant="headlineMedium" style={styles.title}>Settings</Text>
+      <View style={styles.container} bg-surface>
+        <Text text40 style={styles.title}>Settings</Text>
 
         <List.Section>
           <List.Subheader>Appearance</List.Subheader>
