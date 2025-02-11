@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { View, Text } from 'rnuilib';
+import { View, Text } from 'react-native-ui-lib';
 import PageLayout from './components/PageLayout';
 
 export default function AboutScreen() {

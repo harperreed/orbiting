@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-native';
-import { ThemeManager } from 'rnuilib';
+import { ThemeManager } from 'react-native-ui-lib';
 import { loadSettings, saveSettings } from '../utils/settingsStorage';
 
 export type ThemeType = 'classic' | 'ocean' | 'forest' | 'sunset';

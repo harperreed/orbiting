@@ -4,7 +4,7 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
-import { View, Toast, LoaderScreen } from 'rnuilib';
+import { View, Toast, LoaderScreen } from 'react-native-ui-lib';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";

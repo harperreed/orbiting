@@ -16,7 +16,7 @@ import {
     Text,
     LoaderScreen,
     Colors,
-} from "rnuilib";
+} from "react-native-ui-lib";
 import TabBar from "./TabBar";
 
 // Error boundary class component

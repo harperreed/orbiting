@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { View, Text, Switch, Button, SegmentedControl } from 'rnuilib';
+import { View, Text, Switch, Button, SegmentedControl } from 'react-native-ui-lib';
 import { useState } from 'react';
 import PageLayout from './components/PageLayout';
 import { useSettings } from './context/SettingsContext';
