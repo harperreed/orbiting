@@ -10,14 +10,14 @@ export interface StoredMessage {
 
 export async function storeMessage(text: string): Promise<void> {
   try {
-    const messages = await getMessages();
+    const { messages } = await getMessages(0, Number.MAX_SAFE_INTEGER);
     const newMessage: StoredMessage = {
       id: Date.now().toString(),
       text,
       timestamp: Date.now(),
     };
     
-    messages.push(newMessage);
+    messages.unshift(newMessage); // Add to beginning since we sort by newest first
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
   } catch (error) {
     console.error('Error storing message:', error);
