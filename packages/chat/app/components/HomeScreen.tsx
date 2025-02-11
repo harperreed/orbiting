@@ -1,6 +1,5 @@
-import { StyleSheet, Dimensions, Platform } from "react-native";
+import { StyleSheet, Dimensions, Platform, KeyboardAvoidingView } from "react-native";
 import { View } from "react-native-ui-lib";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
@@ -55,12 +54,10 @@ export default function HomeScreen() {
     }, [handleTextChange]);
 
     return (
-        <KeyboardAwareScrollView 
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
-            contentContainerStyle={styles.contentContainer}
-            enableOnAndroid
-            enableAutomaticScroll
-            keyboardShouldPersistTaps="handled"
+            keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
         >
             <View flex style={styles.contentContainer}>
                 <GestureDetector gesture={panGesture}>
@@ -76,7 +73,7 @@ export default function HomeScreen() {
                     onHistoryPress={() => router.push("/history")}
                 />
             </View>
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
