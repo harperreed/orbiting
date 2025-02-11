@@ -1,5 +1,6 @@
 import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
-import { useState, useEffect, useCallback, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { debounce } from 'lodash';
 
 type BigTextDisplayProps = {
   text: string;
@@ -51,7 +52,16 @@ export default function BigTextDisplay({
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [adjustedContainerHeight, setAdjustedContainerHeight] = useState(0);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const resizeTimeoutRef = useRef<NodeJS.Timeout>();
+  const debouncedCalculateRef = useRef(
+    debounce((
+      text: string,
+      containerSize: ViewportSize,
+      contentSize: ViewportSize,
+      adjustedContainerHeight: number
+    ) => {
+      calculateAndSetFontSize();
+    }, debounceMs)
+  );
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
@@ -96,22 +106,17 @@ export default function BigTextDisplay({
     }
   }, [containerSize, contentSize, fontSize, maxFontSize, minFontSize, text]);
 
-  // Debounced resize handler
+  // Call debounced calculation when dependencies change
   useEffect(() => {
-    if (resizeTimeoutRef.current) {
-      clearTimeout(resizeTimeoutRef.current);
-    }
+    debouncedCalculateRef.current(text, containerSize, contentSize, adjustedContainerHeight);
+  }, [text, containerSize, contentSize, adjustedContainerHeight]);
 
-    resizeTimeoutRef.current = setTimeout(() => {
-      calculateAndSetFontSize();
-    }, debounceMs);
-
+  // Cleanup debounced function on unmount
+  useEffect(() => {
     return () => {
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
+      debouncedCalculateRef.current.cancel();
     };
-  }, [text, containerSize, contentSize, calculateAndSetFontSize, debounceMs]);
+  }, []);
 
   return (
     <TextInput
