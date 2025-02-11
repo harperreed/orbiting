@@ -30,9 +30,11 @@ export default function PageLayout({ children, scrollable = false }: PageLayoutP
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
   },
   content: {
     flex: 1,
+    height: '100%',
     padding: 20,
   },
 });
