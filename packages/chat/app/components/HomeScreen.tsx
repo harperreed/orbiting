@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { useState, useCallback, useEffect } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, router } from "expo-router";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
 import { storeMessage } from "../utils/storage";
 
@@ -23,13 +24,29 @@ export default function HomeScreen() {
     }
   }, []);
 
+  const swipeLeft = Gesture.Fling()
+    .direction('left')
+    .onEnd(() => {
+      setText('');
+    });
+
+  const swipeUp = Gesture.Fling()
+    .direction('up')
+    .onEnd(() => {
+      router.push('/history');
+    });
+
+  const gestures = Gesture.Race(swipeLeft, swipeUp);
+
   return (
-    <View style={styles.container}>
-      <BigTextDisplay 
-        text={text}
-        onChangeText={handleTextChange}
-      />
-    </View>
+    <GestureDetector gesture={gestures}>
+      <View style={styles.container}>
+        <BigTextDisplay 
+          text={text}
+          onChangeText={handleTextChange}
+        />
+      </View>
+    </GestureDetector>
   );
 }
 

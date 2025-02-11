@@ -1,5 +1,34 @@
 import { render, screen, fireEvent } from "@testing-library/react-native";
+import { GestureDetector } from "react-native-gesture-handler";
 import HomeScreen from "../components/HomeScreen";
+import { router } from "expo-router";
+
+// Mock expo-router
+jest.mock('expo-router', () => ({
+  router: {
+    push: jest.fn(),
+  },
+}));
+
+// Mock gesture handler
+jest.mock('react-native-gesture-handler', () => ({
+  GestureDetector: jest.fn(({ children }) => children),
+  Gesture: {
+    Fling: () => ({
+      direction: () => ({
+        onEnd: (callback) => {
+          return {
+            callback,
+            direction: jest.fn(),
+          };
+        },
+      }),
+    }),
+    Race: (...gestures) => ({
+      gestures,
+    }),
+  },
+}));
 
 describe("HomeScreen", () => {
   it("renders initial Hello Orbiting! text", () => {
@@ -37,3 +66,30 @@ describe("HomeScreen", () => {
     expect(display.props.style.fontSize).toBeGreaterThanOrEqual(24);
   });
 });
+
+  it('clears text on left swipe gesture', async () => {
+    render(<HomeScreen />);
+    const display = screen.getByTestId("big-text-display");
+    
+    // Set some initial text
+    fireEvent.changeText(display, "Test Text");
+    expect(display.props.value).toBe("Test Text");
+    
+    // Simulate left swipe by directly calling the gesture callback
+    const gestureProps = (GestureDetector as jest.Mock).mock.calls[0][0];
+    const leftSwipeCallback = gestureProps.gesture.gestures[0].callback;
+    leftSwipeCallback();
+    
+    expect(display.props.value).toBe("");
+  });
+
+  it('navigates to history on up swipe gesture', () => {
+    render(<HomeScreen />);
+    
+    // Simulate up swipe by directly calling the gesture callback
+    const gestureProps = (GestureDetector as jest.Mock).mock.calls[0][0];
+    const upSwipeCallback = gestureProps.gesture.gestures[1].callback;
+    upSwipeCallback();
+    
+    expect(router.push).toHaveBeenCalledWith('/history');
+  });
