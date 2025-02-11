@@ -5,7 +5,7 @@ import PageLayout from './components/PageLayout';
 export default function AboutScreen() {
   return (
     <PageLayout>
-      <Surface style={styles.centered} elevation={0}>
+      <Surface style={styles.centered} elevation={1}>
         <Text variant="headlineMedium">About</Text>
       </Surface>
     </PageLayout>

@@ -18,7 +18,7 @@ export default function PageLayout({ children, scrollable = false }: PageLayoutP
   const showTabBar = isLargeScreen || (Platform.OS !== 'ios' && Platform.OS !== 'android');
   
   return (
-    <Surface style={styles.container}>
+    <Surface style={styles.container} elevation={1}>
       <Content style={styles.content}>
         {children}
       </Content>

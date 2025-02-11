@@ -20,7 +20,7 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
     });
 
     return (
-        <Surface style={styles.container} elevation={4}>
+        <Surface style={styles.container} elevation={1}>
             <IconButton
                 icon="delete"
                 mode="contained"
