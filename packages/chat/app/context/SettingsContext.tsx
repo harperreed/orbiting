@@ -19,11 +19,6 @@ interface Settings {
   theme: ThemeType;
   shakeEnabled: boolean;
   shakeFlashEnabled: boolean;
-  colorScheme: ColorSchemeName | 'system';
-  startingFontSize: number;
-  theme: ThemeType;
-  shakeEnabled: boolean;
-  shakeFlashEnabled: boolean;
 }
 
 interface SettingsContextType extends Settings {
@@ -75,10 +70,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     <SettingsContext.Provider
       value={{
         ...settings,
-        colorScheme: effectiveColorScheme,
         updateSettings,
         resetSettings,
-        currentTheme: themes[settings.theme][effectiveColorScheme || 'light'],
+        currentTheme: currentTheme,
       }}
     >
       {children}
