@@ -23,10 +23,60 @@ export default function BigTextDisplay({
   debounceMs = 150
 }: BigTextDisplayProps) {
   const dimensions = useWindowDimensions();
+  const previousDimensions = useRef(dimensions);
+  const inputRef = useRef<TextInput>(null);
+
   const [fontSize, setFontSize] = useState(maxFontSize);
   const [containerSize, setContainerSize] = useState<ViewportSize>({ width: 0, height: 0 });
+  const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const previousDimensions = useRef(dimensions);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [adjustedContainerHeight, setAdjustedContainerHeight] = useState(0);
+
+  const calculateAndSetFontSize = useCallback(() => {
+    try {
+      if (!containerSize.width || !adjustedContainerHeight) return;
+
+      // Reset to max size when text is empty or very short
+      if (text.length <= 1) {
+        setFontSize(maxFontSize);
+        return;
+      }
+
+      const hasOverflow = 
+        contentSize.height > adjustedContainerHeight ||
+        contentSize.width > containerSize.width;
+
+      if (hasOverflow && fontSize > minFontSize) {
+        setFontSize(current => Math.max(current - 0.5, minFontSize));
+      } else if (!hasOverflow && fontSize < maxFontSize) {
+        // More aggressive increase when text is deleted
+        const increaseFactor = text.length < 10 ? 2.0 : 0.5;
+        const nextSize = Math.min(fontSize + increaseFactor, maxFontSize);
+        const wouldOverflow = 
+          (contentSize.height * (nextSize / fontSize)) > adjustedContainerHeight ||
+          (contentSize.width * (nextSize / fontSize)) > containerSize.width;
+        
+        if (!wouldOverflow) {
+          setFontSize(nextSize);
+        }
+      }
+    } catch (error) {
+      console.error('Error in font size calculation:', error);
+    }
+  }, [containerSize, contentSize, fontSize, maxFontSize, minFontSize, text, adjustedContainerHeight]);
+
+  const debouncedCalculate = useMemo(
+    () => debounce((
+      text: string,
+      containerSize: ViewportSize,
+      contentSize: ViewportSize,
+      adjustedContainerHeight: number
+    ) => {
+      calculateAndSetFontSize();
+    }, debounceMs),
+    [calculateAndSetFontSize, debounceMs]
+  );
 
   // Handle keyboard events and cleanup
   useEffect(() => {
@@ -54,22 +104,6 @@ export default function BigTextDisplay({
       debouncedCalculate.cancel();
     };
   }, []);
-  const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
-  const [adjustedContainerHeight, setAdjustedContainerHeight] = useState(0);
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const inputRef = useRef<TextInput>(null);
-  const debouncedCalculate = useMemo(
-    () => debounce((
-      text: string,
-      containerSize: ViewportSize,
-      contentSize: ViewportSize,
-      adjustedContainerHeight: number
-    ) => {
-      calculateAndSetFontSize();
-    }, debounceMs),
-    [calculateAndSetFontSize, debounceMs]
-  );
-
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
     setContainerSize({ width, height });
