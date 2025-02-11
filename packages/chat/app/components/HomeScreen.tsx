@@ -4,7 +4,7 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
-import { Surface } from 'react-native-paper';
+import { Surface, Snackbar } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
@@ -79,6 +79,15 @@ export default function HomeScreen() {
                     onHistoryPress={() => router.push("/history")}
                 />
             </Surface>
+            <Snackbar
+                visible={!!error}
+                onDismiss={() => {}}
+                action={{
+                    label: 'Dismiss',
+                    onPress: () => {},
+                }}>
+                {error}
+            </Snackbar>
         </KeyboardAvoidingView>
     );
 }

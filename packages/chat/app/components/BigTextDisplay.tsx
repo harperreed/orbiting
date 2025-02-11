@@ -1,5 +1,5 @@
 import { StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
@@ -24,7 +24,8 @@ export default function BigTextDisplay({
   minFontSize = 1,  // in vh units (3/4 of previous 1.3vh)
   debounceMs = 150
 }: BigTextDisplayProps) {
-  const { startingFontSize, currentTheme } = useSettings();
+  const { startingFontSize } = useSettings();
+  const theme = useTheme();
   const maxFontSize = propMaxFontSize ?? (startingFontSize / 2.4); // Convert px to vh units
   const dimensions = useWindowDimensions();
   const previousDimensions = useRef(dimensions);
@@ -199,12 +200,12 @@ const styles = StyleSheet.create({
     height: '100%',
     fontWeight: "bold",
     fontFamily: 'System',  // System font, similar to sans-serif
-    color: '#000',
+    color: theme.colors.onBackground,
+    backgroundColor: theme.colors.background,
     textAlign: "left",
     padding: 20,
     paddingBottom: 50,
     margin: 0,
     zIndex: 10,
-    boxShadow: 'none', // Modern replacement for shadowProps
   },
 });
