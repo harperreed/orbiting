@@ -22,10 +22,11 @@ export default function BigTextDisplay({
   minFontSize = 1,  // in vh units (3/4 of previous 1.3vh)
   debounceMs = 150
 }: BigTextDisplayProps) {
-  const { width, height } = useWindowDimensions();
+  const dimensions = useWindowDimensions();
   const [fontSize, setFontSize] = useState(maxFontSize);
   const [containerSize, setContainerSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const previousDimensions = useRef(dimensions);
 
   // Handle keyboard events
   useEffect(() => {
@@ -107,6 +108,25 @@ export default function BigTextDisplay({
     }
   }, [containerSize, contentSize, fontSize, maxFontSize, minFontSize, text]);
 
+  // Handle screen dimension changes
+  useEffect(() => {
+    if (previousDimensions.current.width !== dimensions.width ||
+        previousDimensions.current.height !== dimensions.height) {
+      // Update container size based on new dimensions
+      setContainerSize(current => ({
+        width: dimensions.width,
+        height: dimensions.height
+      }));
+      // Trigger recalculation
+      debouncedCalculateRef.current(text, 
+        { width: dimensions.width, height: dimensions.height }, 
+        contentSize, 
+        dimensions.height - keyboardHeight
+      );
+      previousDimensions.current = dimensions;
+    }
+  }, [dimensions, keyboardHeight]);
+
   // Call debounced calculation when dependencies change
   useEffect(() => {
     debouncedCalculateRef.current(text, containerSize, contentSize, adjustedContainerHeight);
@@ -127,7 +147,7 @@ export default function BigTextDisplay({
         ...styles.text,
         fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
         lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
-        maxHeight: keyboardVisible ? `${100 - (keyboardHeight / height * 100)}%` : '100%'
+        maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%'
       }}
       value={text}
       onChangeText={onChangeText}
