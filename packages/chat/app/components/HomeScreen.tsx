@@ -13,7 +13,7 @@ import BigTextDisplay from "./BigTextDisplay";
 import { useText } from "../context/TextContext";
 
 export default function HomeScreen() {
-    const { text, handleTextChange, restoreLastSession, error, isLoading } = useText();
+    const { text, handleTextChange, restoreLastSession, error, isLoading, clearText } = useText();
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
 
     useEffect(() => {
@@ -75,7 +75,7 @@ export default function HomeScreen() {
                     </View>
                 </GestureDetector>
                 <BottomBar 
-                    onClearPress={() => handleTextChange("")}
+                    onClearPress={clearText}
                     onHistoryPress={() => router.push("/history")}
                 />
             </View>
