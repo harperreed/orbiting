@@ -26,12 +26,14 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 mode="contained"
                 onPress={onClearPress}
                 testID="clear-button"
+                accessibilityLabel="Clear text"
             />
             <IconButton
                 icon="history"
                 mode="contained"
                 onPress={onHistoryPress}
                 testID="history-button"
+                accessibilityLabel="Show history"
             />
         </Surface>
     );
