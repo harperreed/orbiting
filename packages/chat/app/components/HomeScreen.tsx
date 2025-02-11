@@ -1,4 +1,4 @@
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, KeyboardAvoidingView, Platform } from "react-native";
 import { useState, useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
@@ -44,14 +44,20 @@ export default function HomeScreen() {
     });
 
   return (
-    <GestureDetector gesture={panGesture}>
-      <View style={styles.container}>
-        <BigTextDisplay 
-          text={text}
-          onChangeText={handleTextChange}
-        />
-      </View>
-    </GestureDetector>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+    >
+      <GestureDetector gesture={panGesture}>
+        <View style={styles.innerContainer}>
+          <BigTextDisplay 
+            text={text}
+            onChangeText={handleTextChange}
+          />
+        </View>
+      </GestureDetector>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -59,5 +65,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  innerContainer: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
   },
 });

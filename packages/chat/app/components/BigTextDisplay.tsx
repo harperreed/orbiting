@@ -1,5 +1,5 @@
-import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform } from "react-native";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
+import { useState, useEffect, useCallback, useRef, useLayoutEffect } from "react";
 
 type BigTextDisplayProps = {
   text: string;
@@ -24,6 +24,28 @@ export default function BigTextDisplay({
   const { width, height } = useWindowDimensions();
   const [fontSize, setFontSize] = useState(maxFontSize);
   const [containerSize, setContainerSize] = useState<ViewportSize>({ width: 0, height: 0 });
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  // Handle keyboard events
+  useEffect(() => {
+    const keyboardWillShow = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+      }
+    );
+    const keyboardWillHide = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      }
+    );
+
+    return () => {
+      keyboardWillShow.remove();
+      keyboardWillHide.remove();
+    };
+  }, []);
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
   
   const resizeTimeoutRef = useRef<NodeJS.Timeout>();
@@ -39,7 +61,8 @@ export default function BigTextDisplay({
 
   const calculateAndSetFontSize = useCallback(() => {
     try {
-      if (!containerSize.width || !containerSize.height) return;
+      const effectiveHeight = containerSize.height - keyboardHeight;
+      if (!containerSize.width || !effectiveHeight) return;
 
       // Reset to max size when text is empty or very short
       if (text.length <= 1) {
