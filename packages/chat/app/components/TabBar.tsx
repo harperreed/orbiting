@@ -1,5 +1,6 @@
 import { useRouter, usePathname } from 'expo-router';
 import { BottomNavigation } from 'react-native-paper';
+import { View } from 'react-native';
 
 export default function TabBar() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function TabBar() {
           { key: 'about', title: 'About', focusedIcon: 'information', unfocusedIcon: 'information-outline' },
         ],
       }}
+      renderScene={() => <View />}
       onTabPress={({ route }) => {
         switch (route.key) {
           case 'home':
