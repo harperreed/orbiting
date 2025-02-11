@@ -7,22 +7,24 @@ jobs:
     build_and_preview:
         if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
         runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./packages/chat
         steps:
             - uses: actions/checkout@v2
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
+                  working-directory: ./packages/chat
                   node-version: "20"
                   cache: "npm"
 
             - name: Install Dependencies
-              working-directory: ./packages/chat
               run: |
                   npm install
                   npx expo install
 
             - name: Build Expo Web
-              working-directory: ./packages/chat
               run: npx expo export --platform web
 
             - uses: FirebaseExtended/action-hosting-deploy@v0
