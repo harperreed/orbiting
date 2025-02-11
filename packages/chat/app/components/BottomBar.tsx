@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { Surface, IconButton, useTheme } from 'react-native-paper';
+import React from 'react';
+import { View, Button, useTheme, StyleSheet } from 'rnuilib';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -16,26 +16,28 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
             alignItems: 'center',
             height: 60,
             backgroundColor: theme.colors.background,
+            elevation: 4, // Mimics paper's surface elevation
+        },
+        button: {
+            padding: 8,
         },
     });
 
     return (
-        <Surface style={styles.container} elevation={1}>
-            <IconButton
-                icon="delete"
-                mode="contained"
-                onPress={onClearPress}
-                testID="clear-button"
-                accessibilityLabel="Clear text"
-            />
-            <IconButton
+        <View style={styles.container}>
+            <Button
                 icon="history"
-                mode="contained"
                 onPress={onHistoryPress}
-                testID="history-button"
+                style={styles.button}
                 accessibilityLabel="Show history"
             />
-        </Surface>
+            <Button
+                icon="delete"
+                onPress={onClearPress}
+                style={styles.button}
+                accessibilityLabel="Clear text"
+            />
+        </View>
     );
 }
 
