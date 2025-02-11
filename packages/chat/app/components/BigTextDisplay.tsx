@@ -168,7 +168,24 @@ export default function BigTextDisplay({
       testID="big-text-display"
       mode="flat"
       style={[
-        styles.text,
+        {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          fontWeight: "bold",
+          fontFamily: 'System',  // System font, similar to sans-serif
+          color: theme.colors.onBackground,
+          backgroundColor: theme.colors.background,
+          textAlign: "left",
+          padding: 20,
+          paddingBottom: 50,
+          margin: 0,
+          zIndex: 10,
+        },
         {
           fontSize: fontSize * (adjustedContainerHeight / 100),
           lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
@@ -189,23 +206,3 @@ export default function BigTextDisplay({
   );
 }
 
-const styles = StyleSheet.create({
-  text: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    width: '100%',
-    height: '100%',
-    fontWeight: "bold",
-    fontFamily: 'System',  // System font, similar to sans-serif
-    color: theme.colors.onBackground,
-    backgroundColor: theme.colors.background,
-    textAlign: "left",
-    padding: 20,
-    paddingBottom: 50,
-    margin: 0,
-    zIndex: 10,
-  },
-});
