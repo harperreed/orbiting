@@ -28,7 +28,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/imgs/apple-icon-180x180.png">
 
   <!-- Styles -->
-  {{ $style := resources.Get "scss/main.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+  {{ $style := resources.Get "scss/main.scss" | css.Sass | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
   <!-- App Icons -->
