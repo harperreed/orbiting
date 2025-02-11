@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react-native';
+import { View } from 'react-native-ui-lib';
 import TabBar from '../components/TabBar';
 import { useRouter, usePathname } from 'expo-router';
 

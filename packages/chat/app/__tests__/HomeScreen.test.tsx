@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react-native";
+import { View } from "react-native-ui-lib";
 import { GestureDetector } from "react-native-gesture-handler";
 import HomeScreen from "../components/HomeScreen";
 import { router } from "expo-router";
@@ -37,7 +38,8 @@ describe("HomeScreen", () => {
   it("renders initial Hello Orbiting! text", () => {
     render(<HomeScreen />);
     const display = screen.getByTestId("big-text-display");
-    expect(display.props.value).toBe("Hello Orbiting!");
+    // RNUIlib components use text prop instead of value
+    expect(display.props.text).toBe("Hello Orbiting!");
   });
 
   it("updates displayed text when edited", () => {
@@ -46,13 +48,14 @@ describe("HomeScreen", () => {
     
     fireEvent.changeText(display, "New Text");
     
-    expect(display.props.value).toBe("New Text");
+    expect(display.props.text).toBe("New Text");
   });
 
   it("displays text with large font size for short text", () => {
     const { getByTestId } = render(<HomeScreen />);
     const display = getByTestId("big-text-display");
-    expect(display.props.style).toEqual(
+    // RNUIlib components may wrap styles in their internal structure
+    expect(display.props.style[0]).toEqual(
       expect.objectContaining({
         fontSize: 48
       })
