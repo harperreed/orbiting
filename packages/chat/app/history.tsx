@@ -1,4 +1,5 @@
 import { View, StyleSheet, FlatList, TouchableOpacity, Text, Alert } from 'react-native';
+import TabBar from './components/TabBar';
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { StoredMessage, getMessages, clearHistory } from './utils/storage';
@@ -61,6 +62,7 @@ export default function HistoryScreen() {
 
   return (
     <View style={styles.container}>
+      <TabBar />
       <FlatList
         data={messages}
         renderItem={renderItem}

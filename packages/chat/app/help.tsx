@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import TabBar from './components/TabBar';
 
 export default function HelpScreen() {
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollContainer}>
       <View style={styles.section}>
         <Text style={styles.title}>How to Use</Text>
         <Text style={styles.text}>
@@ -31,7 +33,9 @@ export default function HelpScreen() {
           • Text wraps automatically on whitespace
         </Text>
       </View>
-    </ScrollView>
+      </ScrollView>
+      <TabBar />
+    </View>
   );
 }
 
@@ -39,6 +43,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    flex: 1,
     padding: 20,
   },
   section: {
