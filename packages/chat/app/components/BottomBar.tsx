@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { Surface, IconButton, useTheme } from 'react-native-paper';
 
 type BottomBarProps = {
@@ -7,12 +7,13 @@ type BottomBarProps = {
 };
 
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
-    // Only show on web platform
-    if (Platform.OS !== 'web') {
+    const theme = useTheme();
+    const { width } = useWindowDimensions();
+    
+    // Only show on web platform and screens wider than 768px (tablet/desktop)
+    if (Platform.OS !== 'web' || width < 768) {
         return null;
     }
-
-    const theme = useTheme();
     
     const styles = StyleSheet.create({
         container: {
