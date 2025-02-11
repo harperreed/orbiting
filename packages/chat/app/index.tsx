@@ -4,7 +4,7 @@ import HomeScreen from "./components/HomeScreen";
 
 export default function Index() {
   useEffect(() => {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
       const initServiceWorker = () => {
         import('./utils/registerServiceWorker')
           .then(({ registerServiceWorker }) => registerServiceWorker())
