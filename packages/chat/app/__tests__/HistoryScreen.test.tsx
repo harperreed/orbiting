@@ -1,7 +1,17 @@
 import { render, fireEvent, act } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 import HistoryScreen from '../history';
 import { clearHistory, storeMessage } from '../utils/storage';
+
+// Mock Alert
+jest.mock('react-native', () => ({
+  ...jest.requireActual('react-native'),
+  Alert: {
+    ...jest.requireActual('react-native').Alert,
+    alert: jest.fn()
+  }
+}));
 
 // Mock expo-router
 jest.mock('expo-router', () => ({

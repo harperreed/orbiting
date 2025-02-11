@@ -46,17 +46,24 @@ export default function HistoryScreen() {
   
   const handleClearHistory = useCallback(async () => {
     console.log('Clear history pressed');
+    console.log('Alert object:', Alert);
+    
     Alert.alert(
       'Clear History',
       'Are you sure you want to clear all messages?',
       [
-        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Cancel', 
+          style: 'cancel',
+          onPress: () => console.log('Cancel pressed')
+        },
         {
           text: 'Clear',
           style: 'destructive',
           onPress: async () => {
+            console.log('Clear pressed');
             try {
-              console.log('Clear button pressed, starting clear process');
+              console.log('Starting clear process');
               await clearHistory();
               console.log('History cleared');
               await clearText();
@@ -69,10 +76,13 @@ export default function HistoryScreen() {
               console.error('Failed to clear history:', error);
               Alert.alert('Error', 'Failed to clear history');
             }
-          },
-        },
+          }
+        }
       ],
-      { cancelable: false }
+      {
+        cancelable: true,
+        onDismiss: () => console.log('Alert dismissed')
+      }
     );
   }, [clearText, clearHistory]);
 
