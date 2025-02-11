@@ -35,7 +35,7 @@ interface SettingsContextType extends Settings {
 const defaultSettings: Settings = {
   colorScheme: 'system',
   startingFontSize: 24,
-  theme: 'classic',
+  theme: 'mono',
   shakeEnabled: true,
   shakeFlashEnabled: false,
 };
