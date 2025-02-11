@@ -14,6 +14,7 @@ const customColors = {
 export default function RootLayout() {
   // Client-side only rendering
   const [isClient, setIsClient] = useState(false);
+  const colorScheme = useColorScheme();
   
   useEffect(() => {
     setIsClient(true);
@@ -22,8 +23,6 @@ export default function RootLayout() {
   if (!isClient) {
     return <View />;
   }
-
-  const colorScheme = useColorScheme();
   
   const theme = colorScheme === 'dark' 
     ? {
