@@ -10,7 +10,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
-import { storeMessage } from "../utils/storage";
+import { storeMessage, clearHistory } from "../utils/storage";
 
 export default function HomeScreen() {
     const [text, setText] = useState("");
@@ -74,7 +74,14 @@ export default function HomeScreen() {
                     </View>
                 </GestureDetector>
                 <BottomBar 
-                    onClearPress={() => setText("")}
+                    onClearPress={async () => {
+                        setText("");
+                        try {
+                            await clearHistory();
+                        } catch (error) {
+                            console.error("Failed to clear history:", error);
+                        }
+                    }}
                     onHistoryPress={() => router.push("/history")}
                 />
             </View>
