@@ -47,8 +47,7 @@ export default function TabBar() {
                 <Button
                     key={tab.route}
                     testID={`${tab.label.toLowerCase()}-tab`}
-                    label={tab.label}
-                    iconSource={tab.icon}
+                    label={tab.icon}
                     onPress={() => router.push(tab.route)}
                     style={[
                         styles.tab,
