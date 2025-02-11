@@ -1,8 +1,16 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-native';
+import { MD3Theme } from 'react-native-paper';
 import { loadSettings, saveSettings } from '../utils/settingsStorage';
 
 export type ThemeType = 'classic' | 'ocean' | 'forest' | 'sunset';
+
+export interface CustomTheme extends MD3Theme {
+  custom: {
+    tabBar: string;
+    tabBarActive: string;
+  }
+}
 
 export interface ThemeColors {
   background: string;
@@ -12,21 +20,69 @@ export interface ThemeColors {
   tabBarActive: string;
 }
 
-export const themes: Record<ThemeType, { light: ThemeColors; dark: ThemeColors }> = {
+export const themes: Record<ThemeType, { light: CustomTheme; dark: CustomTheme }> = {
   classic: {
     light: {
-      background: '#ffffff',
-      text: '#000000',
-      placeholder: '#666666',
-      tabBar: '#f5f5f5',
-      tabBarActive: '#000000',
+      colors: {
+        primary: '#000000',
+        onPrimary: '#ffffff',
+        primaryContainer: '#f5f5f5',
+        onPrimaryContainer: '#000000',
+        secondary: '#666666',
+        onSecondary: '#ffffff',
+        secondaryContainer: '#f0f0f0',
+        onSecondaryContainer: '#1a1a1a',
+        background: '#ffffff',
+        onBackground: '#000000',
+        surface: '#ffffff',
+        onSurface: '#000000',
+        surfaceVariant: '#f5f5f5',
+        onSurfaceVariant: '#000000',
+        outline: '#666666',
+        elevation: {
+          level0: 'transparent',
+          level1: '#f5f5f5',
+          level2: '#ebebeb',
+          level3: '#e0e0e0',
+          level4: '#d6d6d6',
+          level5: '#cccccc',
+        }
+      },
+      custom: {
+        tabBar: '#f5f5f5',
+        tabBarActive: '#000000',
+      }
     },
     dark: {
-      background: '#121212',
-      text: '#ffffff',
-      placeholder: '#a0a0a0',
-      tabBar: '#1e1e1e',
-      tabBarActive: '#ffffff',
+      colors: {
+        primary: '#ffffff',
+        onPrimary: '#000000',
+        primaryContainer: '#1e1e1e',
+        onPrimaryContainer: '#ffffff',
+        secondary: '#a0a0a0',
+        onSecondary: '#000000',
+        secondaryContainer: '#2a2a2a',
+        onSecondaryContainer: '#ffffff',
+        background: '#121212',
+        onBackground: '#ffffff',
+        surface: '#121212',
+        onSurface: '#ffffff',
+        surfaceVariant: '#1e1e1e',
+        onSurfaceVariant: '#ffffff',
+        outline: '#a0a0a0',
+        elevation: {
+          level0: 'transparent',
+          level1: '#1e1e1e',
+          level2: '#232323',
+          level3: '#282828',
+          level4: '#2d2d2d',
+          level5: '#323232',
+        }
+      },
+      custom: {
+        tabBar: '#1e1e1e',
+        tabBarActive: '#ffffff',
+      }
     }
   },
   ocean: {
