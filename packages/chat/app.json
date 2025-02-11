@@ -20,7 +20,23 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "name": "Orbiting",
+      "shortName": "Orbiting",
+      "description": "A text display app",
+      "lang": "en",
+      "themeColor": "#000000",
+      "backgroundColor": "#ffffff",
+      "startUrl": "/",
+      "display": "standalone",
+      "orientation": "portrait",
+      "icons": [
+        {
+          "src": "./assets/images/icon.png",
+          "sizes": "1024x1024",
+          "type": "image/png"
+        }
+      ]
     },
     "plugins": [
       "expo-router",
