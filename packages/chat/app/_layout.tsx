@@ -25,7 +25,14 @@ export default function RootLayout() {
 
 function RootLayoutContent() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs 
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarStyle: {
+          display: route.name === 'index' ? 'none' : 'flex'
+        }
+      })}
+    >
       <Tabs.Screen
         name="index"
         options={{
