@@ -116,14 +116,12 @@ export default function BigTextDisplay({
   return (
     <TextInput
       testID="big-text-display"
-      style={[
-        styles.text, 
-        { 
-          fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
-          lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
-          maxHeight: keyboardVisible ? `${100 - (keyboardHeight / height * 100)}%` : '100%',
-        }
-      }]}
+      style={{
+        ...styles.text,
+        fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
+        lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
+        maxHeight: keyboardVisible ? `${100 - (keyboardHeight / height * 100)}%` : '100%'
+      }}
       value={text}
       onChangeText={onChangeText}
       multiline
