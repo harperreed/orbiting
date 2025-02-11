@@ -1,4 +1,5 @@
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Surface, IconButton } from 'react-native-paper';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -7,22 +8,20 @@ type BottomBarProps = {
 
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
     return (
-        <View style={styles.container}>
-            <TouchableOpacity 
+        <Surface style={styles.container} elevation={4}>
+            <IconButton
+                icon="delete"
+                mode="contained"
                 onPress={onClearPress}
-                style={styles.button}
                 testID="clear-button"
-            >
-                <Text style={styles.emoji}>🗑️</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
+            />
+            <IconButton
+                icon="history"
+                mode="contained"
                 onPress={onHistoryPress}
-                style={styles.button}
                 testID="history-button"
-            >
-                <Text style={styles.emoji}>⏱️</Text>
-            </TouchableOpacity>
-        </View>
+            />
+        </Surface>
     );
 }
 
@@ -32,14 +31,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         height: 60,
-        backgroundColor: '#f5f5f5',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    button: {
-        padding: 10,
-    },
-    emoji: {
-        fontSize: 24,
+        backgroundColor: '#fff',
     },
 });
