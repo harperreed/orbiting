@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, Text, Alert, ActivityIndicator, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, Alert, ActivityIndicator, View, Platform } from 'react-native';
 import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
 import { useText } from './context/TextContext';
@@ -46,44 +46,48 @@ export default function HistoryScreen() {
   
   const handleClearHistory = useCallback(async () => {
     console.log('Clear history pressed');
-    console.log('Alert object:', Alert);
     
-    Alert.alert(
-      'Clear History',
-      'Are you sure you want to clear all messages?',
-      [
-        { 
-          text: 'Cancel', 
-          style: 'cancel',
-          onPress: () => console.log('Cancel pressed')
-        },
-        {
-          text: 'Clear',
-          style: 'destructive',
-          onPress: async () => {
-            console.log('Clear pressed');
+    // For web environment, use window.confirm instead of Alert
+    if (Platform.OS === 'web') {
+        const confirmed = window.confirm('Are you sure you want to clear all messages?');
+        if (confirmed) {
             try {
-              console.log('Starting clear process');
-              await clearHistory();
-              console.log('History cleared');
-              await clearText();
-              console.log('Text cleared');
-              setMessages([]);
-              setHasMore(false);
-              setPage(0);
-              console.log('State reset complete');
+                await clearHistory();
+                await clearText();
+                setMessages([]);
+                setHasMore(false);
+                setPage(0);
             } catch (error) {
-              console.error('Failed to clear history:', error);
-              Alert.alert('Error', 'Failed to clear history');
+                console.error('Failed to clear history:', error);
+                window.alert('Failed to clear history');
             }
-          }
         }
-      ],
-      {
-        cancelable: true,
-        onDismiss: () => console.log('Alert dismissed')
-      }
-    );
+    } else {
+        // Use React Native Alert for native platforms
+        Alert.alert(
+            'Clear History',
+            'Are you sure you want to clear all messages?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'Clear',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await clearHistory();
+                            await clearText();
+                            setMessages([]);
+                            setHasMore(false);
+                            setPage(0);
+                        } catch (error) {
+                            console.error('Failed to clear history:', error);
+                            Alert.alert('Error', 'Failed to clear history');
+                        }
+                    },
+                },
+            ]
+        );
+    }
   }, [clearText, clearHistory]);
 
   const handleDeleteMessage = useCallback(async (id: string) => {
