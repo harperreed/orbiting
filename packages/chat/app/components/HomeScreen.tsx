@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { useState, useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
@@ -24,22 +24,27 @@ export default function HomeScreen() {
     }
   }, []);
 
-  const swipeLeft = Gesture.Fling()
-    .direction('left')
-    .onEnd(() => {
-      setText('');
-    });
+  const { width, height } = Dimensions.get('window');
+  const SWIPE_THRESHOLD = width * 0.2; // 20% of screen width
+  const VERTICAL_THRESHOLD = height * 0.2; // 20% of screen height
 
-  const swipeUp = Gesture.Fling()
-    .direction('up')
-    .onEnd(() => {
-      router.push('/history');
+  const panGesture = Gesture.Pan()
+    .onFinalize((event) => {
+      const { translationX, translationY } = event;
+      
+      // Check for left swipe
+      if (translationX < -SWIPE_THRESHOLD && Math.abs(translationY) < 50) {
+        setText('');
+      }
+      
+      // Check for up swipe
+      if (translationY < -VERTICAL_THRESHOLD && Math.abs(translationX) < 50) {
+        router.push('/history');
+      }
     });
-
-  const gestures = Gesture.Race(swipeLeft, swipeUp);
 
   return (
-    <GestureDetector gesture={gestures}>
+    <GestureDetector gesture={panGesture}>
       <View style={styles.container}>
         <BigTextDisplay 
           text={text}
