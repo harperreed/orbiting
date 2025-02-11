@@ -47,13 +47,14 @@ export default function BigTextDisplay({
     };
   }, []);
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
-  
+  const [adjustedContainerHeight, setAdjustedContainerHeight] = useState(0);
   const resizeTimeoutRef = useRef<NodeJS.Timeout>();
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
     setContainerSize({ width, height });
-  }, []);
+    setAdjustedContainerHeight(height - keyboardHeight);
+  }, [keyboardHeight]);
 
   const onContentSizeChange = useCallback((width: number, height: number) => {
     setContentSize({ width, height });
@@ -61,8 +62,7 @@ export default function BigTextDisplay({
 
   const calculateAndSetFontSize = useCallback(() => {
     try {
-      const effectiveHeight = containerSize.height - keyboardHeight;
-      if (!containerSize.width || !effectiveHeight) return;
+      if (!containerSize.width || !adjustedContainerHeight) return;
 
       // Reset to max size when text is empty or very short
       if (text.length <= 1) {
@@ -71,7 +71,7 @@ export default function BigTextDisplay({
       }
 
       const hasOverflow = 
-        contentSize.height > containerSize.height ||
+        contentSize.height > adjustedContainerHeight ||
         contentSize.width > containerSize.width;
 
       if (hasOverflow && fontSize > minFontSize) {
@@ -81,7 +81,7 @@ export default function BigTextDisplay({
         const increaseFactor = text.length < 10 ? 2.0 : 0.5;
         const nextSize = Math.min(fontSize + increaseFactor, maxFontSize);
         const wouldOverflow = 
-          (contentSize.height * (nextSize / fontSize)) > containerSize.height ||
+          (contentSize.height * (nextSize / fontSize)) > adjustedContainerHeight ||
           (contentSize.width * (nextSize / fontSize)) > containerSize.width;
         
         if (!wouldOverflow) {
@@ -114,8 +114,8 @@ export default function BigTextDisplay({
     <TextInput
       testID="big-text-display"
       style={[styles.text, { 
-        fontSize: fontSize * (containerSize.height / 100), // Convert vh to pixels
-        lineHeight: fontSize * (containerSize.height / 100) * 1.2
+        fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
+        lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2
       }]}
       value={text}
       onChangeText={onChangeText}
