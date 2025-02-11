@@ -53,7 +53,8 @@ export default function HistoryScreen() {
           onPress: async () => {
             try {
               await clearHistory();
-              await loadMessages(); // Reload messages after clearing
+              setMessages([]);
+              setHasMore(false);
             } catch (error) {
               console.error('Failed to clear history:', error);
               Alert.alert('Error', 'Failed to clear history');
