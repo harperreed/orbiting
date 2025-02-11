@@ -1,11 +1,17 @@
 name = "orbiting"
+type = "javascript" # Change to "webpack" or "rust" if needed
 
 [build]
-command = "cd packages/hugo; hugo --gc --minify"
-output_directory = "packages/hugo/public"
+command = "hugo --cleanDestinationDir --gc --minify --forceSyncStatic --logLevel info"
+cwd = "packages/hugo"
+upload.format = "service-worker"
 
-[env.production]
-# Production-specific settings can go here
+[site]
+bucket = "./public"
+entry-point = "."
 
-[env.preview]
-# Preview branch settings can go here
+[vars]
+HUGO_VERSION = "0.136.4"
+HUGO_ENV = "production"
+HUGO_ENABLEGITINFO = "true"
+GO_VERSION = "1.23"
