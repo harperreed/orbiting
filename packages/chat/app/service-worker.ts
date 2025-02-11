@@ -1,3 +1,6 @@
+/// <reference lib="webworker" />
+declare const self: ServiceWorkerGlobalScope;
+
 const CACHE_NAME = 'orbiting-cache-v1';
 const URLS_TO_CACHE = [
   '/',
