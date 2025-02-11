@@ -1,5 +1,5 @@
 import { StyleSheet, View, Dimensions } from 'react-native';
-import { Text, Switch, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple } from 'react-native-paper';
+import { Text, Switch, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple, RadioButton } from 'react-native-paper';
 import { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
