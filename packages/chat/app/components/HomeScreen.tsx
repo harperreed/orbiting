@@ -5,6 +5,7 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
+import BottomBar from "./BottomBar";
 import { useState, useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
@@ -63,14 +64,20 @@ export default function HomeScreen() {
             keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
             contentContainerStyle={styles.keyboardAvoidingContent}
         >
-            <GestureDetector gesture={panGesture}>
-                <View style={styles.innerContainer}>
-                    <BigTextDisplay
-                        text={text}
-                        onChangeText={handleTextChange}
-                    />
-                </View>
-            </GestureDetector>
+            <View style={styles.contentContainer}>
+                <GestureDetector gesture={panGesture}>
+                    <View style={styles.innerContainer}>
+                        <BigTextDisplay
+                            text={text}
+                            onChangeText={handleTextChange}
+                        />
+                    </View>
+                </GestureDetector>
+                <BottomBar 
+                    onClearPress={() => setText("")}
+                    onHistoryPress={() => router.push("/history")}
+                />
+            </View>
         </KeyboardAvoidingView>
     );
 }
@@ -80,10 +87,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
     },
+    contentContainer: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+    },
     innerContainer: {
         flex: 1,
         width: "100%",
-        height: "100%",
     },
     keyboardAvoidingContent: {
         flex: 1,
