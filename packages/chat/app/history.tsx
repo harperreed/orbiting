@@ -107,11 +107,9 @@ export default function HistoryScreen() {
   if (isLoading) {
     return (
       <PageLayout>
-        <Portal>
-          <Surface style={styles.loadingContainer}>
-            <ActivityIndicator size="large" />
-          </Surface>
-        </Portal>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
       </PageLayout>
     );
   }
@@ -133,11 +131,9 @@ export default function HistoryScreen() {
           onEndReachedThreshold={0.5}
           ListFooterComponent={() => 
             isLoadingMore ? (
-              <Portal>
-                <Surface style={styles.loadingMore}>
-                  <ActivityIndicator size="small" />
-                </Surface>
-              </Portal>
+              <View style={styles.loadingMore}>
+                <ActivityIndicator size="small" />
+              </View>
             ) : null
           }
         />
