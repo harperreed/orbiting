@@ -1,11 +1,6 @@
-import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
 import { storeMessage, clearHistory, getMessages } from '../utils/storageUtils';
-
-interface TextState {
-    text: string;
-    lastSaved: number | null;
-    isDirty: boolean;
-}
+import { TextState, TextAction, textReducer } from './TextReducer';
 
 interface TextContextType {
     text: string;
@@ -21,9 +16,10 @@ const TextContext = createContext<TextContextType | undefined>(undefined);
 
 const AUTOSAVE_DELAY = 1000; // 1 second
 
-function logStateChange(action: string, prevState: TextState, nextState: TextState) {
+function logStateChange(action: TextAction, prevState: TextState, nextState: TextState) {
     console.debug(
-        `[TextContext] ${action}:`,
+        `[TextContext] ${action.type}:`,
+        '\n  Action:', action,
         '\n  Previous:', prevState,
         '\n  Next:', nextState,
         '\n  Timestamp:', new Date().toISOString()
@@ -31,7 +27,7 @@ function logStateChange(action: string, prevState: TextState, nextState: TextSta
 }
 
 export function TextProvider({ children }: { children: React.ReactNode }) {
-    const [state, setState] = useState<TextState>({
+    const [state, dispatch] = useReducer(textReducer, {
         text: "",
         lastSaved: null,
         isDirty: false
@@ -49,18 +45,11 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             saveTimeoutRef.current = setTimeout(async () => {
                 try {
                     await storeMessage(state.text);
-                    setState(prev => ({
-                        ...prev,
-                        lastSaved: Date.now(),
-                        isDirty: false
-                    }));
-                    logStateChange('Autosave', state, {
-                        ...state,
-                        lastSaved: Date.now(),
-                        isDirty: false
-                    });
+                    const action = { type: 'TEXT_SAVED' as const, payload: Date.now() };
+                    dispatch(action);
+                    logStateChange(action, state, textReducer(state, action));
                 } catch (error) {
-                    console.error("Failed to autosave:", error);
+                    dispatch({ type: 'SET_ERROR', payload: 'Failed to autosave' });
                 }
             }, AUTOSAVE_DELAY);
         }
@@ -73,53 +62,43 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
     }, [state.text, state.isDirty]);
 
     const handleTextChange = useCallback(async (newText: string) => {
-        setState(prev => {
-            const nextState = {
-                ...prev,
-                text: newText,
-                isDirty: true
-            };
-            logStateChange('Text Change', prev, nextState);
-            return nextState;
-        });
-    }, []);
+        const action = { type: 'SET_TEXT' as const, payload: newText };
+        dispatch(action);
+        logStateChange(action, state, textReducer(state, action));
+    }, [state]);
 
     const clearText = useCallback(async () => {
         try {
             await clearHistory();
-            setState(prev => {
-                const nextState = {
-                    text: "",
-                    lastSaved: Date.now(),
-                    isDirty: false
-                };
-                logStateChange('Clear Text', prev, nextState);
-                return nextState;
-            });
+            const action = { type: 'CLEAR_TEXT' as const };
+            dispatch(action);
+            logStateChange(action, state, textReducer(state, action));
         } catch (error) {
-            console.error("Failed to clear history:", error);
+            dispatch({ 
+                type: 'SET_ERROR',
+                payload: 'Failed to clear history'
+            });
         }
-    }, []);
+    }, [state]);
 
     const restoreLastSession = useCallback(async () => {
         try {
-            const messages = await getMessages();
+            const { messages } = await getMessages(0, 1);
             if (messages.length > 0) {
-                const lastMessage = messages[messages.length - 1];
-                setState(prev => {
-                    const nextState = {
-                        text: lastMessage.text,
-                        lastSaved: lastMessage.timestamp,
-                        isDirty: false
-                    };
-                    logStateChange('Restore Session', prev, nextState);
-                    return nextState;
-                });
+                const action = { 
+                    type: 'RESTORE_SESSION' as const,
+                    payload: messages[0]
+                };
+                dispatch(action);
+                logStateChange(action, state, textReducer(state, action));
             }
         } catch (error) {
-            console.error("Failed to restore session:", error);
+            dispatch({ 
+                type: 'SET_ERROR',
+                payload: 'Failed to restore session'
+            });
         }
-    }, []);
+    }, [state]);
 
     return (
         <TextContext.Provider value={{
