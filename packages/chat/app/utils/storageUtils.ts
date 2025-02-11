@@ -8,9 +8,14 @@ export interface StoredMessage {
   timestamp: number;
 }
 
+/**
+ * Stores a message in persistent storage.
+ * Platform-agnostic storage implementation using AsyncStorage.
+ * @param text The message text to store
+ */
 export async function storeMessage(text: string): Promise<void> {
-  // Don't store empty or whitespace-only messages
-  if (!text || !text.trim()) {
+  const trimmedText = text.trim();
+  if (!trimmedText) {
     return;
   }
 

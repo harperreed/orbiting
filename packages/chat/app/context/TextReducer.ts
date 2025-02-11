@@ -1,5 +1,9 @@
 import { StoredMessage } from '../utils/storageUtils';
 
+/**
+ * Core state interface for text management.
+ * UI-agnostic state representation.
+ */
 export interface TextState {
     text: string;
     lastSaved: number | null;

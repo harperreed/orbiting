@@ -14,8 +14,13 @@ interface TextContextType {
 
 const TextContext = createContext<TextContextType | undefined>(undefined);
 
-const AUTOSAVE_DELAY = 1000; // 1 second
+// Configuration constants
+const AUTOSAVE_DELAY = 1000; // Milliseconds between text changes and storage
 
+/**
+ * Debug utility for tracking state changes in development.
+ * Platform-agnostic logging implementation.
+ */
 function logStateChange(action: TextAction, prevState: TextState, nextState: TextState) {
     if (process.env.NODE_ENV !== 'production') {
         const stateChanges = Object.keys(nextState).reduce((changes: Record<string, any>, key) => {
