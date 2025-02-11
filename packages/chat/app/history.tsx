@@ -55,6 +55,7 @@ export default function HistoryScreen() {
               await clearHistory();
               setMessages([]);
               setHasMore(false);
+              setPage(0);
             } catch (error) {
               console.error('Failed to clear history:', error);
               Alert.alert('Error', 'Failed to clear history');
@@ -63,7 +64,7 @@ export default function HistoryScreen() {
         },
       ]
     );
-  }, [loadMessages]);
+  }, []); // Remove loadMessages from dependencies as it's not used in the function
 
   const handleDeleteMessage = useCallback(async (id: string) => {
     Alert.alert(
