@@ -13,7 +13,6 @@ import {
     StatusBar,
 } from "react-native";
 import {
-    View,
     Text,
     LoaderScreen,
     Colors,
