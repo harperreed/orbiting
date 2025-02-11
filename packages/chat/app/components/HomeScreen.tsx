@@ -3,7 +3,9 @@ import {
     Dimensions,
     KeyboardAvoidingView,
     Platform,
+    Animated,
 } from "react-native";
+import * as Shake from 'expo-shake';
 import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
@@ -15,6 +17,8 @@ import { useText } from "../context/TextContext";
 export default function HomeScreen() {
     const { text, handleTextChange, restoreLastSession, error, isLoading } = useText();
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
+    const { shakeMode, currentTheme } = useSettings();
+    const [flashAnim] = useState(new Animated.Value(0));
 
     useEffect(() => {
         const initializeText = async () => {
@@ -57,14 +61,42 @@ export default function HomeScreen() {
         }
     });
 
+    const handleShake = useCallback(() => {
+        if (shakeMode === 'clear') {
+            handleTextChange("");
+        } else if (shakeMode === 'flash') {
+            Animated.sequence([
+                Animated.timing(flashAnim, {
+                    toValue: 1,
+                    duration: 100,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(flashAnim, {
+                    toValue: 0,
+                    duration: 900,
+                    useNativeDriver: false,
+                })
+            ]).start();
+        }
+    }, [shakeMode, handleTextChange, flashAnim]);
+
     useEffect(() => {
-        // Cleanup function
+        Shake.addListener(handleShake);
         return () => {
+            Shake.removeListener(handleShake);
             handleTextChange("");
         };
-    }, [handleTextChange]);
+    }, [handleShake, handleTextChange]);
+
+    const flashStyle = {
+        backgroundColor: flashAnim.interpolate({
+            inputRange: [0, 1],
+            outputRange: [currentTheme.colors.background, currentTheme.colors.onBackground]
+        }),
+    };
 
     return (
+        <Animated.View style={[StyleSheet.absoluteFill, flashStyle]} />
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}

@@ -17,8 +17,7 @@ interface Settings {
   colorScheme: ColorSchemeName | 'system';
   startingFontSize: number;
   theme: ThemeType;
-  shakeEnabled: boolean;
-  shakeFlashEnabled: boolean;
+  shakeMode: 'clear' | 'flash' | 'none';
 }
 
 interface SettingsContextType extends Settings {
@@ -31,8 +30,7 @@ const defaultSettings: Settings = {
   colorScheme: 'system',
   startingFontSize: 24,
   theme: 'mono',
-  shakeEnabled: true,
-  shakeFlashEnabled: false,
+  shakeMode: 'none',
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);

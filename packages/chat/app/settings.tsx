@@ -154,24 +154,29 @@ export default function SettingsScreen() {
           <List.Subheader>Gestures</List.Subheader>
           
           <List.Item
-            title="Shake to Clear"
-            right={() => (
-              <Switch
-                value={shakeEnabled}
-                onValueChange={(value) => updateSettings({ shakeEnabled: value })}
-              />
-            )}
+            title="Shake Action"
+            description="Choose what happens when you shake your device"
+            left={props => <List.Icon {...props} icon="gesture" />}
           />
-
-          <List.Item
-            title="Shake to Flash"
-            right={() => (
-              <Switch
-                value={shakeFlashEnabled}
-                onValueChange={(value) => updateSettings({ shakeFlashEnabled: value })}
-              />
-            )}
-          />
+          <RadioButton.Group 
+            onValueChange={value => updateSettings({ shakeMode: value })} 
+            value={shakeMode}
+          >
+            <List.Item
+              title="None"
+              left={props => <RadioButton {...props} value="none" />}
+            />
+            <List.Item
+              title="Clear Text"
+              description="Shake to clear the current text"
+              left={props => <RadioButton {...props} value="clear" />}
+            />
+            <List.Item
+              title="Flash Screen"
+              description="Shake to flash the screen colors"
+              left={props => <RadioButton {...props} value="flash" />}
+            />
+          </RadioButton.Group>
         </List.Section>
 
         <Button
