@@ -2,14 +2,34 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View, useColorScheme } from 'react-native';
-import { PaperProvider, MD3LightTheme, MD3DarkTheme, adaptNavigationTheme } from 'react-native-paper';
+import { ThemeManager, Colors, Typography, Spacings } from 'react-native-ui-lib';
 import { TextProvider } from '../app/context/TextContext';
 import { SettingsProvider } from '../app/context/SettingsContext';
 
-const customColors = {
+// Initialize theme
+ThemeManager.setComponentTheme('Text', {
+  body: true
+});
+
+// Colors
+Colors.loadColors({
   primary: '#6750A4',
-  secondary: '#625B71',
-};
+  secondary: '#625B71'
+});
+
+// Typography
+Typography.loadTypographies({
+  heading: { fontSize: 36, fontWeight: '600' },
+  subheading: { fontSize: 28, fontWeight: '500' },
+  body: { fontSize: 18, fontWeight: '400' }
+});
+
+// Spacings
+Spacings.loadSpacings({
+  page: 20,
+  card: 12,
+  gridGutter: 16
+});
 
 export default function RootLayout() {
   // Client-side only rendering
@@ -24,25 +44,13 @@ export default function RootLayout() {
     return <View />;
   }
   
-  const theme = colorScheme === 'dark' 
-    ? {
-        ...MD3DarkTheme,
-        colors: {
-          ...MD3DarkTheme.colors,
-          ...customColors,
-        }
-      }
-    : {
-        ...MD3LightTheme,
-        colors: {
-          ...MD3LightTheme.colors,
-          ...customColors,
-        }
-      };
+  // Set color scheme
+  useEffect(() => {
+    Colors.setScheme(colorScheme === 'dark' ? 'dark' : 'light');
+  }, [colorScheme]);
 
   return (
-    <PaperProvider theme={theme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
         <SettingsProvider>
           <TextProvider>
             <Stack 
