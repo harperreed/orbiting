@@ -1,5 +1,5 @@
 import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, RefObject } from "react";
 import { debounce } from 'lodash';
 
 type BigTextDisplayProps = {
@@ -52,6 +52,7 @@ export default function BigTextDisplay({
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [adjustedContainerHeight, setAdjustedContainerHeight] = useState(0);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const inputRef = useRef<TextInput>(null);
   const debouncedCalculateRef = useRef(
     debounce((
       text: string,
@@ -120,6 +121,7 @@ export default function BigTextDisplay({
 
   return (
     <TextInput
+      ref={inputRef}
       testID="big-text-display"
       style={{
         ...styles.text,
