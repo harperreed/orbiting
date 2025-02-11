@@ -1,5 +1,5 @@
-import { StyleSheet, useWindowDimensions, Platform } from 'react-native';
-import { Surface, useTheme, ScrollView } from 'react-native-paper';
+import { StyleSheet, useWindowDimensions, Platform, ScrollView } from 'react-native';
+import { Surface, useTheme } from 'react-native-paper';
 import TabBar from './TabBar';
 
 type PageLayoutProps = {
