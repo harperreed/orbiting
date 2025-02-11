@@ -49,32 +49,47 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
     });
     
     const saveTimeoutRef = useRef<NodeJS.Timeout>();
+    const latestTextRef = useRef(state.text);
+
+    // Keep latest text value in ref
+    useEffect(() => {
+        latestTextRef.current = state.text;
+    }, [state.text]);
 
     // Autosave mechanism
     useEffect(() => {
+        let isMounted = true;
+
+        const performAutosave = async () => {
+            try {
+                await storeMessage(latestTextRef.current);
+                if (isMounted) {
+                    const action = { type: TEXT_ACTIONS.TEXT_SAVED, payload: Date.now() };
+                    dispatch(action);
+                    logStateChange(action, state, textReducer(state, action));
+                }
+            } catch (error) {
+                if (isMounted) {
+                    dispatch({ type: TEXT_ACTIONS.SET_ERROR, payload: 'Failed to autosave' });
+                }
+            }
+        };
+
         if (state.isDirty) {
             if (saveTimeoutRef.current) {
                 clearTimeout(saveTimeoutRef.current);
             }
             
-            saveTimeoutRef.current = setTimeout(async () => {
-                try {
-                    await storeMessage(state.text);
-                    const action = { type: TEXT_ACTIONS.TEXT_SAVED, payload: Date.now() };
-                    dispatch(action);
-                    logStateChange(action, state, textReducer(state, action));
-                } catch (error) {
-                    dispatch({ type: TEXT_ACTIONS.SET_ERROR, payload: 'Failed to autosave' });
-                }
-            }, AUTOSAVE_DELAY);
+            saveTimeoutRef.current = setTimeout(performAutosave, AUTOSAVE_DELAY);
         }
         
         return () => {
+            isMounted = false;
             if (saveTimeoutRef.current) {
                 clearTimeout(saveTimeoutRef.current);
             }
         };
-    }, [state.text, state.isDirty]);
+    }, [state.isDirty]);
 
     const handleTextChange = useCallback(async (newText: string) => {
         try {
