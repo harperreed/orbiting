@@ -1,17 +1,15 @@
 name = "orbiting"
-type = "javascript" # Change to "webpack" or "rust" if needed
+type = "javascript"
 
 [build]
-command = "hugo --cleanDestinationDir --gc --minify --forceSyncStatic --logLevel info"
-cwd = "packages/hugo"
+command = "npm install && npx expo export --platform web"
+cwd = "packages/chat"
 upload.format = "service-worker"
 
 [site]
-bucket = "./public"
+bucket = "./dist"
 entry-point = "."
 
 [vars]
-HUGO_VERSION = "0.136.4"
-HUGO_ENV = "production"
-HUGO_ENABLEGITINFO = "true"
-GO_VERSION = "1.23"
+NODE_VERSION = "20"
+NPM_VERSION = "10"

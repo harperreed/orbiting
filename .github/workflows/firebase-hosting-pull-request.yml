@@ -9,15 +9,22 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: Setup Hugo
-              uses: peaceiris/actions-hugo@v2
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
               with:
-                  hugo-version: "0.140.0"
-                  extended: true
+                  node-version: "20"
+                  cache: "npm"
 
-            - name: Build Hugo
-              working-directory: ./packages/hugo
-              run: hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic
+            - name: Install Dependencies
+              working-directory: ./packages/chat
+              run: |
+                  npm install
+                  npx expo install
+
+            - name: Build Expo Web
+              working-directory: ./packages/chat
+              run: npx expo export --platform web
+
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
