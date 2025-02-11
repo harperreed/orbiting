@@ -19,9 +19,18 @@ export default function PageLayout({ children, scrollable = false }: PageLayoutP
   
   return (
     <Surface style={styles.container} elevation={1}>
-      <Content style={styles.content}>
-        {children}
-      </Content>
+      {scrollable ? (
+        <ScrollView 
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        <Surface style={styles.content}>
+          {children}
+        </Surface>
+      )}
       {showTabBar && <TabBar />}
     </Surface>
   );
@@ -30,11 +39,18 @@ export default function PageLayout({ children, scrollable = false }: PageLayoutP
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%',
+    minHeight: '100%',
   },
   content: {
     flex: 1,
-    height: '100%',
     padding: 20,
+  },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+  },
+  scrollContent: {
+    padding: 20,
+    flexGrow: 1,
   },
 });
