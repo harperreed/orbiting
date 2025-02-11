@@ -13,40 +13,29 @@ export interface CustomTheme extends MD3Theme {
 }
 
 export interface ThemeColors {
-  background: string;
-  text: string;
-  placeholder: string;
-  tabBar: string;
-  tabBarActive: string;
+  backgroundColor: string; // RNUIlib uses backgroundColor instead of background
+  textColor: string; // RNUIlib uses textColor instead of text
+  placeholderTextColor: string;
+  tabBarColor: string;
+  tabBarActiveColor: string;
 }
 
 export const themes: Record<ThemeType, { light: CustomTheme; dark: CustomTheme }> = {
   classic: {
     light: {
       colors: {
-        primary: '#000000',
-        onPrimary: '#ffffff',
-        primaryContainer: '#f5f5f5',
-        onPrimaryContainer: '#000000',
-        secondary: '#666666',
-        onSecondary: '#ffffff',
-        secondaryContainer: '#f0f0f0',
-        onSecondaryContainer: '#1a1a1a',
-        background: '#ffffff',
-        onBackground: '#000000',
-        surface: '#ffffff',
-        onSurface: '#000000',
-        surfaceVariant: '#f5f5f5',
-        onSurfaceVariant: '#000000',
-        outline: '#666666',
-        elevation: {
-          level0: 'transparent',
-          level1: '#f5f5f5',
-          level2: '#ebebeb',
-          level3: '#e0e0e0',
-          level4: '#d6d6d6',
-          level5: '#cccccc',
-        }
+        $backgroundPrimaryLight: '#ffffff',
+        $textPrimary: '#000000',
+        $backgroundSecondaryLight: '#f5f5f5',
+        $textSecondary: '#666666',
+        $outlineColor: '#666666',
+        $iconPrimary: '#000000',
+        $iconSecondary: '#666666',
+        // RNUIlib specific semantic colors
+        $backgroundDefault: '#ffffff',
+        $textDefault: '#000000',
+        $contentBackgroundLight: '#f5f5f5',
+        $textNeutral: '#666666'
       },
       custom: {
         tabBar: '#f5f5f5',
