@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { TextProvider } from '../app/context/TextContext';
+import { SettingsProvider } from '../app/context/SettingsContext';
 
 export default function RootLayout() {
   // Client-side only rendering
@@ -18,9 +19,11 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <TextProvider>
-        <Stack screenOptions={{ headerShown: false }} />
-      </TextProvider>
+      <SettingsProvider>
+        <TextProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+        </TextProvider>
+      </SettingsProvider>
     </GestureHandlerRootView>
   );
 }
