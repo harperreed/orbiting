@@ -4,7 +4,7 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
-import { Surface, Snackbar } from 'react-native-paper';
+import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";

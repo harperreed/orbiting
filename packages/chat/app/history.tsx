@@ -1,5 +1,5 @@
 import { StyleSheet, Alert, View, Platform } from 'react-native';
-import { Text, Button, List, ActivityIndicator, Surface, useTheme } from 'react-native-paper';
+import { Text, Button, List, ActivityIndicator, Surface, useTheme, Portal } from 'react-native-paper';
 import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
 import { useText } from './context/TextContext';
@@ -131,9 +131,11 @@ export default function HistoryScreen() {
   if (isLoading) {
     return (
       <PageLayout>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" />
-        </View>
+        <Portal>
+          <Surface style={styles.loadingContainer}>
+            <ActivityIndicator size="large" />
+          </Surface>
+        </Portal>
       </PageLayout>
     );
   }
@@ -154,9 +156,11 @@ export default function HistoryScreen() {
         onEndReachedThreshold={0.5}
         ListFooterComponent={() => 
           isLoadingMore ? (
-            <View style={styles.loadingMore}>
-              <ActivityIndicator size="small" />
-            </View>
+            <Portal>
+              <Surface style={styles.loadingMore}>
+                <ActivityIndicator size="small" />
+              </Surface>
+            </Portal>
           ) : null
         }
       />
