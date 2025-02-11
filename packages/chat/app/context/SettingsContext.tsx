@@ -17,15 +17,15 @@ export const themes: Record<ThemeType, { light: ThemeColors; dark: ThemeColors }
     light: {
       background: '#ffffff',
       text: '#000000',
-      placeholder: '#888888',
+      placeholder: '#666666',
       tabBar: '#f5f5f5',
       tabBarActive: '#000000',
     },
     dark: {
-      background: '#1a1a1a',
+      background: '#121212',
       text: '#ffffff',
-      placeholder: '#888888',
-      tabBar: '#2a2a2a',
+      placeholder: '#a0a0a0',
+      tabBar: '#1e1e1e',
       tabBarActive: '#ffffff',
     }
   },
@@ -38,11 +38,11 @@ export const themes: Record<ThemeType, { light: ThemeColors; dark: ThemeColors }
       tabBarActive: '#1a3c5b',
     },
     dark: {
-      background: '#0a1929',
-      text: '#b8d4f0',
-      placeholder: '#4a6785',
-      tabBar: '#142943',
-      tabBarActive: '#b8d4f0',
+      background: '#0d1b2a',
+      text: '#e0f0ff',
+      placeholder: '#8ab4e8',
+      tabBar: '#162635',
+      tabBarActive: '#e0f0ff',
     }
   },
   forest: {
@@ -54,11 +54,11 @@ export const themes: Record<ThemeType, { light: ThemeColors; dark: ThemeColors }
       tabBarActive: '#1b4d1b',
     },
     dark: {
-      background: '#0a290a',
-      text: '#b9e6b9',
-      placeholder: '#4a854a',
-      tabBar: '#143814',
-      tabBarActive: '#b9e6b9',
+      background: '#0d1f0d',
+      text: '#e0ffe0',
+      placeholder: '#85c285',
+      tabBar: '#162916',
+      tabBarActive: '#e0ffe0',
     }
   },
   sunset: {
@@ -70,11 +70,11 @@ export const themes: Record<ThemeType, { light: ThemeColors; dark: ThemeColors }
       tabBarActive: '#5b1a1a',
     },
     dark: {
-      background: '#290a0a',
-      text: '#f0b8b8',
-      placeholder: '#854a4a',
-      tabBar: '#431414',
-      tabBarActive: '#f0b8b8',
+      background: '#1f0d0d',
+      text: '#ffe0e0',
+      placeholder: '#c28585',
+      tabBar: '#291616',
+      tabBarActive: '#ffe0e0',
     }
   }
 };
