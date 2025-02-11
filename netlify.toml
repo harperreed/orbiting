@@ -1,0 +1,5 @@
+
+
+[build]
+command = "cd packages/hugo; hugo --gc --minify"
+publish = "packages/hugo/public"
