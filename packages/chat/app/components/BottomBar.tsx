@@ -1,4 +1,5 @@
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Surface, IconButton, useTheme } from 'react-native-paper';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -6,40 +7,35 @@ type BottomBarProps = {
 };
 
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
+    const theme = useTheme();
+    
+    const styles = StyleSheet.create({
+        container: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            height: 60,
+            backgroundColor: theme.colors.background,
+        },
+    });
+
     return (
-        <View style={styles.container}>
-            <TouchableOpacity 
+        <Surface style={styles.container} elevation={1}>
+            <IconButton
+                icon="delete"
+                mode="contained"
                 onPress={onClearPress}
-                style={styles.button}
                 testID="clear-button"
-            >
-                <Text style={styles.emoji}>🗑️</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
+                accessibilityLabel="Clear text"
+            />
+            <IconButton
+                icon="history"
+                mode="contained"
                 onPress={onHistoryPress}
-                style={styles.button}
                 testID="history-button"
-            >
-                <Text style={styles.emoji}>⏱️</Text>
-            </TouchableOpacity>
-        </View>
+                accessibilityLabel="Show history"
+            />
+        </Surface>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        height: 60,
-        backgroundColor: '#f5f5f5',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    button: {
-        padding: 10,
-    },
-    emoji: {
-        fontSize: 24,
-    },
-});

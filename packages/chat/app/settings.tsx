@@ -1,5 +1,6 @@
-import { Text, StyleSheet, View, Switch, Pressable } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { StyleSheet, View } from 'react-native';
+import { Text, Switch, Button, List, Surface, SegmentedButtons, useTheme } from 'react-native-paper';
+import { useState } from 'react';
 import PageLayout from './components/PageLayout';
 import { useSettings } from './context/SettingsContext';
 import type { ThemeType } from './context/SettingsContext';
@@ -27,94 +28,106 @@ export default function SettingsScreen() {
     updateSettings,
     resetSettings,
   } = useSettings();
+  const [isResetting, setIsResetting] = useState(false);
+  const paperTheme = useTheme();
+
+  const handleReset = async () => {
+    setIsResetting(true);
+    await resetSettings();
+    setIsResetting(false);
+  };
 
   return (
     <PageLayout scrollable>
-      <View style={styles.container}>
-        <Text style={styles.title}>Settings</Text>
+      <Surface style={styles.container}>
+        <Text variant="headlineMedium" style={styles.title}>Settings</Text>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Appearance</Text>
+        <List.Section>
+          <List.Subheader>Appearance</List.Subheader>
           
-          <View style={styles.setting}>
-            <Text style={styles.label}>Color Scheme</Text>
-            <Picker
-              selectedValue={colorScheme}
-              style={styles.picker}
-              onValueChange={(value) => updateSettings({ colorScheme: value })}
-            >
-              {COLOR_SCHEMES.map((scheme) => (
-                <Picker.Item
-                  key={scheme.value}
-                  label={scheme.label}
-                  value={scheme.value}
-                />
-              ))}
-            </Picker>
-          </View>
+          <List.Item
+            title="Color Scheme"
+            description={
+              <SegmentedButtons
+                value={colorScheme}
+                onValueChange={(value) => updateSettings({ colorScheme: value })}
+                buttons={COLOR_SCHEMES.map((scheme) => ({
+                  value: scheme.value,
+                  label: scheme.label,
+                }))}
+              />
+            }
+            descriptionNumberOfLines={2}
+            descriptionStyle={styles.segmentedButtonContainer}
+          />
 
-          <View style={styles.setting}>
-            <Text style={styles.label}>Starting Font Size</Text>
-            <Picker
-              selectedValue={startingFontSize}
-              style={styles.picker}
-              onValueChange={(value) => updateSettings({ startingFontSize: value })}
-            >
-              {FONT_SIZES.map((size) => (
-                <Picker.Item
-                  key={size}
-                  label={`${size}px`}
-                  value={size}
-                />
-              ))}
-            </Picker>
-          </View>
+          <List.Item
+            title="Starting Font Size"
+            description={
+              <SegmentedButtons
+                value={startingFontSize.toString()}
+                onValueChange={(value) => updateSettings({ startingFontSize: parseInt(value, 10) })}
+                buttons={FONT_SIZES.map((size) => ({
+                  value: size.toString(),
+                  label: `${size}px`,
+                }))}
+              />
+            }
+            descriptionNumberOfLines={2}
+            descriptionStyle={styles.segmentedButtonContainer}
+          />
 
-          <View style={styles.setting}>
-            <Text style={styles.label}>Theme</Text>
-            <Picker
-              selectedValue={theme}
-              style={styles.picker}
-              onValueChange={(value) => updateSettings({ theme: value })}
-            >
-              {THEMES.map((theme) => (
-                <Picker.Item
-                  key={theme.value}
-                  label={theme.label}
-                  value={theme.value}
-                />
-              ))}
-            </Picker>
-          </View>
-        </View>
+          <List.Item
+            title="Theme"
+            description={
+              <SegmentedButtons
+                value={theme}
+                onValueChange={(value) => updateSettings({ theme: value as ThemeType })}
+                buttons={THEMES.map((theme) => ({
+                  value: theme.value,
+                  label: theme.label,
+                }))}
+              />
+            }
+            descriptionNumberOfLines={2}
+            descriptionStyle={styles.segmentedButtonContainer}
+          />
+        </List.Section>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Gestures</Text>
+        <List.Section>
+          <List.Subheader>Gestures</List.Subheader>
           
-          <View style={styles.setting}>
-            <Text style={styles.label}>Shake to Clear</Text>
-            <Switch
-              value={shakeEnabled}
-              onValueChange={(value) => updateSettings({ shakeEnabled: value })}
-            />
-          </View>
+          <List.Item
+            title="Shake to Clear"
+            right={() => (
+              <Switch
+                value={shakeEnabled}
+                onValueChange={(value) => updateSettings({ shakeEnabled: value })}
+              />
+            )}
+          />
 
-          <View style={styles.setting}>
-            <Text style={styles.label}>Shake to Flash</Text>
-            <Switch
-              value={shakeFlashEnabled}
-              onValueChange={(value) => updateSettings({ shakeFlashEnabled: value })}
-            />
-          </View>
-        </View>
+          <List.Item
+            title="Shake to Flash"
+            right={() => (
+              <Switch
+                value={shakeFlashEnabled}
+                onValueChange={(value) => updateSettings({ shakeFlashEnabled: value })}
+              />
+            )}
+          />
+        </List.Section>
 
-        <Pressable
+        <Button
+          loading={isResetting}
+          mode="contained"
+          onPress={handleReset}
           style={styles.resetButton}
-          onPress={resetSettings}
+          buttonColor={paperTheme.colors.error}
         >
-          <Text style={styles.resetButtonText}>Reset to Defaults</Text>
-        </Pressable>
-      </View>
+          Reset to Defaults
+        </Button>
+      </Surface>
     </PageLayout>
   );
 }
@@ -125,40 +138,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 24,
   },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-  },
-  setting: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 16,
-    flex: 1,
-  },
-  picker: {
-    flex: 2,
+  segmentedButtonContainer: {
+    marginTop: 8,
   },
   resetButton: {
-    backgroundColor: '#ff6b6b',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  resetButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
+    margin: 16,
   },
 });

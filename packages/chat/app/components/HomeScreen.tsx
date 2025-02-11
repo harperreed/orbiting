@@ -1,10 +1,10 @@
 import {
-    View,
     StyleSheet,
     Dimensions,
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
+import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
@@ -65,20 +65,29 @@ export default function HomeScreen() {
             keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
             contentContainerStyle={styles.keyboardAvoidingContent}
         >
-            <View style={styles.contentContainer}>
+            <Surface style={styles.contentContainer}>
                 <GestureDetector gesture={panGesture}>
-                    <View style={styles.innerContainer}>
+                    <Surface style={styles.innerContainer}>
                         <BigTextDisplay
                             text={text}
                             onChangeText={handleTextChange}
                         />
-                    </View>
+                    </Surface>
                 </GestureDetector>
                 <BottomBar 
                     onClearPress={() => handleTextChange("")}
                     onHistoryPress={() => router.push("/history")}
                 />
-            </View>
+            </Surface>
+            <Snackbar
+                visible={!!error}
+                onDismiss={() => {}}
+                action={{
+                    label: 'Dismiss',
+                    onPress: () => {},
+                }}>
+                {error}
+            </Snackbar>
         </KeyboardAvoidingView>
     );
 }

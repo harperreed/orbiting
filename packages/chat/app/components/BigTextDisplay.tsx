@@ -1,4 +1,5 @@
-import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
+import { StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
+import { TextInput, useTheme } from 'react-native-paper';
 import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
@@ -23,7 +24,8 @@ export default function BigTextDisplay({
   minFontSize = 1,  // in vh units (3/4 of previous 1.3vh)
   debounceMs = 150
 }: BigTextDisplayProps) {
-  const { startingFontSize, currentTheme } = useSettings();
+  const { startingFontSize } = useSettings();
+  const theme = useTheme();
   const maxFontSize = propMaxFontSize ?? (startingFontSize / 2.4); // Convert px to vh units
   const dimensions = useWindowDimensions();
   const previousDimensions = useRef(dimensions);
@@ -164,21 +166,36 @@ export default function BigTextDisplay({
     <TextInput
       ref={inputRef}
       testID="big-text-display"
-      style={{
-        ...styles.text,
-        fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
-        lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
-        maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
-        color: currentTheme.text,
-        backgroundColor: currentTheme.background,
-      }}
-      placeholderTextColor={currentTheme.placeholder}
+      mode="flat"
+      style={[
+        {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          fontWeight: "bold",
+          fontFamily: 'System',  // System font, similar to sans-serif
+          color: theme.colors.onBackground,
+          backgroundColor: theme.colors.background,
+          textAlign: "left",
+          padding: 20,
+          paddingBottom: 50,
+          margin: 0,
+          zIndex: 10,
+        },
+        {
+          fontSize: fontSize * (adjustedContainerHeight / 100),
+          lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
+          maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
+        }
+      ]}
       value={text}
       onChangeText={onChangeText}
       multiline
       placeholder="Type Here"
-      selectionColor="#000"
-      placeholderTextColor="#888"
       onLayout={onLayout}
       onContentSizeChange={(e) => {
         onContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height);
@@ -189,23 +206,3 @@ export default function BigTextDisplay({
   );
 }
 
-const styles = StyleSheet.create({
-  text: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    width: '100%',
-    height: '100%',
-    fontWeight: "bold",
-    fontFamily: 'System',  // System font, similar to sans-serif
-    color: '#000',
-    textAlign: "left",
-    padding: 20,
-    paddingBottom: 50,
-    margin: 0,
-    zIndex: 10,
-    boxShadow: 'none', // Modern replacement for shadowProps
-  },
-});
