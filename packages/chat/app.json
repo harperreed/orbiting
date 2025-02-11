@@ -1,57 +1,60 @@
 {
-  "expo": {
-    "name": "chat",
-    "slug": "chat",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png",
-      "name": "Orbiting",
-      "shortName": "Orbiting",
-      "description": "A text display app",
-      "lang": "en",
-      "themeColor": "#000000",
-      "backgroundColor": "#ffffff",
-      "startUrl": "/",
-      "display": "standalone",
-      "orientation": "portrait",
-      "icons": [
-        {
-          "src": "./assets/images/icon.png",
-          "sizes": "1024x1024",
-          "type": "image/png"
+    "expo": {
+        "name": "chat",
+        "slug": "chat",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/images/icon.png",
+        "scheme": "myapp",
+        "userInterfaceStyle": "automatic",
+        "newArchEnabled": true,
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.harperrules.orbiting"
+        },
+        "android": {
+            "package": "com.harperrules.orbiting",
+
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            }
+        },
+        "web": {
+            "bundler": "metro",
+            "output": "static",
+            "favicon": "./assets/images/favicon.png",
+            "name": "Orbiting",
+            "shortName": "Orbiting",
+            "description": "A text display app",
+            "lang": "en",
+            "themeColor": "#000000",
+            "backgroundColor": "#ffffff",
+            "startUrl": "/",
+            "display": "standalone",
+            "orientation": "portrait",
+            "icons": [
+                {
+                    "src": "./assets/images/icon.png",
+                    "sizes": "1024x1024",
+                    "type": "image/png"
+                }
+            ]
+        },
+        "plugins": [
+            "expo-router",
+            [
+                "expo-splash-screen",
+                {
+                    "image": "./assets/images/splash-icon.png",
+                    "imageWidth": 200,
+                    "resizeMode": "contain",
+                    "backgroundColor": "#ffffff"
+                }
+            ]
+        ],
+        "experiments": {
+            "typedRoutes": true
         }
-      ]
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
     }
-  }
 }
