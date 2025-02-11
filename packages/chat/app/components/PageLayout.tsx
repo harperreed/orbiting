@@ -41,11 +41,9 @@ export default function PageLayout({ children, scrollable = false }: PageLayoutP
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    height: '100%',
   },
   container: {
     flex: 1,
-    minHeight: 0,
   },
   content: {
     flex: 1,
@@ -58,5 +56,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: 20,
     flexGrow: 1,
+    minHeight: '100%',
   },
 });

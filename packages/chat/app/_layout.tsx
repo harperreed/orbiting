@@ -42,13 +42,13 @@ export default function RootLayout() {
 
   return (
     <PaperProvider theme={theme}>
-      <GestureHandlerRootView style={{ flex: 1, height: '100%' }}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <SettingsProvider>
           <TextProvider>
             <Stack 
               screenOptions={{ 
                 headerShown: false,
-                contentStyle: { flex: 1, height: '100%' } 
+                contentStyle: { flex: 1 }
               }} 
             />
           </TextProvider>
