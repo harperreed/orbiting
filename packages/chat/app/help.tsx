@@ -6,6 +6,33 @@ export default function HelpScreen() {
     return (
         <PageLayout scrollable>
             <List.Section>
+                <List.Subheader style={{ fontSize: 20 }}>About Orbiting</List.Subheader>
+                <List.Item
+                    title="A simple messaging app for your eyeballs"
+                    description="You can use it to type and display messages to those around you. Display a message loud and clear."
+                    left={props => <List.Icon {...props} icon="eye" />}
+                />
+            </List.Section>
+
+            <List.Section>
+                <List.Subheader style={{ fontSize: 20 }}>Gestures</List.Subheader>
+                <List.Item
+                    title="Swipe Left"
+                    description="To clear the display"
+                    left={props => <List.Icon {...props} icon="gesture-swipe-left" />}
+                />
+                <List.Item
+                    title="Swipe Right"
+                    description="To view the menu and settings"
+                    left={props => <List.Icon {...props} icon="gesture-swipe-right" />}
+                />
+                <List.Item
+                    title="Swipe Up"
+                    description="To display the history"
+                    left={props => <List.Icon {...props} icon="gesture-swipe-up" />}
+                />
+            </List.Section>
+            <List.Section>
                 <List.Subheader style={{ fontSize: 20 }}>How to Use</List.Subheader>
                 <List.Item
                     title="Type or paste your text in the main screen"
@@ -58,6 +85,11 @@ export default function HelpScreen() {
                 <List.Item
                     title="Text wraps automatically on whitespace"
                     left={props => <List.Icon {...props} icon="wrap" />}
+                />
+                <List.Item
+                    title="Available on desktop and mobile"
+                    description="You can add the app to your homescreen and launch it anytime"
+                    left={props => <List.Icon {...props} icon="devices" />}
                 />
             </List.Section>
         </PageLayout>
