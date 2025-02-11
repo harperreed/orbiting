@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { TextProvider } from '../app/context/TextContext';
-import { Typography, ThemeManager, Colors } from 'rnui-lib';
+import { Typography, ThemeManager, Colors } from 'react-native-ui-lib';
 
 // Initialize RNUIlib
 Typography.loadTypographies({
