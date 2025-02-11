@@ -6,11 +6,11 @@ import {
     Platform,
 } from "react-native";
 import BottomBar from "./BottomBar";
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
-import { storeMessage, clearHistory } from "../utils/storage";
+import { useText } from "../context/TextContext";
 
 export default function HomeScreen() {
     const { text, handleTextChange, clearText, restoreLastSession } = useText();
