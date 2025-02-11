@@ -62,7 +62,6 @@ export default function HistoryScreen() {
 
   return (
     <View style={styles.container}>
-      <TabBar />
       <FlatList
         data={messages}
         renderItem={renderItem}
@@ -77,6 +76,7 @@ export default function HistoryScreen() {
           <Text style={styles.clearButtonText}>Clear History</Text>
         </TouchableOpacity>
       )}
+      <TabBar />
     </View>
   );
 }
