@@ -1,5 +1,5 @@
-import { StyleSheet, View, Platform } from 'react-native';
-import { Text, Button, List, ActivityIndicator, Surface, useTheme, Portal, Dialog } from 'react-native-paper';
+import { StyleSheet, View, Platform, ActivityIndicator } from 'react-native';
+import { Text, Button, ListItem, Card, Colors, Dialog } from 'react-native-ui-lib';
 import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
 import { useText } from './context/TextContext';
@@ -87,16 +87,21 @@ export default function HistoryScreen() {
   }, [messageToDelete, loadMessages]);
 
   const renderItem = useCallback(({ item }: { item: StoredMessage }) => (
-    <List.Item
-      title={item.text}
-      description={new Date(item.timestamp).toLocaleDateString()}
+    <ListItem
+      activeOpacity={0.3}
+      height={80}
       onPress={() => {
         router.push({ pathname: '/', params: { text: item.text } });
       }}
       onLongPress={() => handleDeleteMessage(item.id)}
-      titleNumberOfLines={2}
-      descriptionStyle={styles.timestamp}
-    />
+    >
+      <ListItem.Part>
+        <Text numberOfLines={2}>{item.text}</Text>
+        <Text style={styles.timestamp}>
+          {new Date(item.timestamp).toLocaleDateString()}
+        </Text>
+      </ListItem.Part>
+    </ListItem>
   ), [router, handleDeleteMessage]);
 
   if (isLoading) {
@@ -138,39 +143,37 @@ export default function HistoryScreen() {
         />
         {messages.length > 0 && (
           <Button
-            mode="contained"
+            label="Clear History"
             onPress={handleClearHistory}
             style={styles.clearButton}
-            buttonColor={theme.colors.error}
-          >
-            Clear History
-          </Button>
+            backgroundColor={Colors.red30}
+          />
         )}
       </PageLayout>
 
-      <Portal>
-        <Dialog visible={showClearDialog} onDismiss={() => setShowClearDialog(false)}>
-          <Dialog.Title>Clear History</Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyLarge">Are you sure you want to clear all messages?</Text>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={() => setShowClearDialog(false)}>Cancel</Button>
-            <Button onPress={handleConfirmClear} textColor={theme.colors.error}>Clear</Button>
-          </Dialog.Actions>
-        </Dialog>
+      <Dialog
+        visible={showClearDialog}
+        onDismiss={() => setShowClearDialog(false)}
+      >
+        <Text text60>Clear History</Text>
+        <Text text70>Are you sure you want to clear all messages?</Text>
+        <View row spread>
+          <Button label="Cancel" link onPress={() => setShowClearDialog(false)} />
+          <Button label="Clear" link onPress={handleConfirmClear} color={Colors.red30} />
+        </View>
+      </Dialog>
 
-        <Dialog visible={showDeleteDialog} onDismiss={() => setShowDeleteDialog(false)}>
-          <Dialog.Title>Delete Message</Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyLarge">Are you sure you want to delete this message?</Text>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={() => setShowDeleteDialog(false)}>Cancel</Button>
-            <Button onPress={handleConfirmDelete} textColor={theme.colors.error}>Delete</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+      <Dialog
+        visible={showDeleteDialog}
+        onDismiss={() => setShowDeleteDialog(false)}
+      >
+        <Text text60>Delete Message</Text>
+        <Text text70>Are you sure you want to delete this message?</Text>
+        <View row spread>
+          <Button label="Cancel" link onPress={() => setShowDeleteDialog(false)} />
+          <Button label="Delete" link onPress={handleConfirmDelete} color={Colors.red30} />
+        </View>
+      </Dialog>
     </>
   );
 }
