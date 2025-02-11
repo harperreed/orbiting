@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
 import { storeMessage, clearHistory, getMessages } from '../utils/storageUtils';
-import { TextState, TextAction, textReducer } from './TextReducer';
+import { TextState, TextAction, textReducer, TEXT_ACTIONS } from './TextReducer';
 
 interface TextContextType {
     text: string;
@@ -56,11 +56,11 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             saveTimeoutRef.current = setTimeout(async () => {
                 try {
                     await storeMessage(state.text);
-                    const action = { type: 'TEXT_SAVED' as const, payload: Date.now() };
+                    const action = { type: TEXT_ACTIONS.TEXT_SAVED, payload: Date.now() };
                     dispatch(action);
                     logStateChange(action, state, textReducer(state, action));
                 } catch (error) {
-                    dispatch({ type: 'SET_ERROR', payload: 'Failed to autosave' });
+                    dispatch({ type: TEXT_ACTIONS.SET_ERROR, payload: 'Failed to autosave' });
                 }
             }, AUTOSAVE_DELAY);
         }
@@ -104,7 +104,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             const { messages } = await getMessages(0, 1);
             if (messages.length > 0) {
                 const action = { 
-                    type: 'RESTORE_SESSION' as const,
+                    type: TEXT_ACTIONS.RESTORE_SESSION,
                     payload: messages[0]
                 };
                 dispatch(action);
@@ -112,7 +112,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             }
         } catch (error) {
             dispatch({ 
-                type: 'SET_ERROR',
+                type: TEXT_ACTIONS.SET_ERROR,
                 payload: 'Failed to restore session'
             });
         }
@@ -122,7 +122,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
         <TextContext.Provider value={{
             text: state.text,
             setText: (text: string) => {
-                const action = { type: 'SET_TEXT' as const, payload: text };
+                const action = { type: TEXT_ACTIONS.SET_TEXT, payload: text };
                 dispatch(action);
                 logStateChange(action, state, textReducer(state, action));
             },
