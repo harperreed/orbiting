@@ -1,4 +1,5 @@
-import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
+import { StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
+import { TextInput } from 'react-native-paper';
 import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
@@ -164,21 +165,19 @@ export default function BigTextDisplay({
     <TextInput
       ref={inputRef}
       testID="big-text-display"
-      style={{
-        ...styles.text,
-        fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
-        lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
-        maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
-        color: currentTheme.text,
-        backgroundColor: currentTheme.background,
-      }}
-      placeholderTextColor={currentTheme.placeholder}
+      mode="flat"
+      style={[
+        styles.text,
+        {
+          fontSize: fontSize * (adjustedContainerHeight / 100),
+          lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
+          maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
+        }
+      ]}
       value={text}
       onChangeText={onChangeText}
       multiline
       placeholder="Type Here"
-      selectionColor="#000"
-      placeholderTextColor="#888"
       onLayout={onLayout}
       onContentSizeChange={(e) => {
         onContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height);

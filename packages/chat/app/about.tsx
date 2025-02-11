@@ -1,12 +1,13 @@
-import { Text, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Surface, Text } from 'react-native-paper';
 import PageLayout from './components/PageLayout';
 
 export default function AboutScreen() {
   return (
     <PageLayout>
-      <View style={styles.centered}>
-        <Text style={styles.title}>About</Text>
-      </View>
+      <Surface style={styles.centered} elevation={0}>
+        <Text variant="headlineMedium">About</Text>
+      </Surface>
     </PageLayout>
   );
 }
@@ -16,9 +17,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
 });
