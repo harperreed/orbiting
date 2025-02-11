@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
+import { TextProvider } from './context/TextContext';
 
 export default function RootLayout() {
   // Client-side only rendering
@@ -17,7 +18,9 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Stack screenOptions={{ headerShown: false }} />
+      <TextProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+      </TextProvider>
     </GestureHandlerRootView>
   );
 }
