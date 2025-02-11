@@ -114,39 +114,6 @@ export default function BigTextDisplay({
     setContentSize({ width, height });
   }, []);
 
-  const calculateAndSetFontSize = useCallback(() => {
-    try {
-      if (!containerSize.width || !adjustedContainerHeight) return;
-
-      // Reset to max size when text is empty or very short
-      if (text.length <= 1) {
-        setFontSize(maxFontSize);
-        return;
-      }
-
-      const hasOverflow = 
-        contentSize.height > adjustedContainerHeight ||
-        contentSize.width > containerSize.width;
-
-      if (hasOverflow && fontSize > minFontSize) {
-        setFontSize(current => Math.max(current - 0.5, minFontSize));
-      } else if (!hasOverflow && fontSize < maxFontSize) {
-        // More aggressive increase when text is deleted
-        const increaseFactor = text.length < 10 ? 2.0 : 0.5;
-        const nextSize = Math.min(fontSize + increaseFactor, maxFontSize);
-        const wouldOverflow = 
-          (contentSize.height * (nextSize / fontSize)) > adjustedContainerHeight ||
-          (contentSize.width * (nextSize / fontSize)) > containerSize.width;
-        
-        if (!wouldOverflow) {
-          setFontSize(nextSize);
-        }
-      }
-    } catch (error) {
-      console.error('Error in font size calculation:', error);
-    }
-  }, [containerSize, contentSize, fontSize, maxFontSize, minFontSize, text]);
-
   // Handle screen dimension changes
   useEffect(() => {
     const handleDimensionChange = () => {
