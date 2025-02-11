@@ -1,38 +1,42 @@
-import React from 'react';
-import { View, Button, useTheme, StyleSheet } from 'react-native-ui-lib';
+import React from "react";
+import { StyleSheet } from "react-native";
+import { View, Button, Colors } from "react-native-ui-lib";
 
 type BottomBarProps = {
     onClearPress: () => void;
     onHistoryPress: () => void;
 };
 
-export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
-    const theme = useTheme();
-    
-    const styles = StyleSheet.create({
-        container: {
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            height: 60,
-            backgroundColor: theme.colors.background,
-            elevation: 4, // Mimics paper's surface elevation
-        },
-        button: {
-            padding: 8,
-        },
-    });
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        height: 60,
+        backgroundColor: Colors.$backgroundElevated,
+        elevation: 4, // Mimics paper's surface elevation
+    },
+    button: {
+        padding: 8,
+    },
+});
 
+export default function BottomBar({
+    onClearPress,
+    onHistoryPress,
+}: BottomBarProps) {
     return (
         <View style={styles.container}>
             <Button
-                icon="history"
+                testID="history-button"
+                iconSource="history"
                 onPress={onHistoryPress}
                 style={styles.button}
                 accessibilityLabel="Show history"
             />
             <Button
-                icon="delete"
+                testID="clear-button"
+                iconSource="delete"
                 onPress={onClearPress}
                 style={styles.button}
                 accessibilityLabel="Clear text"
@@ -40,4 +44,3 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
         </View>
     );
 }
-
