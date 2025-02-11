@@ -34,7 +34,7 @@ export default function HomeScreen() {
 
         // Check for left swipe
         if (translationX < -SWIPE_THRESHOLD && Math.abs(translationY) < 50) {
-            setText("");
+            handleTextChange("");
         }
 
         // Check for up swipe
@@ -46,9 +46,9 @@ export default function HomeScreen() {
     useEffect(() => {
         // Cleanup function
         return () => {
-            setText("");
+            handleTextChange("");
         };
-    }, []);
+    }, [handleTextChange]);
 
     return (
         <KeyboardAvoidingView
