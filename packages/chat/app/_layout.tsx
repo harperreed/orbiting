@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { useEffect, useState } from 'react';
+import { WelcomeModal } from './components/WelcomeModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
@@ -12,12 +13,15 @@ function AppContent() {
   return (
     <PaperProvider theme={currentTheme}>
       <TextProvider>
-        <Stack 
-          screenOptions={{ 
-            headerShown: false,
-            contentStyle: { flex: 1 }
-          }} 
-        />
+        <>
+          <WelcomeModal />
+          <Stack 
+            screenOptions={{ 
+              headerShown: false,
+              contentStyle: { flex: 1 }
+            }} 
+          />
+        </>
       </TextProvider>
     </PaperProvider>
   );
