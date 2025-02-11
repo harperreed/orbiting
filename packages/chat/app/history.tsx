@@ -1,4 +1,5 @@
-import { StyleSheet, TouchableOpacity, Text, Alert, ActivityIndicator, View, Platform } from 'react-native';
+import { StyleSheet, Alert, View, Platform } from 'react-native';
+import { Text, Button, List, ActivityIndicator, Surface } from 'react-native-paper';
 import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
 import { useText } from './context/TextContext';
@@ -114,20 +115,16 @@ export default function HistoryScreen() {
   }, [loadMessages]);
 
   const renderItem = useCallback(({ item }: { item: StoredMessage }) => (
-    <TouchableOpacity
-      style={styles.messageItem}
+    <List.Item
+      title={item.text}
+      description={new Date(item.timestamp).toLocaleDateString()}
       onPress={() => {
         router.push({ pathname: '/', params: { text: item.text } });
       }}
       onLongPress={() => handleDeleteMessage(item.id)}
-    >
-      <Text style={styles.messageText} numberOfLines={2}>
-        {item.text}
-      </Text>
-      <Text style={styles.timestamp}>
-        {new Date(item.timestamp).toLocaleDateString()}
-      </Text>
-    </TouchableOpacity>
+      titleNumberOfLines={2}
+      descriptionStyle={styles.timestamp}
+    />
   ), [router, handleDeleteMessage]);
 
   if (isLoading) {
@@ -163,12 +160,14 @@ export default function HistoryScreen() {
         }
       />
       {messages.length > 0 && (
-        <TouchableOpacity
-          style={styles.clearButton}
+        <Button
+          mode="contained"
           onPress={handleClearHistory}
+          style={styles.clearButton}
+          buttonColor="#dc3545"
         >
-          <Text style={styles.clearButtonText}>Clear History</Text>
-        </TouchableOpacity>
+          Clear History
+        </Button>
       )}
     </PageLayout>
   );
@@ -187,32 +186,10 @@ const styles = StyleSheet.create({
   listContent: {
     padding: 16,
   },
-  messageItem: {
-    backgroundColor: '#f8f9fa',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#e9ecef',
-  },
-  messageText: {
-    fontSize: 16,
-    marginBottom: 4,
-  },
   timestamp: {
     fontSize: 12,
-    color: '#6c757d',
   },
   clearButton: {
     margin: 16,
-    padding: 16,
-    backgroundColor: '#dc3545',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  clearButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
