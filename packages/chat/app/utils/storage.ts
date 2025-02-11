@@ -1,6 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-export { StoredMessage, storeMessage, getMessages, clearHistory } from './storageUtils';
+import { StoredMessage, storeMessage, getMessages, clearHistory } from './storageUtils';
+
+export { StoredMessage, storeMessage, getMessages, clearHistory };
 
 export default function Storage() {
   return <View />;
