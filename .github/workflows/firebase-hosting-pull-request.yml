@@ -2,23 +2,24 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
+"on": pull_request
 jobs:
-  build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.120.4'
-          extended: true
+    build_and_preview:
+        if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup Hugo
+              uses: peaceiris/actions-hugo@v2
+              with:
+                  hugo-version: "0.120.4"
+                  extended: true
 
-      - name: Build Hugo
-        run: hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ORBITING_14A48 }}'
-          projectId: orbiting-14a48
+            - name: Build Hugo
+              working-directory: ./packages/hugo
+              run: hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic
+            - uses: FirebaseExtended/action-hosting-deploy@v0
+              with:
+                  repoToken: "${{ secrets.GITHUB_TOKEN }}"
+                  firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_ORBITING_14A48 }}"
+                  projectId: orbiting-14a48
