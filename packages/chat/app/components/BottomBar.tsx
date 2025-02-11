@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, Text, Button } from 'react-native-ui-lib';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -7,39 +7,33 @@ type BottomBarProps = {
 
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
     return (
-        <View style={styles.container}>
-            <TouchableOpacity 
-                onPress={onClearPress}
-                style={styles.button}
+        <View
+            row
+            height={60}
+            spread
+            center
+            backgroundColor="background.secondary"
+            style={{
+                borderTopWidth: 1,
+                borderTopColor: 'border'
+            }}
+        >
+            <Button
+                link
                 testID="clear-button"
+                onPress={onClearPress}
+                padding-10
             >
-                <Text style={styles.emoji}>🗑️</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-                onPress={onHistoryPress}
-                style={styles.button}
+                <Text text60>🗑️</Text>
+            </Button>
+            <Button
+                link
                 testID="history-button"
+                onPress={onHistoryPress}
+                padding-10
             >
-                <Text style={styles.emoji}>⏱️</Text>
-            </TouchableOpacity>
+                <Text text60>⏱️</Text>
+            </Button>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        height: 60,
-        backgroundColor: '#f5f5f5',
-        borderTopWidth: 1,
-        borderTopColor: '#e0e0e0',
-    },
-    button: {
-        padding: 10,
-    },
-    emoji: {
-        fontSize: 24,
-    },
-});
