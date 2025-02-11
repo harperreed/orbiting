@@ -1,22 +1,71 @@
-import { StyleSheet, View } from 'react-native';
-import { Text, Switch, Button, List, Surface, SegmentedButtons, useTheme } from 'react-native-paper';
+import { StyleSheet, View, Dimensions } from 'react-native';
+import { Text, Switch, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple } from 'react-native-paper';
 import { useState } from 'react';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Slider from '@react-native-community/slider';
 import PageLayout from './components/PageLayout';
 import { useSettings } from './context/SettingsContext';
 import type { ThemeType } from './context/SettingsContext';
 
 const FONT_SIZES = [16, 18, 20, 24, 28, 32, 36, 40];
-const THEMES: { label: string; value: ThemeType }[] = [
-  { label: 'Classic', value: 'classic' },
-  { label: 'Ocean', value: 'ocean' },
-  { label: 'Forest', value: 'forest' },
-  { label: 'Sunset', value: 'sunset' },
+const MIN_FONT_SIZE = Math.min(...FONT_SIZES);
+const MAX_FONT_SIZE = Math.max(...FONT_SIZES);
+
+const THEMES: { label: string; value: ThemeType; colors: { primary: string; secondary: string } }[] = [
+  { label: 'Classic', value: 'classic', colors: { primary: '#000000', secondary: '#666666' } },
+  { label: 'Ocean', value: 'ocean', colors: { primary: '#1a3c5b', secondary: '#6c8eae' } },
+  { label: 'Forest', value: 'forest', colors: { primary: '#1b4d1b', secondary: '#6b8e6b' } },
+  { label: 'Sunset', value: 'sunset', colors: { primary: '#5b1a1a', secondary: '#8e6c6c' } },
 ];
+
 const COLOR_SCHEMES = [
-  { label: 'System', value: 'system' },
-  { label: 'Light', value: 'light' },
-  { label: 'Dark', value: 'dark' },
+  { label: 'System', value: 'system', icon: 'theme-light-dark' },
+  { label: 'Light', value: 'light', icon: 'white-balance-sunny' },
+  { label: 'Dark', value: 'dark', icon: 'moon-waning-crescent' },
 ];
+
+const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme: ThemeType) => void }) => {
+  const [visible, setVisible] = useState(false);
+  const paperTheme = useTheme();
+  const currentTheme = THEMES.find(t => t.value === theme)!;
+
+  return (
+    <>
+      <TouchableRipple onPress={() => setVisible(true)}>
+        <View style={styles.themePreview}>
+          <View style={[styles.themeColor, { backgroundColor: currentTheme.colors.primary }]} />
+          <View style={[styles.themeColor, { backgroundColor: currentTheme.colors.secondary }]} />
+          <Text>{currentTheme.label}</Text>
+        </View>
+      </TouchableRipple>
+      
+      <Portal>
+        <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={styles.modal}>
+          <Surface style={styles.themeGrid}>
+            {THEMES.map((t) => (
+              <TouchableRipple
+                key={t.value}
+                onPress={() => {
+                  onSelect(t.value);
+                  setVisible(false);
+                }}
+              >
+                <View style={[
+                  styles.themeOption,
+                  theme === t.value && { borderColor: paperTheme.colors.primary, borderWidth: 2 }
+                ]}>
+                  <View style={[styles.themeColor, { backgroundColor: t.colors.primary }]} />
+                  <View style={[styles.themeColor, { backgroundColor: t.colors.secondary }]} />
+                  <Text>{t.label}</Text>
+                </View>
+              </TouchableRipple>
+            ))}
+          </Surface>
+        </Modal>
+      </Portal>
+    </>
+  );
+};
 
 export default function SettingsScreen() {
   const {
@@ -47,51 +96,63 @@ export default function SettingsScreen() {
           
           <List.Item
             title="Color Scheme"
-            description={
-              <SegmentedButtons
-                value={colorScheme}
-                onValueChange={(value) => updateSettings({ colorScheme: value })}
-                buttons={COLOR_SCHEMES.map((scheme) => ({
-                  value: scheme.value,
-                  label: scheme.label,
-                }))}
+            description="Choose your preferred color scheme"
+            left={props => (
+              <List.Icon
+                {...props}
+                icon={COLOR_SCHEMES.find(scheme => scheme.value === colorScheme)?.icon}
               />
-            }
-            descriptionNumberOfLines={2}
-            descriptionStyle={styles.segmentedButtonContainer}
+            )}
+            right={props => (
+              <View style={styles.colorSchemeContainer}>
+                {COLOR_SCHEMES.map((scheme) => (
+                  <TouchableRipple
+                    key={scheme.value}
+                    onPress={() => updateSettings({ colorScheme: scheme.value })}
+                    style={styles.colorSchemeButton}
+                  >
+                    <MaterialCommunityIcons
+                      name={scheme.icon}
+                      size={24}
+                      color={colorScheme === scheme.value ? paperTheme.colors.primary : paperTheme.colors.onSurfaceVariant}
+                    />
+                  </TouchableRipple>
+                ))}
+              </View>
+            )}
           />
 
           <List.Item
             title="Starting Font Size"
-            description={
-              <SegmentedButtons
-                value={startingFontSize.toString()}
-                onValueChange={(value) => updateSettings({ startingFontSize: parseInt(value, 10) })}
-                buttons={FONT_SIZES.map((size) => ({
-                  value: size.toString(),
-                  label: `${size}px`,
-                }))}
-              />
-            }
-            descriptionNumberOfLines={2}
-            descriptionStyle={styles.segmentedButtonContainer}
+            description={`${startingFontSize}px`}
+            left={props => <List.Icon {...props} icon="format-size" />}
           />
+          <View style={styles.sliderContainer}>
+            <Slider
+              style={styles.slider}
+              value={startingFontSize}
+              minimumValue={MIN_FONT_SIZE}
+              maximumValue={MAX_FONT_SIZE}
+              step={1}
+              onValueChange={(value) => updateSettings({ startingFontSize: value })}
+              minimumTrackTintColor={paperTheme.colors.primary}
+              maximumTrackTintColor={paperTheme.colors.onSurfaceVariant}
+            />
+            <View style={styles.sliderMarks}>
+              {FONT_SIZES.map((size) => (
+                <Text key={size} style={styles.sliderMark}>{size}</Text>
+              ))}
+            </View>
+          </View>
 
           <List.Item
             title="Theme"
-            description={
-              <SegmentedButtons
-                value={theme}
-                onValueChange={(value) => updateSettings({ theme: value as ThemeType })}
-                buttons={THEMES.map((theme) => ({
-                  value: theme.value,
-                  label: theme.label,
-                }))}
-              />
-            }
-            descriptionNumberOfLines={2}
-            descriptionStyle={styles.segmentedButtonContainer}
+            description="Choose your preferred theme"
+            left={props => <List.Icon {...props} icon="palette" />}
           />
+          <View style={styles.themeContainer}>
+            <ThemeSelector theme={theme} onSelect={(value) => updateSettings({ theme: value })} />
+          </View>
         </List.Section>
 
         <List.Section>
@@ -140,10 +201,70 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 24,
   },
-  segmentedButtonContainer: {
-    marginTop: 8,
-  },
   resetButton: {
     margin: 16,
+  },
+  colorSchemeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  colorSchemeButton: {
+    padding: 8,
+    borderRadius: 20,
+  },
+  sliderContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+  },
+  sliderMarks: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  sliderMark: {
+    fontSize: 12,
+    color: 'gray',
+  },
+  themeContainer: {
+    padding: 16,
+  },
+  themePreview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+  },
+  themeColor: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+  },
+  modal: {
+    padding: 20,
+    margin: 20,
+  },
+  themeGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
+    padding: 16,
+    borderRadius: 8,
+  },
+  themeOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderWidth: 2,
+    borderColor: 'transparent',
   },
 });
