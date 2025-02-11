@@ -112,12 +112,12 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
 
     const clearText = useCallback(async () => {
         try {
-            // First store the message if it's not empty
-            if (state.text.trim()) {
-                await storeMessage(state.text);
-            }
-            // Then clear the text
+            // Just clear the text without storing
             dispatch({ type: TEXT_ACTIONS.CLEAR_TEXT });
+            // Cancel any pending autosave
+            if (saveTimeoutRef.current) {
+                clearTimeout(saveTimeoutRef.current);
+            }
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             dispatch({ 
@@ -126,7 +126,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             });
             console.error('Clear text error:', error);
         }
-    }, [state.text]);
+    }, []);
 
     const restoreLastSession = useCallback(async () => {
         try {
