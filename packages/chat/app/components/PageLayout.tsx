@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, useWindowDimensions, Platform } from 'react-native';
+import { StyleSheet, ScrollView, useWindowDimensions, Platform, View } from 'react-native';
 import { Surface } from 'react-native-paper';
 import TabBar from './TabBar';
 
@@ -18,28 +18,34 @@ export default function PageLayout({ children, scrollable = false }: PageLayoutP
   const showTabBar = isLargeScreen || (Platform.OS !== 'ios' && Platform.OS !== 'android');
   
   return (
-    <Surface style={styles.container} elevation={1}>
-      {scrollable ? (
-        <ScrollView 
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-        >
-          {children}
-        </ScrollView>
-      ) : (
-        <Surface style={styles.content}>
-          {children}
-        </Surface>
-      )}
+    <View style={styles.wrapper}>
+      <Surface style={styles.container} elevation={1}>
+        {scrollable ? (
+          <ScrollView 
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+          >
+            {children}
+          </ScrollView>
+        ) : (
+          <View style={styles.content}>
+            {children}
+          </View>
+        )}
+      </Surface>
       {showTabBar && <TabBar />}
-    </Surface>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    height: '100%',
+  },
   container: {
     flex: 1,
-    minHeight: '100%',
+    minHeight: 0,
   },
   content: {
     flex: 1,
