@@ -1,46 +1,42 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { View, Button, Colors } from "react-native-ui-lib";
+import { View, Text, Button } from "react-native-ui-lib";
 
 type BottomBarProps = {
     onClearPress: () => void;
     onHistoryPress: () => void;
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-        height: 60,
-        backgroundColor: Colors.$backgroundElevated,
-        elevation: 4, // Mimics paper's surface elevation
-    },
-    button: {
-        padding: 8,
-    },
-});
-
 export default function BottomBar({
     onClearPress,
     onHistoryPress,
 }: BottomBarProps) {
     return (
-        <View style={styles.container}>
+        <View
+            row
+            height={60}
+            spread
+            center
+            backgroundColor="background.secondary"
+            style={{
+                borderTopWidth: 1,
+                borderTopColor: "border",
+            }}
+        >
             <Button
-                testID="history-button"
-                label="📜"
-                onPress={onHistoryPress}
-                style={styles.button}
-                accessibilityLabel="Show history"
-            />
-            <Button
+                link
                 testID="clear-button"
-                label="🗑️"
                 onPress={onClearPress}
-                style={styles.button}
-                accessibilityLabel="Clear text"
-            />
+                padding-10
+            >
+                <Text text60>🗑️</Text>
+            </Button>
+            <Button
+                link
+                testID="history-button"
+                onPress={onHistoryPress}
+                padding-10
+            >
+                <Text text60>⏱️</Text>
+            </Button>
         </View>
     );
 }
