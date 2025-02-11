@@ -3,7 +3,7 @@ import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-n
 import { MD3Theme } from 'react-native-paper';
 import { loadSettings, saveSettings } from '../utils/settingsStorage';
 
-export type ThemeType = 'classic' | 'ocean' | 'forest' | 'sunset';
+export type ThemeType = 'classic' | 'ocean' | 'forest' | 'sunset' | 'mono' | 'neon' | 'contrast' | 'candy' | 'mint';
 
 export interface CustomTheme extends MD3Theme {
   custom: {
@@ -274,6 +274,326 @@ export const themes: Record<ThemeType, { light: CustomTheme; dark: CustomTheme }
       custom: {
         tabBar: '#291616',
         tabBarActive: '#ffe0e0',
+      }
+    }
+  },
+  mono: {
+    light: {
+      colors: {
+        primary: '#000000',
+        onPrimary: '#ffffff',
+        primaryContainer: '#ffffff',
+        onPrimaryContainer: '#000000',
+        secondary: '#000000',
+        onSecondary: '#ffffff',
+        secondaryContainer: '#ffffff',
+        onSecondaryContainer: '#000000',
+        background: '#ffffff',
+        onBackground: '#000000',
+        surface: '#ffffff',
+        onSurface: '#000000',
+        surfaceVariant: '#ffffff',
+        onSurfaceVariant: '#000000',
+        outline: '#000000',
+        elevation: {
+          level0: 'transparent',
+          level1: '#ffffff',
+          level2: '#f5f5f5',
+          level3: '#eeeeee',
+          level4: '#e7e7e7',
+          level5: '#e0e0e0',
+        }
+      },
+      custom: {
+        tabBar: '#ffffff',
+        tabBarActive: '#000000',
+      }
+    },
+    dark: {
+      colors: {
+        primary: '#ffffff',
+        onPrimary: '#000000',
+        primaryContainer: '#000000',
+        onPrimaryContainer: '#ffffff',
+        secondary: '#ffffff',
+        onSecondary: '#000000',
+        secondaryContainer: '#000000',
+        onSecondaryContainer: '#ffffff',
+        background: '#000000',
+        onBackground: '#ffffff',
+        surface: '#000000',
+        onSurface: '#ffffff',
+        surfaceVariant: '#000000',
+        onSurfaceVariant: '#ffffff',
+        outline: '#ffffff',
+        elevation: {
+          level0: 'transparent',
+          level1: '#0a0a0a',
+          level2: '#141414',
+          level3: '#1f1f1f',
+          level4: '#292929',
+          level5: '#333333',
+        }
+      },
+      custom: {
+        tabBar: '#000000',
+        tabBarActive: '#ffffff',
+      }
+    }
+  },
+  neon: {
+    light: {
+      colors: {
+        primary: '#00ff00',
+        onPrimary: '#000000',
+        primaryContainer: '#001a00',
+        onPrimaryContainer: '#00ff00',
+        secondary: '#ff00ff',
+        onSecondary: '#000000',
+        secondaryContainer: '#1a001a',
+        onSecondaryContainer: '#ff00ff',
+        background: '#000000',
+        onBackground: '#00ff00',
+        surface: '#000000',
+        onSurface: '#00ff00',
+        surfaceVariant: '#001a00',
+        onSurfaceVariant: '#00ff00',
+        outline: '#00ff00',
+        elevation: {
+          level0: 'transparent',
+          level1: '#001a00',
+          level2: '#003300',
+          level3: '#004d00',
+          level4: '#006600',
+          level5: '#008000',
+        }
+      },
+      custom: {
+        tabBar: '#001a00',
+        tabBarActive: '#00ff00',
+      }
+    },
+    dark: {
+      colors: {
+        primary: '#00ff00',
+        onPrimary: '#000000',
+        primaryContainer: '#001a00',
+        onPrimaryContainer: '#00ff00',
+        secondary: '#ff00ff',
+        onSecondary: '#000000',
+        secondaryContainer: '#1a001a',
+        onSecondaryContainer: '#ff00ff',
+        background: '#000000',
+        onBackground: '#00ff00',
+        surface: '#000000',
+        onSurface: '#00ff00',
+        surfaceVariant: '#001a00',
+        onSurfaceVariant: '#00ff00',
+        outline: '#00ff00',
+        elevation: {
+          level0: 'transparent',
+          level1: '#001a00',
+          level2: '#003300',
+          level3: '#004d00',
+          level4: '#006600',
+          level5: '#008000',
+        }
+      },
+      custom: {
+        tabBar: '#001a00',
+        tabBarActive: '#00ff00',
+      }
+    }
+  },
+  contrast: {
+    light: {
+      colors: {
+        primary: '#ffff00',
+        onPrimary: '#000000',
+        primaryContainer: '#000000',
+        onPrimaryContainer: '#ffff00',
+        secondary: '#ffff00',
+        onSecondary: '#000000',
+        secondaryContainer: '#000000',
+        onSecondaryContainer: '#ffff00',
+        background: '#000000',
+        onBackground: '#ffff00',
+        surface: '#000000',
+        onSurface: '#ffff00',
+        surfaceVariant: '#000000',
+        onSurfaceVariant: '#ffff00',
+        outline: '#ffff00',
+        elevation: {
+          level0: 'transparent',
+          level1: '#1a1a00',
+          level2: '#333300',
+          level3: '#4d4d00',
+          level4: '#666600',
+          level5: '#808000',
+        }
+      },
+      custom: {
+        tabBar: '#000000',
+        tabBarActive: '#ffff00',
+      }
+    },
+    dark: {
+      colors: {
+        primary: '#ffff00',
+        onPrimary: '#000000',
+        primaryContainer: '#000000',
+        onPrimaryContainer: '#ffff00',
+        secondary: '#ffff00',
+        onSecondary: '#000000',
+        secondaryContainer: '#000000',
+        onSecondaryContainer: '#ffff00',
+        background: '#000000',
+        onBackground: '#ffff00',
+        surface: '#000000',
+        onSurface: '#ffff00',
+        surfaceVariant: '#000000',
+        onSurfaceVariant: '#ffff00',
+        outline: '#ffff00',
+        elevation: {
+          level0: 'transparent',
+          level1: '#1a1a00',
+          level2: '#333300',
+          level3: '#4d4d00',
+          level4: '#666600',
+          level5: '#808000',
+        }
+      },
+      custom: {
+        tabBar: '#000000',
+        tabBarActive: '#ffff00',
+      }
+    }
+  },
+  candy: {
+    light: {
+      colors: {
+        primary: '#ff1493',
+        onPrimary: '#ffffff',
+        primaryContainer: '#ffe4f3',
+        onPrimaryContainer: '#ff1493',
+        secondary: '#9932cc',
+        onSecondary: '#ffffff',
+        secondaryContainer: '#f3e5ff',
+        onSecondaryContainer: '#9932cc',
+        background: '#fff0f8',
+        onBackground: '#ff1493',
+        surface: '#fff0f8',
+        onSurface: '#ff1493',
+        surfaceVariant: '#ffe4f3',
+        onSurfaceVariant: '#ff1493',
+        outline: '#ff69b4',
+        elevation: {
+          level0: 'transparent',
+          level1: '#ffe4f3',
+          level2: '#ffd9ed',
+          level3: '#ffcee7',
+          level4: '#ffc3e1',
+          level5: '#ffb8db',
+        }
+      },
+      custom: {
+        tabBar: '#ffe4f3',
+        tabBarActive: '#ff1493',
+      }
+    },
+    dark: {
+      colors: {
+        primary: '#ff69b4',
+        onPrimary: '#1a0011',
+        primaryContainer: '#4d0033',
+        onPrimaryContainer: '#ff69b4',
+        secondary: '#da70d6',
+        onSecondary: '#1a001a',
+        secondaryContainer: '#4d004d',
+        onSecondaryContainer: '#da70d6',
+        background: '#1a0011',
+        onBackground: '#ff69b4',
+        surface: '#1a0011',
+        onSurface: '#ff69b4',
+        surfaceVariant: '#4d0033',
+        onSurfaceVariant: '#ff69b4',
+        outline: '#ff69b4',
+        elevation: {
+          level0: 'transparent',
+          level1: '#4d0033',
+          level2: '#660044',
+          level3: '#800055',
+          level4: '#990066',
+          level5: '#b30077',
+        }
+      },
+      custom: {
+        tabBar: '#4d0033',
+        tabBarActive: '#ff69b4',
+      }
+    }
+  },
+  mint: {
+    light: {
+      colors: {
+        primary: '#3eb489',
+        onPrimary: '#ffffff',
+        primaryContainer: '#e0f5ed',
+        onPrimaryContainer: '#3eb489',
+        secondary: '#40826d',
+        onSecondary: '#ffffff',
+        secondaryContainer: '#e0f5ed',
+        onSecondaryContainer: '#40826d',
+        background: '#f0faf6',
+        onBackground: '#3eb489',
+        surface: '#f0faf6',
+        onSurface: '#3eb489',
+        surfaceVariant: '#e0f5ed',
+        onSurfaceVariant: '#3eb489',
+        outline: '#40826d',
+        elevation: {
+          level0: 'transparent',
+          level1: '#e0f5ed',
+          level2: '#d1f0e3',
+          level3: '#c2ebd9',
+          level4: '#b3e6cf',
+          level5: '#a4e1c5',
+        }
+      },
+      custom: {
+        tabBar: '#e0f5ed',
+        tabBarActive: '#3eb489',
+      }
+    },
+    dark: {
+      colors: {
+        primary: '#98ffd9',
+        onPrimary: '#00261a',
+        primaryContainer: '#004d33',
+        onPrimaryContainer: '#98ffd9',
+        secondary: '#66ffb2',
+        onSecondary: '#00261a',
+        secondaryContainer: '#004d33',
+        onSecondaryContainer: '#66ffb2',
+        background: '#00261a',
+        onBackground: '#98ffd9',
+        surface: '#00261a',
+        onSurface: '#98ffd9',
+        surfaceVariant: '#004d33',
+        onSurfaceVariant: '#98ffd9',
+        outline: '#66ffb2',
+        elevation: {
+          level0: 'transparent',
+          level1: '#004d33',
+          level2: '#006644',
+          level3: '#008055',
+          level4: '#009966',
+          level5: '#00b377',
+        }
+      },
+      custom: {
+        tabBar: '#004d33',
+        tabBarActive: '#98ffd9',
       }
     }
   }
