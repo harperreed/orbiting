@@ -8,7 +8,7 @@ import {
 import * as Shake from 'expo-shake';
 import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
 import BottomBar from "./BottomBar";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
@@ -96,8 +96,9 @@ export default function HomeScreen() {
     };
 
     return (
-        <Animated.View style={[StyleSheet.absoluteFill, flashStyle]} />
-        <KeyboardAvoidingView
+        <>
+            <Animated.View style={[StyleSheet.absoluteFill, flashStyle]} />
+            <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
             keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
@@ -126,7 +127,8 @@ export default function HomeScreen() {
                 }}>
                 {error}
             </Snackbar>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+        </>
     );
 }
 
