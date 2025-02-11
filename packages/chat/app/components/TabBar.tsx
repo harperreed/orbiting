@@ -1,5 +1,4 @@
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useRouter, usePathname } from 'expo-router';
 
 export default function TabBar() {
@@ -19,35 +18,35 @@ export default function TabBar() {
         onPress={() => router.push('/')}
         testID="home-tab"
       >
-        <FontAwesome name="home" size={24} color={pathname === '/' ? '#007AFF' : '#666'} />
+        <Text style={[styles.emoji, pathname === '/' && styles.activeEmoji]}>🏠</Text>
       </TouchableOpacity>
       <TouchableOpacity 
         style={[styles.tab, pathname === '/history' && styles.activeTab]}
         onPress={() => router.push('/history')}
         testID="history-tab"
       >
-        <FontAwesome name="history" size={24} color={pathname === '/history' ? '#007AFF' : '#666'} />
+        <Text style={[styles.emoji, pathname === '/history' && styles.activeEmoji]}>⏱️</Text>
       </TouchableOpacity>
       <TouchableOpacity 
         style={[styles.tab, pathname === '/help' && styles.activeTab]}
         onPress={() => router.push('/help')}
         testID="help-tab"
       >
-        <FontAwesome name="question-circle" size={24} color={pathname === '/help' ? '#007AFF' : '#666'} />
+        <Text style={[styles.emoji, pathname === '/help' && styles.activeEmoji]}>❓</Text>
       </TouchableOpacity>
       <TouchableOpacity 
         style={[styles.tab, pathname === '/settings' && styles.activeTab]}
         onPress={() => router.push('/settings')}
         testID="settings-tab"
       >
-        <FontAwesome name="cog" size={24} color={pathname === '/settings' ? '#007AFF' : '#666'} />
+        <Text style={[styles.emoji, pathname === '/settings' && styles.activeEmoji]}>⚙️</Text>
       </TouchableOpacity>
       <TouchableOpacity 
         style={[styles.tab, pathname === '/about' && styles.activeTab]}
         onPress={() => router.push('/about')}
         testID="about-tab"
       >
-        <FontAwesome name="info-circle" size={24} color={pathname === '/about' ? '#007AFF' : '#666'} />
+        <Text style={[styles.emoji, pathname === '/about' && styles.activeEmoji]}>ℹ️</Text>
       </TouchableOpacity>
     </View>
   );
@@ -70,5 +69,12 @@ const styles = StyleSheet.create({
   activeTab: {
     borderTopWidth: 2,
     borderTopColor: '#007AFF',
+  },
+  emoji: {
+    fontSize: 24,
+    color: '#666',
+  },
+  activeEmoji: {
+    color: '#007AFF',
   },
 });
