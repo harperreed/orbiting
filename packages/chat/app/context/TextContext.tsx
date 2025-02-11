@@ -17,13 +17,24 @@ const TextContext = createContext<TextContextType | undefined>(undefined);
 const AUTOSAVE_DELAY = 1000; // 1 second
 
 function logStateChange(action: TextAction, prevState: TextState, nextState: TextState) {
-    console.debug(
-        `[TextContext] ${action.type}:`,
-        '\n  Action:', action,
-        '\n  Previous:', prevState,
-        '\n  Next:', nextState,
-        '\n  Timestamp:', new Date().toISOString()
-    );
+    if (process.env.NODE_ENV !== 'production') {
+        const stateChanges = Object.keys(nextState).reduce((changes: Record<string, any>, key) => {
+            if (prevState[key as keyof TextState] !== nextState[key as keyof TextState]) {
+                changes[key] = {
+                    from: prevState[key as keyof TextState],
+                    to: nextState[key as keyof TextState]
+                };
+            }
+            return changes;
+        }, {});
+
+        console.debug(
+            `[TextContext] ${action.type}:`,
+            '\n  Action:', action,
+            '\n  Changes:', stateChanges,
+            '\n  Timestamp:', new Date().toISOString()
+        );
+    }
 }
 
 export function TextProvider({ children }: { children: React.ReactNode }) {
@@ -62,22 +73,29 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
     }, [state.text, state.isDirty]);
 
     const handleTextChange = useCallback(async (newText: string) => {
-        const action = { type: 'SET_TEXT' as const, payload: newText };
+        const action = { 
+            type: TEXT_ACTIONS.SET_TEXT, 
+            payload: newText.trim() 
+        };
+        const nextState = textReducer(state, action);
+        logStateChange(action, state, nextState);
         dispatch(action);
-        logStateChange(action, state, textReducer(state, action));
     }, [state]);
 
     const clearText = useCallback(async () => {
         try {
             await clearHistory();
-            const action = { type: 'CLEAR_TEXT' as const };
+            const action = { type: TEXT_ACTIONS.CLEAR_TEXT };
+            const nextState = textReducer(state, action);
+            logStateChange(action, state, nextState);
             dispatch(action);
-            logStateChange(action, state, textReducer(state, action));
         } catch (error) {
-            dispatch({ 
-                type: 'SET_ERROR',
-                payload: 'Failed to clear history'
-            });
+            const errorAction = { 
+                type: TEXT_ACTIONS.SET_ERROR,
+                payload: `Failed to clear history: ${error instanceof Error ? error.message : 'Unknown error'}`
+            };
+            dispatch(errorAction);
+            console.error('Clear text error:', error);
         }
     }, [state]);
 

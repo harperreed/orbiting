@@ -6,12 +6,21 @@ export interface TextState {
     isDirty: boolean;
 }
 
+// Action type constants
+export const TEXT_ACTIONS = {
+    SET_TEXT: 'SET_TEXT',
+    TEXT_SAVED: 'TEXT_SAVED',
+    CLEAR_TEXT: 'CLEAR_TEXT',
+    RESTORE_SESSION: 'RESTORE_SESSION',
+    SET_ERROR: 'SET_ERROR',
+} as const;
+
 export type TextAction = 
-    | { type: 'SET_TEXT'; payload: string }
-    | { type: 'TEXT_SAVED'; payload: number }
-    | { type: 'CLEAR_TEXT' }
-    | { type: 'RESTORE_SESSION'; payload: StoredMessage }
-    | { type: 'SET_ERROR'; payload: string };
+    | { type: typeof TEXT_ACTIONS.SET_TEXT; payload: string }
+    | { type: typeof TEXT_ACTIONS.TEXT_SAVED; payload: number }
+    | { type: typeof TEXT_ACTIONS.CLEAR_TEXT }
+    | { type: typeof TEXT_ACTIONS.RESTORE_SESSION; payload: StoredMessage }
+    | { type: typeof TEXT_ACTIONS.SET_ERROR; payload: string };
 
 export function textReducer(state: TextState, action: TextAction): TextState {
     switch (action.type) {

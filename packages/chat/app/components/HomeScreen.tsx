@@ -17,12 +17,20 @@ export default function HomeScreen() {
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
 
     useEffect(() => {
-        if (paramText) {
-            handleTextChange(paramText);
-        } else {
-            restoreLastSession();
-        }
-    }, [paramText]);
+        const initializeText = async () => {
+            try {
+                if (paramText) {
+                    await handleTextChange(paramText);
+                } else {
+                    await restoreLastSession();
+                }
+            } catch (error) {
+                console.error('Failed to initialize text:', error);
+            }
+        };
+        
+        initializeText();
+    }, [paramText, handleTextChange, restoreLastSession]);
 
     const { width, height } = Dimensions.get("window");
     const SWIPE_THRESHOLD = width * 0.2; // 20% of screen width
