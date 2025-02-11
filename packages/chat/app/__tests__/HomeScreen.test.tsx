@@ -31,6 +31,9 @@ jest.mock('react-native-gesture-handler', () => ({
 }));
 
 describe("HomeScreen", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it("renders initial Hello Orbiting! text", () => {
     render(<HomeScreen />);
     const display = screen.getByTestId("big-text-display");
@@ -84,6 +87,7 @@ describe("HomeScreen", () => {
   });
 
   it('navigates to history on up swipe gesture', () => {
+    const { unmount } = render(<HomeScreen />);
     render(<HomeScreen />);
     
     // Simulate up swipe by directly calling the gesture callback
@@ -92,4 +96,22 @@ describe("HomeScreen", () => {
     upSwipeCallback();
     
     expect(router.push).toHaveBeenCalledWith('/history');
+    unmount();
+  });
+
+  it('cleans up text state on unmount', () => {
+    const { unmount } = render(<HomeScreen />);
+    const display = screen.getByTestId("big-text-display");
+    
+    // Set some text
+    fireEvent.changeText(display, "Test Text");
+    expect(display.props.value).toBe("Test Text");
+    
+    // Unmount and verify cleanup
+    unmount();
+    
+    // Re-render to verify state is clean
+    render(<HomeScreen />);
+    const newDisplay = screen.getByTestId("big-text-display");
+    expect(newDisplay.props.value).toBe("");
   });

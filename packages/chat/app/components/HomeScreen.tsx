@@ -34,7 +34,8 @@ export default function HomeScreen() {
     const SWIPE_THRESHOLD = width * 0.2; // 20% of screen width
     const VERTICAL_THRESHOLD = height * 0.2; // 20% of screen height
 
-    const panGesture = Gesture.Pan().onFinalize((event) => {
+    const panGesture = Gesture.Pan()
+        .onFinalize((event) => {
         const { translationX, translationY } = event;
 
         // Check for left swipe
@@ -47,6 +48,13 @@ export default function HomeScreen() {
             router.push("/history");
         }
     });
+
+    useEffect(() => {
+        // Cleanup function
+        return () => {
+            setText("");
+        };
+    }, []);
 
     return (
         <KeyboardAvoidingView
