@@ -4,7 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 import { TextProvider } from '../app/context/TextContext';
 import { ThemeManager } from 'react-native-ui-lib';
-import { initializeTheme } from './theme/theme';
+import { initializeTheme, typography } from './theme/theme';
 
 // Initialize theme
 initializeTheme();
