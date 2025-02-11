@@ -1,5 +1,5 @@
 import { StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
-import { TextField, useTheme } from 'rnuilib';
+import { TextField, useTheme } from 'react-native-ui-lib';
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
