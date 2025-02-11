@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native';
-import { Text, Switch, Button, List, Surface, SegmentedButtons } from 'react-native-paper';
+import { Text, Switch, Button, List, Surface, SegmentedButtons, useTheme } from 'react-native-paper';
+import { useState } from 'react';
 import PageLayout from './components/PageLayout';
 import { useSettings } from './context/SettingsContext';
 import type { ThemeType } from './context/SettingsContext';
@@ -27,6 +28,14 @@ export default function SettingsScreen() {
     updateSettings,
     resetSettings,
   } = useSettings();
+  const [isResetting, setIsResetting] = useState(false);
+  const paperTheme = useTheme();
+
+  const handleReset = async () => {
+    setIsResetting(true);
+    await resetSettings();
+    setIsResetting(false);
+  };
 
   return (
     <PageLayout scrollable>
@@ -110,10 +119,11 @@ export default function SettingsScreen() {
         </List.Section>
 
         <Button
+          loading={isResetting}
           mode="contained"
-          onPress={resetSettings}
+          onPress={handleReset}
           style={styles.resetButton}
-          buttonColor="#ff6b6b"
+          buttonColor={paperTheme.colors.error}
         >
           Reset to Defaults
         </Button>
