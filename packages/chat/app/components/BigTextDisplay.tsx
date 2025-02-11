@@ -1,6 +1,6 @@
 import { StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
-import { TextInput, useTheme } from 'react-native-paper';
-import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
+import { TextField, useTheme } from 'rnuilib';
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
 
@@ -29,7 +29,7 @@ export default function BigTextDisplay({
   const maxFontSize = propMaxFontSize ?? (startingFontSize / 2.4); // Convert px to vh units
   const dimensions = useWindowDimensions();
   const previousDimensions = useRef(dimensions);
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<typeof TextField>(null);
 
   const [fontSize, setFontSize] = useState(maxFontSize);
   const [containerSize, setContainerSize] = useState<ViewportSize>({ width: 0, height: 0 });
@@ -163,7 +163,7 @@ export default function BigTextDisplay({
   }, [text, containerSize, contentSize, adjustedContainerHeight, debouncedCalculate, minFontSize]);
 
   return (
-    <TextInput
+    <TextField
       ref={inputRef}
       testID="big-text-display"
       mode="flat"
