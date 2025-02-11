@@ -75,7 +75,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
     const handleTextChange = useCallback(async (newText: string) => {
         const action = { 
             type: TEXT_ACTIONS.SET_TEXT, 
-            payload: newText.trim() 
+            payload: newText
         };
         dispatch(action);
     }, []);
