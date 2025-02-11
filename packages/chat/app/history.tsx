@@ -45,6 +45,7 @@ export default function HistoryScreen() {
   const { clearText } = useText();
   
   const handleClearHistory = useCallback(async () => {
+    console.log('Clear history pressed');
     Alert.alert(
       'Clear History',
       'Are you sure you want to clear all messages?',
@@ -55,20 +56,25 @@ export default function HistoryScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
+              console.log('Clear button pressed, starting clear process');
               await clearHistory();
+              console.log('History cleared');
               await clearText();
+              console.log('Text cleared');
               setMessages([]);
               setHasMore(false);
               setPage(0);
+              console.log('State reset complete');
             } catch (error) {
               console.error('Failed to clear history:', error);
               Alert.alert('Error', 'Failed to clear history');
             }
           },
         },
-      ]
+      ],
+      { cancelable: false }
     );
-  }, [clearText]);
+  }, [clearText, clearHistory]);
 
   const handleDeleteMessage = useCallback(async (id: string) => {
     Alert.alert(
