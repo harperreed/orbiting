@@ -13,23 +13,16 @@ import BigTextDisplay from "./BigTextDisplay";
 import { storeMessage, clearHistory } from "../utils/storage";
 
 export default function HomeScreen() {
-    const [text, setText] = useState("");
+    const { text, handleTextChange, clearText, restoreLastSession } = useText();
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
 
     useEffect(() => {
         if (paramText) {
-            setText(paramText);
+            handleTextChange(paramText);
+        } else {
+            restoreLastSession();
         }
     }, [paramText]);
-
-    const handleTextChange = useCallback(async (newText: string) => {
-        setText(newText);
-        try {
-            await storeMessage(newText);
-        } catch (error) {
-            console.error("Failed to store message:", error);
-        }
-    }, []);
 
     const { width, height } = Dimensions.get("window");
     const SWIPE_THRESHOLD = width * 0.2; // 20% of screen width
@@ -74,14 +67,7 @@ export default function HomeScreen() {
                     </View>
                 </GestureDetector>
                 <BottomBar 
-                    onClearPress={async () => {
-                        setText("");
-                        try {
-                            await clearHistory();
-                        } catch (error) {
-                            console.error("Failed to clear history:", error);
-                        }
-                    }}
+                    onClearPress={clearText}
                     onHistoryPress={() => router.push("/history")}
                 />
             </View>
