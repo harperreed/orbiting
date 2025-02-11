@@ -69,13 +69,16 @@ export default function RootLayout() {
     return <View />;
   }
   
-  // Set color scheme
+  // Set color scheme and ensure it updates with system changes
   useEffect(() => {
     Colors.setScheme(colorScheme === 'dark' ? 'dark' : 'light');
+    ThemeManager.setComponentTheme('View', {
+      backgroundColor: Colors.background
+    });
   }, [colorScheme]);
 
   return (
-    <UIView flex>
+    <UIView flex backgroundColor={Colors.background}>
       <GestureHandlerRootView style={{ flex: 1 }}>
           <SettingsProvider>
             <TextProvider>
