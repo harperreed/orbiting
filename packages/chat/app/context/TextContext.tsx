@@ -10,6 +10,8 @@ interface TextContextType {
     isDirty: boolean;
     lastSaved: number | null;
     restoreLastSession: () => Promise<void>;
+    error: string | null;
+    isLoading: boolean;
 }
 
 const TextContext = createContext<TextContextType | undefined>(undefined);
@@ -95,13 +97,12 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
 
     const clearText = useCallback(async () => {
         try {
-            await clearHistory();
             dispatch({ type: TEXT_ACTIONS.CLEAR_TEXT });
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: `Failed to clear history: ${errorMessage}`
+                payload: `Failed to clear text: ${errorMessage}`
             });
             console.error('Clear text error:', error);
         }
@@ -134,7 +135,9 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             clearText,
             isDirty: state.isDirty,
             lastSaved: state.lastSaved,
-            restoreLastSession
+            restoreLastSession,
+            error: state.error,
+            isLoading: state.isLoading
         }}>
             {children}
         </TextContext.Provider>

@@ -1,6 +1,7 @@
 import { StyleSheet, TouchableOpacity, Text, Alert, ActivityIndicator, View } from 'react-native';
 import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
+import { useText } from './context/TextContext';
 import { useRouter } from 'expo-router';
 import { StoredMessage, getMessages, clearHistory, deleteMessage } from './utils/storageUtils';
 import { FlashList } from '@shopify/flash-list';
@@ -41,6 +42,8 @@ export default function HistoryScreen() {
     loadMessages(0);
   }, [loadMessages]);
 
+  const { clearText } = useText();
+  
   const handleClearHistory = useCallback(async () => {
     Alert.alert(
       'Clear History',
@@ -53,6 +56,7 @@ export default function HistoryScreen() {
           onPress: async () => {
             try {
               await clearHistory();
+              await clearText();
               setMessages([]);
               setHasMore(false);
               setPage(0);
@@ -64,7 +68,7 @@ export default function HistoryScreen() {
         },
       ]
     );
-  }, []); // Remove loadMessages from dependencies as it's not used in the function
+  }, [clearText]);
 
   const handleDeleteMessage = useCallback(async (id: string) => {
     Alert.alert(
