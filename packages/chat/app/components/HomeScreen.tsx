@@ -40,12 +40,18 @@ export default function HomeScreen() {
         .onFinalize((event) => {
         const { translationX, translationY } = event;
 
-        // Check for left swipe
-        if (translationX < -SWIPE_THRESHOLD && Math.abs(translationY) < 50) {
-            handleTextChange("");
+        // Horizontal swipes
+        if (Math.abs(translationX) > SWIPE_THRESHOLD && Math.abs(translationY) < 50) {
+            if (translationX < 0) {
+                // Left swipe - clear text
+                handleTextChange("");
+            } else {
+                // Right swipe - show history
+                router.push("/history");
+            }
         }
-
-        // Check for up swipe
+        
+        // Up swipe - show history
         if (translationY < -VERTICAL_THRESHOLD && Math.abs(translationX) < 50) {
             router.push("/history");
         }
