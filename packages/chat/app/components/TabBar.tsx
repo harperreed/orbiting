@@ -25,6 +25,10 @@ export default function TabBar() {
         ],
       }}
       renderScene={() => <View />}
+      onIndexChange={(index) => {
+        const route = ['/', '/history', '/help', '/settings', '/about'][index];
+        router.push(route);
+      }}
       onTabPress={({ route }) => {
         switch (route.key) {
           case 'home':
