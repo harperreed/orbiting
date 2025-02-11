@@ -4,7 +4,7 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
-import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
+import { View, Toast, LoaderScreen } from 'rnuilib';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
@@ -65,29 +65,29 @@ export default function HomeScreen() {
             keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
             contentContainerStyle={styles.keyboardAvoidingContent}
         >
-            <Surface style={styles.contentContainer}>
+            <View style={styles.contentContainer}>
                 <GestureDetector gesture={panGesture}>
-                    <Surface style={styles.innerContainer}>
+                    <View style={styles.innerContainer}>
                         <BigTextDisplay
                             text={text}
                             onChangeText={handleTextChange}
                         />
-                    </Surface>
+                    </View>
                 </GestureDetector>
                 <BottomBar 
                     onClearPress={() => handleTextChange("")}
                     onHistoryPress={() => router.push("/history")}
                 />
-            </Surface>
-            <Snackbar
-                visible={!!error}
-                onDismiss={() => {}}
-                action={{
-                    label: 'Dismiss',
-                    onPress: () => {},
-                }}>
-                {error}
-            </Snackbar>
+            </View>
+            {error && (
+                <Toast
+                    visible={!!error}
+                    position={'bottom'}
+                    message={error}
+                    onDismiss={() => {}}
+                    autoDismiss={5000}
+                />
+            )}
         </KeyboardAvoidingView>
     );
 }

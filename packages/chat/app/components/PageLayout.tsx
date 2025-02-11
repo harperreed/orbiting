@@ -13,12 +13,11 @@ import {
     StatusBar,
 } from "react-native";
 import {
-    Surface,
-    useTheme,
-    Portal,
-    ActivityIndicator,
+    View,
     Text,
-} from "react-native-paper";
+    LoaderScreen,
+    Colors,
+} from "rnuilib";
 import TabBar from "./TabBar";
 
 // Error boundary class component
@@ -42,15 +41,15 @@ class ErrorBoundary extends React.Component<
     render() {
         if (this.state.hasError) {
             return (
-                <Surface style={styles.errorContainer}>
-                    <Text variant="headlineSmall" style={styles.errorText}>
+                <View style={styles.errorContainer}>
+                    <Text text60 style={styles.errorText}>
                         Something went wrong
                     </Text>
-                    <Text variant="bodyMedium" style={styles.errorDetail}>
+                    <Text text70 style={styles.errorDetail}>
                         {this.state.error?.message ||
                             "An unexpected error occurred"}
                     </Text>
-                </Surface>
+                </View>
             );
         }
         return this.props.children;
@@ -134,10 +133,10 @@ export default function PageLayout({
             <View style={styles.contentWrapper}>
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" />
+                        <LoaderScreen message="Loading..." />
                     </View>
                 ) : (
-                    <Surface
+                    <View
                         style={[
                             styles.content,
                             { backgroundColor: theme.colors.surface },
@@ -147,7 +146,7 @@ export default function PageLayout({
                         elevation={0}
                     >
                         {children}
-                    </Surface>
+                    </View>
                 )}
             </View>
         );
@@ -188,7 +187,7 @@ export default function PageLayout({
                         style={styles.keyboardAvoid}
                         keyboardVerticalOffset={keyboardOffset}
                     >
-                        <Surface
+                        <View
                             style={[
                                 styles.container,
                                 { backgroundColor: theme.colors.background },
@@ -208,7 +207,7 @@ export default function PageLayout({
                                 }
                             />
                             {renderContent()}
-                        </Surface>
+                        </View>
                     </KeyboardAvoidingView>
                     {showTabBar && <TabBar />}
                 </SafeAreaView>
