@@ -145,32 +145,7 @@ export default function HistoryScreen() {
       {messages.length > 0 && (
         <TouchableOpacity
           style={styles.clearButton}
-          onPress={() => {
-            Alert.alert(
-              'Clear History',
-              'Are you sure you want to clear all messages?',
-              [
-                { text: 'Cancel', style: 'cancel' },
-                {
-                  text: 'Clear',
-                  style: 'destructive',
-                  onPress: async () => {
-                    try {
-                      await clearHistory();
-                      await clearText();
-                      setMessages([]);
-                      setHasMore(false);
-                      setPage(0);
-                    } catch (error) {
-                      console.error('Failed to clear history:', error);
-                      Alert.alert('Error', 'Failed to clear history');
-                    }
-                  },
-                },
-              ],
-              { cancelable: true }
-            );
-          }}
+          onPress={handleClearHistory}
         >
           <Text style={styles.clearButtonText}>Clear History</Text>
         </TouchableOpacity>
