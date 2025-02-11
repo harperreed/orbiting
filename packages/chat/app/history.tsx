@@ -33,16 +33,16 @@ export default function HistoryScreen() {
           onPress: async () => {
             try {
               await clearHistory();
-              setMessages([]);
-              router.push('/');
+              await loadMessages(); // Reload messages after clearing
             } catch (error) {
               console.error('Failed to clear history:', error);
+              Alert.alert('Error', 'Failed to clear history');
             }
           },
         },
       ]
     );
-  }, []);
+  }, [loadMessages]);
 
   const renderItem = useCallback(({ item }: { item: StoredMessage }) => (
     <TouchableOpacity
