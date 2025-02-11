@@ -6,7 +6,7 @@ export default function HelpScreen() {
     return (
         <PageLayout scrollable>
             <List.Section>
-                <List.Subheader>How to Use</List.Subheader>
+                <List.Subheader style={{ fontSize: 20 }}>How to Use</List.Subheader>
                 <List.Item
                     title="Type or paste your text in the main screen"
                     left={props => <List.Icon {...props} icon="text" />}
@@ -26,7 +26,7 @@ export default function HelpScreen() {
             </List.Section>
 
             <List.Section>
-                <List.Subheader>Features</List.Subheader>
+                <List.Subheader style={{ fontSize: 20 }}>Features</List.Subheader>
                 <List.Item
                     title="Auto-scaling text size"
                     left={props => <List.Icon {...props} icon="format-size" />}
@@ -46,7 +46,7 @@ export default function HelpScreen() {
             </List.Section>
 
             <List.Section>
-                <List.Subheader>Tips</List.Subheader>
+                <List.Subheader style={{ fontSize: 20 }}>Tips</List.Subheader>
                 <List.Item
                     title="Tap any message in History to load it"
                     left={props => <List.Icon {...props} icon="gesture-tap" />}

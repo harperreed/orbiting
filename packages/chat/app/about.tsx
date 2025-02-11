@@ -6,7 +6,7 @@ export default function AboutScreen() {
   return (
     <PageLayout>
       <Surface style={styles.centered} elevation={1}>
-        <Text variant="headlineMedium">About</Text>
+        <Text variant="displaySmall">About</Text>
       </Surface>
     </PageLayout>
   );

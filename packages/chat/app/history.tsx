@@ -189,7 +189,7 @@ export default function HistoryScreen() {
         <Dialog visible={showClearDialog} onDismiss={() => setShowClearDialog(false)}>
           <Dialog.Title>Clear History</Dialog.Title>
           <Dialog.Content>
-            <Text>Are you sure you want to clear all messages?</Text>
+            <Text variant="bodyLarge">Are you sure you want to clear all messages?</Text>
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => setShowClearDialog(false)}>Cancel</Button>
@@ -200,7 +200,7 @@ export default function HistoryScreen() {
         <Dialog visible={showDeleteDialog} onDismiss={() => setShowDeleteDialog(false)}>
           <Dialog.Title>Delete Message</Dialog.Title>
           <Dialog.Content>
-            <Text>Are you sure you want to delete this message?</Text>
+            <Text variant="bodyLarge">Are you sure you want to delete this message?</Text>
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => setShowDeleteDialog(false)}>Cancel</Button>
