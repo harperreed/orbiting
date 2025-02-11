@@ -1,5 +1,5 @@
 import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
-import { useState, useEffect, useCallback, useRef, RefObject } from "react";
+import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
 import { debounce } from 'lodash';
 
 type BigTextDisplayProps = {
