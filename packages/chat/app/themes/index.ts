@@ -1,42 +1,21 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-native';
-import { MD3Theme } from 'react-native-paper';
-import { loadSettings, saveSettings } from '../utils/settingsStorage';
-import { themes } from '../themes';
+import { CustomTheme } from '../context/SettingsContext';
+import type { ThemeType } from '../context/SettingsContext';
 
-export type ThemeType = 'classic' | 'ocean' | 'forest' | 'sunset' | 'mono' | 'neon' | 'contrast' | 'candy' | 'mint';
+export const THEMES: { label: string; value: ThemeType; colors: { primary: string; secondary: string } }[] = [
+  { label: 'Classic', value: 'classic', colors: { primary: '#000000', secondary: '#666666' } },
+  { label: 'Ocean', value: 'ocean', colors: { primary: '#1a3c5b', secondary: '#6c8eae' } },
+  { label: 'Forest', value: 'forest', colors: { primary: '#1b4d1b', secondary: '#6b8e6b' } },
+  { label: 'Sunset', value: 'sunset', colors: { primary: '#5b1a1a', secondary: '#8e6c6c' } },
+  { label: 'Mono', value: 'mono', colors: { primary: '#000000', secondary: '#ffffff' } },
+  { label: 'Neon', value: 'neon', colors: { primary: '#00ff00', secondary: '#ff00ff' } },
+  { label: 'Contrast', value: 'contrast', colors: { primary: '#ffff00', secondary: '#000000' } },
+  { label: 'Candy', value: 'candy', colors: { primary: '#ff1493', secondary: '#9932cc' } },
+  { label: 'Mint', value: 'mint', colors: { primary: '#3eb489', secondary: '#40826d' } },
+];
 
-export interface CustomTheme extends MD3Theme {
-  custom: {
-    tabBar: string;
-    tabBarActive: string;
-  }
-}
-
-export interface ThemeColors {
-  background: string;
-  text: string;
-  placeholder: string;
-  tabBar: string;
-  tabBarActive: string;
-}
-
-export interface CustomTheme extends MD3Theme {
-  custom: {
-    tabBar: string;
-    tabBarActive: string;
-  }
-}
-
-export interface ThemeColors {
-  background: string;
-  text: string;
-  placeholder: string;
-  tabBar: string;
-  tabBarActive: string;
-}
-
-interface Settings {
+export const themes: Record<ThemeType, { light: CustomTheme; dark: CustomTheme }> = {
+  classic: {
+    light: {
       colors: {
         primary: '#000000',
         onPrimary: '#ffffff',
@@ -612,79 +591,3 @@ interface Settings {
     }
   }
 };
-
-interface Settings {
-  colorScheme: ColorSchemeName | 'system';
-  startingFontSize: number;
-  theme: ThemeType;
-  shakeEnabled: boolean;
-  shakeFlashEnabled: boolean;
-}
-
-interface SettingsContextType extends Settings {
-  updateSettings: (settings: Partial<Settings>) => void;
-  resetSettings: () => void;
-  currentTheme: CustomTheme;
-}
-
-const defaultSettings: Settings = {
-  colorScheme: 'system',
-  startingFontSize: 24,
-  theme: 'classic',
-  shakeEnabled: true,
-  shakeFlashEnabled: false,
-};
-
-const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
-
-export function SettingsProvider({ children }: { children: React.ReactNode }) {
-  const deviceColorScheme = useDeviceColorScheme();
-  const [settings, setSettings] = useState<Settings>(defaultSettings);
-
-  useEffect(() => {
-    loadSettings().then((savedSettings) => {
-      if (savedSettings) {
-        setSettings(savedSettings);
-      }
-    });
-  }, []);
-
-  const updateSettings = async (newSettings: Partial<Settings>) => {
-    const updatedSettings = { ...settings, ...newSettings };
-    setSettings(updatedSettings);
-    await saveSettings(updatedSettings);
-  };
-
-  const resetSettings = async () => {
-    setSettings(defaultSettings);
-    await saveSettings(defaultSettings);
-  };
-
-  const effectiveColorScheme = settings.colorScheme === 'system' 
-    ? deviceColorScheme 
-    : settings.colorScheme;
-
-  const currentTheme = themes[settings.theme][effectiveColorScheme || 'light'];
-
-  return (
-    <SettingsContext.Provider
-      value={{
-        ...settings,
-        colorScheme: effectiveColorScheme,
-        updateSettings,
-        resetSettings,
-        currentTheme: themes[settings.theme][effectiveColorScheme || 'light'],
-      }}
-    >
-      {children}
-    </SettingsContext.Provider>
-  );
-}
-
-export function useSettings() {
-  const context = useContext(SettingsContext);
-  if (context === undefined) {
-    throw new Error('useSettings must be used within a SettingsProvider');
-  }
-  return context;
-}

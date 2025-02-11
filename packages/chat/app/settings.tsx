@@ -11,17 +11,7 @@ const FONT_SIZES = [16, 18, 20, 24, 28, 32, 36, 40];
 const MIN_FONT_SIZE = Math.min(...FONT_SIZES);
 const MAX_FONT_SIZE = Math.max(...FONT_SIZES);
 
-const THEMES: { label: string; value: ThemeType; colors: { primary: string; secondary: string } }[] = [
-  { label: 'Classic', value: 'classic', colors: { primary: '#000000', secondary: '#666666' } },
-  { label: 'Ocean', value: 'ocean', colors: { primary: '#1a3c5b', secondary: '#6c8eae' } },
-  { label: 'Forest', value: 'forest', colors: { primary: '#1b4d1b', secondary: '#6b8e6b' } },
-  { label: 'Sunset', value: 'sunset', colors: { primary: '#5b1a1a', secondary: '#8e6c6c' } },
-  { label: 'Mono', value: 'mono', colors: { primary: '#000000', secondary: '#ffffff' } },
-  { label: 'Neon', value: 'neon', colors: { primary: '#00ff00', secondary: '#ff00ff' } },
-  { label: 'Contrast', value: 'contrast', colors: { primary: '#ffff00', secondary: '#000000' } },
-  { label: 'Candy', value: 'candy', colors: { primary: '#ff1493', secondary: '#9932cc' } },
-  { label: 'Mint', value: 'mint', colors: { primary: '#3eb489', secondary: '#40826d' } },
-];
+import { THEMES } from './themes';
 
 const COLOR_SCHEMES = [
   { label: 'System', value: 'system', icon: 'theme-light-dark' },
