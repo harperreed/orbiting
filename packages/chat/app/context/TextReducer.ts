@@ -15,6 +15,7 @@ export const TEXT_ACTIONS = {
     CLEAR_TEXT: 'CLEAR_TEXT',
     RESTORE_SESSION: 'RESTORE_SESSION',
     SET_ERROR: 'SET_ERROR',
+    SET_LOADING: 'SET_LOADING',
 } as const;
 
 export type TextAction = 
@@ -22,7 +23,8 @@ export type TextAction =
     | { type: typeof TEXT_ACTIONS.TEXT_SAVED; payload: number }
     | { type: typeof TEXT_ACTIONS.CLEAR_TEXT }
     | { type: typeof TEXT_ACTIONS.RESTORE_SESSION; payload: StoredMessage }
-    | { type: typeof TEXT_ACTIONS.SET_ERROR; payload: string };
+    | { type: typeof TEXT_ACTIONS.SET_ERROR; payload: string }
+    | { type: typeof TEXT_ACTIONS.SET_LOADING; payload: boolean };
 
 export function textReducer(state: TextState, action: TextAction): TextState {
     switch (action.type) {
@@ -68,6 +70,13 @@ export function textReducer(state: TextState, action: TextAction): TextState {
                 ...state,
                 error: action.payload,
                 isLoading: false
+            };
+            
+        case TEXT_ACTIONS.SET_LOADING:
+            return {
+                ...state,
+                isLoading: action.payload,
+                error: null
             };
             
         default: {

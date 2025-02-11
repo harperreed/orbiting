@@ -76,15 +76,20 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
 
     const handleTextChange = useCallback(async (newText: string) => {
         try {
+            dispatch({ type: TEXT_ACTIONS.SET_LOADING, payload: true });
             dispatch({ 
                 type: TEXT_ACTIONS.SET_TEXT, 
                 payload: newText
             });
         } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'Failed to update text';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: 'Failed to update text'
+                payload: errorMessage
             });
+            console.error('Text update error:', error);
+        } finally {
+            dispatch({ type: TEXT_ACTIONS.SET_LOADING, payload: false });
         }
     }, []);
 
