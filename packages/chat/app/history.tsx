@@ -1,5 +1,5 @@
 import { StyleSheet, Alert, View, Platform } from 'react-native';
-import { Text, Button, List, ActivityIndicator, Surface } from 'react-native-paper';
+import { Text, Button, List, ActivityIndicator, Surface, useTheme } from 'react-native-paper';
 import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
 import { useText } from './context/TextContext';
@@ -8,6 +8,7 @@ import { StoredMessage, getMessages, clearHistory, deleteMessage } from './utils
 import { FlashList } from '@shopify/flash-list';
 
 export default function HistoryScreen() {
+  const theme = useTheme();
   const [messages, setMessages] = useState<StoredMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -164,7 +165,7 @@ export default function HistoryScreen() {
           mode="contained"
           onPress={handleClearHistory}
           style={styles.clearButton}
-          buttonColor="#dc3545"
+          buttonColor={theme.colors.error}
         >
           Clear History
         </Button>

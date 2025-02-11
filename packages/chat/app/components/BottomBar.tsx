@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Surface, IconButton } from 'react-native-paper';
+import { Surface, IconButton, useTheme } from 'react-native-paper';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -7,6 +7,7 @@ type BottomBarProps = {
 };
 
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
+    const theme = useTheme();
     return (
         <Surface style={styles.container} elevation={4}>
             <IconButton
@@ -31,6 +32,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         height: 60,
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.background,
     },
 });
