@@ -1,149 +1,192 @@
-import { StyleSheet } from 'react-native';
-import { View, Text, Switch, Button, SegmentedControl } from 'react-native-ui-lib';
-import { useState } from 'react';
-import PageLayout from './components/PageLayout';
-import { useSettings } from './context/SettingsContext';
-import type { ThemeType } from './context/SettingsContext';
+import { StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    Switch,
+    Button,
+    SegmentedControl,
+    Colors,
+    ListItem,
+} from "react-native-ui-lib";
+import { useState } from "react";
+import PageLayout from "./components/PageLayout";
+import { useSettings } from "./context/SettingsContext";
+import type { ThemeType } from "./context/SettingsContext";
 
 const FONT_SIZES = [16, 18, 20, 24, 28, 32, 36, 40];
+
 const THEMES: { label: string; value: ThemeType }[] = [
-  { label: 'Classic', value: 'classic' },
-  { label: 'Ocean', value: 'ocean' },
-  { label: 'Forest', value: 'forest' },
-  { label: 'Sunset', value: 'sunset' },
+    { label: "Classic", value: "classic" },
+    { label: "Ocean", value: "ocean" },
+    { label: "Forest", value: "forest" },
+    { label: "Sunset", value: "sunset" },
 ];
+
 const COLOR_SCHEMES = [
-  { label: 'System', value: 'system' },
-  { label: 'Light', value: 'light' },
-  { label: 'Dark', value: 'dark' },
+    { label: "System", value: "system" },
+    { label: "Light", value: "light" },
+    { label: "Dark", value: "dark" },
 ];
 
 export default function SettingsScreen() {
-  const {
-    colorScheme,
-    startingFontSize,
-    theme,
-    shakeEnabled,
-    shakeFlashEnabled,
-    updateSettings,
-    resetSettings,
-  } = useSettings();
-  const [isResetting, setIsResetting] = useState(false);
-  const paperTheme = useTheme();
+    const {
+        colorScheme,
+        startingFontSize,
+        theme,
+        shakeEnabled,
+        shakeFlashEnabled,
+        updateSettings,
+        resetSettings,
+    } = useSettings();
+    const [isResetting, setIsResetting] = useState(false);
 
-  const handleReset = async () => {
-    setIsResetting(true);
-    await resetSettings();
-    setIsResetting(false);
-  };
+    const handleReset = async () => {
+        setIsResetting(true);
+        await resetSettings();
+        setIsResetting(false);
+    };
 
-  return (
-    <PageLayout scrollable>
-      <View style={styles.container} bg-surface>
-        <Text text40 style={styles.title}>Settings</Text>
+    return (
+        <PageLayout scrollable>
+            <View style={styles.container} bg-surface>
+                <Text text40 style={styles.title}>
+                    Settings
+                </Text>
 
-        <List.Section>
-          <List.Subheader>Appearance</List.Subheader>
-          
-          <List.Item
-            title="Color Scheme"
-            description={
-              <SegmentedButtons
-                value={colorScheme}
-                onValueChange={(value) => updateSettings({ colorScheme: value })}
-                buttons={COLOR_SCHEMES.map((scheme) => ({
-                  value: scheme.value,
-                  label: scheme.label,
-                }))}
-              />
-            }
-            descriptionNumberOfLines={2}
-            descriptionStyle={styles.segmentedButtonContainer}
-          />
+                {/* Appearance Section */}
+                <Text text70 style={styles.sectionHeader}>
+                    Appearance
+                </Text>
 
-          <List.Item
-            title="Starting Font Size"
-            description={
-              <SegmentedButtons
-                value={startingFontSize.toString()}
-                onValueChange={(value) => updateSettings({ startingFontSize: parseInt(value, 10) })}
-                buttons={FONT_SIZES.map((size) => ({
-                  value: size.toString(),
-                  label: `${size}px`,
-                }))}
-              />
-            }
-            descriptionNumberOfLines={2}
-            descriptionStyle={styles.segmentedButtonContainer}
-          />
+                <ListItem activeBackgroundColor={Colors.$backgroundDisabled}>
+                    <ListItem.Part>
+                        <Text text65>Color Scheme</Text>
+                    </ListItem.Part>
+                    <ListItem.Part>
+                        <SegmentedControl
+                            segments={COLOR_SCHEMES.map((scheme) => ({
+                                label: scheme.label,
+                                value: scheme.value,
+                            }))}
+                            initialValue={colorScheme}
+                            onValueChange={(value) =>
+                                updateSettings({ colorScheme: value })
+                            }
+                            style={styles.segmentedControl}
+                        />
+                    </ListItem.Part>
+                </ListItem>
 
-          <List.Item
-            title="Theme"
-            description={
-              <SegmentedButtons
-                value={theme}
-                onValueChange={(value) => updateSettings({ theme: value as ThemeType })}
-                buttons={THEMES.map((theme) => ({
-                  value: theme.value,
-                  label: theme.label,
-                }))}
-              />
-            }
-            descriptionNumberOfLines={2}
-            descriptionStyle={styles.segmentedButtonContainer}
-          />
-        </List.Section>
+                <ListItem activeBackgroundColor={Colors.$backgroundDisabled}>
+                    <ListItem.Part>
+                        <Text text65>Starting Font Size</Text>
+                    </ListItem.Part>
+                    <ListItem.Part>
+                        <SegmentedControl
+                            segments={FONT_SIZES.map((size) => ({
+                                label: `${size}px`,
+                                value: size.toString(),
+                            }))}
+                            initialValue={startingFontSize.toString()}
+                            onValueChange={(value) =>
+                                updateSettings({
+                                    startingFontSize: parseInt(value, 10),
+                                })
+                            }
+                            style={styles.segmentedControl}
+                        />
+                    </ListItem.Part>
+                </ListItem>
 
-        <List.Section>
-          <List.Subheader>Gestures</List.Subheader>
-          
-          <List.Item
-            title="Shake to Clear"
-            right={() => (
-              <Switch
-                value={shakeEnabled}
-                onValueChange={(value) => updateSettings({ shakeEnabled: value })}
-              />
-            )}
-          />
+                <ListItem activeBackgroundColor={Colors.$backgroundDisabled}>
+                    <ListItem.Part>
+                        <Text text65>Theme</Text>
+                    </ListItem.Part>
+                    <ListItem.Part>
+                        <SegmentedControl
+                            segments={THEMES.map((themeOption) => ({
+                                label: themeOption.label,
+                                value: themeOption.value,
+                            }))}
+                            initialValue={theme}
+                            onValueChange={(value) =>
+                                updateSettings({ theme: value as ThemeType })
+                            }
+                            style={styles.segmentedControl}
+                        />
+                    </ListItem.Part>
+                </ListItem>
 
-          <List.Item
-            title="Shake to Flash"
-            right={() => (
-              <Switch
-                value={shakeFlashEnabled}
-                onValueChange={(value) => updateSettings({ shakeFlashEnabled: value })}
-              />
-            )}
-          />
-        </List.Section>
+                {/* Gestures Section */}
+                <Text
+                    text70
+                    style={[styles.sectionHeader, styles.secondSection]}
+                >
+                    Gestures
+                </Text>
 
-        <Button
-          loading={isResetting}
-          mode="contained"
-          onPress={handleReset}
-          style={styles.resetButton}
-          buttonColor={paperTheme.colors.error}
-        >
-          Reset to Defaults
-        </Button>
-      </View>
-    </PageLayout>
-  );
+                <ListItem activeBackgroundColor={Colors.$backgroundDisabled}>
+                    <ListItem.Part>
+                        <Text text65>Shake to Clear</Text>
+                    </ListItem.Part>
+                    <ListItem.Part>
+                        <Switch
+                            value={shakeEnabled}
+                            onValueChange={(value) =>
+                                updateSettings({ shakeEnabled: value })
+                            }
+                        />
+                    </ListItem.Part>
+                </ListItem>
+
+                <ListItem activeBackgroundColor={Colors.$backgroundDisabled}>
+                    <ListItem.Part>
+                        <Text text65>Shake to Flash</Text>
+                    </ListItem.Part>
+                    <ListItem.Part>
+                        <Switch
+                            value={shakeFlashEnabled}
+                            onValueChange={(value) =>
+                                updateSettings({ shakeFlashEnabled: value })
+                            }
+                        />
+                    </ListItem.Part>
+                </ListItem>
+
+                <Button
+                    label="Reset to Defaults"
+                    disabled={isResetting}
+                    backgroundColor={Colors.$backgroundDangerLight}
+                    onPress={handleReset}
+                    style={styles.resetButton}
+                />
+            </View>
+        </PageLayout>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  title: {
-    marginBottom: 24,
-  },
-  segmentedButtonContainer: {
-    marginTop: 8,
-  },
-  resetButton: {
-    margin: 16,
-  },
+    container: {
+        flex: 1,
+        padding: 16,
+    },
+    title: {
+        marginBottom: 24,
+    },
+    sectionHeader: {
+        marginBottom: 8,
+        marginTop: 16,
+        paddingHorizontal: 8,
+        color: Colors.$textDefault,
+    },
+    secondSection: {
+        marginTop: 32,
+    },
+    segmentedControl: {
+        marginVertical: 8,
+    },
+    resetButton: {
+        margin: 16,
+        marginTop: 32,
+    },
 });

@@ -12,11 +12,7 @@ import {
     SafeAreaView,
     StatusBar,
 } from "react-native";
-import {
-    Text,
-    LoaderScreen,
-    Colors,
-} from "react-native-ui-lib";
+import { Text, LoaderScreen, Colors } from "react-native-ui-lib";
 import TabBar from "./TabBar";
 
 // Error boundary class component
@@ -28,15 +24,12 @@ class ErrorBoundary extends React.Component<
         super(props);
         this.state = { hasError: false, error: null };
     }
-
     static getDerivedStateFromError(error: Error) {
         return { hasError: true, error };
     }
-
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         console.error("PageLayout Error:", error, errorInfo);
     }
-
     render() {
         if (this.state.hasError) {
             return (
@@ -84,7 +77,6 @@ export default function PageLayout({
     accessible = true,
     accessibilityLabel = "Page content",
 }: PageLayoutProps) {
-    const theme = useTheme();
     const { width, height } = useWindowDimensions();
     const [orientation, setOrientation] = useState<"portrait" | "landscape">(
         height > width ? "portrait" : "landscape",
@@ -100,13 +92,11 @@ export default function PageLayout({
             const isEnabled = await AccessibilityInfo.isScreenReaderEnabled();
             setScreenReaderEnabled(isEnabled);
         };
-
         checkScreenReader();
         const subscription = AccessibilityInfo.addEventListener(
             "screenReaderChanged",
             setScreenReaderEnabled,
         );
-
         return () => {
             subscription.remove();
         };
@@ -117,7 +107,7 @@ export default function PageLayout({
     const keyboardBehavior = Platform.select({
         ios: "padding",
         android: "height",
-    });
+    }) as "padding" | "height" | undefined;
     const keyboardOffset = Platform.select({ ios: 0, android: 20 });
 
     const handleLayout = useCallback(
@@ -138,11 +128,10 @@ export default function PageLayout({
                     <View
                         style={[
                             styles.content,
-                            { backgroundColor: theme.colors.surface },
+                            { backgroundColor: Colors.$backgroundDefault },
                             orientation === "landscape" &&
                                 styles.landscapeContent,
                         ]}
-                        elevation={0}
                     >
                         {children}
                     </View>
@@ -156,7 +145,7 @@ export default function PageLayout({
                     style={styles.scrollView}
                     contentContainerStyle={[
                         styles.scrollContent,
-                        { backgroundColor: theme.colors.surface },
+                        { backgroundColor: Colors.$backgroundDefault },
                         contentContainerStyle,
                     ]}
                     scrollEventThrottle={16}
@@ -168,9 +157,10 @@ export default function PageLayout({
                 </ScrollView>
             );
         }
-
         return mainContent;
     };
+
+    const isDarkMode = Colors.$scheme === "dark";
 
     return (
         <ErrorBoundary>
@@ -178,7 +168,7 @@ export default function PageLayout({
                 <SafeAreaView
                     style={[
                         styles.safeArea,
-                        { backgroundColor: theme.colors.background },
+                        { backgroundColor: Colors.$backgroundDefault },
                     ]}
                 >
                     <KeyboardAvoidingView
@@ -189,18 +179,17 @@ export default function PageLayout({
                         <View
                             style={[
                                 styles.container,
-                                { backgroundColor: theme.colors.background },
+                                { backgroundColor: Colors.$backgroundDefault },
                             ]}
-                            elevation={0}
                             testID={testID}
                             accessible={accessible}
                             accessibilityLabel={accessibilityLabel}
                             onLayout={handleLayout}
                         >
                             <StatusBar
-                                backgroundColor={theme.colors.background}
+                                backgroundColor={Colors.$backgroundDefault}
                                 barStyle={
-                                    theme.dark
+                                    isDarkMode
                                         ? "light-content"
                                         : "dark-content"
                                 }
