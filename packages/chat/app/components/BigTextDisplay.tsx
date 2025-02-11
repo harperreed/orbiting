@@ -127,5 +127,6 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     margin: 0,
     zIndex: 10,
+    boxShadow: 'none', // Modern replacement for shadowProps
   },
 });
