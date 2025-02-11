@@ -1,48 +1,36 @@
 .controls {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 20px;
+  right: 20px;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  gap: 10px;
   z-index: 1000;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  height: 64px;
-  box-sizing: border-box;
 }
 
 .control-btn {
-  background: transparent;
+  background-color: rgba(255, 255, 255, 0.8);
   border: none;
-  width: 44px;
-  height: 44px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  color: #333;
-  border-radius: 8px;
-  padding: 0;
-  margin: 0;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
   }
 
   &:active {
-    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(0.95);
   }
 
   .icon {
     line-height: 1;
-    font-size: 26px;
   }
 }
 

@@ -1,41 +1,47 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
+body {
   background: #fff;
 }
 
 #orbit {
     width: 100%;
-    height: calc(100% - 64px);
+    height: 100vh;
+    overflow: auto;
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-weight: 900;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: {
+        top: 20px;
+        right: 20px;
+        bottom: 50px;
+        left: 20px;
+    }
+    font: {
+        weight: bold;
+        family: sans-serif;
+    }
     color: #000;
-    line-height: 1.1;
+    line-height: 95%;
     margin: 0;
-    padding: 0;
+    border: 0 solid;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: keep-all;
     box-sizing: border-box;
-    z-index: 10;
-    -webkit-user-select: text;
-    user-select: text;
-    background: #fff;
-    outline: none;
-    caret-color: #666;
-    -webkit-tap-highlight-color: transparent;
+    z-index: 10; // Ensure it's above other elements
+    -webkit-user-select: text; // iOS Safari
+    user-select: text; // Standard syntax
 
     // Additional mobile-specific styles
     @media (max-width: 768px) {
-        padding: 0;
+        // Adjust padding for mobile if needed
+        padding: {
+            top: 10px;
+            right: 10px;
+            bottom: 40px;
+            left: 10px;
+        }
+        // Ensure text is readable on smaller screens
+        font-size: 16px; // Adjust as needed
     }
      &:empty:before {
         content: attr(placeholder);

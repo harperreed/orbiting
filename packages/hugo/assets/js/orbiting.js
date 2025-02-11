@@ -5,10 +5,9 @@ class Orbiting {
         this.videoElement = document.getElementById("videoElement");
         this.messageHistory = document.getElementById("message-history");
 
-        this.minFontSize = 1; // vh
-        this.maxFontSize = 100; // vh
+        this.minFontSize = 2; // vh
+        this.maxFontSize = 20; // vh
         this.currentFontSize = this.maxFontSize;
-        this.fontSizeStep = 0.5; // vh
 
         this.toggleVideoBtn = document.getElementById("toggleVideoBtn");
         this.historyModal = document.getElementById("historyModal");
@@ -168,58 +167,54 @@ class Orbiting {
 
     resizeText() {
         try {
-            const text = this.orbit.textContent?.trim() || '';
-            if (!text) {
-                this.orbit.style.fontSize = '20vh';
-                return;
-            }
-
-            const padding = 40; // 20px padding on each side
-            const viewportWidth = window.innerWidth - padding;
-            const viewportHeight = (window.visualViewport 
-                ? window.visualViewport.height 
-                : window.innerHeight) - padding;
-
-            const measurer = document.createElement('div');
-            measurer.style.cssText = `
-                position: absolute;
-                visibility: hidden;
-                height: auto;
-                width: auto;
-                white-space: nowrap;
-                font-weight: 900;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                line-height: 1.1;
-            `;
-            measurer.textContent = text;
-            document.body.appendChild(measurer);
-
-            let low = this.minFontSize;
-            let high = this.maxFontSize;
             let fontSize = this.maxFontSize;
-            const targetWidth = viewportWidth * 0.98;
-            const targetHeight = viewportHeight * 0.98;
+            this.orbit.style.fontSize = `${fontSize}vh`;
 
-            while (low <= high) {
-                fontSize = Math.floor((low + high) / 2);
-                measurer.style.fontSize = `${fontSize}vh`;
+            const resizeForKeyboard = () => {
+                const viewportHeight = window.visualViewport
+                    ? window.visualViewport.height
+                    : window.innerHeight;
+                this.orbit.style.height = `${viewportHeight}px`;
 
-                const rect = measurer.getBoundingClientRect();
-                
-                if (rect.width > targetWidth || rect.height > targetHeight) {
-                    high = fontSize - 1;
-                } else if (rect.width < targetWidth * 0.9 && rect.height < targetHeight * 0.9) {
-                    low = fontSize + 1;
-                } else {
-                    break;
+                while (
+                    (this.orbit.scrollHeight > this.orbit.clientHeight ||
+                        this.orbit.scrollWidth > this.orbit.clientWidth) &&
+                    fontSize > this.minFontSize
+                ) {
+                    fontSize -= 0.5;
+                    this.orbit.style.fontSize = `${fontSize}vh`;
                 }
+            };
+
+            resizeForKeyboard();
+
+            // Remove existing listeners to prevent duplicates
+            if (this.resizeHandler) {
+                window.visualViewport.removeEventListener(
+                    "resize",
+                    this.resizeHandler,
+                );
+                window.removeEventListener("resize", this.resizeHandler);
             }
 
-            fontSize = Math.min(high, fontSize);
-            this.orbit.style.fontSize = `${fontSize}vh`;
+            // Add event listeners for keyboard appearance
+            this.resizeHandler = () => {
+                resizeForKeyboard();
+                this.currentFontSize = fontSize;
+                this.log(`Text resized to ${fontSize}vh`);
+            };
+
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener(
+                    "resize",
+                    this.resizeHandler,
+                );
+            } else {
+                window.addEventListener("resize", this.resizeHandler);
+            }
+
             this.currentFontSize = fontSize;
-            
-            document.body.removeChild(measurer);
+            this.log(`Text resized to ${fontSize}vh`);
         } catch (error) {
             this.logError("Error in resizeText:", error);
         }

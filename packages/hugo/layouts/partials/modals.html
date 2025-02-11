@@ -1,11 +1,28 @@
 
+<!-- About Modal -->
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    {{ with .Site.GetPage "modal/about.html" }}
+      {{ .Content }}
+    {{ end }}
+  </div>
+</div>
+
 <!-- Help Modal -->
 <div id="helpModal" class="modal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h2>Help</h2>
-      <span class="close">&times;</span>
-    </div>
+    <span class="close">&times;</span>
+    {{ with .Site.GetPage "modal/welcome.html" }}
+      {{ .Content }}
+    {{ end }}
+  </div>
+</div>
+
+<!-- Welcome Modal -->
+<div id="welcomeModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
     {{ with .Site.GetPage "modal/welcome.html" }}
       {{ .Content }}
     {{ end }}
@@ -15,13 +32,11 @@
 <!-- History Modal -->
 <div id="historyModal" class="modal">
   <div class="modal-content">
-    <div class="modal-header">
-      <h2>History</h2>
-      <span class="close">&times;</span>
-    </div>
+    <span class="close">&times;</span>
+    <h2>Message History</h2>
     <div id="historyContent" class="history-content"></div>
-    <div class="modal-footer">
-      <button id="clearHistory" class="btn">Clear All</button>
-    </div>
+    <div class="history-footer">
+      <button id="clearHistory" class="btn btn-danger">Clear History</button>
   </div>
+</div>
 </div>
