@@ -1,5 +1,5 @@
-import { StyleSheet, Alert, View, Platform } from 'react-native';
-import { Text, Button, List, ActivityIndicator, Surface, useTheme, Portal } from 'react-native-paper';
+import { StyleSheet, View, Platform } from 'react-native';
+import { Text, Button, List, ActivityIndicator, Surface, useTheme, Portal, Dialog } from 'react-native-paper';
 import PageLayout from './components/PageLayout';
 import { useCallback, useEffect, useState } from 'react';
 import { useText } from './context/TextContext';
@@ -14,6 +14,9 @@ export default function HistoryScreen() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
+  const [showClearDialog, setShowClearDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
   const router = useRouter();
 
   const loadMessages = useCallback(async (pageNum: number, append = false) => {
@@ -46,74 +49,42 @@ export default function HistoryScreen() {
 
   const { clearText } = useText();
   
-  const handleClearHistory = useCallback(async () => {
-    console.log('Clear history pressed');
-    
-    // For web environment, use window.confirm instead of Alert
-    if (Platform.OS === 'web') {
-        const confirmed = window.confirm('Are you sure you want to clear all messages?');
-        if (confirmed) {
-            try {
-                await clearHistory();
-                await clearText();
-                setMessages([]);
-                setHasMore(false);
-                setPage(0);
-            } catch (error) {
-                console.error('Failed to clear history:', error);
-                window.alert('Failed to clear history');
-            }
-        }
-    } else {
-        // Use React Native Alert for native platforms
-        Alert.alert(
-            'Clear History',
-            'Are you sure you want to clear all messages?',
-            [
-                { text: 'Cancel', style: 'cancel' },
-                {
-                    text: 'Clear',
-                    style: 'destructive',
-                    onPress: async () => {
-                        try {
-                            await clearHistory();
-                            await clearText();
-                            setMessages([]);
-                            setHasMore(false);
-                            setPage(0);
-                        } catch (error) {
-                            console.error('Failed to clear history:', error);
-                            Alert.alert('Error', 'Failed to clear history');
-                        }
-                    },
-                },
-            ]
-        );
-    }
-  }, [clearText, clearHistory]);
+  const handleClearHistory = useCallback(() => {
+    setShowClearDialog(true);
+  }, []);
 
-  const handleDeleteMessage = useCallback(async (id: string) => {
-    Alert.alert(
-      'Delete Message',
-      'Are you sure you want to delete this message?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteMessage(id);
-              await loadMessages(0);
-            } catch (error) {
-              console.error('Failed to delete message:', error);
-              Alert.alert('Error', 'Failed to delete message');
-            }
-          },
-        },
-      ]
-    );
-  }, [loadMessages]);
+  const handleConfirmClear = useCallback(async () => {
+    try {
+      await clearHistory();
+      await clearText();
+      setMessages([]);
+      setHasMore(false);
+      setPage(0);
+    } catch (error) {
+      console.error('Failed to clear history:', error);
+    } finally {
+      setShowClearDialog(false);
+    }
+  }, [clearText]);
+
+  const handleDeleteMessage = useCallback((id: string) => {
+    setMessageToDelete(id);
+    setShowDeleteDialog(true);
+  }, []);
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (messageToDelete) {
+      try {
+        await deleteMessage(messageToDelete);
+        await loadMessages(0);
+      } catch (error) {
+        console.error('Failed to delete message:', error);
+      } finally {
+        setShowDeleteDialog(false);
+        setMessageToDelete(null);
+      }
+    }
+  }, [messageToDelete, loadMessages]);
 
   const renderItem = useCallback(({ item }: { item: StoredMessage }) => (
     <List.Item
@@ -175,6 +146,69 @@ export default function HistoryScreen() {
         </Button>
       )}
     </PageLayout>
+  );
+
+  return (
+    <>
+      <PageLayout>
+        <FlashList
+          data={messages}
+          renderItem={renderItem}
+          estimatedItemSize={80}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContent}
+          onEndReached={() => {
+            if (hasMore && !isLoadingMore) {
+              loadMessages(page + 1, true);
+            }
+          }}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={() => 
+            isLoadingMore ? (
+              <Portal>
+                <Surface style={styles.loadingMore}>
+                  <ActivityIndicator size="small" />
+                </Surface>
+              </Portal>
+            ) : null
+          }
+        />
+        {messages.length > 0 && (
+          <Button
+            mode="contained"
+            onPress={handleClearHistory}
+            style={styles.clearButton}
+            buttonColor={theme.colors.error}
+          >
+            Clear History
+          </Button>
+        )}
+      </PageLayout>
+
+      <Portal>
+        <Dialog visible={showClearDialog} onDismiss={() => setShowClearDialog(false)}>
+          <Dialog.Title>Clear History</Dialog.Title>
+          <Dialog.Content>
+            <Text>Are you sure you want to clear all messages?</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setShowClearDialog(false)}>Cancel</Button>
+            <Button onPress={handleConfirmClear} textColor={theme.colors.error}>Clear</Button>
+          </Dialog.Actions>
+        </Dialog>
+
+        <Dialog visible={showDeleteDialog} onDismiss={() => setShowDeleteDialog(false)}>
+          <Dialog.Title>Delete Message</Dialog.Title>
+          <Dialog.Content>
+            <Text>Are you sure you want to delete this message?</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setShowDeleteDialog(false)}>Cancel</Button>
+            <Button onPress={handleConfirmDelete} textColor={theme.colors.error}>Delete</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+    </>
   );
 }
 
