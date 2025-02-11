@@ -17,8 +17,8 @@ type ViewportSize = {
 export default function BigTextDisplay({ 
   text, 
   onChangeText,
-  maxFontSize = 13, // in vh units (roughly 2/3 of 20)
-  minFontSize = 1.3,  // in vh units (roughly 2/3 of 2)
+  maxFontSize = 10, // in vh units (3/4 of previous 13vh)
+  minFontSize = 1,  // in vh units (3/4 of previous 1.3vh)
   debounceMs = 150
 }: BigTextDisplayProps) {
   const { width, height } = useWindowDimensions();
