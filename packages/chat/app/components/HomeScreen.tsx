@@ -48,6 +48,7 @@ export default function HomeScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      contentContainerStyle={styles.keyboardAvoidingContent}
     >
       <GestureDetector gesture={panGesture}>
         <View style={styles.innerContainer}>
@@ -70,5 +71,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+  },
+  keyboardAvoidingContent: {
+    flex: 1,
   },
 });

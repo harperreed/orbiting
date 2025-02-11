@@ -32,12 +32,14 @@ export default function BigTextDisplay({
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
       (e) => {
         setKeyboardHeight(e.endCoordinates.height);
+        setKeyboardVisible(true);
       }
     );
     const keyboardWillHide = Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
       () => {
         setKeyboardHeight(0);
+        setKeyboardVisible(false);
       }
     );
 
@@ -48,6 +50,7 @@ export default function BigTextDisplay({
   }, []);
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [adjustedContainerHeight, setAdjustedContainerHeight] = useState(0);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const resizeTimeoutRef = useRef<NodeJS.Timeout>();
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
@@ -113,9 +116,13 @@ export default function BigTextDisplay({
   return (
     <TextInput
       testID="big-text-display"
-      style={[styles.text, { 
-        fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
-        lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2
+      style={[
+        styles.text, 
+        { 
+          fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
+          lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
+          maxHeight: keyboardVisible ? `${100 - (keyboardHeight / height * 100)}%` : '100%',
+        }
       }]}
       value={text}
       onChangeText={onChangeText}
