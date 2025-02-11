@@ -2,7 +2,7 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';
-import { TextProvider } from './context/TextContext';
+import { TextProvider } from '../app/context/TextContext';
 
 export default function RootLayout() {
   // Client-side only rendering
