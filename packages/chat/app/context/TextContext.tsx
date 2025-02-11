@@ -77,38 +77,31 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             type: TEXT_ACTIONS.SET_TEXT, 
             payload: newText.trim() 
         };
-        const nextState = textReducer(state, action);
-        logStateChange(action, state, nextState);
         dispatch(action);
-    }, [state]);
+    }, []);
 
     const clearText = useCallback(async () => {
         try {
             await clearHistory();
-            const action = { type: TEXT_ACTIONS.CLEAR_TEXT };
-            const nextState = textReducer(state, action);
-            logStateChange(action, state, nextState);
-            dispatch(action);
+            dispatch({ type: TEXT_ACTIONS.CLEAR_TEXT });
         } catch (error) {
-            const errorAction = { 
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: `Failed to clear history: ${error instanceof Error ? error.message : 'Unknown error'}`
-            };
-            dispatch(errorAction);
+                payload: `Failed to clear history: ${errorMessage}`
+            });
             console.error('Clear text error:', error);
         }
-    }, [state]);
+    }, []);
 
     const restoreLastSession = useCallback(async () => {
         try {
             const { messages } = await getMessages(0, 1);
             if (messages.length > 0) {
-                const action = { 
+                dispatch({ 
                     type: TEXT_ACTIONS.RESTORE_SESSION,
                     payload: messages[0]
-                };
-                dispatch(action);
-                logStateChange(action, state, textReducer(state, action));
+                });
             }
         } catch (error) {
             dispatch({ 
@@ -116,16 +109,14 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 payload: 'Failed to restore session'
             });
         }
-    }, [state]);
+    }, []);
 
     return (
         <TextContext.Provider value={{
             text: state.text,
-            setText: (text: string) => {
-                const action = { type: TEXT_ACTIONS.SET_TEXT, payload: text };
-                dispatch(action);
-                logStateChange(action, state, textReducer(state, action));
-            },
+            setText: useCallback((text: string) => {
+                dispatch({ type: TEXT_ACTIONS.SET_TEXT, payload: text });
+            }, []),
             handleTextChange,
             clearText,
             isDirty: state.isDirty,
