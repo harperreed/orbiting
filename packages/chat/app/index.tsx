@@ -3,21 +3,14 @@ import HomeScreen from "./components/HomeScreen";
 
 export default function Index() {
   useEffect(() => {
-    const registerServiceWorker = async () => {
-      if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-        try {
-          // Dynamic import of service worker
-          await import('./service-worker');
-          const registration = await navigator.serviceWorker.register('/service-worker.js');
-          console.log('SW registered:', registration);
-        } catch (error) {
-          console.log('SW registration failed:', error);
-        }
-      }
+    const initServiceWorker = () => {
+      import('./utils/registerServiceWorker')
+        .then(({ registerServiceWorker }) => registerServiceWorker())
+        .catch(error => console.error('Failed to load SW registration:', error));
     };
 
-    window.addEventListener('load', registerServiceWorker);
-    return () => window.removeEventListener('load', registerServiceWorker);
+    window.addEventListener('load', initServiceWorker);
+    return () => window.removeEventListener('load', initServiceWorker);
   }, []);
 
   return <HomeScreen />;
