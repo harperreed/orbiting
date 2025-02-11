@@ -61,9 +61,13 @@ export default function PageLayout({
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        width: '100%',
+        height: '100%',
     },
     container: {
         flex: 1,
+        width: '100%',
+        height: '100%',
         margin: 0,
         borderRadius: 0,
     },
@@ -71,14 +75,17 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         borderRadius: 0,
+        width: '100%',
     },
     scrollView: {
         flex: 1,
+        width: '100%',
     },
     scrollContent: {
         padding: 20,
         flexGrow: 1,
-
+        minHeight: '100%',
+        width: '100%',
         borderRadius: 0,
     },
 });
