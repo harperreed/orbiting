@@ -1,5 +1,6 @@
 import { useWindowDimensions, Platform } from 'react-native';
-import { View, ScrollView } from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
+import { ScrollView } from 'react-native';
 import TabBar from './TabBar';
 
 type PageLayoutProps = {
