@@ -28,41 +28,46 @@ export default function BigTextDisplay({
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const previousDimensions = useRef(dimensions);
 
-  // Handle keyboard events
+  // Handle keyboard events and cleanup
   useEffect(() => {
-    const keyboardWillShow = Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
-      (e) => {
-        setKeyboardHeight(e.endCoordinates.height);
-        setKeyboardVisible(true);
-      }
-    );
-    const keyboardWillHide = Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
-      () => {
-        setKeyboardHeight(0);
-        setKeyboardVisible(false);
-      }
-    );
+    const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+    
+    const handleKeyboardShow = (e: any) => {
+      setKeyboardHeight(e.endCoordinates.height);
+      setKeyboardVisible(true);
+    };
+    
+    const handleKeyboardHide = () => {
+      setKeyboardHeight(0);
+      setKeyboardVisible(false);
+    };
 
+    const keyboardWillShow = Keyboard.addListener(showEvent, handleKeyboardShow);
+    const keyboardWillHide = Keyboard.addListener(hideEvent, handleKeyboardHide);
+
+    // Cleanup function
     return () => {
       keyboardWillShow.remove();
       keyboardWillHide.remove();
+      // Cancel any pending debounced calculations
+      debouncedCalculate.cancel();
     };
   }, []);
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [adjustedContainerHeight, setAdjustedContainerHeight] = useState(0);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const inputRef = useRef<TextInput>(null);
-  const debouncedCalculateRef = useRef(
-    debounce((
+  const debouncedCalculate = useMemo(
+    () => debounce((
       text: string,
       containerSize: ViewportSize,
       contentSize: ViewportSize,
       adjustedContainerHeight: number
     ) => {
       calculateAndSetFontSize();
-    }, debounceMs)
+    }, debounceMs),
+    [calculateAndSetFontSize, debounceMs]
   );
 
   const onLayout = useCallback((event: LayoutChangeEvent) => {
@@ -110,34 +115,46 @@ export default function BigTextDisplay({
 
   // Handle screen dimension changes
   useEffect(() => {
-    if (previousDimensions.current.width !== dimensions.width ||
-        previousDimensions.current.height !== dimensions.height) {
-      // Update container size based on new dimensions
-      setContainerSize(current => ({
-        width: dimensions.width,
-        height: dimensions.height
-      }));
-      // Trigger recalculation
-      debouncedCalculateRef.current(text, 
-        { width: dimensions.width, height: dimensions.height }, 
-        contentSize, 
-        dimensions.height - keyboardHeight
-      );
-      previousDimensions.current = dimensions;
-    }
-  }, [dimensions, keyboardHeight]);
-
-  // Call debounced calculation when dependencies change
-  useEffect(() => {
-    debouncedCalculateRef.current(text, containerSize, contentSize, adjustedContainerHeight);
-  }, [text, containerSize, contentSize, adjustedContainerHeight]);
-
-  // Cleanup debounced function on unmount
-  useEffect(() => {
-    return () => {
-      debouncedCalculateRef.current.cancel();
+    const handleDimensionChange = () => {
+      if (previousDimensions.current.width !== dimensions.width ||
+          previousDimensions.current.height !== dimensions.height) {
+        setContainerSize({
+          width: dimensions.width,
+          height: dimensions.height
+        });
+        
+        debouncedCalculate(
+          text, 
+          { width: dimensions.width, height: dimensions.height }, 
+          contentSize, 
+          dimensions.height - keyboardHeight
+        );
+        
+        previousDimensions.current = dimensions;
+      }
     };
-  }, []);
+
+    handleDimensionChange();
+
+    return () => {
+      debouncedCalculate.cancel();
+    };
+  }, [dimensions, keyboardHeight, text, contentSize, debouncedCalculate]);
+
+  // Handle font size calculations with error boundary
+  useEffect(() => {
+    try {
+      debouncedCalculate(text, containerSize, contentSize, adjustedContainerHeight);
+    } catch (error) {
+      console.error('Error in font size calculation:', error);
+      // Fallback to minimum font size on error
+      setFontSize(minFontSize);
+    }
+
+    return () => {
+      debouncedCalculate.cancel();
+    };
+  }, [text, containerSize, contentSize, adjustedContainerHeight, debouncedCalculate, minFontSize]);
 
   return (
     <TextInput
