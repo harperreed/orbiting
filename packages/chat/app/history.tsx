@@ -112,43 +112,6 @@ export default function HistoryScreen() {
   }
 
   return (
-    <PageLayout>
-      <FlashList
-        data={messages}
-        renderItem={renderItem}
-        estimatedItemSize={80}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        onEndReached={() => {
-          if (hasMore && !isLoadingMore) {
-            loadMessages(page + 1, true);
-          }
-        }}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={() => 
-          isLoadingMore ? (
-            <Portal>
-              <Surface style={styles.loadingMore}>
-                <ActivityIndicator size="small" />
-              </Surface>
-            </Portal>
-          ) : null
-        }
-      />
-      {messages.length > 0 && (
-        <Button
-          mode="contained"
-          onPress={handleClearHistory}
-          style={styles.clearButton}
-          buttonColor={theme.colors.error}
-        >
-          Clear History
-        </Button>
-      )}
-    </PageLayout>
-  );
-
-  return (
     <>
       <PageLayout>
         <FlashList
