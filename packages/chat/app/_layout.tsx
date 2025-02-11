@@ -2,7 +2,7 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View, useColorScheme } from 'react-native';
-import { ThemeManager, Colors, Typography, Spacings } from 'react-native-ui-lib';
+import { ThemeManager, Colors, Typography, Spacings, View as UIView } from 'react-native-ui-lib';
 import { TextProvider } from '../app/context/TextContext';
 import { SettingsProvider } from '../app/context/SettingsContext';
 
@@ -75,17 +75,19 @@ export default function RootLayout() {
   }, [colorScheme]);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-        <SettingsProvider>
-          <TextProvider>
-            <Stack 
-              screenOptions={{ 
-                headerShown: false,
-                contentStyle: { flex: 1 }
-              }} 
-            />
-          </TextProvider>
-        </SettingsProvider>
-      </GestureHandlerRootView>
+    <UIView flex>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+          <SettingsProvider>
+            <TextProvider>
+              <Stack 
+                screenOptions={{ 
+                  headerShown: false,
+                  contentStyle: { flex: 1 }
+                }} 
+              />
+            </TextProvider>
+          </SettingsProvider>
+        </GestureHandlerRootView>
+    </UIView>
   );
 }
