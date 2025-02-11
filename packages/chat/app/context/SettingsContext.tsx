@@ -290,6 +290,7 @@ interface Settings {
 interface SettingsContextType extends Settings {
   updateSettings: (settings: Partial<Settings>) => void;
   resetSettings: () => void;
+  currentTheme: CustomTheme;
 }
 
 const defaultSettings: Settings = {
@@ -338,7 +339,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         colorScheme: effectiveColorScheme,
         updateSettings,
         resetSettings,
-        currentTheme,
+        currentTheme: themes[settings.theme][effectiveColorScheme || 'light'],
       }}
     >
       {children}
