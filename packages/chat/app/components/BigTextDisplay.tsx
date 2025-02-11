@@ -1,5 +1,6 @@
 import { TextInput, StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
 import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
+import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
 
 type BigTextDisplayProps = {
@@ -18,10 +19,12 @@ type ViewportSize = {
 export default function BigTextDisplay({ 
   text, 
   onChangeText,
-  maxFontSize = 10, // in vh units (3/4 of previous 13vh)
+  maxFontSize: propMaxFontSize,
   minFontSize = 1,  // in vh units (3/4 of previous 1.3vh)
   debounceMs = 150
 }: BigTextDisplayProps) {
+  const { startingFontSize, currentTheme } = useSettings();
+  const maxFontSize = propMaxFontSize ?? (startingFontSize / 2.4); // Convert px to vh units
   const dimensions = useWindowDimensions();
   const previousDimensions = useRef(dimensions);
   const inputRef = useRef<TextInput>(null);
@@ -165,8 +168,11 @@ export default function BigTextDisplay({
         ...styles.text,
         fontSize: fontSize * (adjustedContainerHeight / 100), // Convert vh to pixels
         lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
-        maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%'
+        maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
+        color: currentTheme.text,
+        backgroundColor: currentTheme.background,
       }}
+      placeholderTextColor={currentTheme.placeholder}
       value={text}
       onChangeText={onChangeText}
       multiline

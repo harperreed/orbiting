@@ -1,5 +1,6 @@
 import { View, StyleSheet, ScrollView, useWindowDimensions, Platform } from 'react-native';
 import TabBar from './TabBar';
+import { useSettings } from '../context/SettingsContext';
 
 type PageLayoutProps = {
   children: React.ReactNode;
@@ -18,8 +19,10 @@ export default function PageLayout({ children, scrollable = false }: PageLayoutP
   // or on platforms other than iOS and Android
   const showTabBar = isLargeScreen || (Platform.OS !== 'ios' && Platform.OS !== 'android');
   
+  const { currentTheme } = useSettings();
+  
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: currentTheme.background }]}>
       <Content style={styles.content}>
         {children}
       </Content>
