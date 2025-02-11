@@ -127,7 +127,7 @@ export default function SettingsScreen() {
         >
           Reset to Defaults
         </Button>
-      </Surface>
+      </View>
     </PageLayout>
   );
 }
