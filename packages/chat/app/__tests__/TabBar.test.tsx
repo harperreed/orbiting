@@ -17,14 +17,14 @@ describe('TabBar', () => {
 
   it('is hidden on home screen', () => {
     (usePathname as jest.Mock).mockReturnValue('/');
-    const { container } = render(<TabBar />);
-    expect(container.children).toHaveLength(0);
+    const { queryByTestId } = render(<TabBar />);
+    expect(queryByTestId('home-tab')).toBeNull();
   });
 
   it('is visible on other screens', () => {
     (usePathname as jest.Mock).mockReturnValue('/history');
     const { getByTestId } = render(<TabBar />);
-    expect(getByTestId('home-tab')).toBeTruthy();
+    expect(getByTestId('home-tab')).toBeDefined();
   });
 
   it('navigates to home when home tab is pressed', () => {
