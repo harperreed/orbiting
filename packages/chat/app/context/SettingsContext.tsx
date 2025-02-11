@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-native';
-import { MD3Theme } from 'react-native-paper';
+import { ThemeManager } from 'rnuilib';
 import { loadSettings, saveSettings } from '../utils/settingsStorage';
 
 export type ThemeType = 'classic' | 'ocean' | 'forest' | 'sunset';
 
-export interface CustomTheme extends MD3Theme {
-  custom: {
-    tabBar: string;
-    tabBarActive: string;
+export interface CustomTheme extends ThemeManager.Theme {
+  custom?: {
+    tabBar?: string;
+    tabBarActive?: string;
   }
 }
 
