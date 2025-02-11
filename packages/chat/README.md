@@ -1,50 +1,72 @@
-# Welcome to your Expo app 👋
+# 📚 Project README.md
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 💡 Summary of Project
 
-## Get started
+Welcome to the **Chat App**! This application is built using the **Expo** framework for React Native, providing a seamless experience for capturing and managing text inputs in real-time. The app not only allows users to enter and edit text, but it also incorporates features to store messages, load them later, and clear history as needed. The main goal is to create an intuitive and efficient text management tool on mobile devices. 
 
-1. Install dependencies
+## 🚀 How to Use
 
-   ```bash
-   npm install
-   ```
+1. **Installation**:
+   - First, clone the repository:
+     ```bash
+     git clone https://github.com/harperreed/chat-app.git
+     ```
+   - Navigate into the project directory:
+     ```bash
+     cd chat-app
+     ```
+   - Install the necessary dependencies:
+     ```bash
+     npm install
+     ```
 
-2. Start the app
+2. **Starting the App**:
+   - Run the Expo command to start the app:
+     ```bash
+     npx expo start
+     ```
+   - After running the command, you will see options to open the app in:
+     - **Development build**
+     - **Android emulator**
+     - **iOS simulator**
+     - **Expo Go**, a sandbox for trying out app development with Expo
 
-   ```bash
-    npx expo start
-   ```
+3. **Using the App**:
+   - Type or paste your text in the Home screen.
+   - The text will automatically adjust its size to fit the screen.
+   - Access your message history and clear it as needed by navigating through the tabs.
 
-In the output, you'll find options to open the app in a
+4. **Additional Features**:
+   - The app supports auto-saving, allowing you to continue where you left off.
+   - Text scaling adjusts automatically based on message length.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+5. **Explore Settings**: 
+   - Go to the settings tab to explore app preferences and configurations.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🔧 Tech Info
 
-## Get a fresh project
+- **Framework**: Expo (React Native)
+- **Testing Library**: Jest, React Testing Library
+- **State Management**: Context API
+- **Storage**: AsyncStorage for persistent message storage
+- **Components**: Built with reusable React components, following best practices for accessibility and responsiveness.
+- **Testing**: Includes a suite of tests for components and utilities.
+  
+For detailed architecture and features, refer to the full directory structure and available components within the app:
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/
+  ├─ __tests__/
+  ├─ components/
+  ├─ context/
+  ├─ utils/
+  ├─ _layout.tsx
+  ├─ history.tsx
+  ├─ about.tsx
+  ├─ help.tsx
+  └─ settings.tsx
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Feel free to contribute! Open issues for bugs or features you'd like to see improved, or submit a pull request with your enhancements! 
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Happy coding! 🎉
