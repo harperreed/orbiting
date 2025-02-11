@@ -9,6 +9,7 @@ import RNShake from 'react-native-shake';
 import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect, useState } from "react";
+import { useSettings } from "../context/SettingsContext";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
