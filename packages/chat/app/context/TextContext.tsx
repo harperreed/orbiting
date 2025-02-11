@@ -41,7 +41,9 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
     const [state, dispatch] = useReducer(textReducer, {
         text: "",
         lastSaved: null,
-        isDirty: false
+        isDirty: false,
+        error: null,
+        isLoading: false
     });
     
     const saveTimeoutRef = useRef<NodeJS.Timeout>();
@@ -73,11 +75,17 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
     }, [state.text, state.isDirty]);
 
     const handleTextChange = useCallback(async (newText: string) => {
-        const action = { 
-            type: TEXT_ACTIONS.SET_TEXT, 
-            payload: newText
-        };
-        dispatch(action);
+        try {
+            dispatch({ 
+                type: TEXT_ACTIONS.SET_TEXT, 
+                payload: newText
+            });
+        } catch (error) {
+            dispatch({ 
+                type: TEXT_ACTIONS.SET_ERROR,
+                payload: 'Failed to update text'
+            });
+        }
     }, []);
 
     const clearText = useCallback(async () => {

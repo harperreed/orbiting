@@ -13,7 +13,7 @@ import BigTextDisplay from "./BigTextDisplay";
 import { useText } from "../context/TextContext";
 
 export default function HomeScreen() {
-    const { text, handleTextChange, restoreLastSession } = useText();
+    const { text, handleTextChange, restoreLastSession, error, isLoading } = useText();
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
 
     useEffect(() => {

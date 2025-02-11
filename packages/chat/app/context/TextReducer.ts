@@ -4,6 +4,8 @@ export interface TextState {
     text: string;
     lastSaved: number | null;
     isDirty: boolean;
+    error: string | null;
+    isLoading: boolean;
 }
 
 // Action type constants
@@ -24,40 +26,53 @@ export type TextAction =
 
 export function textReducer(state: TextState, action: TextAction): TextState {
     switch (action.type) {
-        case 'SET_TEXT':
+        case TEXT_ACTIONS.SET_TEXT:
             return {
                 ...state,
                 text: action.payload,
-                isDirty: true
+                isDirty: true,
+                error: null
             };
         
-        case 'TEXT_SAVED':
+        case TEXT_ACTIONS.TEXT_SAVED:
             return {
                 ...state,
                 lastSaved: action.payload,
-                isDirty: false
+                isDirty: false,
+                error: null,
+                isLoading: false
             };
             
-        case 'CLEAR_TEXT':
+        case TEXT_ACTIONS.CLEAR_TEXT:
             return {
+                ...state,
                 text: '',
                 lastSaved: Date.now(),
-                isDirty: false
+                isDirty: false,
+                error: null,
+                isLoading: false
             };
             
-        case 'RESTORE_SESSION':
+        case TEXT_ACTIONS.RESTORE_SESSION:
             return {
+                ...state,
                 text: action.payload.text,
                 lastSaved: action.payload.timestamp,
-                isDirty: false
+                isDirty: false,
+                error: null,
+                isLoading: false
             };
             
-        case 'SET_ERROR':
-            // You might want to add error handling state here
-            console.error(action.payload);
-            return state;
+        case TEXT_ACTIONS.SET_ERROR:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+            };
             
-        default:
+        default: {
+            const exhaustiveCheck: never = action;
             return state;
+        }
     }
 }
