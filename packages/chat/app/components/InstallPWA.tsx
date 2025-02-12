@@ -30,11 +30,15 @@ export function InstallPWA() {
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
 
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      setIsInstallable(false);
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        setIsInstallable(false);
+      }
+    } catch (error) {
+      console.error('Installation failed:', error);
     }
     setDeferredPrompt(null);
   };
