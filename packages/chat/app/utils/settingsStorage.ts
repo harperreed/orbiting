@@ -12,10 +12,10 @@ export async function loadSettings() {
   }
 }
 
-export async function saveSettings(settings: object) {
+export async function saveSettings(settings: Record<string, unknown>): Promise<void> {
   try {
     await AsyncStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
   } catch (error) {
-    console.error('Error saving settings:', error);
+    throw new Error(`Failed to save settings: ${error}`);
   }
 }
