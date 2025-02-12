@@ -88,7 +88,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 type: TEXT_ACTIONS.SET_TEXT, 
                 payload: newText
             });
-        } catch (_error) {
+        } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Failed to update text';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
