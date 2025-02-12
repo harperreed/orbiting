@@ -64,7 +64,12 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                     dispatch(action);
                     logStateChange(action, state, textReducer(state, action));
                 } catch (error) {
-                    dispatch({ type: TEXT_ACTIONS.SET_ERROR, payload: 'Failed to autosave' });
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to autosave';
+                    dispatch({ 
+                        type: TEXT_ACTIONS.SET_ERROR, 
+                        payload: `Autosave failed: ${errorMessage}`
+                    });
+                    console.error('Autosave error:', error);
                 }
             }, AUTOSAVE_DELAY);
         }

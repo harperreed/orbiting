@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { TextProvider } from '../app/context/TextContext';
 import { SettingsProvider, useSettings } from '../app/context/SettingsContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function AppContent() {
   const { currentTheme } = useSettings();
@@ -39,10 +40,12 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SettingsProvider>
-        <AppContent />
-      </SettingsProvider>
-    </GestureHandlerRootView>
+    <ErrorBoundary>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SettingsProvider>
+          <AppContent />
+        </SettingsProvider>
+      </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }
