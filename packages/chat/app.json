@@ -1,7 +1,7 @@
 {
     "expo": {
-        "name": "chat",
-        "slug": "chat",
+        "name": "Orbiting",
+        "slug": "orbiting",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
