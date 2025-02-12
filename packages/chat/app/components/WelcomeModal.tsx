@@ -150,7 +150,7 @@ export function WelcomeModal() {
                     <Button mode="contained" onPress={hideModal}>
                         Get Started
                     </Button>
-                    <InstallPWA />
+                    {Platform.OS === 'web' && <InstallPWA />}
                 </View>
             </Modal>
         </Portal>
