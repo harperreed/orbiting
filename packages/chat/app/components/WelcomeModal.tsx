@@ -18,8 +18,8 @@ export function WelcomeModal() {
                     setVisible(true);
                 }
             } catch (error) {
-                console.error('Failed to check welcome cookie:', error);
-                setVisible(true);  // Show modal on error as fallback
+                console.error("Failed to check welcome cookie:", error);
+                setVisible(true); // Show modal on error as fallback
             }
         }
     }, []);
@@ -29,7 +29,6 @@ export function WelcomeModal() {
         if (Platform.OS === "web") {
             Cookies.set(WELCOME_COOKIE, "true", { expires: 365 });
         }
-    };
     };
 
     const handleEmailPress = () => {
@@ -140,9 +139,10 @@ export function WelcomeModal() {
                     </Text>
                 </Text>
 
-                {Platform.OS === 'web' && (
+                {Platform.OS === "web" && (
                     <Text style={styles.content}>
-                        💡 Pro tip: Install Orbiting as an app on your device for the best experience!
+                        💡 Pro tip: Install Orbiting as an app on your device
+                        for the best experience!
                     </Text>
                 )}
 
@@ -150,11 +150,9 @@ export function WelcomeModal() {
                     <Button mode="contained" onPress={hideModal}>
                         Get Started
                     </Button>
-                    {Platform.OS === 'web' && <InstallPWA />}
+                    {Platform.OS === "web" && <InstallPWA />}
                 </View>
             </Modal>
         </Portal>
     );
 }
-
-export default WelcomeModal;

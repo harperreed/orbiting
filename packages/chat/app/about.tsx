@@ -3,10 +3,10 @@ import { Surface, Text } from "react-native-paper";
 import PageLayout from "./components/PageLayout";
 
 export default function AboutScreen() {
-    const handleNamePress = (name) => {
--        Linking.openURL(`https://en.wikipedia.org/wiki/${name}`);
-+        Linking.openURL(`https://en.wikipedia.org/wiki/${name}`)
-+            .catch(err => console.error('Failed to open Wikipedia:', err));
+    const handleNamePress = (name: string) => {
+        Linking.openURL(`https://en.wikipedia.org/wiki/${name}`).catch((err) =>
+            console.error("Failed to open Wikipedia:", err),
+        );
     };
 
     const handleEmailPress = () => {
@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
     },
     link: {
         textDecorationLine: "underline",
-        color: theme.colors.primary,
+        // color: theme.colors.primary,
     },
 });
