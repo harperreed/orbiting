@@ -81,9 +81,11 @@ export default function BigTextDisplay({
       contentSize: ViewportSize,
       adjustedContainerHeight: number
     ) => {
-      calculateAndSetFontSize();
-    }, debounceMs),
-    [calculateAndSetFontSize, debounceMs]
+      if (isMounted() && !abortControllerRef.current?.signal.aborted) {
+        calculateAndSetFontSize();
+      }
+    }, debounceMs, { maxWait: debounceMs * 2 }),
+    [calculateAndSetFontSize, debounceMs, isMounted]
   );
 
   // Initialize AbortController
@@ -96,30 +98,33 @@ export default function BigTextDisplay({
 
   // Handle keyboard events and cleanup
   useEffect(() => {
+    const abortController = new AbortController();
     const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
     const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
     
     const handleKeyboardShow = (e: any) => {
-      if (isMounted()) {
+      if (!abortController.signal.aborted && isMounted()) {
         setKeyboardHeight(e.endCoordinates.height);
         setKeyboardVisible(true);
       }
     };
     
     const handleKeyboardHide = () => {
-      if (isMounted()) {
+      if (!abortController.signal.aborted && isMounted()) {
         setKeyboardHeight(0);
         setKeyboardVisible(false);
       }
     };
 
-    const keyboardWillShow = Keyboard.addListener(showEvent, handleKeyboardShow);
-    const keyboardWillHide = Keyboard.addListener(hideEvent, handleKeyboardHide);
+    const listeners = [
+      Keyboard.addListener(showEvent, handleKeyboardShow),
+      Keyboard.addListener(hideEvent, handleKeyboardHide)
+    ];
 
     // Cleanup function
     return () => {
-      keyboardWillShow.remove();
-      keyboardWillHide.remove();
+      abortController.abort();
+      listeners.forEach(listener => listener.remove());
       debouncedCalculate.cancel();
     };
   }, [isMounted]);
@@ -137,20 +142,28 @@ export default function BigTextDisplay({
 
   // Handle screen dimension changes
   useEffect(() => {
+    if (!isMounted() || abortControllerRef.current?.signal.aborted) return;
+
     const handleDimensionChange = () => {
-      if (previousDimensions.current.width !== dimensions.width ||
-          previousDimensions.current.height !== dimensions.height) {
+      const dimensionsChanged = 
+        previousDimensions.current.width !== dimensions.width ||
+        previousDimensions.current.height !== dimensions.height;
+
+      if (dimensionsChanged && isMounted()) {
         setContainerSize({
           width: dimensions.width,
           height: dimensions.height
         });
         
-        debouncedCalculate(
-          text, 
-          { width: dimensions.width, height: dimensions.height }, 
-          contentSize, 
-          dimensions.height - keyboardHeight
-        );
+        const adjustedHeight = dimensions.height - keyboardHeight;
+        if (adjustedHeight > 0) {
+          debouncedCalculate(
+            text, 
+            { width: dimensions.width, height: dimensions.height }, 
+            contentSize, 
+            adjustedHeight
+          );
+        }
         
         previousDimensions.current = dimensions;
       }
@@ -161,7 +174,7 @@ export default function BigTextDisplay({
     return () => {
       debouncedCalculate.cancel();
     };
-  }, [dimensions, keyboardHeight, text, contentSize, debouncedCalculate]);
+  }, [dimensions, keyboardHeight, text, contentSize, debouncedCalculate, isMounted]);
 
   // Handle font size calculations with error boundary
   useEffect(() => {
