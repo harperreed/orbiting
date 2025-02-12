@@ -50,8 +50,8 @@ describe("HomeScreen", () => {
   });
 
   it("displays text with large font size for short text", () => {
-    const { getByTestId } = render(<HomeScreen />);
-    const display = getByTestId("big-text-display");
+    render(<HomeScreen />);
+    const display = screen.getByTestId("big-text-display");
     expect(display.props.style).toEqual(
       expect.objectContaining({
         fontSize: 48
