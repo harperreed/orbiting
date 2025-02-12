@@ -4,7 +4,9 @@ import PageLayout from "./components/PageLayout";
 
 export default function AboutScreen() {
     const handleNamePress = (name) => {
-        Linking.openURL(`https://en.wikipedia.org/wiki/${name}`);
+-        Linking.openURL(`https://en.wikipedia.org/wiki/${name}`);
++        Linking.openURL(`https://en.wikipedia.org/wiki/${name}`)
++            .catch(err => console.error('Failed to open Wikipedia:', err));
     };
 
     const handleEmailPress = () => {
