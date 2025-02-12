@@ -127,7 +127,7 @@ export default function BigTextDisplay({
       listeners.forEach(listener => listener.remove());
       debouncedCalculate.cancel();
     };
-  }, [isMounted]);
+  }, [isMounted, debouncedCalculate]);
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
     setContainerSize({ width, height });
