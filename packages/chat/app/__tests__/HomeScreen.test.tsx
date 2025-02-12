@@ -60,7 +60,7 @@ describe("HomeScreen", () => {
   });
 
   it("reduces font size for long text", () => {
-    const { getByTestId } = render(<HomeScreen />);
+    render(<HomeScreen />);
     const display = screen.getByTestId("big-text-display");
     
     fireEvent.changeText(display, "This is a very long text that should cause the font size to decrease");
