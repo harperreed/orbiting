@@ -45,7 +45,7 @@ describe('HistoryScreen', () => {
   it('clears history when clear button is pressed', async () => {
     await storeMessage('Test message');
     
-    const { getByText, queryByText } = render(<HistoryScreen />);
+    const { getByText } = render(<HistoryScreen />);
     await act(async () => {});
 
     const clearButton = getByText('Clear History');
