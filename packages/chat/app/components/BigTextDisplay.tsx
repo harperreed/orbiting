@@ -1,6 +1,7 @@
 import { StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
 import { TextInput, useTheme } from 'react-native-paper';
 import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
+import { useIsMounted } from '../hooks/useIsMounted';
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
 
@@ -31,6 +32,8 @@ export default function BigTextDisplay({
   const previousDimensions = useRef(dimensions);
   const inputRef = useRef<TextInput>(null);
 
+  const isMounted = useIsMounted();
+  const abortControllerRef = useRef<AbortController>();
   const [fontSize, setFontSize] = useState(maxFontSize);
   const [containerSize, setContainerSize] = useState<ViewportSize>({ width: 0, height: 0 });
   const [contentSize, setContentSize] = useState<ViewportSize>({ width: 0, height: 0 });
@@ -83,19 +86,31 @@ export default function BigTextDisplay({
     [calculateAndSetFontSize, debounceMs]
   );
 
+  // Initialize AbortController
+  useEffect(() => {
+    abortControllerRef.current = new AbortController();
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
   // Handle keyboard events and cleanup
   useEffect(() => {
     const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
     const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
     
     const handleKeyboardShow = (e: any) => {
-      setKeyboardHeight(e.endCoordinates.height);
-      setKeyboardVisible(true);
+      if (isMounted()) {
+        setKeyboardHeight(e.endCoordinates.height);
+        setKeyboardVisible(true);
+      }
     };
     
     const handleKeyboardHide = () => {
-      setKeyboardHeight(0);
-      setKeyboardVisible(false);
+      if (isMounted()) {
+        setKeyboardHeight(0);
+        setKeyboardVisible(false);
+      }
     };
 
     const keyboardWillShow = Keyboard.addListener(showEvent, handleKeyboardShow);
@@ -105,10 +120,9 @@ export default function BigTextDisplay({
     return () => {
       keyboardWillShow.remove();
       keyboardWillHide.remove();
-      // Cancel any pending debounced calculations
       debouncedCalculate.cancel();
     };
-  }, []);
+  }, [isMounted]);
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
     setContainerSize({ width, height });
@@ -116,8 +130,10 @@ export default function BigTextDisplay({
   }, [keyboardHeight]);
 
   const onContentSizeChange = useCallback((width: number, height: number) => {
-    setContentSize({ width, height });
-  }, []);
+    if (isMounted()) {
+      setContentSize({ width, height });
+    }
+  }, [isMounted]);
 
   // Handle screen dimension changes
   useEffect(() => {
