@@ -1,8 +1,7 @@
 import { render, fireEvent, act } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native';
 import HistoryScreen from '../history';
-import { clearHistory, storeMessage } from '../utils/storage';
+import { storeMessage } from '../utils/storage';
 
 // Mock Alert
 jest.mock('react-native', () => ({
@@ -30,6 +29,7 @@ describe('HistoryScreen', () => {
     await act(async () => {});
     
     expect(queryByText('Clear History')).toBeNull();
+    expect(queryByText('No messages yet')).toBeTruthy();
   });
 
   it('displays stored messages', async () => {
