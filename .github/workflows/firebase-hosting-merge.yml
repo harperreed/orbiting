@@ -18,8 +18,9 @@ jobs:
               uses: actions/setup-node@v3
 
               with:
-                  node-version: "20"
+                  node-version: "22"
                   cache: "npm"
+                  cache-dependency-path: "./packages/chat/package-lock.json"
 
             - name: Install Dependencies
               run: |
