@@ -6,7 +6,7 @@ import {
     Animated,
 } from "react-native";
 import RNShake from 'react-native-shake';
-import { Surface, Snackbar, ActivityIndicator, Portal } from 'react-native-paper';
+import { Surface, Snackbar } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect, useState } from "react";
 import { useSettings } from "../context/SettingsContext";
@@ -18,7 +18,7 @@ import { useText } from "../context/TextContext";
 import { AccessibilityInfo } from 'react-native';
 
 export default function HomeScreen() {
-    const { text, handleTextChange, restoreLastSession, error, isLoading } = useText();
+    const { text, handleTextChange, restoreLastSession, error } = useText();
     const announceError = useCallback((error: string) => {
         AccessibilityInfo.announceForAccessibility(error);
     }, []);
