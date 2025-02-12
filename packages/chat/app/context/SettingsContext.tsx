@@ -46,6 +46,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       if (savedSettings) {
         setSettings(savedSettings);
       }
+    }).catch(err => {
+      console.error('Failed to load settings:', err);
+      setSettings(defaultSettings);
     });
   }, []);
 
