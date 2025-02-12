@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Portal, Text, Button, useTheme } from "react-native-paper";
 import { StyleSheet, View, Platform, Linking } from "react-native";
 import Cookies from "js-cookie";
+import { InstallPWA } from "./InstallPWA";
 
 const WELCOME_COOKIE = "orbiting-welcome-shown";
 
@@ -133,10 +134,17 @@ export function WelcomeModal() {
                     </Text>
                 </Text>
 
+                {Platform.OS === 'web' && (
+                    <Text style={styles.content}>
+                        💡 Pro tip: Install Orbiting as an app on your device for the best experience!
+                    </Text>
+                )}
+
                 <View style={styles.buttonContainer}>
                     <Button mode="contained" onPress={hideModal}>
                         Get Started
                     </Button>
+                    <InstallPWA />
                 </View>
             </Modal>
         </Portal>

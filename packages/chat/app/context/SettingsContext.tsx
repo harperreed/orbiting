@@ -18,6 +18,7 @@ interface Settings {
   startingFontSize: number;
   theme: ThemeType;
   shakeMode: 'clear' | 'flash' | 'none';
+  isInstalled?: boolean;
 }
 
 interface SettingsContextType extends Settings {
@@ -31,6 +32,7 @@ const defaultSettings: Settings = {
   startingFontSize: 24,
   theme: 'mono',
   shakeMode: 'none',
+  isInstalled: false,
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
