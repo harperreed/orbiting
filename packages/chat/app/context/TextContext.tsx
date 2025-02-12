@@ -94,7 +94,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 type: TEXT_ACTIONS.SET_ERROR,
                 payload: errorMessage
             });
-            console.error('Text update error:', error);
+            console.error('Text update error:', _error);
         } finally {
             dispatch({ type: TEXT_ACTIONS.SET_LOADING, payload: false });
         }
