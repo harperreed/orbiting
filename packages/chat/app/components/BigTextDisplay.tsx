@@ -233,7 +233,7 @@ export default function BigTextDisplay({
       onChangeText={onChangeText}
       multiline
       placeholder="Type Here"
-      placeholderTextColor={theme.colors.onBackground + '66'} // Adding 66 for 40% opacity
+      placeholderTextColor={`${theme.colors.onBackground}66`} // Adding 66 for 40% opacity
       onLayout={onLayout}
       onContentSizeChange={(e) => {
         onContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height);
