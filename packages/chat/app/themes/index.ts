@@ -337,11 +337,11 @@ export const themes: Record<ThemeType, { light: CustomTheme; dark: CustomTheme }
   neon: {
     light: {
       colors: {
-        primary: '#00ff00',
+        primary: '#00e600',
         onPrimary: '#000000',
         primaryContainer: '#e6ffe6',
         onPrimaryContainer: '#003300',
-        secondary: '#ff00ff',
+        secondary: '#e600e6',
         onSecondary: '#000000',
         secondaryContainer: '#ffe6ff',
         onSecondaryContainer: '#330033',
@@ -368,11 +368,11 @@ export const themes: Record<ThemeType, { light: CustomTheme; dark: CustomTheme }
     },
     dark: {
       colors: {
-        primary: '#00ff00',
+        primary: '#00e600',
         onPrimary: '#000000',
         primaryContainer: '#001a00',
         onPrimaryContainer: '#00ff00',
-        secondary: '#ff00ff',
+        secondary: '#e600e6',
         onSecondary: '#000000',
         secondaryContainer: '#1a001a',
         onSecondaryContainer: '#ff00ff',
