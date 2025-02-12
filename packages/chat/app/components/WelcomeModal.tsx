@@ -12,9 +12,14 @@ export function WelcomeModal() {
 
     useEffect(() => {
         if (Platform.OS === "web") {
-            const hasSeenWelcome = Cookies.get(WELCOME_COOKIE);
-            if (!hasSeenWelcome) {
-                setVisible(true);
+            try {
+                const hasSeenWelcome = Cookies.get(WELCOME_COOKIE);
+                if (!hasSeenWelcome) {
+                    setVisible(true);
+                }
+            } catch (error) {
+                console.error('Failed to check welcome cookie:', error);
+                setVisible(true);  // Show modal on error as fallback
             }
         }
     }, []);
@@ -24,6 +29,7 @@ export function WelcomeModal() {
         if (Platform.OS === "web") {
             Cookies.set(WELCOME_COOKIE, "true", { expires: 365 });
         }
+    };
     };
 
     const handleEmailPress = () => {
