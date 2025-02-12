@@ -1,41 +1,48 @@
-import { StyleSheet, View, Platform } from 'react-native';
-import { 
-  Text, 
-  Button, 
-  ActivityIndicator, 
-  Surface, 
-  useTheme, 
-  Dialog,
-  Divider,
-  Searchbar,
-  Snackbar,
-  List,
-  TouchableRipple
-} from 'react-native-paper';
-import PageLayout from './components/PageLayout';
-import { useCallback, useEffect, useState } from 'react';
-import { useText } from './context/TextContext';
-import { useRouter } from 'expo-router';
-import { StoredMessage, getMessages, clearHistory, deleteMessage } from './utils/storageUtils';
-import { FlashList } from '@shopify/flash-list';
+import { StyleSheet, View, Platform } from "react-native";
+import {
+    Text,
+    Button,
+    ActivityIndicator,
+    Surface,
+    useTheme,
+    Dialog,
+    Divider,
+    Searchbar,
+    Snackbar,
+    List,
+    TouchableRipple,
+} from "react-native-paper";
+import PageLayout from "./components/PageLayout";
+import { useCallback, useEffect, useState } from "react";
+import { useText } from "./context/TextContext";
+import { useRouter } from "expo-router";
+import {
+    StoredMessage,
+    getMessages,
+    clearHistory,
+    deleteMessage,
+} from "./utils/storageUtils";
+import { FlashList } from "@shopify/flash-list";
 
 export default function HistoryScreen() {
-  const theme = useTheme();
-  const [messages, setMessages] = useState<StoredMessage[]>([]);
-  const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [cursor, setCursor] = useState<string | null>(null);
-  const [showClearDialog, setShowClearDialog] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  
-  const router = useRouter();
-  const { clearText } = useText();
+    const theme = useTheme();
+    const [messages, setMessages] = useState<StoredMessage[]>([]);
+    const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>(
+        [],
+    );
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [cursor, setCursor] = useState<string | null>(null);
+    const [showClearDialog, setShowClearDialog] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [snackbarVisible, setSnackbarVisible] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const router = useRouter();
+    const { clearText } = useText();
 
     const showSnackbar = (message: string) => {
         setSnackbarMessage(message);
@@ -51,14 +58,20 @@ export default function HistoryScreen() {
                     setIsLoadingMore(true);
                 }
 
-                const { messages: newMessages, nextCursor } = await getMessages({
-                    cursor: newCursor,
-                    limit: 20,
-                    search: searchQuery
-                });
+                const { messages: newMessages, nextCursor } = await getMessages(
+                    {
+                        cursor: newCursor ?? undefined,
+                        limit: 20,
+                        search: searchQuery,
+                    },
+                );
 
-                setMessages(prev => append ? [...prev, ...newMessages] : newMessages);
-                setFilteredMessages(prev => append ? [...prev, ...newMessages] : newMessages);
+                setMessages((prev) =>
+                    append ? [...prev, ...newMessages] : newMessages,
+                );
+                setFilteredMessages((prev) =>
+                    append ? [...prev, ...newMessages] : newMessages,
+                );
                 setHasMore(!!nextCursor);
                 setCursor(nextCursor);
             } catch (error) {
@@ -73,8 +86,7 @@ export default function HistoryScreen() {
     );
 
     useEffect(() => {
--        loadMessages(0);
-+        loadMessages(null);
+        loadMessages(null);
     }, [loadMessages]);
 
     useEffect(() => {
@@ -105,7 +117,7 @@ export default function HistoryScreen() {
         if (messageToDelete) {
             try {
                 await deleteMessage(messageToDelete);
-                await loadMessages(0);
+                await loadMessages(null);
                 showSnackbar("Message deleted successfully");
             } catch (error) {
                 console.error("Failed to delete message:", error);
@@ -122,199 +134,224 @@ export default function HistoryScreen() {
         const today = new Date();
         const yesterday = new Date(today);
         yesterday.setDate(yesterday.getDate() - 1);
-        
+
         if (date.toDateString() === today.toDateString()) {
-          return date.toLocaleTimeString(undefined, { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          });
+            return date.toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
         } else if (date.toDateString() === yesterday.toDateString()) {
-          return 'Yesterday ' + date.toLocaleTimeString(undefined, { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          });
+            return (
+                "Yesterday " +
+                date.toLocaleTimeString(undefined, {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                })
+            );
         } else {
-          return date.toLocaleDateString(undefined, {
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
+            return date.toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
         }
-      };
-    
-      const renderItem = useCallback(({ item }: { item: StoredMessage }) => (
-        <TouchableRipple
-          onPress={() => router.push({ pathname: '/', params: { text: item.text } })}
-          onLongPress={() => {
-            setMessageToDelete(item.id);
-            setShowDeleteDialog(true);
-          }}
-        >
-          <List.Item
-            title={item.text}
-            titleNumberOfLines={1}
-            titleStyle={styles.messageText}
-            description={formatDate(item.timestamp)}
-            descriptionStyle={styles.timestamp}
-            right={props => (
-              <List.Icon 
-                {...props} 
-                icon="chevron-right" 
-                color={theme.colors.onSurfaceVariant}
-              />
-            )}
-          />
-        </TouchableRipple>
-      ), [router]);
-    
-      if (isLoading) {
-        return (
-          <PageLayout>
-            <Surface style={styles.loadingContainer}>
-              <ActivityIndicator size="large" />
-            </Surface>
-          </PageLayout>
-        );
-      }
-    
-      return (
-        <PageLayout>
-          <View style={styles.searchContainer}>
-            <Searchbar
-              placeholder="Search messages"
-              onChangeText={setSearchQuery}
-              value={searchQuery}
-              style={styles.searchBar}
-            />
-          </View>
-    
-          {filteredMessages.length === 0 ? (
-            <Surface style={styles.emptyContainer}>
-              <Text variant="headlineSmall">No messages yet</Text>
-              <Text variant="bodyMedium" style={styles.emptyText}>
-                Messages you create will appear here
-              </Text>
-            </Surface>
-          ) : (
-            <>
-              <FlashList
-                data={filteredMessages}
-                renderItem={renderItem}
-                estimatedItemSize={64}
-                keyExtractor={(item) => item.id}
-                ItemSeparatorComponent={() => <Divider />}
-                onEndReached={() => {
-                  if (hasMore && !isLoadingMore && cursor) {
-                    loadMessages(cursor, true);
-                  }
-                }}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={() => 
-                  isLoadingMore ? (
-                    <ActivityIndicator style={styles.loadingMore} size="small" />
-                  ) : null
+    };
+
+    const renderItem = useCallback(
+        ({ item }: { item: StoredMessage }) => (
+            <TouchableRipple
+                onPress={() =>
+                    router.push({ pathname: "/", params: { text: item.text } })
                 }
-              />
-              {messages.length > 0 && (
-                <Button
-                  mode="contained"
-                  onPress={() => setShowClearDialog(true)}
-                  style={styles.clearButton}
-                  buttonColor={theme.colors.error}
-                  icon="delete-sweep"
-                >
-                  Clear All History
-                </Button>
-              )}
-            </>
-          )}
-    
-          <Dialog visible={showClearDialog} onDismiss={() => setShowClearDialog(false)}>
-            <Dialog.Title>Clear History</Dialog.Title>
-            <Dialog.Content>
-              <Text variant="bodyLarge">This will permanently delete all messages. Are you sure?</Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={() => setShowClearDialog(false)}>Cancel</Button>
-              <Button 
-                onPress={handleClearHistory} 
-                textColor={theme.colors.error}
-                icon="delete-sweep"
-              >
-                Clear All
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-    
-          <Dialog visible={showDeleteDialog} onDismiss={() => setShowDeleteDialog(false)}>
-            <Dialog.Title>Delete Message</Dialog.Title>
-            <Dialog.Content>
-              <Text variant="bodyLarge">Are you sure you want to delete this message?</Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={() => setShowDeleteDialog(false)}>Cancel</Button>
-              <Button 
-                onPress={handleDeleteMessage} 
-                textColor={theme.colors.error}
-                icon="delete"
-              >
-                Delete
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-    
-          <Snackbar
-            visible={snackbarVisible}
-            onDismiss={() => setSnackbarVisible(false)}
-            duration={3000}
-            action={{
-              label: 'Dismiss',
-              onPress: () => setSnackbarVisible(false),
-            }}
-          >
-            {snackbarMessage}
-          </Snackbar>
-        </PageLayout>
-      );
+                onLongPress={() => {
+                    setMessageToDelete(item.id);
+                    setShowDeleteDialog(true);
+                }}
+            >
+                <List.Item
+                    title={item.text}
+                    titleNumberOfLines={1}
+                    titleStyle={styles.messageText}
+                    description={formatDate(item.timestamp)}
+                    descriptionStyle={styles.timestamp}
+                    right={(props) => (
+                        <List.Icon
+                            {...props}
+                            icon="chevron-right"
+                            color={theme.colors.onSurfaceVariant}
+                        />
+                    )}
+                />
+            </TouchableRipple>
+        ),
+        [router],
+    );
+
+    if (isLoading) {
+        return (
+            <PageLayout>
+                <Surface style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" />
+                </Surface>
+            </PageLayout>
+        );
     }
-    
-    const styles = StyleSheet.create({
-      loadingContainer: {
+
+    return (
+        <PageLayout>
+            <View style={styles.searchContainer}>
+                <Searchbar
+                    placeholder="Search messages"
+                    onChangeText={setSearchQuery}
+                    value={searchQuery}
+                    style={styles.searchBar}
+                />
+            </View>
+
+            {filteredMessages.length === 0 ? (
+                <Surface style={styles.emptyContainer}>
+                    <Text variant="headlineSmall">No messages yet</Text>
+                    <Text variant="bodyMedium" style={styles.emptyText}>
+                        Messages you create will appear here
+                    </Text>
+                </Surface>
+            ) : (
+                <View>
+                    <FlashList
+                        data={filteredMessages}
+                        renderItem={renderItem}
+                        estimatedItemSize={64}
+                        keyExtractor={(item) => item.id}
+                        ItemSeparatorComponent={() => <Divider />}
+                        onEndReached={() => {
+                            if (hasMore && !isLoadingMore && cursor) {
+                                loadMessages(cursor, true);
+                            }
+                        }}
+                        onEndReachedThreshold={0.5}
+                        ListFooterComponent={() =>
+                            isLoadingMore ? (
+                                <ActivityIndicator
+                                    style={styles.loadingMore}
+                                    size="small"
+                                />
+                            ) : null
+                        }
+                    />
+                    {messages.length > 0 && (
+                        <Button
+                            mode="contained"
+                            onPress={() => setShowClearDialog(true)}
+                            style={styles.clearButton}
+                            buttonColor={theme.colors.error}
+                            icon="delete-sweep"
+                        >
+                            Clear All History
+                        </Button>
+                    )}
+                </View>
+            )}
+
+            <Dialog
+                visible={showClearDialog}
+                onDismiss={() => setShowClearDialog(false)}
+            >
+                <Dialog.Title>Clear History</Dialog.Title>
+                <Dialog.Content>
+                    <Text variant="bodyLarge">
+                        This will permanently delete all messages. Are you sure?
+                    </Text>
+                </Dialog.Content>
+                <Dialog.Actions>
+                    <Button onPress={() => setShowClearDialog(false)}>
+                        Cancel
+                    </Button>
+                    <Button
+                        onPress={handleClearHistory}
+                        textColor={theme.colors.error}
+                        icon="delete-sweep"
+                    >
+                        Clear All
+                    </Button>
+                </Dialog.Actions>
+            </Dialog>
+
+            <Dialog
+                visible={showDeleteDialog}
+                onDismiss={() => setShowDeleteDialog(false)}
+            >
+                <Dialog.Title>Delete Message</Dialog.Title>
+                <Dialog.Content>
+                    <Text variant="bodyLarge">
+                        Are you sure you want to delete this message?
+                    </Text>
+                </Dialog.Content>
+                <Dialog.Actions>
+                    <Button onPress={() => setShowDeleteDialog(false)}>
+                        Cancel
+                    </Button>
+                    <Button
+                        onPress={handleDeleteMessage}
+                        textColor={theme.colors.error}
+                        icon="delete"
+                    >
+                        Delete
+                    </Button>
+                </Dialog.Actions>
+            </Dialog>
+
+            <Snackbar
+                visible={snackbarVisible}
+                onDismiss={() => setSnackbarVisible(false)}
+                duration={3000}
+                action={{
+                    label: "Dismiss",
+                    onPress: () => setSnackbarVisible(false),
+                }}
+            >
+                {snackbarMessage}
+            </Snackbar>
+        </PageLayout>
+    );
+}
+
+const styles = StyleSheet.create({
+    loadingContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      loadingMore: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    loadingMore: {
         padding: 8,
-      },
-      messageText: {
+    },
+    messageText: {
         fontSize: 16,
-      },
-      timestamp: {
+    },
+    timestamp: {
         fontSize: 12,
-        color: 'gray',
-      },
-      clearButton: {
+        color: "gray",
+    },
+    clearButton: {
         margin: 16,
-      },
-      searchContainer: {
+    },
+    searchContainer: {
         padding: 8,
-      },
-      searchBar: {
+    },
+    searchBar: {
         elevation: 0,
         borderWidth: 1,
-        borderColor: 'rgba(0,0,0,0.1)',
-      },
-      emptyContainer: {
+        borderColor: "rgba(0,0,0,0.1)",
+    },
+    emptyContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         padding: 16,
-      },
-      emptyText: {
+    },
+    emptyText: {
         marginTop: 8,
-        color: 'gray',
-        textAlign: 'center',
-      },
-    });
+        color: "gray",
+        textAlign: "center",
+    },
+});

@@ -1,8 +1,16 @@
 import { StyleSheet, Linking } from "react-native";
-import { Surface, Text } from "react-native-paper";
+import {
+    Modal,
+    Portal,
+    Surface,
+    Text,
+    Button,
+    useTheme,
+} from "react-native-paper";
 import PageLayout from "./components/PageLayout";
 
 export default function AboutScreen() {
+    const theme = useTheme();
     const handleNamePress = (name: string) => {
         Linking.openURL(`https://en.wikipedia.org/wiki/${name}`).catch((err) =>
             console.error("Failed to open Wikipedia:", err),
@@ -12,6 +20,27 @@ export default function AboutScreen() {
     const handleEmailPress = () => {
         Linking.openURL("mailto:feedback@orbiting.com");
     };
+
+    const styles = StyleSheet.create({
+        centered: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+        },
+        title: {
+            marginBottom: 24,
+        },
+        paragraph: {
+            textAlign: "center",
+            marginBottom: 16,
+            lineHeight: 24,
+        },
+        link: {
+            textDecorationLine: "underline",
+            color: theme.colors.primary,
+        },
+    });
 
     return (
         <PageLayout>
@@ -55,24 +84,3 @@ export default function AboutScreen() {
         </PageLayout>
     );
 }
-
-const styles = StyleSheet.create({
-    centered: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 20,
-    },
-    title: {
-        marginBottom: 24,
-    },
-    paragraph: {
-        textAlign: "center",
-        marginBottom: 16,
-        lineHeight: 24,
-    },
-    link: {
-        textDecorationLine: "underline",
-        // color: theme.colors.primary,
-    },
-});

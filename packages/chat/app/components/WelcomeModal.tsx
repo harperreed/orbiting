@@ -35,7 +35,7 @@ export function WelcomeModal() {
         Linking.openURL("mailto:feedback@orbiting.com");
     };
 
-    const handleWikiPress = (name) => {
+    const handleWikiPress = (name: string) => {
         Linking.openURL(`https://en.wikipedia.org/wiki/${name}`);
     };
 
@@ -48,7 +48,7 @@ export function WelcomeModal() {
             maxWidth: 600,
             maxHeight: "90%",
             alignSelf: "center",
-            overflow: "auto",
+            overflow: "scroll",
         },
         title: {
             fontSize: 28,
@@ -91,62 +91,64 @@ export function WelcomeModal() {
             <Modal
                 visible={visible}
                 onDismiss={hideModal}
-                contentContainerStyle={styles.modalContainer}
+                contentContainerStyle={styles.modalContainer as any}
             >
-                <Text style={styles.title}>Welcome to Orbiting</Text>
+                <Text style={styles.title as any}>Welcome to Orbiting</Text>
 
-                <Text style={styles.content}>
+                <Text style={styles.content as any}>
                     A simple messaging app for your eyeballs. You can use it to
                     type and display the message to those around you. Display a
                     message loud and clear.
                 </Text>
 
-                <Text style={styles.subtitle}>Orbiting is simple to use.</Text>
+                <Text style={styles.subtitle as any}>
+                    Orbiting is simple to use.
+                </Text>
 
-                <View style={styles.listItem}>
-                    <Text style={styles.content}>
+                <View style={styles.listItem as any}>
+                    <Text style={styles.content as any}>
                         • Tap and start typing. Your message will display loud
                         and clear!
                     </Text>
                 </View>
-                <View style={styles.listItem}>
-                    <Text style={styles.content}>
+                <View style={styles.listItem as any}>
+                    <Text style={styles.content as any}>
                         • To clear the display - ⬅️ swipe left
                     </Text>
                 </View>
-                <View style={styles.listItem}>
-                    <Text style={styles.content}>
+                <View style={styles.listItem as any}>
+                    <Text style={styles.content as any}>
                         • To view the menu and settings - ➡️ swipe right
                     </Text>
                 </View>
-                <View style={styles.listItem}>
-                    <Text style={styles.content}>
+                <View style={styles.listItem as any}>
+                    <Text style={styles.content as any}>
                         • To display the history - ⬆️ swipe up
                     </Text>
                 </View>
-                <View style={styles.listItem}>
-                    <Text style={styles.content}>
+                <View style={styles.listItem as any}>
+                    <Text style={styles.content as any}>
                         • You can use it on desktop or mobile
                     </Text>
                 </View>
 
-                <View style={styles.divider} />
+                <View style={styles.divider as any} />
 
-                <Text style={styles.content}>
+                <Text style={styles.content as any}>
                     Please send us feedback. We want it!{" "}
-                    <Text style={styles.link} onPress={handleEmailPress}>
+                    <Text style={styles.link as any} onPress={handleEmailPress}>
                         feedback@orbiting.com
                     </Text>
                 </Text>
 
                 {Platform.OS === "web" && (
-                    <Text style={styles.content}>
+                    <Text style={styles.content as any}>
                         💡 Pro tip: Install Orbiting as an app on your device
                         for the best experience!
                     </Text>
                 )}
 
-                <View style={styles.buttonContainer}>
+                <View style={styles.buttonContainer as any}>
                     <Button mode="contained" onPress={hideModal}>
                         Get Started
                     </Button>
