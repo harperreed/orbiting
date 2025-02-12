@@ -67,7 +67,10 @@
     "react-native-shake": "^6.0.0-beta.3",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.5"
+    "react-native-webview": "13.12.5",
+    "web-push": "^3.6.7",
+    "workbox-webpack-plugin": "^7.3.0",
+    "workbox-window": "^7.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
