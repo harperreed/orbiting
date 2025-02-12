@@ -93,7 +93,7 @@ export default function HistoryScreen() {
         setMessages([]);
         setFilteredMessages([]);
         loadMessages(null, false);
-    }, [searchQuery]);
+    }, [searchQuery, loadMessages]);
 
     const handleClearHistory = useCallback(async () => {
         try {
