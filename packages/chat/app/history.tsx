@@ -92,7 +92,6 @@ export default function HistoryScreen() {
             setMessages([]);
             setFilteredMessages([]);
             setHasMore(false);
-            setPage(0);
             showSnackbar("History cleared successfully");
         } catch (error) {
             console.error("Failed to clear history:", error);
