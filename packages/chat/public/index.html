@@ -29,6 +29,10 @@
         <script>
             if ("serviceWorker" in navigator) {
                 window.addEventListener("load", () => {
+                    if (!navigator.onLine) {
+                        console.log('Offline mode: Service Worker registration deferred');
+                        return;
+                    }
                     navigator.serviceWorker
                         .register("/sw.js")
                         .then((registration) => {
@@ -42,6 +46,10 @@
                                 "Service Worker registration failed:",
                                 error,
                             );
+                            // Retry registration after network recovery
+                            window.addEventListener('online', () => {
+                                navigator.serviceWorker.register("/sw.js");
+                            });
                         });
                 });
             }
