@@ -47,8 +47,6 @@ interface ErrorDisplayProps {
 }
 
 function ErrorDisplay({ error, onReset }: ErrorDisplayProps) {
-  const theme = useTheme();
-  
   return (
     <View 
       style={styles.container}
