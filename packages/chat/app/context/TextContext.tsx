@@ -122,10 +122,11 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                     payload: messages[0]
                 });
             }
-        } catch (error) {
+        } catch (_error) {
+            const errorMessage = _error instanceof Error ? _error.message : 'Failed to restore session';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: 'Failed to restore session'
+                payload: errorMessage
             });
         }
     }, []);
