@@ -82,7 +82,7 @@ export default function HistoryScreen() {
                 setIsLoadingMore(false);
             }
         },
-        [],
+        [searchQuery],
     );
 
     useEffect(() => {
