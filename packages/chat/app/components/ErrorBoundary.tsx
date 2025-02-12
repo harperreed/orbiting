@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Button, useTheme } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 
 interface Props {
   children: React.ReactNode;
@@ -47,8 +47,6 @@ interface ErrorDisplayProps {
 }
 
 function ErrorDisplay({ error, onReset }: ErrorDisplayProps) {
-  const theme = useTheme();
-  
   return (
     <View 
       style={styles.container}

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Platform } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
     Text,
     Button,
@@ -27,9 +27,7 @@ import { FlashList } from "@shopify/flash-list";
 export default function HistoryScreen() {
     const theme = useTheme();
     const [messages, setMessages] = useState<StoredMessage[]>([]);
-    const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>(
-        [],
-    );
+    const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -82,12 +80,12 @@ export default function HistoryScreen() {
                 setIsLoadingMore(false);
             }
         },
-        [],
+        [searchQuery],
     );
 
     useEffect(() => {
         loadMessages(null);
-    }, [loadMessages]);
+    }, [loadMessages, searchQuery]);
 
     useEffect(() => {
         // Reset pagination and reload with search
@@ -95,7 +93,7 @@ export default function HistoryScreen() {
         setMessages([]);
         setFilteredMessages([]);
         loadMessages(null, false);
-    }, [searchQuery]);
+    }, [searchQuery, loadMessages]);
 
     const handleClearHistory = useCallback(async () => {
         try {
@@ -185,7 +183,7 @@ export default function HistoryScreen() {
                 />
             </TouchableRipple>
         ),
-        [router],
+        [router, theme.colors.onSurfaceVariant],
     );
 
     if (isLoading) {

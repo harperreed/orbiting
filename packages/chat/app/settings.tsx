@@ -1,5 +1,5 @@
-import { StyleSheet, View, Dimensions } from 'react-native';
-import { Text, Switch, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple, RadioButton } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Text, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple, RadioButton } from 'react-native-paper';
 import { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
@@ -7,11 +7,11 @@ import PageLayout from './components/PageLayout';
 import { useSettings } from './context/SettingsContext';
 import type { ThemeType } from './context/SettingsContext';
 
+import { THEMES } from './themes';
+
 const FONT_SIZES = [16, 18, 20, 24, 28, 32, 36, 40];
 const MIN_FONT_SIZE = Math.min(...FONT_SIZES);
 const MAX_FONT_SIZE = Math.max(...FONT_SIZES);
-
-import { THEMES } from './themes';
 
 const COLOR_SCHEMES = [
   { label: 'System', value: 'system', icon: 'theme-light-dark' },

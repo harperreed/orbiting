@@ -35,10 +35,6 @@ export function WelcomeModal() {
         Linking.openURL("mailto:feedback@orbiting.com");
     };
 
-    const handleWikiPress = (name: string) => {
-        Linking.openURL(`https://en.wikipedia.org/wiki/${name}`);
-    };
-
     const styles = StyleSheet.create({
         modalContainer: {
             backgroundColor: theme.colors.background,

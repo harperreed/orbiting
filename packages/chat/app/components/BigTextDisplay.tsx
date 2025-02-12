@@ -1,6 +1,6 @@
-import { StyleSheet, useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
+import { useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
 import { TextInput, useTheme } from 'react-native-paper';
-import { useState, useEffect, useCallback, useRef, RefObject, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useIsMounted } from '../hooks/useIsMounted';
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
@@ -94,7 +94,7 @@ export default function BigTextDisplay({
     return () => {
       abortControllerRef.current?.abort();
     };
-  }, []);
+  }, [debouncedCalculate]);
 
   // Handle keyboard events and cleanup
   useEffect(() => {
@@ -127,7 +127,7 @@ export default function BigTextDisplay({
       listeners.forEach(listener => listener.remove());
       debouncedCalculate.cancel();
     };
-  }, [isMounted]);
+  }, [isMounted, debouncedCalculate]);
   const onLayout = useCallback((event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout;
     setContainerSize({ width, height });
