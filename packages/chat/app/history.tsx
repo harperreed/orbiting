@@ -27,9 +27,7 @@ import { FlashList } from "@shopify/flash-list";
 export default function HistoryScreen() {
     const theme = useTheme();
     const [messages, setMessages] = useState<StoredMessage[]>([]);
-    const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>(
-        [searchQuery],
-    );
+    const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
