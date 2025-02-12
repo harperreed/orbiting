@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { AccessibilityInfo } from 'react-native';
 import HomeScreen from '../components/HomeScreen';
 import BottomBar from '../components/BottomBar';
