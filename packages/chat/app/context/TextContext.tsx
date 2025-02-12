@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
-import { storeMessage, clearHistory, getMessages } from '../utils/storageUtils';
+import { storeMessage, getMessages } from '../utils/storageUtils';
 import { TextState, TextAction, textReducer, TEXT_ACTIONS } from './TextReducer';
 
 interface TextContextType {
@@ -79,7 +79,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 clearTimeout(saveTimeoutRef.current);
             }
         };
-    }, [state.text, state.isDirty]);
+    }, [state]);
 
     const handleTextChange = useCallback(async (newText: string) => {
         try {
@@ -88,8 +88,8 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 type: TEXT_ACTIONS.SET_TEXT, 
                 payload: newText
             });
-        } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Failed to update text';
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Failed to update text';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
                 payload: errorMessage
