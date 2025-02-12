@@ -1,4 +1,4 @@
-import { StyleSheet, View, Platform } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
     Text,
     Button,
@@ -28,7 +28,7 @@ export default function HistoryScreen() {
     const theme = useTheme();
     const [messages, setMessages] = useState<StoredMessage[]>([]);
     const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>(
-        [],
+        [searchQuery],
     );
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -87,7 +87,7 @@ export default function HistoryScreen() {
 
     useEffect(() => {
         loadMessages(null);
-    }, [loadMessages]);
+    }, [loadMessages, searchQuery]);
 
     useEffect(() => {
         // Reset pagination and reload with search
@@ -185,7 +185,7 @@ export default function HistoryScreen() {
                 />
             </TouchableRipple>
         ),
-        [router],
+        [router, theme.colors.onSurfaceVariant],
     );
 
     if (isLoading) {
