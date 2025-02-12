@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     },
     link: {
         textDecorationLine: "underline",
-        color: "#1976D2", // Material Design blue
+        color: theme.colors.primary,
     },
 });
