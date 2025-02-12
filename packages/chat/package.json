@@ -11,7 +11,9 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "build:web": "expo export -p web && npx workbox-cli generateSW workbox-config.js"
+
   },
   "jest": {
     "preset": "jest-expo",
