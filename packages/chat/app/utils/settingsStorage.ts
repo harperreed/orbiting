@@ -2,13 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SETTINGS_STORAGE_KEY = '@settings';
 
-export async function loadSettings() {
+export async function loadSettings(): Promise<Record<string, unknown> | null> {
   try {
     const settingsJson = await AsyncStorage.getItem(SETTINGS_STORAGE_KEY);
     return settingsJson ? JSON.parse(settingsJson) : null;
   } catch (error) {
-    console.error('Error loading settings:', error);
-    return null;
+    throw new Error(`Failed to load settings: ${error}`);
   }
 }
 
