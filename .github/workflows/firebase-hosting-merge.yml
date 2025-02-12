@@ -24,10 +24,9 @@ jobs:
             - name: Install Dependencies
               run: |
                   npm install
-                  npx expo install
 
             - name: Build Expo Web
-              run: npx expo export --platform web
+              run: npm run build:web
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"

@@ -2,7 +2,7 @@ name = "orbiting"
 type = "javascript"
 
 [build]
-command = "npm install && npx expo export --platform web"
+command = "npm install && npm run build:web"
 cwd = "packages/chat"
 upload.format = "service-worker"
 

@@ -1,6 +1,6 @@
 [build]
 base = "packages/chat"
-command = "npm install && npx expo export --platform web"
+command = "npm install && npm run build:web"
 publish = "dist"
 
 [context.production.environment]
@@ -8,7 +8,7 @@ NODE_VERSION = "20"
 NPM_VERSION = "10"
 
 [context.deploy-preview]
-command = "npm install && npx expo export --platform web"
+command = "npm install && npm run build:web"
 
 [context.deploy-preview.environment]
 NODE_VERSION = "20"
