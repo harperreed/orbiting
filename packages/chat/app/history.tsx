@@ -26,7 +26,7 @@ export default function HistoryScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(0);
+  const [cursor, setCursor] = useState<string | null>(null);
   const [showClearDialog, setShowClearDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
@@ -43,25 +43,24 @@ export default function HistoryScreen() {
     };
 
     const loadMessages = useCallback(
-        async (pageNum: number, append = false) => {
+        async (newCursor: string | null = null, append = false) => {
             try {
-                if (pageNum === 0) {
+                if (!newCursor) {
                     setIsLoading(true);
                 } else {
                     setIsLoadingMore(true);
                 }
 
-                const { messages: newMessages, hasMore: more } =
-                    await getMessages(pageNum);
+                const { messages: newMessages, nextCursor } = await getMessages({
+                    cursor: newCursor,
+                    limit: 20,
+                    search: searchQuery
+                });
 
-                setMessages((prev) =>
-                    append ? [...prev, ...newMessages] : newMessages,
-                );
-                setFilteredMessages((prev) =>
-                    append ? [...prev, ...newMessages] : newMessages,
-                );
-                setHasMore(more);
-                setPage(pageNum);
+                setMessages(prev => append ? [...prev, ...newMessages] : newMessages);
+                setFilteredMessages(prev => append ? [...prev, ...newMessages] : newMessages);
+                setHasMore(!!nextCursor);
+                setCursor(nextCursor);
             } catch (error) {
                 console.error("Failed to load messages:", error);
                 showSnackbar("Failed to load messages");
@@ -78,15 +77,12 @@ export default function HistoryScreen() {
     }, [loadMessages]);
 
     useEffect(() => {
-        if (searchQuery) {
-            const filtered = messages.filter((message) =>
-                message.text.toLowerCase().includes(searchQuery.toLowerCase()),
-            );
-            setFilteredMessages(filtered);
-        } else {
-            setFilteredMessages(messages);
-        }
-    }, [searchQuery, messages]);
+        // Reset pagination and reload with search
+        setCursor(null);
+        setMessages([]);
+        setFilteredMessages([]);
+        loadMessages(null, false);
+    }, [searchQuery]);
 
     const handleClearHistory = useCallback(async () => {
         try {
@@ -209,8 +205,8 @@ export default function HistoryScreen() {
                 keyExtractor={(item) => item.id}
                 ItemSeparatorComponent={() => <Divider />}
                 onEndReached={() => {
-                  if (hasMore && !isLoadingMore && !searchQuery) {
-                    loadMessages(page + 1, true);
+                  if (hasMore && !isLoadingMore && cursor) {
+                    loadMessages(cursor, true);
                   }
                 }}
                 onEndReachedThreshold={0.5}

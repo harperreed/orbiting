@@ -30,24 +30,53 @@ export async function storeMessage(text: string): Promise<void> {
   }
 }
 
-export async function getMessages(page = 0, pageSize = 20): Promise<{
+interface GetMessagesOptions {
+  cursor?: string;
+  limit?: number;
+  search?: string;
+}
+
+export async function getMessages({ 
+  cursor, 
+  limit = 20,
+  search = ''
+}: GetMessagesOptions = {}): Promise<{
   messages: StoredMessage[];
-  hasMore: boolean;
+  nextCursor: string | null;
 }> {
   try {
     const jsonValue = await AsyncStorage.getItem(MESSAGES_KEY);
-    const allMessages = jsonValue ? JSON.parse(jsonValue) : [];
+    let messages = jsonValue ? JSON.parse(jsonValue) : [];
     
-    // Sort messages by timestamp in descending order
-    const sortedMessages = allMessages.sort((a: StoredMessage, b: StoredMessage) => 
-      b.timestamp - a.timestamp
-    );
+    // Filter by search term if provided
+    if (search) {
+      const searchLower = search.toLowerCase();
+      messages = messages.filter(msg => 
+        msg.text.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Sort by timestamp descending
+    messages.sort((a: StoredMessage, b: StoredMessage) => b.timestamp - a.timestamp);
     
-    const start = page * pageSize;
-    const messages = sortedMessages.slice(start, start + pageSize);
-    const hasMore = start + pageSize < sortedMessages.length;
+    // Apply cursor-based pagination
+    let startIndex = 0;
+    if (cursor) {
+      startIndex = messages.findIndex(msg => msg.id === cursor) + 1;
+      if (startIndex === 0) {
+        startIndex = messages.length; // Cursor not found, return empty
+      }
+    }
     
-    return { messages, hasMore };
+    const paginatedMessages = messages.slice(startIndex, startIndex + limit);
+    const nextCursor = paginatedMessages.length === limit ? 
+      paginatedMessages[paginatedMessages.length - 1].id : 
+      null;
+    
+    return { 
+      messages: paginatedMessages,
+      nextCursor
+    };
   } catch (error) {
     console.error('Error getting messages:', error);
     throw error;
