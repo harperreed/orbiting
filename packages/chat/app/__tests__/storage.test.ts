@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { storeMessage, getMessages, StoredMessage } from '../utils/storage';
+import { storeMessage, getMessages } from '../utils/storage';
 
 describe('Storage Utils', () => {
   beforeEach(() => {
