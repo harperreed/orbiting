@@ -1,10 +1,7 @@
 import { StyleSheet, Linking } from "react-native";
 import {
-    Modal,
-    Portal,
     Surface,
     Text,
-    Button,
     useTheme,
 } from "react-native-paper";
 import PageLayout from "./components/PageLayout";
