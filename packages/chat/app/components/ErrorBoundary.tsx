@@ -50,7 +50,11 @@ function ErrorDisplay({ error, onReset }: ErrorDisplayProps) {
   const theme = useTheme();
   
   return (
-    <View style={styles.container}>
+    <View 
+      style={styles.container}
+      accessibilityRole="alert"
+      accessibilityLiveRegion="assertive"
+    >
       <Text variant="headlineMedium" style={styles.title}>
         Something went wrong
       </Text>
@@ -61,6 +65,8 @@ function ErrorDisplay({ error, onReset }: ErrorDisplayProps) {
         mode="contained"
         onPress={onReset}
         style={styles.button}
+        accessibilityLabel="Try again"
+        accessibilityHint="Attempts to recover from the error"
       >
         Try Again
       </Button>
