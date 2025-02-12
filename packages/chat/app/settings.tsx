@@ -22,7 +22,12 @@ const COLOR_SCHEMES = [
 const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme: ThemeType) => void }) => {
   const [visible, setVisible] = useState(false);
   const paperTheme = useTheme();
-  const currentTheme = THEMES.find(t => t.value === theme)!;
+  const foundTheme = THEMES.find(t => t.value === theme);
+  if (!foundTheme) {
+    // Fallback to a default or handle error
+    return null;
+  }
+  const currentTheme = foundTheme;
 
   return (
     <>
