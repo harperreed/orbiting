@@ -8,17 +8,6 @@ Welcome to the **Chat App**! This application is built using the **Expo** framew
 
 1. **Installation**:
    - First, clone the repository:
-     ```bash
-     git clone https://github.com/harperreed/chat-app.git
-     ```
-   - Navigate into the project directory:
-     ```bash
-     cd chat-app
-     ```
-   - Install the necessary dependencies:
-     ```bash
-     npm install
-     ```
 
 2. **Starting the App**:
    - Run the Expo command to start the app:
