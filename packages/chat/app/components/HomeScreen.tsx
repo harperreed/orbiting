@@ -15,8 +15,13 @@ import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
 import { useText } from "../context/TextContext";
 
+import { AccessibilityInfo } from 'react-native';
+
 export default function HomeScreen() {
     const { text, handleTextChange, restoreLastSession, error, isLoading } = useText();
+    const announceError = useCallback((error: string) => {
+        AccessibilityInfo.announceForAccessibility(error);
+    }, []);
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
     const { shakeMode, currentTheme } = useSettings();
     const [flashAnim] = useState(new Animated.Value(0));
@@ -125,7 +130,10 @@ export default function HomeScreen() {
                 action={{
                     label: 'Dismiss',
                     onPress: () => {},
-                }}>
+                }}
+                accessibilityLiveRegion="polite"
+                accessibilityLabel={error || "Error message"}
+                onShow={() => error && announceError(error)}>
                 {error}
             </Snackbar>
             </KeyboardAvoidingView>

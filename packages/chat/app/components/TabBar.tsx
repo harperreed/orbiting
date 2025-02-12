@@ -14,14 +14,51 @@ export default function TabBar() {
 
   return (
     <BottomNavigation
+      accessibilityRole="tablist"
+      accessibilityLabel="Main navigation"
       navigationState={{
         index: ['/', '/history', '/help', '/settings', '/about'].indexOf(pathname),
         routes: [
-          { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
-          { key: 'history', title: 'History', focusedIcon: 'history', unfocusedIcon: 'history' },
-          { key: 'help', title: 'Help', focusedIcon: 'help-circle', unfocusedIcon: 'help-circle-outline' },
-          { key: 'settings', title: 'Settings', focusedIcon: 'cog', unfocusedIcon: 'cog-outline' },
-          { key: 'about', title: 'About', focusedIcon: 'information', unfocusedIcon: 'information-outline' },
+          { 
+            key: 'home', 
+            title: 'Home', 
+            focusedIcon: 'home', 
+            unfocusedIcon: 'home-outline',
+            accessibilityLabel: 'Home screen',
+            accessibilityHint: 'Navigate to main text input screen'
+          },
+          { 
+            key: 'history', 
+            title: 'History', 
+            focusedIcon: 'history', 
+            unfocusedIcon: 'history',
+            accessibilityLabel: 'History screen',
+            accessibilityHint: 'View your message history'
+          },
+          { 
+            key: 'help', 
+            title: 'Help', 
+            focusedIcon: 'help-circle', 
+            unfocusedIcon: 'help-circle-outline',
+            accessibilityLabel: 'Help screen',
+            accessibilityHint: 'View app instructions and help'
+          },
+          { 
+            key: 'settings', 
+            title: 'Settings', 
+            focusedIcon: 'cog', 
+            unfocusedIcon: 'cog-outline',
+            accessibilityLabel: 'Settings screen',
+            accessibilityHint: 'Adjust app preferences and settings'
+          },
+          { 
+            key: 'about', 
+            title: 'About', 
+            focusedIcon: 'information', 
+            unfocusedIcon: 'information-outline',
+            accessibilityLabel: 'About screen',
+            accessibilityHint: 'View app information and credits'
+          },
         ],
       }}
       renderScene={() => <View />}

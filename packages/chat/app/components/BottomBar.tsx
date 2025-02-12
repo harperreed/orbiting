@@ -33,6 +33,10 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 onPress={onClearPress}
                 testID="clear-button"
                 accessibilityLabel="Clear text"
+                accessibilityHint="Erases all current text from the screen"
+                accessibilityRole="button"
+                accessibilityState={{ disabled: false }}
+                accessible={true}
             />
             <IconButton
                 icon="history"
@@ -40,6 +44,10 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 onPress={onHistoryPress}
                 testID="history-button"
                 accessibilityLabel="Show history"
+                accessibilityHint="Opens the message history screen"
+                accessibilityRole="button"
+                accessibilityState={{ disabled: false }}
+                accessible={true}
             />
         </Surface>
     );

@@ -183,6 +183,14 @@ export default function BigTextDisplay({
       ref={inputRef}
       testID="big-text-display"
       mode="flat"
+      accessibilityLabel="Main text input"
+      accessibilityHint="Enter your text here. Text will automatically resize to fit the screen"
+      accessibilityRole="textbox"
+      accessibilityState={{ 
+        disabled: false,
+        editable: true,
+        multiline: true
+      }}
       style={[
         {
           position: 'absolute',
