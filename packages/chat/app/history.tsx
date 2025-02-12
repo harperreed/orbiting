@@ -73,7 +73,8 @@ export default function HistoryScreen() {
     );
 
     useEffect(() => {
-        loadMessages(0);
+-        loadMessages(0);
++        loadMessages(null);
     }, [loadMessages]);
 
     useEffect(() => {
