@@ -8,9 +8,11 @@ import {
     Divider,
 } from "react-native-paper";
 import PageLayout from "./components/PageLayout";
+import { useTranslation } from 'react-i18next';
 
 export default function HelpScreen() {
     const theme = useTheme();
+    const { t } = useTranslation();
 
     const handleNamePress = (name) => {
         Linking.openURL(`https://en.wikipedia.org/wiki/${name}`);
@@ -83,23 +85,21 @@ export default function HelpScreen() {
                             variant="headlineLarge"
                             style={{ marginBottom: 16 }}
                         >
-                            Welcome to Orbiting
+                            {t('welcome')}
                         </Text>
                         <Text variant="bodyLarge">
-                            A simple messaging app for your eyeballs. You can
-                            use it to type and display messages to those around
-                            you. Display a message loud and clear.
+                            {t('description')}
                         </Text>
                     </Card.Content>
                 </Card>
 
                 {/* Quick Start Guide */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.sectionTitle}>Quick Start Guide</Text>
+                    <Text style={styles.sectionTitle}>{t('quick_start')}</Text>
                     <List.Item
                         style={styles.listItem}
-                        title="✍️ Tap and start typing"
-                        description="Your message will display loud and clear!"
+                        title={t('tap_to_type')}
+                        description={t('tap_to_type_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-tap" />
                         )}
@@ -107,8 +107,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="⬅️ Swipe Left"
-                        description="To clear the display"
+                        title={t('clear_display')}
+                        description={t('clear_display_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-swipe-left" />
                         )}
@@ -116,8 +116,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="➡️ Swipe Right"
-                        description="To view the menu and settings"
+                        title={t('view_menu')}
+                        description={t('view_menu_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-swipe-right" />
                         )}
@@ -125,8 +125,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="⬆️ Swipe Up"
-                        description="To display the history"
+                        title={t('display_history')}
+                        description={t('display_history_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-swipe-up" />
                         )}
@@ -134,8 +134,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="📱 Cross-Platform"
-                        description="Works on both desktop and mobile"
+                        title={t('cross_platform')}
+                        description={t('cross_platform_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="devices" />
                         )}
@@ -144,11 +144,11 @@ export default function HelpScreen() {
 
                 {/* Features */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.subsectionTitle}>Features</Text>
+                    <Text style={styles.subsectionTitle}>{t('features')}</Text>
                     <List.Item
                         style={styles.listItem}
-                        title="Auto-scaling text size"
-                        description="Text automatically adjusts to fit the screen"
+                        title={t('auto_scaling')}
+                        description={t('auto_scaling_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="format-size" />
                         )}
@@ -156,8 +156,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Message history"
-                        description="Access your previous messages easily"
+                        title={t('message_history')}
+                        description={t('message_history_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="history" />
                         )}
@@ -165,8 +165,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Automatic saving"
-                        description="All messages are saved automatically"
+                        title={t('auto_saving')}
+                        description={t('auto_saving_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="content-save" />
                         )}
@@ -175,18 +175,18 @@ export default function HelpScreen() {
 
                 {/* Pro Tips */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.subsectionTitle}>Pro Tips</Text>
+                    <Text style={styles.subsectionTitle}>{t('pro_tips')}</Text>
                     <List.Item
                         style={styles.listItem}
-                        title="Add to Homescreen"
-                        description="Install the app for quick access anytime"
+                        title={t('add_to_homescreen')}
+                        description={t('add_to_homescreen_hint')}
                         left={(props) => <List.Icon {...props} icon="home" />}
                     />
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Quick Load"
-                        description="Tap any message in History to load it"
+                        title={t('quick_load')}
+                        description={t('quick_load_hint')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-tap" />
                         )}
@@ -194,17 +194,17 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Text Wrapping"
-                        description="Messages automatically wrap on whitespace"
+                        title={t('text_wrapping')}
+                        description={t('text_wrapping_hint')}
                         left={(props) => <List.Icon {...props} icon="wrap" />}
                     />
                 </Surface>
 
                 {/* About Section */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.sectionTitle}>About</Text>
+                    <Text style={styles.sectionTitle}>{t('about')}</Text>
                     <Text style={styles.paragraph}>
-                        Orbiting was created by{" "}
+                        {t('created_by')}{" "}
                         <Text
                             style={styles.link}
                             onPress={() => handleNamePress("Christine_Sun_Kim")}
@@ -218,14 +218,12 @@ export default function HelpScreen() {
                         >
                             Harper Reed
                         </Text>
-                        . It was inspired by the need to communicate with people
-                        in the same space, but with different communications
-                        needs.
+                        . {t('inspired_by')}
                     </Text>
                     <Text style={styles.paragraph}>
-                        Please send us feedback. We want it!{" "}
+                        {t('send_feedback')}{" "}
                         <Text style={styles.link} onPress={handleEmailPress}>
-                            feedback@orbiting.com
+                            {t('feedback_email')}
                         </Text>
                     </Text>
                 </Surface>

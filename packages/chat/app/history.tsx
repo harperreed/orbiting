@@ -23,9 +23,11 @@ import {
     deleteMessage,
 } from "./utils/storageUtils";
 import { FlashList } from "@shopify/flash-list";
+import { useTranslation } from 'react-i18next';
 
 export default function HistoryScreen() {
     const theme = useTheme();
+    const { t } = useTranslation();
     const [messages, setMessages] = useState<StoredMessage[]>([]);
     const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -74,13 +76,13 @@ export default function HistoryScreen() {
                 setCursor(nextCursor);
             } catch (error) {
                 console.error("Failed to load messages:", error);
-                showSnackbar("Failed to load messages");
+                showSnackbar(t('failed_load_messages'));
             } finally {
                 setIsLoading(false);
                 setIsLoadingMore(false);
             }
         },
-        [searchQuery],
+        [searchQuery, t],
     );
 
     useEffect(() => {
@@ -102,30 +104,30 @@ export default function HistoryScreen() {
             setMessages([]);
             setFilteredMessages([]);
             setHasMore(false);
-            showSnackbar("History cleared successfully");
+            showSnackbar(t('history_cleared_successfully'));
         } catch (error) {
             console.error("Failed to clear history:", error);
-            showSnackbar("Failed to clear history");
+            showSnackbar(t('failed_clear_history'));
         } finally {
             setShowClearDialog(false);
         }
-    }, [clearText]);
+    }, [clearText, t]);
 
     const handleDeleteMessage = useCallback(async () => {
         if (messageToDelete) {
             try {
                 await deleteMessage(messageToDelete);
                 await loadMessages(null);
-                showSnackbar("Message deleted successfully");
+                showSnackbar(t('message_deleted_successfully'));
             } catch (error) {
                 console.error("Failed to delete message:", error);
-                showSnackbar("Failed to delete message");
+                showSnackbar(t('failed_delete_message'));
             } finally {
                 setShowDeleteDialog(false);
                 setMessageToDelete(null);
             }
         }
-    }, [messageToDelete, loadMessages]);
+    }, [messageToDelete, loadMessages, t]);
 
     const formatDate = (timestamp: number) => {
         const date = new Date(timestamp);
@@ -140,7 +142,7 @@ export default function HistoryScreen() {
             });
         } else if (date.toDateString() === yesterday.toDateString()) {
             return (
-                "Yesterday " +
+                t('yesterday') +
                 date.toLocaleTimeString(undefined, {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -200,7 +202,7 @@ export default function HistoryScreen() {
         <PageLayout>
             <View style={styles.searchContainer}>
                 <Searchbar
-                    placeholder="Search messages"
+                    placeholder={t('search_messages')}
                     onChangeText={setSearchQuery}
                     value={searchQuery}
                     style={styles.searchBar}
@@ -209,9 +211,9 @@ export default function HistoryScreen() {
 
             {filteredMessages.length === 0 ? (
                 <Surface style={styles.emptyContainer}>
-                    <Text variant="headlineSmall">No messages yet</Text>
+                    <Text variant="headlineSmall">{t('no_messages')}</Text>
                     <Text variant="bodyMedium" style={styles.emptyText}>
-                        Messages you create will appear here
+                        {t('messages_appear_here')}
                     </Text>
                 </Surface>
             ) : (
@@ -245,7 +247,7 @@ export default function HistoryScreen() {
                             buttonColor={theme.colors.error}
                             icon="delete-sweep"
                         >
-                            Clear All History
+                            {t('clear_all_history')}
                         </Button>
                     )}
                 </View>
@@ -255,22 +257,22 @@ export default function HistoryScreen() {
                 visible={showClearDialog}
                 onDismiss={() => setShowClearDialog(false)}
             >
-                <Dialog.Title>Clear History</Dialog.Title>
+                <Dialog.Title>{t('clear_history')}</Dialog.Title>
                 <Dialog.Content>
                     <Text variant="bodyLarge">
-                        This will permanently delete all messages. Are you sure?
+                        {t('clear_history_confirmation')}
                     </Text>
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button onPress={() => setShowClearDialog(false)}>
-                        Cancel
+                        {t('cancel')}
                     </Button>
                     <Button
                         onPress={handleClearHistory}
                         textColor={theme.colors.error}
                         icon="delete-sweep"
                     >
-                        Clear All
+                        {t('clear_all')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>
@@ -279,22 +281,22 @@ export default function HistoryScreen() {
                 visible={showDeleteDialog}
                 onDismiss={() => setShowDeleteDialog(false)}
             >
-                <Dialog.Title>Delete Message</Dialog.Title>
+                <Dialog.Title>{t('delete_message')}</Dialog.Title>
                 <Dialog.Content>
                     <Text variant="bodyLarge">
-                        Are you sure you want to delete this message?
+                        {t('delete_message_confirmation')}
                     </Text>
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button onPress={() => setShowDeleteDialog(false)}>
-                        Cancel
+                        {t('cancel')}
                     </Button>
                     <Button
                         onPress={handleDeleteMessage}
                         textColor={theme.colors.error}
                         icon="delete"
                     >
-                        Delete
+                        {t('delete')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>
@@ -304,7 +306,7 @@ export default function HistoryScreen() {
                 onDismiss={() => setSnackbarVisible(false)}
                 duration={3000}
                 action={{
-                    label: "Dismiss",
+                    label: t('dismiss'),
                     onPress: () => setSnackbarVisible(false),
                 }}
             >

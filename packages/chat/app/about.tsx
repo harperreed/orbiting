@@ -5,9 +5,11 @@ import {
     useTheme,
 } from "react-native-paper";
 import PageLayout from "./components/PageLayout";
+import { useTranslation } from 'react-i18next';
 
 export default function AboutScreen() {
     const theme = useTheme();
+    const { t } = useTranslation();
     const handleNamePress = (name: string) => {
         Linking.openURL(`https://en.wikipedia.org/wiki/${name}`).catch((err) =>
             console.error("Failed to open Wikipedia:", err),
@@ -43,11 +45,11 @@ export default function AboutScreen() {
         <PageLayout>
             <Surface style={styles.centered} elevation={1}>
                 <Text variant="displaySmall" style={styles.title}>
-                    About
+                    {t('about')}
                 </Text>
 
                 <Text variant="bodyLarge" style={styles.paragraph}>
-                    Orbiting was created by{" "}
+                    {t('created_by')}{" "}
                     <Text
                         variant="bodyLarge"
                         style={styles.link}
@@ -63,18 +65,17 @@ export default function AboutScreen() {
                     >
                         Harper Reed
                     </Text>
-                    . It was inspired by the need to communicate with people in
-                    the same space, but with different communications needs.
+                    . {t('inspired_by')}
                 </Text>
 
                 <Text variant="bodyLarge" style={styles.paragraph}>
-                    Please send us feedback. We want it!{" "}
+                    {t('send_feedback')}{" "}
                     <Text
                         variant="bodyLarge"
                         style={styles.link}
                         onPress={handleEmailPress}
                     >
-                        feedback@orbiting.com
+                        {t('feedback_email')}
                     </Text>
                 </Text>
             </Surface>

@@ -14,6 +14,7 @@ import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
 import { useText } from "../context/TextContext";
+import { useTranslation } from 'react-i18next';
 
 import { AccessibilityInfo } from 'react-native';
 
@@ -25,6 +26,7 @@ export default function HomeScreen() {
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
     const { shakeMode, currentTheme } = useSettings();
     const [flashAnim] = useState(new Animated.Value(0));
+    const { t } = useTranslation();
 
     useEffect(() => {
         const initializeText = async () => {
@@ -128,11 +130,11 @@ export default function HomeScreen() {
                 visible={!!error}
                 onDismiss={() => {}}
                 action={{
-                    label: 'Dismiss',
+                    label: t('dismiss'),
                     onPress: () => {},
                 }}
                 accessibilityLiveRegion="polite"
-                accessibilityLabel={error || "Error message"}
+                accessibilityLabel={error || t('error')}
                 onShow={() => error && announceError(error)}>
                 {error}
             </Snackbar>

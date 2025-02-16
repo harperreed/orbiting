@@ -6,6 +6,7 @@ import Slider from '@react-native-community/slider';
 import PageLayout from './components/PageLayout';
 import { useSettings } from './context/SettingsContext';
 import type { ThemeType } from './context/SettingsContext';
+import { useTranslation } from 'react-i18next';
 
 import { THEMES } from './themes';
 
@@ -78,6 +79,7 @@ export default function SettingsScreen() {
   } = useSettings();
   const [isResetting, setIsResetting] = useState(false);
   const paperTheme = useTheme();
+  const { t } = useTranslation();
 
   const handleReset = async () => {
     setIsResetting(true);
@@ -88,14 +90,14 @@ export default function SettingsScreen() {
   return (
     <PageLayout scrollable>
       <Surface style={styles.container}>
-        <Text variant="headlineMedium" style={styles.title}>Settings</Text>
+        <Text variant="headlineMedium" style={styles.title}>{t('settings')}</Text>
 
         <List.Section>
-          <List.Subheader>Appearance</List.Subheader>
+          <List.Subheader>{t('appearance')}</List.Subheader>
           
           <List.Item
-            title="Color Scheme"
-            description="Choose your preferred color scheme"
+            title={t('color_scheme')}
+            description={t('choose_color_scheme')}
             left={props => (
               <List.Icon
                 {...props}
@@ -122,7 +124,7 @@ export default function SettingsScreen() {
           />
 
           <List.Item
-            title="Starting Font Size"
+            title={t('starting_font_size')}
             description={`${startingFontSize}px`}
             left={props => <List.Icon {...props} icon="format-size" />}
           />
@@ -145,8 +147,8 @@ export default function SettingsScreen() {
           </View>
 
           <List.Item
-            title="Theme"
-            description="Choose your preferred theme"
+            title={t('theme')}
+            description={t('choose_theme')}
             left={props => <List.Icon {...props} icon="palette" />}
           />
           <View style={styles.themeContainer}>
@@ -155,11 +157,11 @@ export default function SettingsScreen() {
         </List.Section>
 
         <List.Section>
-          <List.Subheader>Gestures</List.Subheader>
+          <List.Subheader>{t('gestures')}</List.Subheader>
           
           <List.Item
-            title="Shake Action"
-            description="Choose what happens when you shake your device"
+            title={t('shake_action')}
+            description={t('choose_shake_action')}
             left={props => <List.Icon {...props} icon="gesture" />}
           />
           <RadioButton.Group 
@@ -167,17 +169,17 @@ export default function SettingsScreen() {
             value={shakeMode}
           >
             <List.Item
-              title="None"
+              title={t('none')}
               left={props => <RadioButton {...props} value="none" />}
             />
             <List.Item
-              title="Clear Text"
-              description="Shake to clear the current text"
+              title={t('clear_text')}
+              description={t('shake_to_clear')}
               left={props => <RadioButton {...props} value="clear" />}
             />
             <List.Item
-              title="Flash Screen"
-              description="Shake to flash the screen colors"
+              title={t('flash_screen')}
+              description={t('shake_to_flash')}
               left={props => <RadioButton {...props} value="flash" />}
             />
           </RadioButton.Group>
@@ -190,7 +192,7 @@ export default function SettingsScreen() {
           style={styles.resetButton}
           buttonColor={paperTheme.colors.error}
         >
-          Reset to Defaults
+          {t('reset_to_defaults')}
         </Button>
       </Surface>
     </PageLayout>

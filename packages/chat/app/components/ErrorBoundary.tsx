@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   children: React.ReactNode;
@@ -47,6 +48,8 @@ interface ErrorDisplayProps {
 }
 
 function ErrorDisplay({ error, onReset }: ErrorDisplayProps) {
+  const { t } = useTranslation();
+
   return (
     <View 
       style={styles.container}
@@ -54,19 +57,19 @@ function ErrorDisplay({ error, onReset }: ErrorDisplayProps) {
       accessibilityLiveRegion="assertive"
     >
       <Text variant="headlineMedium" style={styles.title}>
-        Something went wrong
+        {t('error')}
       </Text>
       <Text variant="bodyLarge" style={styles.message}>
-        {error?.message || 'An unexpected error occurred'}
+        {error?.message || t('unexpected_error')}
       </Text>
       <Button 
         mode="contained"
         onPress={onReset}
         style={styles.button}
-        accessibilityLabel="Try again"
-        accessibilityHint="Attempts to recover from the error"
+        accessibilityLabel={t('try_again')}
+        accessibilityHint={t('attempt_recover')}
       >
-        Try Again
+        {t('try_again')}
       </Button>
     </View>
   );

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useIsMounted } from '../hooks/useIsMounted';
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 type BigTextDisplayProps = {
   text: string;
@@ -27,6 +28,7 @@ export default function BigTextDisplay({
 }: BigTextDisplayProps) {
   const { startingFontSize } = useSettings();
   const theme = useTheme();
+  const { t } = useTranslation();
   const maxFontSize = propMaxFontSize ?? (startingFontSize / 2.4); // Convert px to vh units
   const dimensions = useWindowDimensions();
   const previousDimensions = useRef(dimensions);
@@ -196,8 +198,8 @@ export default function BigTextDisplay({
       ref={inputRef}
       testID="big-text-display"
       mode="flat"
-      accessibilityLabel="Main text input"
-      accessibilityHint="Enter your text here. Text will automatically resize to fit the screen"
+      accessibilityLabel={t('main_text_input')}
+      accessibilityHint={t('enter_text_hint')}
       accessibilityRole="textbox"
       accessibilityState={{ 
         disabled: false,
@@ -232,7 +234,7 @@ export default function BigTextDisplay({
       value={text}
       onChangeText={onChangeText}
       multiline
-      placeholder="Type Here"
+      placeholder={t('type_here')}
       placeholderTextColor={`${theme.colors.onBackground}66`} // Adding 66 for 40% opacity
       onLayout={onLayout}
       onContentSizeChange={(e) => {
@@ -243,4 +245,3 @@ export default function BigTextDisplay({
     />
   );
 }
-

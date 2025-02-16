@@ -1,5 +1,6 @@
 import { StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { Surface, IconButton, useTheme } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -9,6 +10,7 @@ type BottomBarProps = {
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
     const theme = useTheme();
     const { width } = useWindowDimensions();
+    const { t } = useTranslation();
     
     // Only show on web platform and screens wider than 768px (tablet/desktop)
     if (Platform.OS !== 'web' || width < 768) {
@@ -32,8 +34,8 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 mode="contained"
                 onPress={onClearPress}
                 testID="clear-button"
-                accessibilityLabel="Clear text"
-                accessibilityHint="Erases all current text from the screen"
+                accessibilityLabel={t('clear_text')}
+                accessibilityHint={t('clear_text_hint')}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: false }}
                 accessible={true}
@@ -43,8 +45,8 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 mode="contained"
                 onPress={onHistoryPress}
                 testID="history-button"
-                accessibilityLabel="Show history"
-                accessibilityHint="Opens the message history screen"
+                accessibilityLabel={t('show_history')}
+                accessibilityHint={t('show_history_hint')}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: false }}
                 accessible={true}
@@ -52,4 +54,3 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
         </Surface>
     );
 }
-
