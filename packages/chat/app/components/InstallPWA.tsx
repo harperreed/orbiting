@@ -13,7 +13,7 @@ export function InstallPWA() {
   const [isInstallable, setIsInstallable] = useState(false);
 
   useEffect(() => {
-    if (Platform.OS !== 'web') return;
+    if (Platform.OS !== 'ios' && Platform.OS !== 'android') return;
 
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
@@ -44,7 +44,7 @@ export function InstallPWA() {
     setDeferredPrompt(null);
   };
 
-  if (!isInstallable || Platform.OS !== 'web') return null;
+  if (!isInstallable || (Platform.OS !== 'ios' && Platform.OS !== 'android')) return null;
 
   return (
     <Button 

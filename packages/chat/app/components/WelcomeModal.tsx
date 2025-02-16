@@ -137,7 +137,7 @@ export function WelcomeModal() {
                     </Text>
                 </Text>
 
-                {Platform.OS === "web" && (
+                {(Platform.OS === "ios" || Platform.OS === "android") && (
                     <Text style={styles.content as any}>
                         💡 Pro tip: Install Orbiting as an app on your device
                         for the best experience!
@@ -148,7 +148,7 @@ export function WelcomeModal() {
                     <Button mode="contained" onPress={hideModal}>
                         Get Started
                     </Button>
-                    {Platform.OS === "web" && <InstallPWA />}
+                    {(Platform.OS === "ios" || Platform.OS === "android") && <InstallPWA />}
                 </View>
             </Modal>
         </Portal>
