@@ -47,6 +47,10 @@ class Orbiting {
         this.log("Orbiting initialized");
     }
 
+    isMobileDevice() {
+        return window.innerWidth <= 768;
+    }
+
     setupEventListeners() {
         this.orbit.addEventListener(
             "input",
@@ -83,6 +87,10 @@ class Orbiting {
 
         this.toggleVideoBtn.addEventListener("click", () => this.toggleVideo());
         this.helpBtn.addEventListener("click", () => this.showHelp());
+
+        if (this.isMobileDevice()) {
+            this.showAddToHomeScreen();
+        }
     }
 
     fixMobileInput() {
@@ -301,6 +309,10 @@ class Orbiting {
             this.showModal("welcomeModal");
             localStorage.setItem("first-view-new", JSON.stringify(true));
         }
+
+        if (this.isMobileDevice()) {
+            this.showAddToHomeScreen();
+        }
     }
 
     showModal(modalId) {
@@ -502,6 +514,11 @@ class Orbiting {
             },
             false,
         );
+    }
+
+    showAddToHomeScreen() {
+        // Logic to show "add to homescreen" feature
+        console.log("Add to homescreen feature displayed");
     }
 }
 
