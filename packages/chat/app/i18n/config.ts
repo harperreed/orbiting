@@ -25,23 +25,30 @@ export const SUPPORTED_LANGUAGES = [
 export type LanguageCode = (typeof SUPPORTED_LANGUAGES)[number]["code"];
 
 // Get system/browser language
-const getInitialLanguage = (): LanguageCode => {
-    // For web, try navigator.language first
-    if (Platform.OS === 'web' && typeof navigator !== 'undefined') {
-        const browserLang = navigator.language.split('-')[0];
-        if (SUPPORTED_LANGUAGES.some(lang => lang.code === browserLang)) {
-            return browserLang as LanguageCode;
+const memoizedInitialLanguage = (() => {
+    const getInitialLanguage = (): LanguageCode => {
+        // For web, try navigator.language first
+        if (Platform.OS === 'web' && typeof navigator !== 'undefined') {
+            const browserLang = navigator.language.split('-')[0];
+            const isSupported = (lang: string): lang is LanguageCode =>
+                SUPPORTED_LANGUAGES.some(supported => supported.code === lang);
+            if (isSupported(browserLang)) {
+                return browserLang;
+            }
         }
-    }
-    
-    // Fall back to Expo Localization
-    const systemLang = Localization.locale.split('-')[0];
-    if (SUPPORTED_LANGUAGES.some(lang => lang.code === systemLang)) {
-        return systemLang as LanguageCode;
-    }
-    
-    return 'en';
-};
+        
+        // Fall back to Expo Localization
+        const systemLang = Localization.locale.split('-')[0];
+        const isSupported = (lang: string): lang is LanguageCode =>
+            SUPPORTED_LANGUAGES.some(supported => supported.code === lang);
+        if (isSupported(systemLang)) {
+            return systemLang;
+        }
+        
+        return 'en';
+    };
+    return getInitialLanguage();
+})();
 
 // Initialize with detected language, then load saved language
 i18next.use(initReactI18next).init({
