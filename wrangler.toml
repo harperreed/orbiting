@@ -4,8 +4,9 @@ type = "javascript"
 [build]
 command = "npm install && npm run build:web"
 cwd = "packages/chat"
-pages_build_output_dir = "packages/chat/dist"
 
+[site]
+bucket = "packages/chat/dist"
 
 [vars]
 NODE_VERSION = "20"
