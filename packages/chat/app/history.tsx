@@ -16,7 +16,7 @@ import {
 } from "react-native-paper";
 import { useTranslation } from 'react-i18next';
 import PageLayout from "./components/PageLayout";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { useText } from "./context/TextContext";
 import { useRouter } from "expo-router";
 import {
