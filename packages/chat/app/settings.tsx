@@ -16,9 +16,9 @@ const MIN_FONT_SIZE = Math.min(...FONT_SIZES);
 const MAX_FONT_SIZE = Math.max(...FONT_SIZES);
 
 const COLOR_SCHEMES = [
-  { label: 'System', value: 'system', icon: 'theme-light-dark' },
-  { label: 'Light', value: 'light', icon: 'white-balance-sunny' },
-  { label: 'Dark', value: 'dark', icon: 'moon-waning-crescent' },
+  { label: t('system'), value: 'system', icon: 'theme-light-dark' },
+  { label: t('light'), value: 'light', icon: 'white-balance-sunny' },
+  { label: t('dark'), value: 'dark', icon: 'moon-waning-crescent' },
 ];
 
 const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme: ThemeType) => void }) => {
@@ -99,8 +99,8 @@ export default function SettingsScreen() {
           <List.Subheader>{t('appearance')}</List.Subheader>
           
           <List.Item
-            title="Color Scheme"
-            description="Choose your preferred color scheme"
+            title={t('colorScheme')}
+            description={t('chooseColorScheme')}
             left={props => (
               <List.Icon
                 {...props}
@@ -127,7 +127,7 @@ export default function SettingsScreen() {
           />
 
           <List.Item
-            title="Starting Font Size"
+            title={t('startingFontSize')}
             description={`${startingFontSize}px`}
             left={props => <List.Icon {...props} icon="format-size" />}
           />
@@ -150,8 +150,8 @@ export default function SettingsScreen() {
           </View>
 
           <List.Item
-            title="Theme"
-            description="Choose your preferred theme"
+            title={t('theme')}
+            description={t('chooseTheme')}
             left={props => <List.Icon {...props} icon="palette" />}
           />
           <View style={styles.themeContainer}>
@@ -160,11 +160,11 @@ export default function SettingsScreen() {
         </List.Section>
 
         <List.Section>
-          <List.Subheader>Gestures</List.Subheader>
+          <List.Subheader>{t('gestures')}</List.Subheader>
           
           <List.Item
-            title="Shake Action"
-            description="Choose what happens when you shake your device"
+            title={t('shakeAction')}
+            description={t('shakeDescription')}
             left={props => <List.Icon {...props} icon="gesture" />}
           />
           <RadioButton.Group 
@@ -172,17 +172,17 @@ export default function SettingsScreen() {
             value={shakeMode}
           >
             <List.Item
-              title="None"
+              title={t('none')}
               left={props => <RadioButton {...props} value="none" />}
             />
             <List.Item
-              title="Clear Text"
-              description="Shake to clear the current text"
+              title={t('clearText')}
+              description={t('clearTextDescription')}
               left={props => <RadioButton {...props} value="clear" />}
             />
             <List.Item
-              title="Flash Screen"
-              description="Shake to flash the screen colors"
+              title={t('flashScreen')}
+              description={t('flashScreenDescription')}
               left={props => <RadioButton {...props} value="flash" />}
             />
           </RadioButton.Group>
@@ -195,7 +195,7 @@ export default function SettingsScreen() {
           style={styles.resetButton}
           buttonColor={paperTheme.colors.error}
         >
-          Reset to Defaults
+          {t('resetDefaults')}
         </Button>
       </Surface>
     </PageLayout>
