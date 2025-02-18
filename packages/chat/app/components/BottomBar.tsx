@@ -1,5 +1,6 @@
 import { StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { Surface, IconButton, useTheme } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -7,6 +8,7 @@ type BottomBarProps = {
 };
 
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
+    const { t } = useTranslation();
     const theme = useTheme();
     const { width } = useWindowDimensions();
     
