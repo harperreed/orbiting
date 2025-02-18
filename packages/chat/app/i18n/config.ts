@@ -59,7 +59,16 @@ export const resources = {
       clearText: 'Clear text',
       clearHint: 'Erases all current text from the screen',
       showHistory: 'Show history',
-      showHistoryHint: 'Opens the message history screen'
+      showHistoryHint: 'Opens the message history screen',
+      // History Screen
+      searchMessages: 'Search messages',
+      messagesWillAppearHere: 'Messages you create will appear here',
+      clearAllHistory: 'Clear All History',
+      clearHistoryTitle: 'Clear History',
+      clearHistoryConfirmMessage: 'This will permanently delete all messages. Are you sure?',
+      clearAll: 'Clear All',
+      deleteMessage: 'Delete Message',
+      deleteMessageConfirm: 'Are you sure you want to delete this message?'
     }
   },
   es: {
@@ -109,7 +118,16 @@ export const resources = {
       clearText: 'Borrar texto',
       clearHint: 'Borra todo el texto actual de la pantalla',
       showHistory: 'Mostrar historial',
-      showHistoryHint: 'Abre la pantalla de historial de mensajes'
+      showHistoryHint: 'Abre la pantalla de historial de mensajes',
+      // History Screen
+      searchMessages: 'Buscar mensajes',
+      messagesWillAppearHere: 'Los mensajes que crees aparecerán aquí',
+      clearAllHistory: 'Borrar todo el historial',
+      clearHistoryTitle: 'Borrar historial',
+      clearHistoryConfirmMessage: 'Esto eliminará permanentemente todos los mensajes. ¿Estás seguro?',
+      clearAll: 'Borrar todo',
+      deleteMessage: 'Eliminar mensaje',
+      deleteMessageConfirm: '¿Estás seguro de que quieres eliminar este mensaje?'
     }
   }
 };
