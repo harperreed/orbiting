@@ -211,9 +211,9 @@ export default function HistoryScreen() {
 
             {filteredMessages.length === 0 ? (
                 <Surface style={styles.emptyContainer}>
-                    <Text variant="headlineSmall">{t('noMessages')}</Text>
+                    <Text variant="headlineSmall">No messages</Text>
                     <Text variant="bodyMedium" style={styles.emptyText}>
-                        {t('messagesWillAppearHere')}
+                        Messages you create will appear here
                     </Text>
                 </Surface>
             ) : (
