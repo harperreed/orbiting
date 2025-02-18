@@ -12,6 +12,7 @@ import {
     List,
     TouchableRipple,
 } from "react-native-paper";
+import { useTranslation } from 'react-i18next';
 import PageLayout from "./components/PageLayout";
 import { useCallback, useEffect, useState } from "react";
 import { useText } from "./context/TextContext";
@@ -26,6 +27,7 @@ import { FlashList } from "@shopify/flash-list";
 
 export default function HistoryScreen() {
     const theme = useTheme();
+    const { t } = useTranslation();
     const [messages, setMessages] = useState<StoredMessage[]>([]);
     const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -200,7 +202,7 @@ export default function HistoryScreen() {
         <PageLayout>
             <View style={styles.searchContainer}>
                 <Searchbar
-                    placeholder="Search messages"
+                    placeholder={t('searchMessages')}
                     onChangeText={setSearchQuery}
                     value={searchQuery}
                     style={styles.searchBar}
@@ -209,7 +211,7 @@ export default function HistoryScreen() {
 
             {filteredMessages.length === 0 ? (
                 <Surface style={styles.emptyContainer}>
-                    <Text variant="headlineSmall">No messages yet</Text>
+                    <Text variant="headlineSmall">No messages</Text>
                     <Text variant="bodyMedium" style={styles.emptyText}>
                         Messages you create will appear here
                     </Text>
@@ -245,7 +247,7 @@ export default function HistoryScreen() {
                             buttonColor={theme.colors.error}
                             icon="delete-sweep"
                         >
-                            Clear All History
+                            {t('clearAllHistory')}
                         </Button>
                     )}
                 </View>
@@ -255,22 +257,22 @@ export default function HistoryScreen() {
                 visible={showClearDialog}
                 onDismiss={() => setShowClearDialog(false)}
             >
-                <Dialog.Title>Clear History</Dialog.Title>
+                <Dialog.Title>{t('clearHistoryTitle')}</Dialog.Title>
                 <Dialog.Content>
                     <Text variant="bodyLarge">
-                        This will permanently delete all messages. Are you sure?
+                        {t('clearHistoryConfirmMessage')}
                     </Text>
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button onPress={() => setShowClearDialog(false)}>
-                        Cancel
+                        {t('cancel')}
                     </Button>
                     <Button
                         onPress={handleClearHistory}
                         textColor={theme.colors.error}
                         icon="delete-sweep"
                     >
-                        Clear All
+                        {t('clearAll')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>
@@ -279,22 +281,22 @@ export default function HistoryScreen() {
                 visible={showDeleteDialog}
                 onDismiss={() => setShowDeleteDialog(false)}
             >
-                <Dialog.Title>Delete Message</Dialog.Title>
+                <Dialog.Title>{t('deleteMessage')}</Dialog.Title>
                 <Dialog.Content>
                     <Text variant="bodyLarge">
-                        Are you sure you want to delete this message?
+                        {t('deleteMessageConfirm')}
                     </Text>
                 </Dialog.Content>
                 <Dialog.Actions>
                     <Button onPress={() => setShowDeleteDialog(false)}>
-                        Cancel
+                        {t('cancel')}
                     </Button>
                     <Button
                         onPress={handleDeleteMessage}
                         textColor={theme.colors.error}
                         icon="delete"
                     >
-                        Delete
+                        {t('delete')}
                     </Button>
                 </Dialog.Actions>
             </Dialog>

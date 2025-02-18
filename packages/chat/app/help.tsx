@@ -7,9 +7,11 @@ import {
     useTheme,
     Divider,
 } from "react-native-paper";
+import { useTranslation } from 'react-i18next';
 import PageLayout from "./components/PageLayout";
 
 export default function HelpScreen() {
+    const { t } = useTranslation();
     const theme = useTheme();
 
     const handleNamePress = (name) => {
@@ -83,23 +85,21 @@ export default function HelpScreen() {
                             variant="headlineLarge"
                             style={{ marginBottom: 16 }}
                         >
-                            Welcome to Orbiting
+                            {t('welcomeToOrbiting')}
                         </Text>
                         <Text variant="bodyLarge">
-                            A simple messaging app for your eyeballs. You can
-                            use it to type and display messages to those around
-                            you. Display a message loud and clear.
+                            {t('appDescription')}
                         </Text>
                     </Card.Content>
                 </Card>
 
                 {/* Quick Start Guide */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.sectionTitle}>Quick Start Guide</Text>
+                    <Text style={styles.sectionTitle}>{t('quickStartGuide')}</Text>
                     <List.Item
                         style={styles.listItem}
-                        title="✍️ Tap and start typing"
-                        description="Your message will display loud and clear!"
+                        title={t('tapAndType')}
+                        description={t('tapAndTypeDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-tap" />
                         )}
@@ -107,8 +107,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="⬅️ Swipe Left"
-                        description="To clear the display"
+                        title={t('swipeLeft')}
+                        description={t('swipeLeftDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-swipe-left" />
                         )}
@@ -116,8 +116,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="➡️ Swipe Right"
-                        description="To view the menu and settings"
+                        title={t('swipeRight')}
+                        description={t('swipeRightDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-swipe-right" />
                         )}
@@ -125,8 +125,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="⬆️ Swipe Up"
-                        description="To display the history"
+                        title={t('swipeUp')}
+                        description={t('swipeUpDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-swipe-up" />
                         )}
@@ -134,8 +134,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="📱 Cross-Platform"
-                        description="Works on both desktop and mobile"
+                        title={t('crossPlatform')}
+                        description={t('crossPlatformDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="devices" />
                         )}
@@ -144,11 +144,11 @@ export default function HelpScreen() {
 
                 {/* Features */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.subsectionTitle}>Features</Text>
+                    <Text style={styles.subsectionTitle}>{t('features')}</Text>
                     <List.Item
                         style={styles.listItem}
-                        title="Auto-scaling text size"
-                        description="Text automatically adjusts to fit the screen"
+                        title={t('autoScaling')}
+                        description={t('autoScalingDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="format-size" />
                         )}
@@ -156,8 +156,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Message history"
-                        description="Access your previous messages easily"
+                        title={t('messageHistory')}
+                        description={t('messageHistoryDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="history" />
                         )}
@@ -165,8 +165,8 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Automatic saving"
-                        description="All messages are saved automatically"
+                        title={t('autoSaving')}
+                        description={t('autoSavingDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="content-save" />
                         )}
@@ -175,18 +175,18 @@ export default function HelpScreen() {
 
                 {/* Pro Tips */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.subsectionTitle}>Pro Tips</Text>
+                    <Text style={styles.subsectionTitle}>{t('proTips')}</Text>
                     <List.Item
                         style={styles.listItem}
-                        title="Add to Homescreen"
-                        description="Install the app for quick access anytime"
+                        title={t('addToHomescreen')}
+                        description={t('addToHomescreenDesc')}
                         left={(props) => <List.Icon {...props} icon="home" />}
                     />
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Quick Load"
-                        description="Tap any message in History to load it"
+                        title={t('quickLoad')}
+                        description={t('quickLoadDesc')}
                         left={(props) => (
                             <List.Icon {...props} icon="gesture-tap" />
                         )}
@@ -194,38 +194,39 @@ export default function HelpScreen() {
                     <Divider style={styles.divider} />
                     <List.Item
                         style={styles.listItem}
-                        title="Text Wrapping"
-                        description="Messages automatically wrap on whitespace"
+                        title={t('textWrapping')}
+                        description={t('textWrappingDesc')}
                         left={(props) => <List.Icon {...props} icon="wrap" />}
                     />
                 </Surface>
 
                 {/* About Section */}
                 <Surface style={styles.listSection}>
-                    <Text style={styles.sectionTitle}>About</Text>
+                    <Text style={styles.sectionTitle}>{t('about')}</Text>
                     <Text style={styles.paragraph}>
-                        Orbiting was created by{" "}
-                        <Text
-                            style={styles.link}
-                            onPress={() => handleNamePress("Christine_Sun_Kim")}
-                        >
-                            Christine Sun Kim
-                        </Text>{" "}
-                        and{" "}
-                        <Text
-                            style={styles.link}
-                            onPress={() => handleNamePress("Harper_Reed")}
-                        >
-                            Harper Reed
-                        </Text>
-                        . It was inspired by the need to communicate with people
-                        in the same space, but with different communications
-                        needs.
+                        {t('aboutText', {
+                            author1: (
+                                <Text
+                                    style={styles.link}
+                                    onPress={() => handleNamePress("Christine_Sun_Kim")}
+                                >
+                                    Christine Sun Kim
+                                </Text>
+                            ),
+                            author2: (
+                                <Text
+                                    style={styles.link}
+                                    onPress={() => handleNamePress("Harper_Reed")}
+                                >
+                                    Harper Reed
+                                </Text>
+                            )
+                        })}
                     </Text>
                     <Text style={styles.paragraph}>
-                        Please send us feedback. We want it!{" "}
+                        {t('feedbackText')}{" "}
                         <Text style={styles.link} onPress={handleEmailPress}>
-                            feedback@orbiting.com
+                            {t('feedbackEmail')}
                         </Text>
                     </Text>
                 </Surface>

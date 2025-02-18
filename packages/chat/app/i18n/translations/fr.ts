@@ -1,0 +1,103 @@
+export const fr = {
+    common: {
+        welcome: "Bienvenue",
+        about: "À propos",
+        settings: "Paramètres",
+        help: "Aide",
+        history: "Historique",
+        clear: "Effacer",
+        save: "Enregistrer",
+        cancel: "Annuler",
+        delete: "Supprimer",
+        confirm: "Confirmer",
+        language: "Langue",
+        appearance: "Apparence",
+        colorScheme: "Thème de couleur",
+        chooseColorScheme: "Choisissez votre thème de couleur préféré",
+        startingFontSize: "Taille de police initiale",
+        theme: "Thème",
+        chooseTheme: "Choisissez votre thème préféré",
+        gestures: "Gestes",
+        shakeAction: "Action de secousse",
+        shakeDescription:
+            "Choisissez ce qui se passe lorsque vous secouez votre appareil",
+        none: "Aucun",
+        clearText: "Effacer le texte",
+        clearTextDescription: "Secouez pour effacer le texte actuel",
+        flashScreen: "Faire clignoter l'écran",
+        flashScreenDescription:
+            "Secouez pour faire clignoter les couleurs de l'écran",
+        resetDefaults: "Réinitialiser aux valeurs par défaut",
+        system: "Système",
+        light: "Clair",
+        dark: "Sombre",
+        // Navigation
+        home: "Accueil",
+        homeHint: "Naviguer vers l'écran principal de saisie de texte",
+        historyTab: "Historique",
+        historyHint: "Voir votre historique de messages",
+        helpTab: "Aide",
+        helpHint: "Voir les instructions et l'aide de l'application",
+        settingsTab: "Paramètres",
+        settingsHint:
+            "Ajuster les préférences et les paramètres de l'application",
+        aboutTab: "À propos",
+        aboutHint: "Voir les informations et les crédits de l'application",
+        mainNavigation: "Navigation principale",
+        // Actions
+        clearHint: "Efface tout le texte actuel de l'écran",
+        showHistory: "Afficher l'historique",
+        showHistoryHint: "Ouvre l'écran d'historique des messages",
+        // History Screen
+        searchMessages: "Rechercher des messages",
+        messagesWillAppearHere: "Les messages que vous créez apparaîtront ici",
+        clearAllHistory: "Effacer tout l'historique",
+        clearHistoryTitle: "Effacer l'historique",
+        clearHistoryConfirmMessage:
+            "Cela supprimera définitivement tous les messages. Êtes-vous sûr ?",
+        clearAll: "Tout effacer",
+        deleteMessage: "Supprimer le message",
+        deleteMessageConfirm: "Êtes-vous sûr de vouloir supprimer ce message ?",
+        noMessages: "Pas de messages",
+        // Text Input
+        typeHere: "Écrivez ici",
+        // Help Screen
+        welcomeToOrbiting: "Bienvenue sur Orbiting",
+        appDescription:
+            "Une application de messagerie simple pour vos yeux. Vous pouvez l'utiliser pour taper et afficher des messages à ceux qui vous entourent. Affichez un message haut et clair.",
+        quickStartGuide: "Guide de démarrage rapide",
+        tapAndType: "✍️ Tapez et commencez à écrire",
+        tapAndTypeDesc: "Votre message s'affichera haut et clair !",
+        swipeLeft: "⬅️ Glissez vers la gauche",
+        swipeLeftDesc: "Pour effacer l'affichage",
+        swipeRight: "➡️ Glissez vers la droite",
+        swipeRightDesc: "Pour afficher le menu et les paramètres",
+        swipeUp: "⬆️ Glissez vers le haut",
+        swipeUpDesc: "Pour afficher l'historique",
+        crossPlatform: "📱 Multi-plateforme",
+        crossPlatformDesc: "Fonctionne à la fois sur ordinateur et sur mobile",
+        features: "Fonctionnalités",
+        autoScaling: "Taille de texte auto-adaptative",
+        autoScalingDesc:
+            "Le texte s'ajuste automatiquement pour s'adapter à l'écran",
+        messageHistory: "Historique des messages",
+        messageHistoryDesc: "Accédez facilement à vos messages précédents",
+        autoSaving: "Sauvegarde automatique",
+        autoSavingDesc: "Tous les messages sont enregistrés automatiquement",
+        proTips: "Astuces pro",
+        addToHomescreen: "Ajouter à l'écran d'accueil",
+        addToHomescreenDesc:
+            "Installez l'application pour un accès rapide à tout moment",
+        quickLoad: "Chargement rapide",
+        quickLoadDesc:
+            "Tapez sur n'importe quel message dans l'Historique pour le charger",
+        textWrapping: "Retour à la ligne",
+        textWrappingDesc:
+            "Les messages reviennent automatiquement à la ligne aux espaces",
+        aboutText:
+            "Orbiting a été créé par {{author1}} et {{author2}}. Il a été inspiré par le besoin de communiquer avec des personnes dans le même espace, mais ayant des besoins de communication différents.",
+        feedbackText:
+            "Veuillez nous envoyer vos commentaires. Nous les voulons !",
+        feedbackEmail: "feedback@orbiting.com",
+    },
+};

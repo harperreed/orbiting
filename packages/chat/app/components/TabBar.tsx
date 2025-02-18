@@ -1,8 +1,10 @@
 import { useRouter, usePathname } from 'expo-router';
 import { BottomNavigation } from 'react-native-paper';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function TabBar() {
+  const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -15,49 +17,49 @@ export default function TabBar() {
   return (
     <BottomNavigation
       accessibilityRole="tablist"
-      accessibilityLabel="Main navigation"
+      accessibilityLabel={t('mainNavigation')}
       navigationState={{
         index: ['/', '/history', '/help', '/settings', '/about'].indexOf(pathname),
         routes: [
           { 
             key: 'home', 
-            title: 'Home', 
+            title: t('home'), 
             focusedIcon: 'home', 
             unfocusedIcon: 'home-outline',
-            accessibilityLabel: 'Home screen',
-            accessibilityHint: 'Navigate to main text input screen'
+            accessibilityLabel: t('home'),
+            accessibilityHint: t('homeHint')
           },
           { 
             key: 'history', 
-            title: 'History', 
+            title: t('historyTab'), 
             focusedIcon: 'history', 
             unfocusedIcon: 'history',
-            accessibilityLabel: 'History screen',
-            accessibilityHint: 'View your message history'
+            accessibilityLabel: t('historyTab'),
+            accessibilityHint: t('historyHint')
           },
           { 
             key: 'help', 
-            title: 'Help', 
+            title: t('helpTab'), 
             focusedIcon: 'help-circle', 
             unfocusedIcon: 'help-circle-outline',
-            accessibilityLabel: 'Help screen',
-            accessibilityHint: 'View app instructions and help'
+            accessibilityLabel: t('helpTab'),
+            accessibilityHint: t('helpHint')
           },
           { 
             key: 'settings', 
-            title: 'Settings', 
+            title: t('settingsTab'), 
             focusedIcon: 'cog', 
             unfocusedIcon: 'cog-outline',
-            accessibilityLabel: 'Settings screen',
-            accessibilityHint: 'Adjust app preferences and settings'
+            accessibilityLabel: t('settingsTab'),
+            accessibilityHint: t('settingsHint')
           },
           { 
             key: 'about', 
-            title: 'About', 
+            title: t('aboutTab'), 
             focusedIcon: 'information', 
             unfocusedIcon: 'information-outline',
-            accessibilityLabel: 'About screen',
-            accessibilityHint: 'View app information and credits'
+            accessibilityLabel: t('aboutTab'),
+            accessibilityHint: t('aboutHint')
           },
         ],
       }}

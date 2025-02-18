@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 import { Text, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple, RadioButton } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { LanguageSelector } from './components/LanguageSelector';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import PageLayout from './components/PageLayout';
@@ -12,12 +14,6 @@ import { THEMES } from './themes';
 const FONT_SIZES = [16, 18, 20, 24, 28, 32, 36, 40];
 const MIN_FONT_SIZE = Math.min(...FONT_SIZES);
 const MAX_FONT_SIZE = Math.max(...FONT_SIZES);
-
-const COLOR_SCHEMES = [
-  { label: 'System', value: 'system', icon: 'theme-light-dark' },
-  { label: 'Light', value: 'light', icon: 'white-balance-sunny' },
-  { label: 'Dark', value: 'dark', icon: 'moon-waning-crescent' },
-];
 
 const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme: ThemeType) => void }) => {
   const [visible, setVisible] = useState(false);
@@ -78,6 +74,13 @@ export default function SettingsScreen() {
   } = useSettings();
   const [isResetting, setIsResetting] = useState(false);
   const paperTheme = useTheme();
+  const { t } = useTranslation();
+
+  const COLOR_SCHEMES = [
+    { label: t('system'), value: 'system', icon: 'theme-light-dark' },
+    { label: t('light'), value: 'light', icon: 'white-balance-sunny' },
+    { label: t('dark'), value: 'dark', icon: 'moon-waning-crescent' },
+  ];
 
   const handleReset = async () => {
     setIsResetting(true);
@@ -88,14 +91,16 @@ export default function SettingsScreen() {
   return (
     <PageLayout scrollable>
       <Surface style={styles.container}>
-        <Text variant="headlineMedium" style={styles.title}>Settings</Text>
+        <Text variant="headlineMedium" style={styles.title}>{t('settings')}</Text>
+
+        <LanguageSelector />
 
         <List.Section>
-          <List.Subheader>Appearance</List.Subheader>
+          <List.Subheader>{t('appearance')}</List.Subheader>
           
           <List.Item
-            title="Color Scheme"
-            description="Choose your preferred color scheme"
+            title={t('colorScheme')}
+            description={t('chooseColorScheme')}
             left={props => (
               <List.Icon
                 {...props}
@@ -122,7 +127,7 @@ export default function SettingsScreen() {
           />
 
           <List.Item
-            title="Starting Font Size"
+            title={t('startingFontSize')}
             description={`${startingFontSize}px`}
             left={props => <List.Icon {...props} icon="format-size" />}
           />
@@ -145,8 +150,8 @@ export default function SettingsScreen() {
           </View>
 
           <List.Item
-            title="Theme"
-            description="Choose your preferred theme"
+            title={t('theme')}
+            description={t('chooseTheme')}
             left={props => <List.Icon {...props} icon="palette" />}
           />
           <View style={styles.themeContainer}>
@@ -155,11 +160,11 @@ export default function SettingsScreen() {
         </List.Section>
 
         <List.Section>
-          <List.Subheader>Gestures</List.Subheader>
+          <List.Subheader>{t('gestures')}</List.Subheader>
           
           <List.Item
-            title="Shake Action"
-            description="Choose what happens when you shake your device"
+            title={t('shakeAction')}
+            description={t('shakeDescription')}
             left={props => <List.Icon {...props} icon="gesture" />}
           />
           <RadioButton.Group 
@@ -167,17 +172,17 @@ export default function SettingsScreen() {
             value={shakeMode}
           >
             <List.Item
-              title="None"
+              title={t('none')}
               left={props => <RadioButton {...props} value="none" />}
             />
             <List.Item
-              title="Clear Text"
-              description="Shake to clear the current text"
+              title={t('clearText')}
+              description={t('clearTextDescription')}
               left={props => <RadioButton {...props} value="clear" />}
             />
             <List.Item
-              title="Flash Screen"
-              description="Shake to flash the screen colors"
+              title={t('flashScreen')}
+              description={t('flashScreenDescription')}
               left={props => <RadioButton {...props} value="flash" />}
             />
           </RadioButton.Group>
@@ -190,7 +195,7 @@ export default function SettingsScreen() {
           style={styles.resetButton}
           buttonColor={paperTheme.colors.error}
         >
-          Reset to Defaults
+          {t('resetDefaults')}
         </Button>
       </Surface>
     </PageLayout>

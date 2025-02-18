@@ -1,5 +1,6 @@
 import { StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { Surface, IconButton, useTheme } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -7,6 +8,7 @@ type BottomBarProps = {
 };
 
 export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarProps) {
+    const { t } = useTranslation();
     const theme = useTheme();
     const { width } = useWindowDimensions();
     
@@ -32,8 +34,8 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 mode="contained"
                 onPress={onClearPress}
                 testID="clear-button"
-                accessibilityLabel="Clear text"
-                accessibilityHint="Erases all current text from the screen"
+                accessibilityLabel={t('clearText')}
+                accessibilityHint={t('clearHint')}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: false }}
                 accessible={true}
@@ -43,8 +45,8 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 mode="contained"
                 onPress={onHistoryPress}
                 testID="history-button"
-                accessibilityLabel="Show history"
-                accessibilityHint="Opens the message history screen"
+                accessibilityLabel={t('showHistory')}
+                accessibilityHint={t('showHistoryHint')}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: false }}
                 accessible={true}
