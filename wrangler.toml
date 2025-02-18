@@ -4,12 +4,21 @@ type = "javascript"
 [build]
 command = "npm install && npm run build:web"
 cwd = "packages/chat"
-upload.format = "service-worker"
-
-[site]
-bucket = "./dist"
-entry-point = "."
+output_directory = "dist"
 
 [vars]
 NODE_VERSION = "20"
 NPM_VERSION = "10"
+
+
+# Optional: Configure custom domains and deployment branches
+# [deployment]
+# routes = [
+#     { pattern = "/*", zone_name = "" }, # Add your domain here if using a custom domain
+# ]
+
+[env.production]
+# Production-specific settings can go here
+
+[env.preview]
+# Preview branch settings can go here
