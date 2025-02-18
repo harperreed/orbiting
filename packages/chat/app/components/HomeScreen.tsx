@@ -65,11 +65,6 @@ export default function HomeScreen() {
         if (translationY < -VERTICAL_THRESHOLD && Math.abs(translationX) < 50) {
             router.push("/history");
         }
-
-        // Down swipe - show history
-        if (translationY > VERTICAL_THRESHOLD && Math.abs(translationX) < 50) {
-            router.push("/history");
-        }
     });
 
     const handleShake = useCallback(() => {
