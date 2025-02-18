@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
+import { Platform } from 'react-native';
 import { loadLanguage, saveLanguage } from "../utils/languageStorage";
 import { resources } from "./translations";
 
@@ -23,10 +24,29 @@ export const SUPPORTED_LANGUAGES = [
 
 export type LanguageCode = (typeof SUPPORTED_LANGUAGES)[number]["code"];
 
-// Initialize with system locale, then load saved language
+// Get system/browser language
+const getInitialLanguage = (): LanguageCode => {
+    // For web, try navigator.language first
+    if (Platform.OS === 'web' && typeof navigator !== 'undefined') {
+        const browserLang = navigator.language.split('-')[0];
+        if (SUPPORTED_LANGUAGES.some(lang => lang.code === browserLang)) {
+            return browserLang as LanguageCode;
+        }
+    }
+    
+    // Fall back to Expo Localization
+    const systemLang = Localization.locale.split('-')[0];
+    if (SUPPORTED_LANGUAGES.some(lang => lang.code === systemLang)) {
+        return systemLang as LanguageCode;
+    }
+    
+    return 'en';
+};
+
+// Initialize with detected language, then load saved language
 i18next.use(initReactI18next).init({
     resources,
-    lng: Localization.locale.split("-")[0], // Use device language initially
+    lng: getInitialLanguage(),
     fallbackLng: "en",
     defaultNS,
     interpolation: {
@@ -36,7 +56,7 @@ i18next.use(initReactI18next).init({
 
 // Load saved language preference
 loadLanguage().then((savedLanguage) => {
-    if (savedLanguage) {
+    if (savedLanguage && savedLanguage !== i18next.language) {
         i18next.changeLanguage(savedLanguage);
     }
 });
