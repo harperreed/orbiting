@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import HomeScreen from "../components/HomeScreen";
 import { router } from "expo-router";
+import ReactNativeHapticFeedback from "react-native-haptic-feedback"; // P997c
 
 // Mock expo-router
 jest.mock('expo-router', () => ({
@@ -28,6 +29,11 @@ jest.mock('react-native-gesture-handler', () => ({
       gestures,
     }),
   },
+}));
+
+// Mock ReactNativeHapticFeedback
+jest.mock('react-native-haptic-feedback', () => ({
+  trigger: jest.fn(),
 }));
 
 describe("HomeScreen", () => {
@@ -84,6 +90,7 @@ describe("HomeScreen", () => {
     leftSwipeCallback();
     
     expect(display.props.value).toBe("");
+    expect(ReactNativeHapticFeedback.trigger).toHaveBeenCalledWith("impactLight"); // P3070
   });
 
   it('navigates to history on up swipe gesture', () => {
@@ -96,6 +103,7 @@ describe("HomeScreen", () => {
     upSwipeCallback();
     
     expect(router.push).toHaveBeenCalledWith('/history');
+    expect(ReactNativeHapticFeedback.trigger).toHaveBeenCalledWith("impactLight"); // P3070
     unmount();
   });
 

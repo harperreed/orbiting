@@ -1,6 +1,7 @@
 import { StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { Surface, IconButton, useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 type BottomBarProps = {
     onClearPress: () => void;
@@ -27,12 +28,22 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
         },
     });
 
+    const handleClearPress = () => {
+        ReactNativeHapticFeedback.trigger('impactLight');
+        onClearPress();
+    };
+
+    const handleHistoryPress = () => {
+        ReactNativeHapticFeedback.trigger('impactLight');
+        onHistoryPress();
+    };
+
     return (
         <Surface style={styles.container} elevation={1}>
             <IconButton
                 icon="delete"
                 mode="contained"
-                onPress={onClearPress}
+                onPress={handleClearPress}
                 testID="clear-button"
                 accessibilityLabel={t('clearText')}
                 accessibilityHint={t('clearHint')}
@@ -43,7 +54,7 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
             <IconButton
                 icon="history"
                 mode="contained"
-                onPress={onHistoryPress}
+                onPress={handleHistoryPress}
                 testID="history-button"
                 accessibilityLabel={t('showHistory')}
                 accessibilityHint={t('showHistoryHint')}
@@ -54,4 +65,3 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
         </Surface>
     );
 }
-

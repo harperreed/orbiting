@@ -14,6 +14,7 @@ import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
 import { useText } from "../context/TextContext";
+import ReactNativeHapticFeedback from "react-native-haptic-feedback"; // Pf906
 
 import { AccessibilityInfo } from 'react-native';
 
@@ -55,21 +56,25 @@ export default function HomeScreen() {
             if (translationX < 0) {
                 // Left swipe - clear text
                 handleTextChange("");
+                ReactNativeHapticFeedback.trigger("impactLight"); // P70b5
             } else {
                 // Right swipe - show history
                 router.push("/history");
+                ReactNativeHapticFeedback.trigger("impactLight"); // P70b5
             }
         }
         
         // Up swipe - show history
         if (translationY < -VERTICAL_THRESHOLD && Math.abs(translationX) < 50) {
             router.push("/history");
+            ReactNativeHapticFeedback.trigger("impactLight"); // P70b5
         }
     });
 
     const handleShake = useCallback(() => {
         if (shakeMode === 'clear') {
             handleTextChange("");
+            ReactNativeHapticFeedback.trigger("impactLight"); // Pf8db
         } else if (shakeMode === 'flash') {
             Animated.sequence([
                 Animated.timing(flashAnim, {
@@ -83,6 +88,7 @@ export default function HomeScreen() {
                     useNativeDriver: false,
                 })
             ]).start();
+            ReactNativeHapticFeedback.trigger("impactLight"); // Pf8db
         }
     }, [shakeMode, handleTextChange, flashAnim]);
 
