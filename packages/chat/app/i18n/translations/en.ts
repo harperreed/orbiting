@@ -55,6 +55,11 @@ export const en = {
     deleteMessage: 'Delete Message',
     deleteMessageConfirm: 'Are you sure you want to delete this message?',
     noMessages: 'No messages',
+    allMessages: 'All Messages',
+    favorites: 'Favorites',
+    noFavorites: 'No favorite messages',
+    addToFavorites: 'Add to favorites',
+    removeFromFavorites: 'Remove from favorites',
     // Text Input
     typeHere: 'Type here',
     // Help Screen
