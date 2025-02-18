@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 import { Text, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple, RadioButton } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { LanguageSelector } from './components/LanguageSelector';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import PageLayout from './components/PageLayout';
@@ -78,6 +80,7 @@ export default function SettingsScreen() {
   } = useSettings();
   const [isResetting, setIsResetting] = useState(false);
   const paperTheme = useTheme();
+  const { t } = useTranslation();
 
   const handleReset = async () => {
     setIsResetting(true);
@@ -88,10 +91,12 @@ export default function SettingsScreen() {
   return (
     <PageLayout scrollable>
       <Surface style={styles.container}>
-        <Text variant="headlineMedium" style={styles.title}>Settings</Text>
+        <Text variant="headlineMedium" style={styles.title}>{t('settings')}</Text>
+
+        <LanguageSelector />
 
         <List.Section>
-          <List.Subheader>Appearance</List.Subheader>
+          <List.Subheader>{t('appearance')}</List.Subheader>
           
           <List.Item
             title="Color Scheme"
