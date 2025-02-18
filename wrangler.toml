@@ -6,7 +6,7 @@ command = "npm install && npm run build:web"
 cwd = "packages/chat"
 
 [site]
-bucket = "packages/chat/dist"
+bucket = "dist"
 
 [vars]
 NODE_VERSION = "20"
