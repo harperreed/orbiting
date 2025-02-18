@@ -3,6 +3,14 @@ import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
 
 export const defaultNS = 'common';
+
+export const SUPPORTED_LANGUAGES = [
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español' }
+] as const;
+
+export type LanguageCode = typeof SUPPORTED_LANGUAGES[number]['code'];
+
 export const resources = {
   en: {
     common: {
@@ -45,5 +53,9 @@ i18next
       escapeValue: false
     }
   });
+
+export const changeLanguage = (lng: LanguageCode) => {
+  return i18next.changeLanguage(lng);
+};
 
 export default i18next;
