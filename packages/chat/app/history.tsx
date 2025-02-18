@@ -236,6 +236,9 @@ export default function HistoryScreen() {
 
     return (
         <PageLayout>
+            <Text variant="headlineMedium" style={styles.title}>
+                {t('history')}
+            </Text>
             <View style={styles.headerContainer}>
                 <SegmentedButtons
                     value={activeTab}
@@ -383,6 +386,10 @@ const styles = StyleSheet.create({
     },
     clearButton: {
         margin: 16,
+    },
+    title: {
+        padding: 16,
+        paddingBottom: 8,
     },
     headerContainer: {
         padding: 8,
