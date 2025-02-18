@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
+import { loadLanguage, saveLanguage } from '../utils/languageStorage';
 
 export const defaultNS = 'common';
 
@@ -202,11 +203,12 @@ export const resources = {
   }
 };
 
+// Initialize with system locale, then load saved language
 i18next
   .use(initReactI18next)
   .init({
     resources,
-    lng: Localization.locale.split('-')[0], // Use device language
+    lng: Localization.locale.split('-')[0], // Use device language initially
     fallbackLng: 'en',
     defaultNS,
     interpolation: {
@@ -214,7 +216,15 @@ i18next
     }
   });
 
-export const changeLanguage = (lng: LanguageCode) => {
+// Load saved language preference
+loadLanguage().then(savedLanguage => {
+  if (savedLanguage) {
+    i18next.changeLanguage(savedLanguage);
+  }
+});
+
+export const changeLanguage = async (lng: LanguageCode) => {
+  await saveLanguage(lng);
   return i18next.changeLanguage(lng);
 };
 
