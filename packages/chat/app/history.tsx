@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
 import {
     Text,
     Button,
@@ -11,10 +11,12 @@ import {
     Snackbar,
     List,
     TouchableRipple,
+    IconButton,
+    SegmentedButtons,
 } from "react-native-paper";
 import { useTranslation } from 'react-i18next';
 import PageLayout from "./components/PageLayout";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { useText } from "./context/TextContext";
 import { useRouter } from "expo-router";
 import {
@@ -22,6 +24,7 @@ import {
     getMessages,
     clearHistory,
     deleteMessage,
+    toggleFavorite,
 } from "./utils/storageUtils";
 import { FlashList } from "@shopify/flash-list";
 
@@ -30,6 +33,7 @@ export default function HistoryScreen() {
     const { t } = useTranslation();
     const [messages, setMessages] = useState<StoredMessage[]>([]);
     const [filteredMessages, setFilteredMessages] = useState<StoredMessage[]>([]);
+    const [activeTab, setActiveTab] = useState('all');
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -95,7 +99,13 @@ export default function HistoryScreen() {
         setMessages([]);
         setFilteredMessages([]);
         loadMessages(null, false);
-    }, [searchQuery, loadMessages]);
+    }, [searchQuery, loadMessages, activeTab]);
+
+    const displayedMessages = useMemo(() => {
+        return activeTab === 'favorites' 
+            ? filteredMessages.filter(msg => msg.isFavorite)
+            : filteredMessages;
+    }, [filteredMessages, activeTab]);
 
     const handleClearHistory = useCallback(async () => {
         try {
@@ -176,11 +186,37 @@ export default function HistoryScreen() {
                     description={formatDate(item.timestamp)}
                     descriptionStyle={styles.timestamp}
                     right={(props) => (
-                        <List.Icon
-                            {...props}
-                            icon="chevron-right"
-                            color={theme.colors.onSurfaceVariant}
-                        />
+                        <View style={styles.rightIcons}>
+                            <IconButton
+                                icon={item.isFavorite ? "star" : "star-outline"}
+                                iconColor={item.isFavorite ? "#000000" : "#757575"}
+                                size={20}
+                                onPress={async () => {
+                                    await toggleFavorite(item.id);
+                                    // Update local state immediately
+                                    setMessages(prevMessages => 
+                                        prevMessages.map(msg => 
+                                            msg.id === item.id 
+                                                ? { ...msg, isFavorite: !msg.isFavorite }
+                                                : msg
+                                        )
+                                    );
+                                    setFilteredMessages(prevMessages => 
+                                        prevMessages.map(msg => 
+                                            msg.id === item.id 
+                                                ? { ...msg, isFavorite: !msg.isFavorite }
+                                                : msg
+                                        )
+                                    );
+                                }}
+                                accessibilityLabel={item.isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
+                            />
+                            <List.Icon
+                                {...props}
+                                icon="chevron-right"
+                                color={theme.colors.onSurfaceVariant}
+                            />
+                        </View>
                     )}
                 />
             </TouchableRipple>
@@ -200,7 +236,19 @@ export default function HistoryScreen() {
 
     return (
         <PageLayout>
-            <View style={styles.searchContainer}>
+            <Text variant="headlineMedium" style={styles.title}>
+                {t('history')}
+            </Text>
+            <View style={styles.headerContainer}>
+                <SegmentedButtons
+                    value={activeTab}
+                    onValueChange={setActiveTab}
+                    buttons={[
+                        { value: 'all', label: t('allMessages') },
+                        { value: 'favorites', label: t('favorites') },
+                    ]}
+                    style={styles.segmentedButtons}
+                />
                 <Searchbar
                     placeholder={t('searchMessages')}
                     onChangeText={setSearchQuery}
@@ -209,17 +257,21 @@ export default function HistoryScreen() {
                 />
             </View>
 
-            {filteredMessages.length === 0 ? (
+            {displayedMessages.length === 0 ? (
                 <Surface style={styles.emptyContainer}>
-                    <Text variant="headlineSmall">No messages</Text>
+                    <Text variant="headlineSmall">
+                        {activeTab === 'favorites' ? t('noFavorites') : t('noMessages')}
+                    </Text>
                     <Text variant="bodyMedium" style={styles.emptyText}>
-                        Messages you create will appear here
+                        {activeTab === 'favorites' 
+                            ? t('noFavorites') 
+                            : t('messagesWillAppearHere')}
                     </Text>
                 </Surface>
             ) : (
                 <View>
                     <FlashList
-                        data={filteredMessages}
+                        data={displayedMessages}
                         renderItem={renderItem}
                         estimatedItemSize={64}
                         keyExtractor={(item) => item.id}
@@ -335,8 +387,20 @@ const styles = StyleSheet.create({
     clearButton: {
         margin: 16,
     },
-    searchContainer: {
+    title: {
+        padding: 16,
+        paddingBottom: 8,
+    },
+    headerContainer: {
         padding: 8,
+        gap: 8,
+    },
+    segmentedButtons: {
+        marginBottom: 8,
+    },
+    rightIcons: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     searchBar: {
         elevation: 0,

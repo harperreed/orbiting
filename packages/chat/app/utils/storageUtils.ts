@@ -6,6 +6,7 @@ export interface StoredMessage {
   id: string;
   text: string;
   timestamp: number;
+  isFavorite?: boolean;
 }
 
 export async function storeMessage(text: string): Promise<void> {
@@ -88,6 +89,19 @@ export async function clearHistory(): Promise<void> {
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify([]));
   } catch (error) {
     console.error('Error clearing history:', error);
+    throw error;
+  }
+}
+
+export async function toggleFavorite(id: string): Promise<void> {
+  try {
+    const { messages } = await getMessages(0, Number.MAX_SAFE_INTEGER);
+    const updatedMessages = messages.map(msg => 
+      msg.id === id ? { ...msg, isFavorite: !msg.isFavorite } : msg
+    );
+    await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(updatedMessages));
+  } catch (error) {
+    console.error('Error toggling favorite:', error);
     throw error;
   }
 }

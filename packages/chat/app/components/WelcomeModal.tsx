@@ -21,6 +21,16 @@ export function WelcomeModal() {
                 console.error("Failed to check welcome cookie:", error);
                 setVisible(true); // Show modal on error as fallback
             }
+
+            // Check if the app is already installed on iOS
+            if ('standalone' in window.navigator && (window.navigator as any).standalone === true) {
+                setVisible(false);
+            }
+
+            // Check if the app is already installed on Android
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                setVisible(false);
+            }
         }
     }, []);
 
