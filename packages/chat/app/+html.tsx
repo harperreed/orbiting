@@ -33,6 +33,10 @@ export default function Root({ children }: PropsWithChildren) {
                 <ScrollViewStyleReset />
 
                 {/* Add any additional <head> elements that you want globally available on web... */}
+                <meta property="og:image" content="https://orbiting.com/imgs/og.png" />
+                <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+                <meta property="og:type" content="website" />
+                <meta property="og:description" content="A simple messaging app for your eyeballs. You can use it to type and display messages to those around you. Display a message loud and clear." />
             </head>
             <body>{children}</body>
         </html>
