@@ -99,6 +99,32 @@ describe("HomeScreen", () => {
     unmount();
   });
 
+  it('navigates to history on down swipe gesture', () => {
+    const { unmount } = render(<HomeScreen />);
+    render(<HomeScreen />);
+    
+    // Simulate down swipe by directly calling the gesture callback
+    const gestureProps = (GestureDetector as jest.Mock).mock.calls[0][0];
+    const downSwipeCallback = gestureProps.gesture.gestures[2].callback;
+    downSwipeCallback();
+    
+    expect(router.push).toHaveBeenCalledWith('/history');
+    unmount();
+  });
+
+  it('navigates to history on right swipe gesture', () => {
+    const { unmount } = render(<HomeScreen />);
+    render(<HomeScreen />);
+    
+    // Simulate right swipe by directly calling the gesture callback
+    const gestureProps = (GestureDetector as jest.Mock).mock.calls[0][0];
+    const rightSwipeCallback = gestureProps.gesture.gestures[3].callback;
+    rightSwipeCallback();
+    
+    expect(router.push).toHaveBeenCalledWith('/history');
+    unmount();
+  });
+
   it('cleans up text state on unmount', () => {
     const { unmount } = render(<HomeScreen />);
     const display = screen.getByTestId("big-text-display");
