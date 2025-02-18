@@ -18,7 +18,7 @@ function AppContent() {
   useEffect(() => {
     let title = 'Orbiting';
     let ogTitle = 'Orbiting';
-    let ogDescription = 'A text display app';
+    let ogDescription = 'A simple messaging app for your eyeballs. You can use it to type and display messages to those around you. Display a message loud and clear.';
     let ogImage = 'https://orbiting.com/imgs/og.png';
 
     switch (pathname) {

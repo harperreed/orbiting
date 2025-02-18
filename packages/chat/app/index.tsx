@@ -21,8 +21,10 @@ export default function Index() {
     if (Platform.OS === 'web' && typeof document !== 'undefined') {
       const metaTags = [
         { property: 'og:title', content: 'Orbiting' },
-        { property: 'og:description', content: 'A text display app' },
-        { property: 'og:image', content: 'https://orbiting.com/imgs/og.png' }
+        { property: 'og:description', content: 'A simple messaging app for your eyeballs. You can use it to type and display messages to those around you. Display a message loud and clear.' },
+        { property: 'og:image', content: 'https://orbiting.com/imgs/og.png' },
+        { property: 'og:url', content: window.location.href },
+        { property: 'og:type', content: 'website' }
       ];
 
       metaTags.forEach(({ property, content }) => {
