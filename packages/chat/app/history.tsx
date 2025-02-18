@@ -191,7 +191,24 @@ export default function HistoryScreen() {
                                 icon={item.isFavorite ? "star" : "star-outline"}
                                 iconColor={item.isFavorite ? "#000000" : "#757575"}
                                 size={20}
-                                onPress={() => toggleFavorite(item.id)}
+                                onPress={async () => {
+                                    await toggleFavorite(item.id);
+                                    // Update local state immediately
+                                    setMessages(prevMessages => 
+                                        prevMessages.map(msg => 
+                                            msg.id === item.id 
+                                                ? { ...msg, isFavorite: !msg.isFavorite }
+                                                : msg
+                                        )
+                                    );
+                                    setFilteredMessages(prevMessages => 
+                                        prevMessages.map(msg => 
+                                            msg.id === item.id 
+                                                ? { ...msg, isFavorite: !msg.isFavorite }
+                                                : msg
+                                        )
+                                    );
+                                }}
                                 accessibilityLabel={item.isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
                             />
                             <List.Icon
