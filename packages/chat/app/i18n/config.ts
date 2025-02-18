@@ -69,7 +69,9 @@ export const resources = {
       clearAll: 'Clear All',
       deleteMessage: 'Delete Message',
       deleteMessageConfirm: 'Are you sure you want to delete this message?',
-      noMessages: 'No messages'
+      noMessages: 'No messages',
+      // Text Input
+      typeHere: 'Type here'
     }
   },
   es: {
@@ -129,7 +131,9 @@ export const resources = {
       clearAll: 'Borrar todo',
       deleteMessage: 'Eliminar mensaje',
       deleteMessageConfirm: '¿Estás seguro de que quieres eliminar este mensaje?',
-      noMessages: 'No hay mensajes'
+      noMessages: 'No hay mensajes',
+      // Text Input
+      typeHere: 'Escribe aquí'
     }
   }
 };

@@ -1,5 +1,6 @@
 import { useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
 import { TextInput, useTheme } from 'react-native-paper';
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useIsMounted } from '../hooks/useIsMounted';
 import { useSettings } from '../context/SettingsContext';
@@ -18,7 +19,7 @@ type ViewportSize = {
   height: number;
 };
 
-export default function BigTextDisplay({ 
+export default function BigTextDisplay({
   text, 
   onChangeText,
   maxFontSize: propMaxFontSize,
@@ -27,6 +28,7 @@ export default function BigTextDisplay({
 }: BigTextDisplayProps) {
   const { startingFontSize } = useSettings();
   const theme = useTheme();
+  const { t } = useTranslation();
   const maxFontSize = propMaxFontSize ?? (startingFontSize / 2.4); // Convert px to vh units
   const dimensions = useWindowDimensions();
   const previousDimensions = useRef(dimensions);
@@ -232,7 +234,7 @@ export default function BigTextDisplay({
       value={text}
       onChangeText={onChangeText}
       multiline
-      placeholder="Type Here"
+      placeholder={t('typeHere')}
       placeholderTextColor={`${theme.colors.onBackground}66`} // Adding 66 for 40% opacity
       onLayout={onLayout}
       onContentSizeChange={(e) => {
