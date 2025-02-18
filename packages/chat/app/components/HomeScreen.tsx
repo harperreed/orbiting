@@ -5,7 +5,7 @@ import {
     Platform,
     Animated,
 } from "react-native";
-import RNShake from 'react-native-shake';
+import { useShake } from '../utils/useShake';
 import { Surface, Snackbar } from 'react-native-paper';
 import BottomBar from "./BottomBar";
 import { useCallback, useEffect, useState } from "react";
@@ -86,13 +86,7 @@ export default function HomeScreen() {
         }
     }, [shakeMode, handleTextChange, flashAnim]);
 
-    useEffect(() => {
-        const subscription = RNShake.addListener(handleShake);
-        return () => {
-            subscription.remove();
-            handleTextChange("");
-        };
-    }, [handleShake, handleTextChange]);
+    useShake(handleShake);
 
     const flashStyle = {
         backgroundColor: flashAnim.interpolate({
