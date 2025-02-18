@@ -189,7 +189,7 @@ export default function HistoryScreen() {
                         <View style={styles.rightIcons}>
                             <IconButton
                                 icon={item.isFavorite ? "star" : "star-outline"}
-                                iconColor={item.isFavorite ? theme.colors.primary : theme.colors.onSurfaceVariant}
+                                iconColor={item.isFavorite ? "#000000" : "#757575"}
                                 size={20}
                                 onPress={() => toggleFavorite(item.id)}
                                 accessibilityLabel={item.isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
