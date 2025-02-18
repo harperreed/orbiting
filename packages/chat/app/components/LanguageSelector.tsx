@@ -15,7 +15,11 @@ export function LanguageSelector() {
 
   return (
     <List.Section>
-      <List.Subheader>{t('language')}</List.Subheader>
+      <List.Item
+        title={t('language')}
+        description="Choose your preferred language"
+        left={props => <List.Icon {...props} icon="translate" />}
+      />
       {SUPPORTED_LANGUAGES.map(({ code, label }) => (
         <List.Item
           key={code}
@@ -28,6 +32,7 @@ export function LanguageSelector() {
             />
           )}
           onPress={() => handleLanguageChange(code)}
+          style={{ paddingLeft: 16 }}
         />
       ))}
     </List.Section>
