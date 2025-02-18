@@ -32,8 +32,8 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 mode="contained"
                 onPress={onClearPress}
                 testID="clear-button"
-                accessibilityLabel="Clear text"
-                accessibilityHint="Erases all current text from the screen"
+                accessibilityLabel={t('clearText')}
+                accessibilityHint={t('clearHint')}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: false }}
                 accessible={true}
@@ -43,8 +43,8 @@ export default function BottomBar({ onClearPress, onHistoryPress }: BottomBarPro
                 mode="contained"
                 onPress={onHistoryPress}
                 testID="history-button"
-                accessibilityLabel="Show history"
-                accessibilityHint="Opens the message history screen"
+                accessibilityLabel={t('showHistory')}
+                accessibilityHint={t('showHistoryHint')}
                 accessibilityRole="button"
                 accessibilityState={{ disabled: false }}
                 accessible={true}

@@ -42,7 +42,24 @@ export const resources = {
       resetDefaults: 'Reset to Defaults',
       system: 'System',
       light: 'Light',
-      dark: 'Dark'
+      dark: 'Dark',
+      // Navigation
+      home: 'Home',
+      homeHint: 'Navigate to main text input screen',
+      historyTab: 'History',
+      historyHint: 'View your message history',
+      helpTab: 'Help',
+      helpHint: 'View app instructions and help',
+      settingsTab: 'Settings',
+      settingsHint: 'Adjust app preferences and settings',
+      aboutTab: 'About',
+      aboutHint: 'View app information and credits',
+      mainNavigation: 'Main navigation',
+      // Actions
+      clearText: 'Clear text',
+      clearHint: 'Erases all current text from the screen',
+      showHistory: 'Show history',
+      showHistoryHint: 'Opens the message history screen'
     }
   },
   es: {
@@ -75,7 +92,24 @@ export const resources = {
       resetDefaults: 'Restablecer valores predeterminados',
       system: 'Sistema',
       light: 'Claro',
-      dark: 'Oscuro'
+      dark: 'Oscuro',
+      // Navigation
+      home: 'Inicio',
+      homeHint: 'Ir a la pantalla principal de entrada de texto',
+      historyTab: 'Historial',
+      historyHint: 'Ver historial de mensajes',
+      helpTab: 'Ayuda',
+      helpHint: 'Ver instrucciones y ayuda',
+      settingsTab: 'Ajustes',
+      settingsHint: 'Ajustar preferencias y configuración',
+      aboutTab: 'Acerca de',
+      aboutHint: 'Ver información y créditos',
+      mainNavigation: 'Navegación principal',
+      // Actions
+      clearText: 'Borrar texto',
+      clearHint: 'Borra todo el texto actual de la pantalla',
+      showHistory: 'Mostrar historial',
+      showHistoryHint: 'Abre la pantalla de historial de mensajes'
     }
   }
 };
