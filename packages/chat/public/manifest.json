@@ -45,5 +45,8 @@
    "type": "image/png",
    "density": "4.0"
   }
- ]
+ ],
+ "scope": "/",
+ "description": "A text display app",
+ "related_applications": []
 }

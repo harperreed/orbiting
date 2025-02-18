@@ -53,6 +53,11 @@ export function InstallPWA() {
       setShowInstallOption(false);
     }
     
+    // Check if the app is already installed on Android
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowInstallOption(false);
+    }
+    
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
