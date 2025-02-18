@@ -24,6 +24,7 @@ import {
     getMessages,
     clearHistory,
     deleteMessage,
+    toggleFavorite,
 } from "./utils/storageUtils";
 import { FlashList } from "@shopify/flash-list";
 
