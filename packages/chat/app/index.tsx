@@ -17,5 +17,25 @@ export default function Index() {
     }
   }, []);
 
+  useEffect(() => {
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      const metaTags = [
+        { property: 'og:title', content: 'Orbiting' },
+        { property: 'og:description', content: 'A text display app' },
+        { property: 'og:image', content: 'https://orbiting.com/imgs/og.png' }
+      ];
+
+      metaTags.forEach(({ property, content }) => {
+        let metaTag = document.querySelector(`meta[property="${property}"]`);
+        if (!metaTag) {
+          metaTag = document.createElement('meta');
+          metaTag.setAttribute('property', property);
+          document.head.appendChild(metaTag);
+        }
+        metaTag.setAttribute('content', content);
+      });
+    }
+  }, []);
+
   return <HomeScreen />;
 }
