@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { useEffect, useState } from 'react';
+import './i18n/config';
 import { WelcomeModal } from './components/WelcomeModal';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View } from 'react-native';

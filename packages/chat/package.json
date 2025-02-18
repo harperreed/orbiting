@@ -73,7 +73,10 @@
     "react-native-webview": "13.12.5",
     "web-push": "^3.6.7",
     "workbox-webpack-plugin": "^7.3.0",
-    "workbox-window": "^7.3.0"
+    "workbox-window": "^7.3.0",
+    "i18next": "^23.10.0",
+    "react-i18next": "^14.0.5",
+    "expo-localization": "~14.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
