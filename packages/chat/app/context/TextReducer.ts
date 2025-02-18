@@ -80,7 +80,8 @@ export function textReducer(state: TextState, action: TextAction): TextState {
             };
             
         default: {
-            const exhaustiveCheck: never = action;
+            const _exhaustiveCheck: never = action;
+            void _exhaustiveCheck; // Explicitly mark as used
             return state;
         }
     }

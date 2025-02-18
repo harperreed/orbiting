@@ -1,7 +1,16 @@
 import { render, fireEvent, act } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HistoryScreen from '../history';
-import { clearHistory, storeMessage } from '../utils/storage';
+import { storeMessage } from '../utils/storage';
+
+// Mock Alert
+jest.mock('react-native', () => ({
+  ...jest.requireActual('react-native'),
+  Alert: {
+    ...jest.requireActual('react-native').Alert,
+    alert: jest.fn()
+  }
+}));
 
 // Mock expo-router
 jest.mock('expo-router', () => ({
@@ -20,6 +29,7 @@ describe('HistoryScreen', () => {
     await act(async () => {});
     
     expect(queryByText('Clear History')).toBeNull();
+    expect(queryByText('No messages yet')).toBeTruthy();
   });
 
   it('displays stored messages', async () => {
@@ -35,7 +45,7 @@ describe('HistoryScreen', () => {
   it('clears history when clear button is pressed', async () => {
     await storeMessage('Test message');
     
-    const { getByText, queryByText } = render(<HistoryScreen />);
+    const { getByText } = render(<HistoryScreen />);
     await act(async () => {});
 
     const clearButton = getByText('Clear History');

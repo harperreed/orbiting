@@ -1,20 +1,30 @@
 import {
-    View,
     StyleSheet,
     Dimensions,
     KeyboardAvoidingView,
     Platform,
+    Animated,
 } from "react-native";
+import RNShake from 'react-native-shake';
+import { Surface, Snackbar } from 'react-native-paper';
 import BottomBar from "./BottomBar";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSettings } from "../context/SettingsContext";
 import { useLocalSearchParams, router } from "expo-router";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
 import BigTextDisplay from "./BigTextDisplay";
 import { useText } from "../context/TextContext";
 
+import { AccessibilityInfo } from 'react-native';
+
 export default function HomeScreen() {
-    const { text, handleTextChange, restoreLastSession, error, isLoading } = useText();
+    const { text, handleTextChange, restoreLastSession, error } = useText();
+    const announceError = useCallback((error: string) => {
+        AccessibilityInfo.announceForAccessibility(error);
+    }, []);
     const { text: paramText } = useLocalSearchParams<{ text?: string }>();
+    const { shakeMode, currentTheme } = useSettings();
+    const [flashAnim] = useState(new Animated.Value(0));
 
     useEffect(() => {
         const initializeText = async () => {
@@ -40,46 +50,94 @@ export default function HomeScreen() {
         .onFinalize((event) => {
         const { translationX, translationY } = event;
 
-        // Check for left swipe
-        if (translationX < -SWIPE_THRESHOLD && Math.abs(translationY) < 50) {
-            handleTextChange("");
+        // Horizontal swipes
+        if (Math.abs(translationX) > SWIPE_THRESHOLD && Math.abs(translationY) < 50) {
+            if (translationX < 0) {
+                // Left swipe - clear text
+                handleTextChange("");
+            } else {
+                // Right swipe - show history
+                router.push("/history");
+            }
         }
-
-        // Check for up swipe
+        
+        // Up swipe - show history
         if (translationY < -VERTICAL_THRESHOLD && Math.abs(translationX) < 50) {
             router.push("/history");
         }
     });
 
+    const handleShake = useCallback(() => {
+        if (shakeMode === 'clear') {
+            handleTextChange("");
+        } else if (shakeMode === 'flash') {
+            Animated.sequence([
+                Animated.timing(flashAnim, {
+                    toValue: 1,
+                    duration: 100,
+                    useNativeDriver: false,
+                }),
+                Animated.timing(flashAnim, {
+                    toValue: 0,
+                    duration: 900,
+                    useNativeDriver: false,
+                })
+            ]).start();
+        }
+    }, [shakeMode, handleTextChange, flashAnim]);
+
     useEffect(() => {
-        // Cleanup function
+        const subscription = RNShake.addListener(handleShake);
         return () => {
+            subscription.remove();
             handleTextChange("");
         };
-    }, [handleTextChange]);
+    }, [handleShake, handleTextChange]);
+
+    const flashStyle = {
+        backgroundColor: flashAnim.interpolate({
+            inputRange: [0, 1],
+            outputRange: [currentTheme.colors.background, currentTheme.colors.onBackground]
+        }),
+    };
 
     return (
-        <KeyboardAvoidingView
+        <>
+            <Animated.View style={[StyleSheet.absoluteFill, flashStyle]} />
+            <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
             keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
             contentContainerStyle={styles.keyboardAvoidingContent}
         >
-            <View style={styles.contentContainer}>
+            <Surface style={styles.contentContainer}>
                 <GestureDetector gesture={panGesture}>
-                    <View style={styles.innerContainer}>
+                    <Surface style={styles.innerContainer}>
                         <BigTextDisplay
                             text={text}
                             onChangeText={handleTextChange}
                         />
-                    </View>
+                    </Surface>
                 </GestureDetector>
                 <BottomBar 
                     onClearPress={() => handleTextChange("")}
                     onHistoryPress={() => router.push("/history")}
                 />
-            </View>
-        </KeyboardAvoidingView>
+            </Surface>
+            <Snackbar
+                visible={!!error}
+                onDismiss={() => {}}
+                action={{
+                    label: 'Dismiss',
+                    onPress: () => {},
+                }}
+                accessibilityLiveRegion="polite"
+                accessibilityLabel={error || "Error message"}
+                onShow={() => error && announceError(error)}>
+                {error}
+            </Snackbar>
+            </KeyboardAvoidingView>
+        </>
     );
 }
 

@@ -1,17 +1,24 @@
 name = "orbiting"
-type = "javascript" # Change to "webpack" or "rust" if needed
+type = "javascript"
 
 [build]
-command = "hugo --cleanDestinationDir --gc --minify --forceSyncStatic --logLevel info"
-cwd = "packages/hugo"
-upload.format = "service-worker"
-
-[site]
-bucket = "./public"
-entry-point = "."
+command = "npm install && npm run build:web"
+cwd = "packages/chat"
+output_directory = "dist"
 
 [vars]
-HUGO_VERSION = "0.136.4"
-HUGO_ENV = "production"
-HUGO_ENABLEGITINFO = "true"
-GO_VERSION = "1.23"
+NODE_VERSION = "20"
+NPM_VERSION = "10"
+
+
+# Optional: Configure custom domains and deployment branches
+# [deployment]
+# routes = [
+#     { pattern = "/*", zone_name = "" }, # Add your domain here if using a custom domain
+# ]
+
+[env.production]
+# Production-specific settings can go here
+
+[env.preview]
+# Preview branch settings can go here

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
-import { storeMessage, clearHistory, getMessages } from '../utils/storageUtils';
+import { storeMessage, getMessages } from '../utils/storageUtils';
 import { TextState, TextAction, textReducer, TEXT_ACTIONS } from './TextReducer';
 
 interface TextContextType {
@@ -10,6 +10,8 @@ interface TextContextType {
     isDirty: boolean;
     lastSaved: number | null;
     restoreLastSession: () => Promise<void>;
+    error: string | null;
+    isLoading: boolean;
 }
 
 const TextContext = createContext<TextContextType | undefined>(undefined);
@@ -62,7 +64,12 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                     dispatch(action);
                     logStateChange(action, state, textReducer(state, action));
                 } catch (error) {
-                    dispatch({ type: TEXT_ACTIONS.SET_ERROR, payload: 'Failed to autosave' });
+                    const errorMessage = error instanceof Error ? error.message : 'Failed to autosave';
+                    dispatch({ 
+                        type: TEXT_ACTIONS.SET_ERROR, 
+                        payload: `Autosave failed: ${errorMessage}`
+                    });
+                    console.error('Autosave error:', error);
                 }
             }, AUTOSAVE_DELAY);
         }
@@ -72,7 +79,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 clearTimeout(saveTimeoutRef.current);
             }
         };
-    }, [state.text, state.isDirty]);
+    }, [state]);
 
     const handleTextChange = useCallback(async (newText: string) => {
         try {
@@ -81,13 +88,13 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 type: TEXT_ACTIONS.SET_TEXT, 
                 payload: newText
             });
-        } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Failed to update text';
+        } catch (_error) {
+            const errorMessage = _error instanceof Error ? _error.message : 'Failed to update text';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
                 payload: errorMessage
             });
-            console.error('Text update error:', error);
+            console.error('Text update error:', _error);
         } finally {
             dispatch({ type: TEXT_ACTIONS.SET_LOADING, payload: false });
         }
@@ -95,13 +102,12 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
 
     const clearText = useCallback(async () => {
         try {
-            await clearHistory();
             dispatch({ type: TEXT_ACTIONS.CLEAR_TEXT });
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: `Failed to clear history: ${errorMessage}`
+                payload: `Failed to clear text: ${errorMessage}`
             });
             console.error('Clear text error:', error);
         }
@@ -116,10 +122,11 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                     payload: messages[0]
                 });
             }
-        } catch (error) {
+        } catch (_error) {
+            const errorMessage = _error instanceof Error ? _error.message : 'Failed to restore session';
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: 'Failed to restore session'
+                payload: errorMessage
             });
         }
     }, []);
@@ -134,7 +141,9 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
             clearText,
             isDirty: state.isDirty,
             lastSaved: state.lastSaved,
-            restoreLastSession
+            restoreLastSession,
+            error: state.error,
+            isLoading: state.isLoading
         }}>
             {children}
         </TextContext.Provider>

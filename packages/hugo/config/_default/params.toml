@@ -1,7 +1,0 @@
-######################## Params ####################
-
-
-description = "Orbiting is a visual message app that helps people communicate with text. A person is able to use it to type and display the message to those around. We want to create a very simple experience that doesn't require a lot of tech knowledge or experience"
-keywords = "orbiting, bigwords, deaf, accessibility, big text, chat, typing"
-title = "Orbiting"
-images = ['/imgs/og.png']

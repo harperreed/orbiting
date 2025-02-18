@@ -1,5 +1,6 @@
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useRouter, usePathname } from 'expo-router';
+import { BottomNavigation } from 'react-native-paper';
+import { View } from 'react-native';
 
 export default function TabBar() {
   const router = useRouter();
@@ -12,69 +13,78 @@ export default function TabBar() {
   }
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity 
-        style={[styles.tab, pathname === '/' && styles.activeTab]}
-        onPress={() => router.push('/')}
-        testID="home-tab"
-      >
-        <Text style={[styles.emoji, pathname === '/' && styles.activeEmoji]}>🏠</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={[styles.tab, pathname === '/history' && styles.activeTab]}
-        onPress={() => router.push('/history')}
-        testID="history-tab"
-      >
-        <Text style={[styles.emoji, pathname === '/history' && styles.activeEmoji]}>⏱️</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={[styles.tab, pathname === '/help' && styles.activeTab]}
-        onPress={() => router.push('/help')}
-        testID="help-tab"
-      >
-        <Text style={[styles.emoji, pathname === '/help' && styles.activeEmoji]}>❓</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={[styles.tab, pathname === '/settings' && styles.activeTab]}
-        onPress={() => router.push('/settings')}
-        testID="settings-tab"
-      >
-        <Text style={[styles.emoji, pathname === '/settings' && styles.activeEmoji]}>⚙️</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={[styles.tab, pathname === '/about' && styles.activeTab]}
-        onPress={() => router.push('/about')}
-        testID="about-tab"
-      >
-        <Text style={[styles.emoji, pathname === '/about' && styles.activeEmoji]}>ℹ️</Text>
-      </TouchableOpacity>
-    </View>
+    <BottomNavigation
+      accessibilityRole="tablist"
+      accessibilityLabel="Main navigation"
+      navigationState={{
+        index: ['/', '/history', '/help', '/settings', '/about'].indexOf(pathname),
+        routes: [
+          { 
+            key: 'home', 
+            title: 'Home', 
+            focusedIcon: 'home', 
+            unfocusedIcon: 'home-outline',
+            accessibilityLabel: 'Home screen',
+            accessibilityHint: 'Navigate to main text input screen'
+          },
+          { 
+            key: 'history', 
+            title: 'History', 
+            focusedIcon: 'history', 
+            unfocusedIcon: 'history',
+            accessibilityLabel: 'History screen',
+            accessibilityHint: 'View your message history'
+          },
+          { 
+            key: 'help', 
+            title: 'Help', 
+            focusedIcon: 'help-circle', 
+            unfocusedIcon: 'help-circle-outline',
+            accessibilityLabel: 'Help screen',
+            accessibilityHint: 'View app instructions and help'
+          },
+          { 
+            key: 'settings', 
+            title: 'Settings', 
+            focusedIcon: 'cog', 
+            unfocusedIcon: 'cog-outline',
+            accessibilityLabel: 'Settings screen',
+            accessibilityHint: 'Adjust app preferences and settings'
+          },
+          { 
+            key: 'about', 
+            title: 'About', 
+            focusedIcon: 'information', 
+            unfocusedIcon: 'information-outline',
+            accessibilityLabel: 'About screen',
+            accessibilityHint: 'View app information and credits'
+          },
+        ],
+      }}
+      renderScene={() => <View />}
+      onIndexChange={(index) => {
+        const route = ['/', '/history', '/help', '/settings', '/about'][index];
+        router.push(route);
+      }}
+      onTabPress={({ route }) => {
+        switch (route.key) {
+          case 'home':
+            router.push('/');
+            break;
+          case 'history':
+            router.push('/history');
+            break;
+          case 'help':
+            router.push('/help');
+            break;
+          case 'settings':
+            router.push('/settings');
+            break;
+          case 'about':
+            router.push('/about');
+            break;
+        }
+      }}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#f5f5f5',
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
-    height: 50,
-  },
-  tab: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  activeTab: {
-    borderTopWidth: 2,
-    borderTopColor: '#007AFF',
-  },
-  emoji: {
-    fontSize: 24,
-    color: '#666',
-  },
-  activeEmoji: {
-    color: '#007AFF',
-  },
-});
