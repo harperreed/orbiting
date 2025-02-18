@@ -15,12 +15,6 @@ const FONT_SIZES = [16, 18, 20, 24, 28, 32, 36, 40];
 const MIN_FONT_SIZE = Math.min(...FONT_SIZES);
 const MAX_FONT_SIZE = Math.max(...FONT_SIZES);
 
-const COLOR_SCHEMES = [
-  { label: t('system'), value: 'system', icon: 'theme-light-dark' },
-  { label: t('light'), value: 'light', icon: 'white-balance-sunny' },
-  { label: t('dark'), value: 'dark', icon: 'moon-waning-crescent' },
-];
-
 const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme: ThemeType) => void }) => {
   const [visible, setVisible] = useState(false);
   const paperTheme = useTheme();
@@ -81,6 +75,12 @@ export default function SettingsScreen() {
   const [isResetting, setIsResetting] = useState(false);
   const paperTheme = useTheme();
   const { t } = useTranslation();
+
+  const COLOR_SCHEMES = [
+    { label: t('system'), value: 'system', icon: 'theme-light-dark' },
+    { label: t('light'), value: 'light', icon: 'white-balance-sunny' },
+    { label: t('dark'), value: 'dark', icon: 'moon-waning-crescent' },
+  ];
 
   const handleReset = async () => {
     setIsResetting(true);
