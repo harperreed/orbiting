@@ -68,7 +68,8 @@ export const resources = {
       clearHistoryConfirmMessage: 'This will permanently delete all messages. Are you sure?',
       clearAll: 'Clear All',
       deleteMessage: 'Delete Message',
-      deleteMessageConfirm: 'Are you sure you want to delete this message?'
+      deleteMessageConfirm: 'Are you sure you want to delete this message?',
+      noMessages: 'No messages'
     }
   },
   es: {
@@ -127,7 +128,8 @@ export const resources = {
       clearHistoryConfirmMessage: 'Esto eliminará permanentemente todos los mensajes. ¿Estás seguro?',
       clearAll: 'Borrar todo',
       deleteMessage: 'Eliminar mensaje',
-      deleteMessageConfirm: '¿Estás seguro de que quieres eliminar este mensaje?'
+      deleteMessageConfirm: '¿Estás seguro de que quieres eliminar este mensaje?',
+      noMessages: 'No hay mensajes'
     }
   }
 };
