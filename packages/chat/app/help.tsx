@@ -24,11 +24,13 @@ export default function HelpScreen() {
 
     const styles = StyleSheet.create({
         container: {
-            gap: 16,
             padding: 16,
         },
         card: {
-            marginBottom: 8,
+            marginBottom: 16,
+        },
+        card: {
+            marginBottom: 16,
         },
         cardContent: {
             padding: 8,

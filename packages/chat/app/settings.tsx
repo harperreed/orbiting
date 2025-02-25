@@ -234,7 +234,16 @@ const styles = StyleSheet.create({
   colorSchemeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+  },
+  colorSchemeButton: {
+    padding: 8,
+    borderRadius: 20,
+    marginRight: 16,
+  },
+  colorSchemeButton: {
+    padding: 8,
+    borderRadius: 20,
+    marginRight: 16,
   },
   colorSchemeButton: {
     padding: 8,
@@ -263,7 +272,6 @@ const styles = StyleSheet.create({
   themePreview: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
     padding: 8,
     borderRadius: 8,
     backgroundColor: 'rgba(0,0,0,0.05)',
@@ -272,6 +280,13 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
+    marginRight: 8,
+  },
+  themeColor: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    marginRight: 8,
   },
   modal: {
     padding: 20,
@@ -280,18 +295,29 @@ const styles = StyleSheet.create({
   themeGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 16,
     padding: 16,
     borderRadius: 8,
   },
   themeOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
     padding: 8,
     borderRadius: 8,
     backgroundColor: 'rgba(0,0,0,0.05)',
     borderWidth: 2,
     borderColor: 'transparent',
+    marginRight: 16,
+    marginBottom: 16,
+  },
+  themeOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderWidth: 2,
+    borderColor: 'transparent',
+    marginRight: 16,
+    marginBottom: 16,
   },
 });

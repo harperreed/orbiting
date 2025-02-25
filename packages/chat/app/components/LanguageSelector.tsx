@@ -54,7 +54,10 @@ const styles = StyleSheet.create({
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+  },
+  menuText: {
+    fontSize: 16,
+    marginLeft: 8,
   },
   menuText: {
     fontSize: 16,
