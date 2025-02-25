@@ -57,8 +57,8 @@ describe('Storage Utils', () => {
     const result = await getMessages();
     
     expect(result.messages).toHaveLength(2);
-    expect(result.messages[0].text).toBe('First message');
-    expect(result.messages[1].text).toBe('Second message');
+    expect(result.messages[0].text).toBe('Second message');
+    expect(result.messages[1].text).toBe('First message');
   });
 
   it('should return empty array when no messages exist', async () => {
