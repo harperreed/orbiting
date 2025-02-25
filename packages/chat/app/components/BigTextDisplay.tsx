@@ -222,6 +222,20 @@ export default function BigTextDisplay({
     };
   }, [text, containerSize, contentSize, adjustedContainerHeight, debouncedCalculate, minFontSize]);
 
+  // Memoize dynamic styles to prevent unnecessary recalculations
+  const dynamicStyles = useMemo(() => ({
+    fontSize: fontSize * (adjustedContainerHeight / 100),
+    lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
+    maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
+    color: theme.colors.onBackground,
+    backgroundColor: theme.colors.background,
+  }), [fontSize, adjustedContainerHeight, keyboardVisible, keyboardHeight, dimensions.height, theme.colors]);
+
+  // Memoize placeholder color
+  const placeholderColor = useMemo(() => 
+    `${theme.colors.onBackground}66`, // Adding 66 for 40% opacity
+  [theme.colors.onBackground]);
+
   return (
     <TextInput
       ref={(ref) => {
@@ -239,35 +253,9 @@ export default function BigTextDisplay({
         multiline: true
       }}
       style={[
-        {
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-          fontWeight: "bold",
-          fontFamily: 'System',  // System font, similar to sans-serif
-          color: theme.colors.onBackground,
-          backgroundColor: theme.colors.background,
-          textAlign: "left",
-          padding: 20,
-          paddingBottom: 50,
-          margin: 0,
-          zIndex: 10,
-          // Add these properties for proper word breaking
-          ...(Platform.OS === 'web' ? {
-            wordBreak: 'break-word',
-            overflowWrap: 'break-word',
-            whiteSpace: 'pre-wrap',
-          } : {}),
-        },
-        {
-          fontSize: fontSize * (adjustedContainerHeight / 100),
-          lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
-          maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
-        }
+        styles.container,
+        dynamicStyles,
+        Platform.OS === 'web' ? styles.webTextStyles : {}
       ]}
       value={text}
       onChangeText={(newText) => {
@@ -277,7 +265,7 @@ export default function BigTextDisplay({
       }}
       multiline
       placeholder={t('typeHere')}
-      placeholderTextColor={`${theme.colors.onBackground}66`} // Adding 66 for 40% opacity
+      placeholderTextColor={placeholderColor}
       onLayout={onLayout}
       onContentSizeChange={(e) => {
         onContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height);
@@ -292,4 +280,28 @@ export default function BigTextDisplay({
     />
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: '100%',
+    height: '100%',
+    fontWeight: "bold",
+    fontFamily: 'System',  // System font, similar to sans-serif
+    textAlign: "left",
+    padding: 20,
+    paddingBottom: 50,
+    margin: 0,
+    zIndex: 10,
+  },
+  webTextStyles: {
+    wordBreak: 'break-word',
+    overflowWrap: 'break-word',
+    whiteSpace: 'pre-wrap',
+  }
+});
 
