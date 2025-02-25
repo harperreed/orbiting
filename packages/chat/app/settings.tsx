@@ -245,10 +245,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 16,
   },
-  colorSchemeButton: {
-    padding: 8,
-    borderRadius: 20,
-  },
   sliderContainer: {
     paddingHorizontal: 16,
     marginBottom: 16,
@@ -282,12 +278,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginRight: 8,
   },
-  themeColor: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    marginRight: 8,
-  },
   modal: {
     padding: 20,
     margin: 20,
@@ -297,17 +287,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     padding: 16,
     borderRadius: 8,
-  },
-  themeOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderWidth: 2,
-    borderColor: 'transparent',
-    marginRight: 16,
-    marginBottom: 16,
   },
   themeOption: {
     flexDirection: 'row',
