@@ -8,7 +8,7 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-export function InstallPWA() {
+export default function InstallPWA() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallOption, setShowInstallOption] = useState(false);
   const [browserType, setBrowserType] = useState<'standard' | 'ios-safari' | 'desktop-safari' | 'firefox' | 'unsupported'>('unsupported');
