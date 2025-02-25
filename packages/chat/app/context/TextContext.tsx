@@ -53,14 +53,17 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
 
     // Autosave mechanism
     useEffect(() => {
-        if (state.isDirty) {
+        // Extract the values we need from state to avoid stale closures
+        const { isDirty, text } = state;
+        
+        if (isDirty) {
             if (saveTimeoutRef.current) {
                 clearTimeout(saveTimeoutRef.current);
             }
             
             saveTimeoutRef.current = setTimeout(async () => {
                 try {
-                    await storeMessage(state.text);
+                    await storeMessage(text);
                     const action = { type: TEXT_ACTIONS.TEXT_SAVED, payload: Date.now() };
                     dispatch(action);
                     logStateChange(action, state, textReducer(state, action));
@@ -86,7 +89,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 clearTimeout(saveTimeoutRef.current);
             }
         };
-    }, [state.text, state.isDirty]);
+    }, [state.isDirty, state.text]);
 
     const handleTextChange = useCallback(async (newText: string) => {
         try {
