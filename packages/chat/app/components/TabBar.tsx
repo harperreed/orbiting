@@ -14,12 +14,19 @@ export default function TabBar() {
     return null;
   }
 
+  const routes = ['/', '/history', '/help', '/settings', '/about'];
+  // Get the base route without query parameters
+  const basePathname = pathname.split('?')[0];
+  // Default to home (0) if the route isn't found
+  const activeIndex = routes.indexOf(basePathname);
+  const safeIndex = activeIndex !== -1 ? activeIndex : 0;
+
   return (
     <BottomNavigation
       accessibilityRole="tablist"
       accessibilityLabel={t('mainNavigation')}
       navigationState={{
-        index: ['/', '/history', '/help', '/settings', '/about'].indexOf(pathname),
+        index: safeIndex,
         routes: [
           { 
             key: 'home', 
