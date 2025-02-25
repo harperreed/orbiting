@@ -16,7 +16,12 @@ export async function storeMessage(text: string): Promise<void> {
   }
 
   try {
-    const { messages } = await getMessages(0, Number.MAX_SAFE_INTEGER);
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      return; // Skip storage operations during SSR
+    }
+    
+    const { messages } = await getMessages({ limit: Number.MAX_SAFE_INTEGER });
     const newMessage: StoredMessage = {
       id: Date.now().toString(),
       text,
@@ -27,7 +32,6 @@ export async function storeMessage(text: string): Promise<void> {
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
   } catch (error) {
     console.error('Error storing message:', error);
-    throw error;
   }
 }
 
@@ -46,6 +50,11 @@ export async function getMessages({
   nextCursor: string | null;
 }> {
   try {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      return { messages: [], nextCursor: null }; // Return empty result during SSR
+    }
+    
     const jsonValue = await AsyncStorage.getItem(MESSAGES_KEY);
     let messages = jsonValue ? JSON.parse(jsonValue) : [];
     
@@ -80,39 +89,51 @@ export async function getMessages({
     };
   } catch (error) {
     console.error('Error getting messages:', error);
-    throw error;
+    return { messages: [], nextCursor: null };
   }
 }
 
 export async function clearHistory(): Promise<void> {
   try {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      return; // Skip storage operations during SSR
+    }
+    
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify([]));
   } catch (error) {
     console.error('Error clearing history:', error);
-    throw error;
   }
 }
 
 export async function toggleFavorite(id: string): Promise<void> {
   try {
-    const { messages } = await getMessages(0, Number.MAX_SAFE_INTEGER);
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      return; // Skip storage operations during SSR
+    }
+    
+    const { messages } = await getMessages({ limit: Number.MAX_SAFE_INTEGER });
     const updatedMessages = messages.map(msg => 
       msg.id === id ? { ...msg, isFavorite: !msg.isFavorite } : msg
     );
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(updatedMessages));
   } catch (error) {
     console.error('Error toggling favorite:', error);
-    throw error;
   }
 }
 
 export async function deleteMessage(id: string): Promise<void> {
   try {
-    const messages = await getMessages(0, Number.MAX_SAFE_INTEGER);
-    const filteredMessages = messages.messages.filter(msg => msg.id !== id);
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      return; // Skip storage operations during SSR
+    }
+    
+    const { messages } = await getMessages({ limit: Number.MAX_SAFE_INTEGER });
+    const filteredMessages = messages.filter(msg => msg.id !== id);
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(filteredMessages));
   } catch (error) {
     console.error('Error deleting message:', error);
-    throw error;
   }
 }
