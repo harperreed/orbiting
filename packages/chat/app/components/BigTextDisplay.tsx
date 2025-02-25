@@ -1,4 +1,4 @@
-import { useWindowDimensions, LayoutChangeEvent, Platform, Keyboard, StyleSheet, View } from "react-native";
+import { useWindowDimensions, LayoutChangeEvent, Platform, Keyboard, StyleSheet } from "react-native";
 import { TextInput, useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
