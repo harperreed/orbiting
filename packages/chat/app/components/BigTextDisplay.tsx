@@ -1,4 +1,4 @@
-import { useWindowDimensions, LayoutChangeEvent, Platform, Keyboard } from "react-native";
+import { useWindowDimensions, LayoutChangeEvent, Platform, Keyboard, StyleSheet, View } from "react-native";
 import { TextInput, useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
@@ -33,6 +33,7 @@ export default function BigTextDisplay({
   const dimensions = useWindowDimensions();
   const previousDimensions = useRef(dimensions);
   const inputRef = useRef<TextInput>(null);
+  const textInputRef = useRef<TextInput>(null);
 
   const isMounted = useIsMounted();
   const abortControllerRef = useRef<AbortController>();
@@ -142,6 +143,34 @@ export default function BigTextDisplay({
     }
   }, [isMounted]);
 
+  const scrollToCursor = useCallback(() => {
+    if (Platform.OS !== 'web' && textInputRef.current) {
+      // For native platforms
+      textInputRef.current.scrollToEnd({ animated: false });
+    } else if (Platform.OS === 'web' && inputRef.current) {
+      // For web platform
+      try {
+        const element = inputRef.current as unknown as HTMLElement;
+        const textArea = element.querySelector('textarea');
+        if (textArea) {
+          textArea.scrollTop = textArea.scrollHeight;
+        }
+      } catch (error) {
+        console.error('Error scrolling to cursor:', error);
+      }
+    }
+  }, []);
+
+  // Add this effect to handle text changes and scrolling
+  useEffect(() => {
+    // Small delay to ensure the text has rendered
+    const timer = setTimeout(() => {
+      scrollToCursor();
+    }, 50);
+    
+    return () => clearTimeout(timer);
+  }, [text, scrollToCursor]);
+
   // Handle screen dimension changes
   useEffect(() => {
     if (!isMounted() || abortControllerRef.current?.signal.aborted) return;
@@ -195,7 +224,10 @@ export default function BigTextDisplay({
 
   return (
     <TextInput
-      ref={inputRef}
+      ref={(ref) => {
+        inputRef.current = ref;
+        textInputRef.current = ref;
+      }}
       testID="big-text-display"
       mode="flat"
       accessibilityLabel="Main text input"
@@ -224,6 +256,12 @@ export default function BigTextDisplay({
           paddingBottom: 50,
           margin: 0,
           zIndex: 10,
+          // Add these properties for proper word breaking
+          ...(Platform.OS === 'web' ? {
+            wordBreak: 'break-word',
+            overflowWrap: 'break-word',
+            whiteSpace: 'pre-wrap',
+          } : {}),
         },
         {
           fontSize: fontSize * (adjustedContainerHeight / 100),
@@ -232,16 +270,25 @@ export default function BigTextDisplay({
         }
       ]}
       value={text}
-      onChangeText={onChangeText}
+      onChangeText={(newText) => {
+        onChangeText(newText);
+        // Schedule a scroll after the text changes
+        setTimeout(scrollToCursor, 10);
+      }}
       multiline
       placeholder={t('typeHere')}
       placeholderTextColor={`${theme.colors.onBackground}66`} // Adding 66 for 40% opacity
       onLayout={onLayout}
       onContentSizeChange={(e) => {
         onContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height);
+        // Also scroll when content size changes
+        scrollToCursor();
       }}
       autoCorrect={false}
       keyboardType={Platform.OS === 'ios' ? 'default' : 'visible-password'} // Prevents Android keyboard from jumping
+      scrollEnabled={true}
+      blurOnSubmit={false}
+      textAlignVertical="top"
     />
   );
 }
