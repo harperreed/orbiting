@@ -90,9 +90,9 @@ export default function HomeScreen() {
         const subscription = RNShake.addListener(handleShake);
         return () => {
             subscription.remove();
-            handleTextChange("");
+            // Removed handleTextChange("") to prevent clearing text on unmount
         };
-    }, [handleShake, handleTextChange]);
+    }, [handleShake]);
 
     const flashStyle = {
         backgroundColor: flashAnim.interpolate({
