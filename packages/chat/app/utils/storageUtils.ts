@@ -21,7 +21,11 @@ export async function storeMessage(text: string): Promise<void> {
       return; // Skip storage operations during SSR
     }
     
-    const { messages } = await getMessages({ limit: Number.MAX_SAFE_INTEGER });
+    const { messages } = await getMessages({ 
+      limit: Number.MAX_SAFE_INTEGER,
+      cursor: undefined,
+      search: ""
+    });
     const newMessage: StoredMessage = {
       id: Date.now().toString(),
       text,
