@@ -235,7 +235,7 @@ export default function HistoryScreen() {
     }
 
     return (
-        <PageLayout>
+        <PageLayout scrollable={true}>
             <Text variant="headlineMedium" style={styles.title}>
                 {t('history')}
             </Text>
@@ -269,7 +269,7 @@ export default function HistoryScreen() {
                     </Text>
                 </Surface>
             ) : (
-                <View>
+                <View style={styles.listContainer}>
                     <FlashList
                         data={displayedMessages}
                         renderItem={renderItem}
@@ -417,5 +417,10 @@ const styles = StyleSheet.create({
         marginTop: 8,
         color: "gray",
         textAlign: "center",
+    },
+    listContainer: {
+        flex: 1,
+        height: '100%',
+        width: '100%',
     },
 });
