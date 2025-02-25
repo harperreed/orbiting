@@ -393,7 +393,6 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         padding: 8,
-        gap: 8,
     },
     segmentedButtons: {
         marginBottom: 8,
@@ -406,6 +405,7 @@ const styles = StyleSheet.create({
         elevation: 0,
         borderWidth: 1,
         borderColor: "rgba(0,0,0,0.1)",
+        marginTop: 8,
     },
     emptyContainer: {
         flex: 1,
