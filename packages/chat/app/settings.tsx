@@ -15,7 +15,7 @@ const FONT_SIZES = [16, 18, 20, 24, 28, 32, 36, 40];
 const MIN_FONT_SIZE = Math.min(...FONT_SIZES);
 const MAX_FONT_SIZE = Math.max(...FONT_SIZES);
 
-const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme: ThemeType) => void }) => {
+export const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme: ThemeType) => void }) => {
   const [visible, setVisible] = useState(false);
   const paperTheme = useTheme();
   const foundTheme = THEMES.find(t => t.value === theme);
@@ -27,7 +27,7 @@ const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme
 
   return (
     <>
-      <TouchableRipple onPress={() => setVisible(true)}>
+      <TouchableRipple onPress={() => setVisible(true)} testID="theme-selector">
         <View style={styles.themePreview}>
           <View style={[styles.themeColor, { backgroundColor: currentTheme.colors.primary }]} />
           <View style={[styles.themeColor, { backgroundColor: currentTheme.colors.secondary }]} />
@@ -41,6 +41,7 @@ const ThemeSelector = ({ theme, onSelect }: { theme: ThemeType; onSelect: (theme
             {THEMES.map((t) => (
               <TouchableRipple
                 key={t.value}
+                testID={`theme-option-${t.value}`}
                 onPress={() => {
                   onSelect(t.value);
                   setVisible(false);
