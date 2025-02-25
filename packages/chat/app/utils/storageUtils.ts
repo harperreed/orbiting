@@ -117,7 +117,11 @@ export async function toggleFavorite(id: string): Promise<void> {
       return; // Skip storage operations during SSR
     }
     
-    const { messages } = await getMessages({ limit: Number.MAX_SAFE_INTEGER });
+    const { messages } = await getMessages({ 
+      limit: Number.MAX_SAFE_INTEGER,
+      cursor: undefined,
+      search: ""
+    });
     const updatedMessages = messages.map(msg => 
       msg.id === id ? { ...msg, isFavorite: !msg.isFavorite } : msg
     );
@@ -134,7 +138,11 @@ export async function deleteMessage(id: string): Promise<void> {
       return; // Skip storage operations during SSR
     }
     
-    const { messages } = await getMessages({ limit: Number.MAX_SAFE_INTEGER });
+    const { messages } = await getMessages({ 
+      limit: Number.MAX_SAFE_INTEGER,
+      cursor: undefined,
+      search: ""
+    });
     const filteredMessages = messages.filter(msg => msg.id !== id);
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(filteredMessages));
   } catch (error) {
