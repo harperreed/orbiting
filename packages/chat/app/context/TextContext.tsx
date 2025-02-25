@@ -79,7 +79,7 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 clearTimeout(saveTimeoutRef.current);
             }
         };
-    }, [state]);
+    }, [state.text, state.isDirty]);
 
     const handleTextChange = useCallback(async (newText: string) => {
         try {
