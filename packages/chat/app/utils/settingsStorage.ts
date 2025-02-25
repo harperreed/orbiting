@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createError, ErrorType } from './errorUtils';
 
 const SETTINGS_STORAGE_KEY = '@settings';
 
@@ -11,8 +12,11 @@ export async function loadSettings(): Promise<Record<string, unknown> | null> {
     const settingsJson = await AsyncStorage.getItem(SETTINGS_STORAGE_KEY);
     return settingsJson ? JSON.parse(settingsJson) : null;
   } catch (error) {
-    console.error(`Failed to load settings: ${error}`);
-    return null;
+    throw createError(
+      ErrorType.STORAGE,
+      `Failed to load settings: ${error}`,
+      error
+    );
   }
 }
 
@@ -24,6 +28,10 @@ export async function saveSettings(settings: Record<string, unknown>): Promise<v
     }
     await AsyncStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
   } catch (error) {
-    console.error(`Failed to save settings: ${error}`);
+    throw createError(
+      ErrorType.STORAGE,
+      `Failed to save settings: ${error}`,
+      error
+    );
   }
 }

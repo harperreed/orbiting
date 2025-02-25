@@ -3,6 +3,7 @@ import { ColorSchemeName, useColorScheme as useDeviceColorScheme } from 'react-n
 import { MD3Theme } from 'react-native-paper';
 import { loadSettings, saveSettings } from '../utils/settingsStorage';
 import { themes } from '../themes';
+import { createError, ErrorType, logError } from '../utils/errorUtils';
 
 export type ThemeType = 'classic' | 'ocean' | 'forest' | 'sunset' | 'mono' | 'neon' | 'contrast' | 'candy' | 'mint';
 
@@ -25,6 +26,8 @@ interface SettingsContextType extends Settings {
   updateSettings: (settings: Partial<Settings>) => void;
   resetSettings: () => void;
   currentTheme: CustomTheme;
+  error: string | null;
+  clearError: () => void;
 }
 
 const defaultSettings: Settings = {
@@ -40,6 +43,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const deviceColorScheme = useDeviceColorScheme();
   const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadSettings().then((savedSettings) => {
@@ -47,20 +51,48 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         setSettings(savedSettings);
       }
     }).catch(err => {
-      console.error('Failed to load settings:', err);
+      const appError = createError(
+        ErrorType.STORAGE,
+        'Failed to load settings',
+        err
+      );
+      logError(appError);
+      setError('Unable to load settings. Default settings applied.');
       setSettings(defaultSettings);
     });
   }, []);
 
+  const clearError = () => setError(null);
+
   const updateSettings = async (newSettings: Partial<Settings>) => {
-    const updatedSettings = { ...settings, ...newSettings };
-    setSettings(updatedSettings);
-    await saveSettings(updatedSettings);
+    try {
+      const updatedSettings = { ...settings, ...newSettings };
+      setSettings(updatedSettings);
+      await saveSettings(updatedSettings);
+    } catch (err) {
+      const appError = createError(
+        ErrorType.STORAGE,
+        'Failed to save settings',
+        err
+      );
+      logError(appError);
+      setError('Unable to save settings. Please try again.');
+    }
   };
 
   const resetSettings = async () => {
-    setSettings(defaultSettings);
-    await saveSettings(defaultSettings);
+    try {
+      setSettings(defaultSettings);
+      await saveSettings(defaultSettings);
+    } catch (err) {
+      const appError = createError(
+        ErrorType.STORAGE,
+        'Failed to reset settings',
+        err
+      );
+      logError(appError);
+      setError('Unable to reset settings. Please try again.');
+    }
   };
 
   const effectiveColorScheme = settings.colorScheme === 'system' 
@@ -76,6 +108,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         updateSettings,
         resetSettings,
         currentTheme: currentTheme,
+        error,
+        clearError,
       }}
     >
       {children}

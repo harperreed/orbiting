@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Text, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple, RadioButton } from 'react-native-paper';
+import { Text, Button, List, Surface, useTheme, Portal, Modal, TouchableRipple, RadioButton, Snackbar } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { LanguageSelector } from './components/LanguageSelector';
@@ -71,6 +71,8 @@ export default function SettingsScreen() {
     shakeMode,
     updateSettings,
     resetSettings,
+    error,
+    clearError,
   } = useSettings();
   const [isResetting, setIsResetting] = useState(false);
   const paperTheme = useTheme();
@@ -198,6 +200,19 @@ export default function SettingsScreen() {
           {t('resetDefaults')}
         </Button>
       </Surface>
+      
+      <Snackbar
+        visible={!!error}
+        onDismiss={clearError}
+        action={{
+          label: t('dismiss'),
+          onPress: clearError,
+        }}
+        duration={3000}
+        style={styles.snackbar}
+      >
+        {error}
+      </Snackbar>
     </PageLayout>
   );
 }
@@ -209,6 +224,9 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 24,
+  },
+  snackbar: {
+    marginBottom: 16,
   },
   resetButton: {
     margin: 16,

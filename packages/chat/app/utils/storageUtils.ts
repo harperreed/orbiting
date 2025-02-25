@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createError, ErrorType } from './errorUtils';
 
 const MESSAGES_KEY = '@messages';
 
@@ -35,7 +36,12 @@ export async function storeMessage(text: string): Promise<void> {
     messages.unshift(newMessage); // Add to beginning since we sort by newest first
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
   } catch (error) {
-    console.error('Error storing message:', error);
+    throw createError(
+      ErrorType.STORAGE,
+      'Error storing message',
+      error,
+      'Unable to save your message. Please try again.'
+    );
   }
 }
 
@@ -92,8 +98,12 @@ export async function getMessages({
       nextCursor
     };
   } catch (error) {
-    console.error('Error getting messages:', error);
-    return { messages: [], nextCursor: null };
+    throw createError(
+      ErrorType.STORAGE,
+      'Error retrieving messages',
+      error,
+      'Unable to load your messages. Please try again.'
+    );
   }
 }
 
@@ -106,7 +116,12 @@ export async function clearHistory(): Promise<void> {
     
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify([]));
   } catch (error) {
-    console.error('Error clearing history:', error);
+    throw createError(
+      ErrorType.STORAGE,
+      'Error clearing history',
+      error,
+      'Unable to clear your history. Please try again.'
+    );
   }
 }
 
@@ -127,7 +142,12 @@ export async function toggleFavorite(id: string): Promise<void> {
     );
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(updatedMessages));
   } catch (error) {
-    console.error('Error toggling favorite:', error);
+    throw createError(
+      ErrorType.STORAGE,
+      'Error toggling favorite status',
+      error,
+      'Unable to update favorite status. Please try again.'
+    );
   }
 }
 
@@ -146,6 +166,11 @@ export async function deleteMessage(id: string): Promise<void> {
     const filteredMessages = messages.filter(msg => msg.id !== id);
     await AsyncStorage.setItem(MESSAGES_KEY, JSON.stringify(filteredMessages));
   } catch (error) {
-    console.error('Error deleting message:', error);
+    throw createError(
+      ErrorType.STORAGE,
+      'Error deleting message',
+      error,
+      'Unable to delete message. Please try again.'
+    );
   }
 }

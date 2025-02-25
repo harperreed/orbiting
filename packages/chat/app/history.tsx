@@ -14,6 +14,7 @@ import {
     IconButton,
     SegmentedButtons,
 } from "react-native-paper";
+import { createError, ErrorType, getUserFriendlyMessage } from './utils/errorUtils';
 import { useTranslation } from 'react-i18next';
 import PageLayout from "./components/PageLayout";
 import { useCallback, useEffect, useState, useMemo } from "react";
@@ -79,8 +80,13 @@ export default function HistoryScreen() {
                 setHasMore(!!nextCursor);
                 setCursor(nextCursor);
             } catch (error) {
-                console.error("Failed to load messages:", error);
-                showSnackbar("Failed to load messages");
+                // Use our standardized error handling
+                const appError = error.type ? error : createError(
+                    ErrorType.STORAGE,
+                    'Failed to load messages',
+                    error
+                );
+                showSnackbar(getUserFriendlyMessage(appError));
             } finally {
                 setIsLoading(false);
                 setIsLoadingMore(false);
@@ -116,8 +122,13 @@ export default function HistoryScreen() {
             setHasMore(false);
             showSnackbar("History cleared successfully");
         } catch (error) {
-            console.error("Failed to clear history:", error);
-            showSnackbar("Failed to clear history");
+            // Use our standardized error handling
+            const appError = error.type ? error : createError(
+                ErrorType.STORAGE,
+                'Failed to clear history',
+                error
+            );
+            showSnackbar(getUserFriendlyMessage(appError));
         } finally {
             setShowClearDialog(false);
         }
@@ -130,8 +141,13 @@ export default function HistoryScreen() {
                 await loadMessages(null);
                 showSnackbar("Message deleted successfully");
             } catch (error) {
-                console.error("Failed to delete message:", error);
-                showSnackbar("Failed to delete message");
+                // Use our standardized error handling
+                const appError = error.type ? error : createError(
+                    ErrorType.STORAGE,
+                    'Failed to delete message',
+                    error
+                );
+                showSnackbar(getUserFriendlyMessage(appError));
             } finally {
                 setShowDeleteDialog(false);
                 setMessageToDelete(null);
@@ -192,22 +208,32 @@ export default function HistoryScreen() {
                                 iconColor={item.isFavorite ? "#000000" : "#757575"}
                                 size={20}
                                 onPress={async () => {
-                                    await toggleFavorite(item.id);
-                                    // Update local state immediately
-                                    setMessages(prevMessages => 
-                                        prevMessages.map(msg => 
-                                            msg.id === item.id 
-                                                ? { ...msg, isFavorite: !msg.isFavorite }
-                                                : msg
-                                        )
-                                    );
-                                    setFilteredMessages(prevMessages => 
-                                        prevMessages.map(msg => 
-                                            msg.id === item.id 
-                                                ? { ...msg, isFavorite: !msg.isFavorite }
-                                                : msg
-                                        )
-                                    );
+                                    try {
+                                        await toggleFavorite(item.id);
+                                        // Update local state immediately
+                                        setMessages(prevMessages => 
+                                            prevMessages.map(msg => 
+                                                msg.id === item.id 
+                                                    ? { ...msg, isFavorite: !msg.isFavorite }
+                                                    : msg
+                                            )
+                                        );
+                                        setFilteredMessages(prevMessages => 
+                                            prevMessages.map(msg => 
+                                                msg.id === item.id 
+                                                    ? { ...msg, isFavorite: !msg.isFavorite }
+                                                    : msg
+                                            )
+                                        );
+                                    } catch (error) {
+                                        // Use our standardized error handling
+                                        const appError = error.type ? error : createError(
+                                            ErrorType.STORAGE,
+                                            'Failed to update favorite status',
+                                            error
+                                        );
+                                        showSnackbar(getUserFriendlyMessage(appError));
+                                    }
                                 }}
                                 accessibilityLabel={item.isFavorite ? t('removeFromFavorites') : t('addToFavorites')}
                             />

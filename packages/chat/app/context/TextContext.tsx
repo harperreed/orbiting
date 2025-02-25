@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
 import { storeMessage, getMessages } from '../utils/storageUtils';
 import { TextState, TextAction, textReducer, TEXT_ACTIONS } from './TextReducer';
+import { createError, ErrorType, logError } from '../utils/errorUtils';
 
 interface TextContextType {
     text: string;
@@ -64,12 +65,18 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                     dispatch(action);
                     logStateChange(action, state, textReducer(state, action));
                 } catch (error) {
-                    const errorMessage = error instanceof Error ? error.message : 'Failed to autosave';
+                    // Use our standardized error handling
+                    const appError = error.type ? error : createError(
+                        ErrorType.STORAGE,
+                        'Failed to autosave text',
+                        error,
+                        'Unable to save your text. Please try again.'
+                    );
+                    logError(appError);
                     dispatch({ 
                         type: TEXT_ACTIONS.SET_ERROR, 
-                        payload: `Autosave failed: ${errorMessage}`
+                        payload: appError.userMessage || 'Autosave failed'
                     });
-                    console.error('Autosave error:', error);
                 }
             }, AUTOSAVE_DELAY);
         }
@@ -89,12 +96,18 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 payload: newText
             });
         } catch (_error) {
-            const errorMessage = _error instanceof Error ? _error.message : 'Failed to update text';
+            // Use our standardized error handling
+            const appError = _error.type ? _error : createError(
+                ErrorType.UNKNOWN,
+                'Failed to update text',
+                _error,
+                'Unable to update text. Please try again.'
+            );
+            logError(appError);
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: errorMessage
+                payload: appError.userMessage || 'Failed to update text'
             });
-            console.error('Text update error:', _error);
         } finally {
             dispatch({ type: TEXT_ACTIONS.SET_LOADING, payload: false });
         }
@@ -104,18 +117,24 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
         try {
             dispatch({ type: TEXT_ACTIONS.CLEAR_TEXT });
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            // Use our standardized error handling
+            const appError = error.type ? error : createError(
+                ErrorType.UNKNOWN,
+                'Failed to clear text',
+                error,
+                'Unable to clear text. Please try again.'
+            );
+            logError(appError);
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: `Failed to clear text: ${errorMessage}`
+                payload: appError.userMessage || 'Failed to clear text'
             });
-            console.error('Clear text error:', error);
         }
     }, []);
 
     const restoreLastSession = useCallback(async () => {
         try {
-            const { messages } = await getMessages(0, 1);
+            const { messages } = await getMessages({ limit: 1 });
             if (messages.length > 0) {
                 dispatch({ 
                     type: TEXT_ACTIONS.RESTORE_SESSION,
@@ -123,10 +142,17 @@ export function TextProvider({ children }: { children: React.ReactNode }) {
                 });
             }
         } catch (_error) {
-            const errorMessage = _error instanceof Error ? _error.message : 'Failed to restore session';
+            // Use our standardized error handling
+            const appError = _error.type ? _error : createError(
+                ErrorType.STORAGE,
+                'Failed to restore session',
+                _error,
+                'Unable to restore your previous session. Starting fresh.'
+            );
+            logError(appError);
             dispatch({ 
                 type: TEXT_ACTIONS.SET_ERROR,
-                payload: errorMessage
+                payload: appError.userMessage || 'Failed to restore session'
             });
         }
     }, []);
