@@ -154,26 +154,30 @@ export default function BigTextDisplay({
       textInputRef.current.scrollToEnd({ animated: false });
     } else if (Platform.OS === 'web' && inputRef.current) {
       // For web platform
-      try {
-        const element = inputRef.current as unknown as HTMLElement;
-        const textArea = element.querySelector('textarea');
-        if (textArea) {
-          textArea.scrollTop = textArea.scrollHeight;
+      requestAnimationFrame(() => {
+        try {
+          const element = inputRef.current as unknown as HTMLElement;
+          const textArea = element.querySelector('textarea');
+          if (textArea) {
+            textArea.scrollTop = textArea.scrollHeight;
+          }
+        } catch (error) {
+          console.error('Error scrolling to cursor:', error);
         }
-      } catch (error) {
-        console.error('Error scrolling to cursor:', error);
-      }
+      });
     }
   }, []);
 
   // Add this effect to handle text changes and scrolling
   useEffect(() => {
-    // Small delay to ensure the text has rendered
-    const timer = setTimeout(() => {
-      scrollToCursor();
-    }, 50);
-    
-    return () => clearTimeout(timer);
+    // Use requestAnimationFrame on web, setTimeout on native platforms
+    if (Platform.OS === 'web') {
+      const frameId = requestAnimationFrame(scrollToCursor);
+      return () => cancelAnimationFrame(frameId);
+    } else {
+      const timer = setTimeout(scrollToCursor, 50);
+      return () => clearTimeout(timer);
+    }
   }, [text, scrollToCursor]);
 
   // Handle screen dimension changes
@@ -293,7 +297,11 @@ export default function BigTextDisplay({
       onChangeText={(newText) => {
         onChangeText(newText);
         // Schedule a scroll after the text changes
-        setTimeout(scrollToCursor, 10);
+        if (Platform.OS === 'web') {
+          requestAnimationFrame(scrollToCursor);
+        } else {
+          setTimeout(scrollToCursor, 10);
+        }
       }}
       multiline
       placeholder={t('typeHere')}
