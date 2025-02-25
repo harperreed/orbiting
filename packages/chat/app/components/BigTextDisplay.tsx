@@ -6,6 +6,11 @@ import { useIsMounted } from '../hooks/useIsMounted';
 import { useSettings } from '../context/SettingsContext';
 import { debounce } from 'lodash';
 
+// Font size constraints in absolute pixels
+const MIN_FONT_SIZE_PX = 12; // Absolute minimum font size in pixels
+const MAX_FONT_SIZE_PX = 120; // Absolute maximum font size in pixels
+const DEFAULT_FONT_SIZE_FACTOR = 0.08; // Default factor for calculating font size based on container dimensions
+
 type BigTextDisplayProps = {
   text: string;
   onChangeText: (text: string) => void;
@@ -222,14 +227,41 @@ export default function BigTextDisplay({
     };
   }, [text, containerSize, contentSize, adjustedContainerHeight, debouncedCalculate, minFontSize]);
 
-  // Memoize dynamic styles to prevent unnecessary recalculations
-  const dynamicStyles = useMemo(() => ({
-    fontSize: fontSize * (adjustedContainerHeight / 100),
-    lineHeight: fontSize * (adjustedContainerHeight / 100) * 1.2,
-    maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
-    color: theme.colors.onBackground,
-    backgroundColor: theme.colors.background,
-  }), [fontSize, adjustedContainerHeight, keyboardVisible, keyboardHeight, dimensions.height, theme.colors]);
+  /**
+   * Font size calculation approach:
+   * 1. Start with a relative size based on container height (vh units)
+   * 2. Apply a width factor to reduce size on narrow screens
+   * 3. Enforce absolute min/max pixel values to ensure readability
+   * 4. Apply a scaling factor for very large screens to prevent excessive sizes
+   * 
+   * This balanced approach ensures text remains readable across different
+   * device sizes, orientations, and split-screen configurations.
+   */
+  const dynamicStyles = useMemo(() => {
+    // Calculate a balanced font size based on both width and height
+    const heightBasedSize = fontSize * (adjustedContainerHeight / 100);
+    const widthFactor = Math.min(1, containerSize.width / 500); // Reduce font size on narrow screens
+    
+    // Calculate the raw font size
+    let calculatedFontSize = heightBasedSize * widthFactor;
+    
+    // Apply absolute min/max constraints
+    calculatedFontSize = Math.max(MIN_FONT_SIZE_PX, Math.min(calculatedFontSize, MAX_FONT_SIZE_PX));
+    
+    // Apply a scaling factor for very large screens to prevent excessive font sizes
+    if (adjustedContainerHeight > 1000) {
+      const largeScreenFactor = Math.max(0.7, 1000 / adjustedContainerHeight);
+      calculatedFontSize *= largeScreenFactor;
+    }
+    
+    return {
+      fontSize: calculatedFontSize,
+      lineHeight: calculatedFontSize * 1.2, // Maintain the same line height ratio
+      maxHeight: keyboardVisible ? `${100 - (keyboardHeight / dimensions.height * 100)}%` : '100%',
+      color: theme.colors.onBackground,
+      backgroundColor: theme.colors.background,
+    };
+  }, [fontSize, adjustedContainerHeight, containerSize.width, keyboardVisible, keyboardHeight, dimensions.height, theme.colors]);
 
   // Memoize placeholder color
   const placeholderColor = useMemo(() => 
