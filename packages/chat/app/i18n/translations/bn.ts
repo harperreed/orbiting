@@ -92,7 +92,9 @@ export const bn = {
         textWrappingDesc: "বার্তা স্বয়ংক্রিয়ভাবে স্পেসে র‍্যাপ হয়",
         aboutText:
             "Orbiting {{author1}} এবং {{author2}} দ্বারা তৈরি করা হয়েছে। এটি একই স্থানে থাকা কিন্তু ভিন্ন যোগাযোগ প্রয়োজন রয়েছে এমন লোকেদের সাথে যোগাযোগ করার প্রয়োজনীয়তা থেকে অনুপ্রাণিত হয়েছিল।",
-        feedbackText: "অনুগ্রহ করে আমাদের প্রতিক্রিয়া পাঠান। আমরা এটি চাই!",
+        feedbackText: "অনুগ্রহ করে আমাদের",
+        feedbackLink: "প্রতিক্রিয়া",
+        feedbackTextContinue: " পাঠান। আমরা এটি চাই! feedback@orbiting.com",
         feedbackEmail: "feedback@orbiting.com",
     },
 };

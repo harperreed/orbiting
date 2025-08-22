@@ -86,7 +86,9 @@ export const hi = {
     textWrapping: 'टेक्स्ट रैपिंग',
     textWrappingDesc: 'संदेश स्वचालित रूप से खाली स्थान पर रैप हो जाते हैं',
     aboutText: 'Orbiting {{author1}} और {{author2}} द्वारा बनाया गया था। यह एक ही स्थान में, लेकिन अलग-अलग संचार आवश्यकताओं वाले लोगों के साथ संवाद करने की आवश्यकता से प्रेरित था।',
-    feedbackText: 'कृपया हमें प्रतिक्रिया भेजें। हम इसे चाहते हैं!',
+    feedbackText: 'कृपया हमें',
+    feedbackLink: 'प्रतिक्रिया',
+    feedbackTextContinue: ' भेजें। हम इसे चाहते हैं! feedback@orbiting.com',
     feedbackEmail: 'feedback@orbiting.com'
   }
 };

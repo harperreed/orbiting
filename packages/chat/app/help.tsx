@@ -18,6 +18,10 @@ export default function HelpScreen() {
         Linking.openURL(`https://en.wikipedia.org/wiki/${name}`);
     };
 
+    const handleFeedbackPress = () => {
+        Linking.openURL("https://docs.google.com/forms/d/e/1FAIpQLSfkRKAA3BGZldZTnJmv2qAEuvVSwnRF4YSw_50jrBd69b1rzg/viewform");
+    };
+
     const handleEmailPress = () => {
         Linking.openURL("mailto:feedback@orbiting.com");
     };
@@ -225,9 +229,10 @@ export default function HelpScreen() {
                     </Text>
                     <Text style={styles.paragraph}>
                         {t('feedbackText')}{" "}
-                        <Text style={styles.link} onPress={handleEmailPress}>
-                            {t('feedbackEmail')}
+                        <Text style={styles.link} onPress={handleFeedbackPress}>
+                            {t('feedbackLink')}
                         </Text>
+                        {t('feedbackTextContinue')}
                     </Text>
                 </Surface>
             </View>

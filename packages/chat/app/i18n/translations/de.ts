@@ -96,7 +96,9 @@ export const de = {
             "Nachrichten werden automatisch bei Leerzeichen umgebrochen",
         aboutText:
             "Orbiting wurde von {{author1}} und {{author2}} erstellt. Es wurde inspiriert von der Notwendigkeit, mit Menschen im gleichen Raum zu kommunizieren, die jedoch unterschiedliche Kommunikationsbedürfnisse haben.",
-        feedbackText: "Bitte sende uns Feedback. Wir freuen uns darauf!",
+        feedbackText: "Bitte sende uns",
+        feedbackLink: "Feedback",
+        feedbackTextContinue: ". Wir freuen uns darauf! feedback@orbiting.com",
         feedbackEmail: "feedback@orbiting.com",
     },
 };

@@ -90,8 +90,9 @@ export const id = {
         textWrappingDesc: "Pesan secara otomatis terpotong pada spasi",
         aboutText:
             "Orbiting dibuat oleh {{author1}} dan {{author2}}. Ini terinspirasi oleh kebutuhan untuk berkomunikasi dengan orang-orang dalam ruang yang sama, tetapi dengan kebutuhan komunikasi yang berbeda.",
-        feedbackText:
-            "Silakan kirimkan umpan balik kepada kami. Kami menginginkannya!",
+        feedbackText: "Silakan kirimkan",
+        feedbackLink: "umpan balik",
+        feedbackTextContinue: " kepada kami. Kami menginginkannya! feedback@orbiting.com",
         feedbackEmail: "feedback@orbiting.com",
     },
 };

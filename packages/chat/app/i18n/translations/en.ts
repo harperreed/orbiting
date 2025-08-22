@@ -91,7 +91,9 @@ export const en = {
     textWrapping: 'Text Wrapping',
     textWrappingDesc: 'Messages automatically wrap on whitespace',
     aboutText: 'Orbiting was created by {{author1}} and {{author2}}. It was inspired by the need to communicate with people in the same space, but with different communications needs.',
-    feedbackText: 'Please send us feedback. We want it!',
+    feedbackText: 'Please send us',
+    feedbackLink: 'feedback',
+    feedbackTextContinue: '. We want it! feedback@orbiting.com',
     feedbackEmail: 'feedback@orbiting.com'
   }
 };

@@ -89,7 +89,9 @@ export const ko = {
         textWrappingDesc: "메시지는 공백에서 자동으로 줄바꿈됩니다",
         aboutText:
             "Orbiting은 {{author1}}와(과) {{author2}}에 의해 만들어졌습니다. 이는 같은 공간에 있지만 다른 의사소통 요구를 가진 사람들과 소통해야 할 필요성에서 영감을 받았습니다.",
-        feedbackText: "피드백을 보내주세요. 저희는 그것을 원합니다!",
+        feedbackText: "저희에게",
+        feedbackLink: "피드백",
+        feedbackTextContinue: "을 보내주세요. 저희는 그것을 원합니다! feedback@orbiting.com",
         feedbackEmail: "feedback@orbiting.com",
     },
 };

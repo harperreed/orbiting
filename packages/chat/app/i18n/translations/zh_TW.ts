@@ -88,7 +88,9 @@ export const zh_TW = {
         textWrappingDesc: "訊息在空格處自動換行",
         aboutText:
             "Orbiting由{{author1}}和{{author2}}建立。它的靈感來源於在同一空間內與具有不同溝通需求的人溝通的需要。",
-        feedbackText: "請向我們發送回饋。我們期待您的回饋！",
+        feedbackText: "請向我們發送",
+        feedbackLink: "回饋",
+        feedbackTextContinue: "。我們期待您的回饋！ feedback@orbiting.com",
         feedbackEmail: "feedback@orbiting.com",
     },
 };

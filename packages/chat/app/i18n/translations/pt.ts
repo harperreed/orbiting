@@ -94,7 +94,9 @@ export const pt = {
             "As mensagens quebram automaticamente nos espaços em branco",
         aboutText:
             "Orbiting foi criado por {{author1}} e {{author2}}. Foi inspirado pela necessidade de se comunicar com pessoas no mesmo espaço, mas com diferentes necessidades de comunicação.",
-        feedbackText: "Por favor, envie-nos feedback. Nós queremos recebê-lo!",
+        feedbackText: "Por favor, envie-nos",
+        feedbackLink: "feedback",
+        feedbackTextContinue: ". Nós queremos recebê-lo! feedback@orbiting.com",
         feedbackEmail: "feedback@orbiting.com",
     },
 };

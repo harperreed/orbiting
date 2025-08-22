@@ -90,7 +90,9 @@ export const ja = {
         textWrappingDesc: "メッセージは空白で自動的に折り返されます",
         aboutText:
             "Orbitingは{{author1}}と{{author2}}によって作成されました。同じ空間にいるが、異なるコミュニケーションニーズを持つ人々とコミュニケーションを取る必要性に触発されました。",
-        feedbackText: "ぜひフィードバックをお送りください。お待ちしています！",
+        feedbackText: "ぜひ",
+        feedbackLink: "フィードバック",
+        feedbackTextContinue: "をお送りください。お待ちしています！ feedback@orbiting.com",
         feedbackEmail: "feedback@orbiting.com",
     },
 };

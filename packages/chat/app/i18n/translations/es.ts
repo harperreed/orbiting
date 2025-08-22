@@ -86,7 +86,9 @@ export const es = {
     textWrapping: 'Ajuste de texto',
     textWrappingDesc: 'Los mensajes se ajustan automáticamente en los espacios',
     aboutText: 'Orbiting fue creado por {{author1}} y {{author2}}. Se inspiró en la necesidad de comunicarse con personas en el mismo espacio, pero con diferentes necesidades de comunicación.',
-    feedbackText: '¡Por favor, envíanos tus comentarios. ¡Los queremos!',
+    feedbackText: 'Por favor, envíanos tus',
+    feedbackLink: 'comentarios',
+    feedbackTextContinue: '. ¡Los queremos! feedback@orbiting.com',
     feedbackEmail: 'feedback@orbiting.com'
   }
 };

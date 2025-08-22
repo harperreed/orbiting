@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Portal, Text, Button, useTheme } from "react-native-paper";
 import { StyleSheet, View, Platform, Linking } from "react-native";
 import Cookies from "js-cookie";
+import { useTranslation } from 'react-i18next';
 import { InstallPWA } from "./InstallPWA";
 
 const WELCOME_COOKIE = "orbiting-welcome-shown";
@@ -9,6 +10,7 @@ const WELCOME_COOKIE = "orbiting-welcome-shown";
 export function WelcomeModal() {
     const [visible, setVisible] = useState(false);
     const theme = useTheme();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (Platform.OS === "web") {
@@ -39,6 +41,10 @@ export function WelcomeModal() {
         if (Platform.OS === "web") {
             Cookies.set(WELCOME_COOKIE, "true", { expires: 365 });
         }
+    };
+
+    const handleFeedbackPress = () => {
+        Linking.openURL("https://docs.google.com/forms/d/e/1FAIpQLSfkRKAA3BGZldZTnJmv2qAEuvVSwnRF4YSw_50jrBd69b1rzg/viewform");
     };
 
     const handleEmailPress = () => {
@@ -99,64 +105,61 @@ export function WelcomeModal() {
                 onDismiss={hideModal}
                 contentContainerStyle={styles.modalContainer as any}
             >
-                <Text style={styles.title as any}>Welcome to Orbiting</Text>
+                <Text style={styles.title as any}>{t('welcomeToOrbiting')}</Text>
 
                 <Text style={styles.content as any}>
-                    A simple messaging app for your eyeballs. You can use it to
-                    type and display the message to those around you. Display a
-                    message loud and clear.
+                    {t('appDescription')}
                 </Text>
 
                 <Text style={styles.subtitle as any}>
-                    Orbiting is simple to use.
+                    {t('quickStartGuide')}
                 </Text>
 
                 <View style={styles.listItem as any}>
                     <Text style={styles.content as any}>
-                        • Tap and start typing. Your message will display loud
-                        and clear!
+                        • {t('tapAndTypeDesc')}
                     </Text>
                 </View>
                 <View style={styles.listItem as any}>
                     <Text style={styles.content as any}>
-                        • To clear the display - ⬅️ swipe left
+                        • {t('swipeLeftDesc')} - {t('swipeLeft')}
                     </Text>
                 </View>
                 <View style={styles.listItem as any}>
                     <Text style={styles.content as any}>
-                        • To view the menu and settings - ➡️ swipe right
+                        • {t('swipeRightDesc')} - {t('swipeRight')}
                     </Text>
                 </View>
                 <View style={styles.listItem as any}>
                     <Text style={styles.content as any}>
-                        • To display the history - ⬆️ swipe up
+                        • {t('swipeUpDesc')} - {t('swipeUp')}
                     </Text>
                 </View>
                 <View style={styles.listItem as any}>
                     <Text style={styles.content as any}>
-                        • You can use it on desktop or mobile
+                        • {t('crossPlatformDesc')}
                     </Text>
                 </View>
 
                 <View style={styles.divider as any} />
 
                 <Text style={styles.content as any}>
-                    Please send us feedback. We want it!{" "}
-                    <Text style={styles.link as any} onPress={handleEmailPress}>
-                        feedback@orbiting.com
+                    {t('feedbackText')}{" "}
+                    <Text style={styles.link as any} onPress={handleFeedbackPress}>
+                        {t('feedbackLink')}
                     </Text>
+                    {t('feedbackTextContinue')}
                 </Text>
 
                 {Platform.OS === "web" && (
                     <Text style={styles.content as any}>
-                        💡 Pro tip: Install Orbiting as an app on your device
-                        for the best experience!
+                        💡 {t('addToHomescreenDesc')}
                     </Text>
                 )}
 
                 <View style={styles.buttonContainer as any}>
                     <Button mode="contained" onPress={hideModal}>
-                        Get Started
+                        {t('welcome')}
                     </Button>
                     {Platform.OS === "web" && <InstallPWA />}
                 </View>
