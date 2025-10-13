@@ -7,8 +7,11 @@ import Combine
 
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) private var colorScheme
     @Query(sort: \Message.timestamp, order: .reverse) private var messages: [Message]
     @FocusState private var isEditing: Bool
+
+    let settings: AppSettings
 
     @State private var typedText: String = ""
     @State private var fittedSize: CGFloat = 24
@@ -16,16 +19,19 @@ struct HomeView: View {
     @State private var cancellables: Set<AnyCancellable> = []
     @StateObject private var kb = KeyboardObserver()
     @State private var showingHistory: Bool = false
+    @State private var showingSettings: Bool = false
 
     var body: some View {
         GeometryReader { geo in
+            let theme = settings.themeType.theme(for: colorScheme)
+
             ZStack {
-                Color.white.ignoresSafeArea()
+                theme.background.ignoresSafeArea()
 
                 // The "big text" canvas
                 Text(typedText.isEmpty ? " " : typedText)
                     .font(.system(size: fittedSize, weight: .bold, design: .rounded))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(theme.text)
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.1)
                     .lineLimit(nil)
@@ -83,6 +89,28 @@ struct HomeView: View {
             )
             .sheet(isPresented: $showingHistory) {
                 HistoryView()
+            }
+            .sheet(isPresented: $showingSettings) {
+                NavigationStack {
+                    SettingsView(settings: settings)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Done") {
+                                    showingSettings = false
+                                }
+                            }
+                        }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                    .accessibilityLabel("Settings")
+                }
             }
         }
     }

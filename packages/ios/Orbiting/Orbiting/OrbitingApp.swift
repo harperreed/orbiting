@@ -10,9 +10,11 @@ import SwiftData
 
 @main
 struct OrbitingApp: App {
+    @State private var settings = AppSettings()
+
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            RootView(settings: settings)
         }
         .modelContainer(for: Message.self)
     }
