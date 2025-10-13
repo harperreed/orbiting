@@ -82,6 +82,8 @@ struct HistoryView: View {
                         }
                     } label: {
                         Image(systemName: "info.circle")
+                            .accessibilityLabel("Information")
+                            .accessibilityHint("Access help and about information")
                     }
                 }
 
