@@ -20,6 +20,9 @@ struct HomeView: View {
     @StateObject private var kb = KeyboardObserver()
     @State private var showingHistory: Bool = false
     @State private var showingSettings: Bool = false
+    @State private var showFlash = false
+    private let shake = ShakeDetector()
+    private let feedback = UINotificationFeedbackGenerator()
 
     var body: some View {
         GeometryReader { geo in
@@ -47,8 +50,21 @@ struct HomeView: View {
                     .padding()
                     .accessibilityLabel(Text("Edit message"))
                     .accessibilityHint(Text("Type to change the displayed message"))
+
+                // Flash overlay (for shake action)
+                if showFlash {
+                    Color.white
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                                withAnimation(.easeOut(duration: 0.15)) { showFlash = false }
+                            }
+                        }
+                }
             }
             .onAppear {
+                startShake()
                 isEditing = true
                 fittedSize = CGFloat(settings.startFont)
                 setupDebounce(available: CGSize(
@@ -113,16 +129,21 @@ struct HomeView: View {
                     .accessibilityLabel("Settings")
                 }
             }
+            .onDisappear {
+                shake.stop()
+            }
         }
     }
 
     // Present the history view
     private func presentHistory() {
+        feedback.notificationOccurred(.success)
         showingHistory = true
     }
 
     // Clear the current text
     private func clearText() {
+        feedback.notificationOccurred(.warning)
         withAnimation {
             typedText = ""
             fittedSize = CGFloat(settings.startFont)
@@ -141,5 +162,19 @@ struct HomeView: View {
                 }
             }
             .store(in: &cancellables)
+    }
+
+    // Start shake detection
+    private func startShake() {
+        shake.onShakeStart = {
+            switch self.settings.shakeAction {
+            case .none: return
+            case .clear: self.clearText()
+            case .flash:
+                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                withAnimation(.easeIn(duration: 0.1)) { self.showFlash = true }
+            }
+        }
+        shake.start()
     }
 }
