@@ -50,6 +50,7 @@ struct HomeView: View {
             }
             .onAppear {
                 isEditing = true
+                fittedSize = CGFloat(settings.startFont)
                 setupDebounce(available: CGSize(
                     width: geo.size.width,
                     height: geo.size.height - kb.keyboardHeight
@@ -124,6 +125,7 @@ struct HomeView: View {
     private func clearText() {
         withAnimation {
             typedText = ""
+            fittedSize = CGFloat(settings.startFont)
         }
     }
 
