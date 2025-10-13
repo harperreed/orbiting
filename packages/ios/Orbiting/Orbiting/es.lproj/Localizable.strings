@@ -1,0 +1,43 @@
+/* Home View */
+"displayed_message" = "Mensaje mostrado";
+"edit_message" = "Editar mensaje";
+"swipe_hint" = "Desliza a la izquierda para borrar. Desliza arriba o derecha para historial.";
+"type_hint" = "Escribe para cambiar el mensaje mostrado";
+
+/* History View */
+"history" = "Historial";
+"all" = "Todos";
+"favorites" = "Favoritos";
+"clear_all" = "Borrar todo";
+"clear_all_title" = "¿Borrar todo?";
+"clear_all_message" = "Esto elimina todos los mensajes.";
+"cancel" = "Cancelar";
+"delete" = "Eliminar";
+"show_on_home" = "Mostrar en inicio";
+"favorite" = "Favorito";
+
+/* Settings View */
+"settings" = "Ajustes";
+"language" = "Idioma";
+"ui_language" = "Idioma de la interfaz";
+"language_hint" = "Cambia el idioma del texto de la aplicación";
+"theme" = "Tema";
+"color_scheme" = "Esquema de color";
+"system" = "Sistema";
+"light" = "Claro";
+"dark" = "Oscuro";
+"typography" = "Tipografía";
+"starting_font_size" = "Tamaño de fuente inicial";
+"preview" = "Vista previa";
+"gestures" = "Gestos";
+"shake_action" = "Acción de sacudir";
+"reset_defaults" = "Restablecer valores predeterminados";
+
+/* Help View */
+"help" = "Ayuda";
+
+/* About View */
+"about" = "Acerca de";
+"purpose" = "Propósito";
+"version" = "Versión";
+"credits" = "Créditos";

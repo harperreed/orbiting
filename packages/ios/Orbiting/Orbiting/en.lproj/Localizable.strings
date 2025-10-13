@@ -1,0 +1,46 @@
+/* Home View */
+"displayed_message" = "Displayed message";
+"edit_message" = "Edit message";
+"swipe_hint" = "Swipe left to clear. Swipe up or right for history.";
+"type_hint" = "Type to change the displayed message";
+
+/* History View */
+"history" = "History";
+"all" = "All";
+"favorites" = "Favorites";
+"clear_all" = "Clear All";
+"clear_all_title" = "Clear All?";
+"clear_all_message" = "This deletes all messages.";
+"cancel" = "Cancel";
+"delete" = "Delete";
+"show_on_home" = "Show on Home";
+"favorite" = "Favorite";
+
+/* Settings View */
+"settings" = "Settings";
+"language" = "Language";
+"ui_language" = "UI Language";
+"language_hint" = "Changes app text language";
+"theme" = "Theme";
+"color_scheme" = "Color Scheme";
+"system" = "System";
+"light" = "Light";
+"dark" = "Dark";
+"typography" = "Typography";
+"starting_font_size" = "Starting Font Size";
+"preview" = "Preview";
+"gestures" = "Gestures";
+"shake_action" = "Shake action";
+"reset_defaults" = "Reset to defaults";
+
+/* Help View */
+"help" = "Help";
+"gestures_title" = "Gestures";
+"tips_title" = "Tips";
+"accessibility_title" = "Accessibility";
+
+/* About View */
+"about" = "About";
+"purpose" = "Purpose";
+"version" = "Version";
+"credits" = "Credits";
