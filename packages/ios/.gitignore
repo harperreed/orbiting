@@ -1,0 +1,20 @@
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcuserstate
+DerivedData/
+
+# macOS
+.DS_Store
+
+# Test outputs
+*.log
+test_output.log
+
+# Build artifacts
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Icon source (already in Assets)
+icon.png
