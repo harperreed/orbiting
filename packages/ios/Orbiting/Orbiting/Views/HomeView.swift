@@ -15,6 +15,7 @@ struct HomeView: View {
     @State private var textPublisher = PassthroughSubject<String, Never>()
     @State private var cancellables: Set<AnyCancellable> = []
     @StateObject private var kb = KeyboardObserver()
+    @State private var showingHistory: Bool = false
 
     var body: some View {
         GeometryReader { geo in
@@ -73,13 +74,28 @@ struct HomeView: View {
 
                         if dx < -swipeThreshold {
                             // Swipe left => clear
-                            withAnimation { typedText = "" }
+                            clearText()
                         } else if dx > swipeThreshold || dy < -swipeThreshold {
-                            // Right or Up => History (placeholder for now)
-                            // presentHistory()
+                            // Right or Up => History
+                            presentHistory()
                         }
                     }
             )
+            .sheet(isPresented: $showingHistory) {
+                HistoryView()
+            }
+        }
+    }
+
+    // Present the history view
+    private func presentHistory() {
+        showingHistory = true
+    }
+
+    // Clear the current text
+    private func clearText() {
+        withAnimation {
+            typedText = ""
         }
     }
 
