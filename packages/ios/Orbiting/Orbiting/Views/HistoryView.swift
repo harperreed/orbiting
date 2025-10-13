@@ -72,6 +72,19 @@ struct HistoryView: View {
             .navigationTitle("History")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Menu {
+                        NavigationLink("Help") {
+                            HelpView()
+                        }
+                        NavigationLink("About") {
+                            AboutView()
+                        }
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                }
+
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") {
                         dismiss()
