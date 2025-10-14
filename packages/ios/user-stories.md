@@ -35,14 +35,6 @@ Based on the codebase analysis, here are user stories for the Orbiting messaging
 - Change the app language to one of 12+ supported languages
 - Configure shake gestures to either clear text, flash the screen, or do nothing
 
-## Cross-Platform & Installation
-
-**As a user, I want to:**
-- Use the app on both mobile devices and desktop computers
-- Install the app on my home screen as a PWA for quick access
-- Have the app work offline once installed
-- See clear instructions for installing on different browsers and devices
-
 ## Onboarding & Help
 
 **As a user, I want to:**

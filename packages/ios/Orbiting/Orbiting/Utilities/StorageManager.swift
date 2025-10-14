@@ -14,7 +14,7 @@ class StorageManager {
     /// Returns the URL for the shared App Group container
     static var sharedContainerURL: URL? {
         FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.harperrules.Orbiting"
+            forSecurityApplicationGroupIdentifier: "group.com.harperrules.Shook"
         )
     }
 

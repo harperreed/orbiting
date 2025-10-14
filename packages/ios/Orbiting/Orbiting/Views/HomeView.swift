@@ -15,6 +15,7 @@ struct HomeView: View {
 
     @State private var typedText: String = ""
     @State private var fittedSize: CGFloat = 24
+    @State private var viewportSize: CGSize = .zero
     @State private var textPublisher = PassthroughSubject<String, Never>()
     @State private var savePublisher = PassthroughSubject<String, Never>()
     @State private var cancellables: Set<AnyCancellable> = []
@@ -36,9 +37,8 @@ struct HomeView: View {
                 Text(typedText.isEmpty ? " " : typedText)
                     .font(.system(size: fittedSize, weight: .bold, design: .rounded))
                     .foregroundStyle(theme.text)
-                    .multilineTextAlignment(.center)
-                    .minimumScaleFactor(0.1)
-                    .lineLimit(nil)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     .padding(.horizontal, 12)
                     .accessibilityLabel(Text("Displayed message"))
                     .accessibilityHint(Text("Swipe left to clear. Swipe up or right for history."))
@@ -67,30 +67,34 @@ struct HomeView: View {
             .onAppear {
                 startShake()
                 isEditing = true
-                let available = CGSize(
-                    width: geo.size.width - 24, // Account for horizontal padding
-                    height: geo.size.height - kb.keyboardHeight
-                )
-                setupDebounce(available: available)
+                viewportSize = geo.size
+                setupDebounce()
                 // Trigger initial size calculation if there's already text
                 if !typedText.isEmpty {
+                    let available = CGSize(
+                        width: viewportSize.width - 24,
+                        height: viewportSize.height - kb.keyboardHeight
+                    )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
+                    print("📏 Initial size calculation: \(size)pt for text: '\(typedText)' in \(available)")
                     withAnimation(.interactiveSpring()) {
                         fittedSize = size
                     }
                 } else {
                     fittedSize = CGFloat(settings.startFont)
+                    print("📏 Using startFont: \(settings.startFont)")
                 }
             }
+            .onChange(of: geo.size) {
+                viewportSize = $1
+            }
             .onChange(of: kb.keyboardHeight) {
-                let available = CGSize(
-                    width: geo.size.width - 24, // Account for horizontal padding
-                    height: max(1, geo.size.height - kb.keyboardHeight)
-                )
-                setupDebounce(available: available)
-
                 // Recalculate size immediately when keyboard changes
                 if !typedText.isEmpty {
+                    let available = CGSize(
+                        width: viewportSize.width - 24,
+                        height: max(1, viewportSize.height - kb.keyboardHeight)
+                    )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
                     withAnimation(.interactiveSpring()) {
                         fittedSize = size
@@ -190,14 +194,20 @@ struct HomeView: View {
     }
 
     // Debounce keystrokes to update font sizing
-    private func setupDebounce(available: CGSize) {
+    private func setupDebounce() {
         cancellables.removeAll()
 
         // Debounce font sizing (fast)
         textPublisher
             .debounce(for: .milliseconds(120), scheduler: RunLoop.main)
             .sink { text in
+                // Recalculate available size from current state
+                let available = CGSize(
+                    width: self.viewportSize.width - 24,
+                    height: self.viewportSize.height - self.kb.keyboardHeight
+                )
                 let size = TextFitter.bestFontSize(text: text, targetSize: available)
+                print("📏 Debounced size: \(size)pt for text: '\(text)' in \(available)")
                 withAnimation(.interactiveSpring()) {
                     self.fittedSize = size
                 }
