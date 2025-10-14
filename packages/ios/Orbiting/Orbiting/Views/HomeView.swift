@@ -159,6 +159,11 @@ struct HomeView: View {
 
     // Clear the current text
     private func clearText() {
+        // Save current message before clearing
+        if !typedText.isEmpty {
+            saveMessage(typedText)
+        }
+
         feedback.notificationOccurred(.warning)
         withAnimation {
             typedText = ""
