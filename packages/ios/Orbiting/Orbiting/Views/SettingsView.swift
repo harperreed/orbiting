@@ -5,6 +5,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @Bindable var settings: AppSettings
+    @State private var showingHelp = false
+    @State private var showingAbout = false
 
     // Supported languages
     let supported = ["en","de","pt","es","fr","hi","bn","id","zh","zh_TW","ko","ja"]
@@ -50,6 +52,45 @@ struct SettingsView: View {
                 }
             }
 
+            Section("Help & About") {
+                Button {
+                    showingHelp = true
+                } label: {
+                    HStack {
+                        Image(systemName: "questionmark.circle")
+                        Text("How to Use")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                Button {
+                    showingAbout = true
+                } label: {
+                    HStack {
+                        Image(systemName: "info.circle")
+                        Text("About Orbiting")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                Link(destination: URL(string: "mailto:feedback@orbiting.com")!) {
+                    HStack {
+                        Image(systemName: "envelope")
+                        Text("Send Feedback")
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
             Section {
                 Button(role: .destructive) {
                     settings.resetToDefaults()
@@ -59,5 +100,11 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
+        .sheet(isPresented: $showingHelp) {
+            WelcomeView()
+        }
+        .sheet(isPresented: $showingAbout) {
+            AboutView()
+        }
     }
 }

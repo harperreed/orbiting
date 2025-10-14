@@ -8,6 +8,7 @@ import Combine
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.scenePhase) private var scenePhase
     @Query(sort: \Message.timestamp, order: .reverse) private var messages: [Message]
     @FocusState private var isEditing: Bool
 
@@ -148,6 +149,13 @@ struct HomeView: View {
                     savePublisher.send(newValue)
                 }
             }
+            .onChange(of: scenePhase) { oldPhase, newPhase in
+                // Save current message when app goes to background
+                if newPhase == .background && !typedText.isEmpty && !isPlaceholder {
+                    saveMessage(typedText)
+                    print("💾 Saved message to history on app backgrounding")
+                }
+            }
             .gesture(
                 DragGesture(minimumDistance: 20, coordinateSpace: .local)
                     .onEnded { value in
@@ -262,9 +270,9 @@ struct HomeView: View {
             }
             .store(in: &cancellables)
 
-        // Debounce message saving (slow - only after user stops typing)
+        // Debounce message saving (longer timeout - 5 seconds after user stops typing)
         savePublisher
-            .debounce(for: .seconds(2), scheduler: RunLoop.main)
+            .debounce(for: .seconds(5), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { text in
                 self.saveMessage(text)

@@ -8,6 +8,7 @@ import SwiftData
 struct OrbitingClip: App {
     @State private var settings = AppSettings()
     @State private var invocationText: String?
+    @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
 
     // Configure shared container (same as main app)
     var sharedModelContainer: ModelContainer = {
@@ -42,6 +43,13 @@ struct OrbitingClip: App {
             AppClipView(settings: settings, invocationText: invocationText)
                 .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
                     handleInvocation(userActivity: userActivity)
+                }
+                .sheet(isPresented: Binding(
+                    get: { !hasSeenWelcome },
+                    set: { if !$0 { hasSeenWelcome = true } }
+                )) {
+                    WelcomeView()
+                        .interactiveDismissDisabled(false)
                 }
         }
         .modelContainer(sharedModelContainer)

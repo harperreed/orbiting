@@ -11,6 +11,7 @@ import SwiftData
 @main
 struct OrbitingApp: App {
     @State private var settings = AppSettings()
+    @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
 
     // Configure shared container
     var sharedModelContainer: ModelContainer = {
@@ -43,6 +44,13 @@ struct OrbitingApp: App {
     var body: some Scene {
         WindowGroup {
             RootView(settings: settings)
+                .sheet(isPresented: Binding(
+                    get: { !hasSeenWelcome },
+                    set: { if !$0 { hasSeenWelcome = true } }
+                )) {
+                    WelcomeView()
+                        .interactiveDismissDisabled(false)
+                }
         }
         .modelContainer(sharedModelContainer)
     }

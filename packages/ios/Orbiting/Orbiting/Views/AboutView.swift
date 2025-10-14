@@ -1,44 +1,108 @@
-// ABOUTME: About screen showing app name, purpose, version, and credits
-// ABOUTME: Simple VStack layout with informational text
+// ABOUTME: About screen showing app creators, inspiration, and feedback link
+// ABOUTME: Includes version info and comprehensive app information
 
 import SwiftUI
 
 struct AboutView: View {
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Orbiting")
-                .font(.largeTitle)
-                .bold()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // App name and tagline
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Orbiting")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
 
-            Text("Ultra-legible nearby messaging")
-                .font(.title3)
-                .foregroundColor(.secondary)
+                    Text("A simple messaging app for your eyeballs")
+                        .font(.title3)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.top)
 
-            Divider()
-                .padding(.vertical, 8)
+                Divider()
 
-            Text("Purpose")
-                .font(.headline)
-            Text("Display messages in the largest possible text to communicate across distances or in noisy environments.")
+                // Purpose section
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Purpose")
+                        .font(.title2)
+                        .fontWeight(.semibold)
 
-            Divider()
-                .padding(.vertical, 8)
+                    Text("Display messages loud and clear to communicate with people in the same space.")
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                }
 
-            Text("Version")
-                .font(.headline)
-            Text("1.0.0")
+                Divider()
 
-            Divider()
-                .padding(.vertical, 8)
+                // Creators section
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Created By")
+                        .font(.title2)
+                        .fontWeight(.semibold)
 
-            Text("Credits")
-                .font(.headline)
-            Text("Built with SwiftUI and SwiftData")
-            Text("© 2025")
+                    Text("Christine Sun Kim and Harper Reed")
+                        .font(.body)
+                }
 
-            Spacer()
+                Divider()
+
+                // Inspiration section
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Inspiration")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+
+                    Text("Orbiting was inspired by the need to communicate with people in the same space, but with different communication needs.")
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                }
+
+                Divider()
+
+                // Feedback section
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Send Us Feedback")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+
+                    Text("We want to hear from you!")
+                        .font(.body)
+
+                    Link("feedback@orbiting.com", destination: URL(string: "mailto:feedback@orbiting.com")!)
+                        .font(.body)
+                }
+
+                Divider()
+
+                // Version section
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Version")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+
+                    Text("1.5 (Build 6)")
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+
+                    Text("© 2025")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer(minLength: 40)
+            }
+            .padding()
         }
-        .padding()
         .navigationTitle("About")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Done") {
+                    dismiss()
+                }
+            }
+        }
     }
 }
