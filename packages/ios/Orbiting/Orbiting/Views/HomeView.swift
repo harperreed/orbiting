@@ -67,11 +67,16 @@ struct HomeView: View {
             .onAppear {
                 startShake()
                 isEditing = true
-                fittedSize = CGFloat(settings.startFont)
                 setupDebounce(available: CGSize(
                     width: geo.size.width,
                     height: geo.size.height - kb.keyboardHeight
                 ))
+                // Trigger initial size calculation if there's already text
+                if !typedText.isEmpty {
+                    textPublisher.send(typedText)
+                } else {
+                    fittedSize = CGFloat(settings.startFont)
+                }
             }
             .onChange(of: kb.keyboardHeight) {
                 setupDebounce(available: CGSize(
