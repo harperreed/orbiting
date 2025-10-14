@@ -88,6 +88,7 @@
 				Models/Message.swift,
 				Models/Theme.swift,
 				Utilities/ShakeDetector.swift,
+				Utilities/SharedDataMigration.swift,
 				Utilities/StorageManager.swift,
 				Utilities/TextFitter.swift,
 				Views/AboutView.swift,
