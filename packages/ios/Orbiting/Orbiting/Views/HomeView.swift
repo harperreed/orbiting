@@ -16,6 +16,7 @@ struct HomeView: View {
     @State private var typedText: String = ""
     @State private var fittedSize: CGFloat = 24
     @State private var textPublisher = PassthroughSubject<String, Never>()
+    @State private var savePublisher = PassthroughSubject<String, Never>()
     @State private var cancellables: Set<AnyCancellable> = []
     @StateObject private var kb = KeyboardObserver()
     @State private var showingHistory: Bool = false
@@ -81,11 +82,9 @@ struct HomeView: View {
             .onChange(of: typedText) { oldValue, newValue in
                 textPublisher.send(newValue)
 
-                // Persist non-empty messages to history
+                // Send to save publisher for debounced saving
                 if !newValue.isEmpty {
-                    if let last = messages.first, last.text == newValue { return }
-                    modelContext.insert(Message(text: newValue))
-                    try? modelContext.save()
+                    savePublisher.send(newValue)
                 }
             }
             .gesture(
@@ -137,8 +136,25 @@ struct HomeView: View {
 
     // Present the history view
     private func presentHistory() {
+        // Save current message before showing history
+        if !typedText.isEmpty {
+            saveMessage(typedText)
+        }
         feedback.notificationOccurred(.success)
         showingHistory = true
+    }
+
+    // Save a message to history (only if it's new or changed)
+    private func saveMessage(_ text: String) {
+        guard !text.isEmpty else { return }
+
+        // Don't save if it's identical to the most recent message
+        if let last = messages.first, last.text == text {
+            return
+        }
+
+        modelContext.insert(Message(text: text))
+        try? modelContext.save()
     }
 
     // Clear the current text
@@ -153,6 +169,8 @@ struct HomeView: View {
     // Debounce keystrokes to update font sizing
     private func setupDebounce(available: CGSize) {
         cancellables.removeAll()
+
+        // Debounce font sizing (fast)
         textPublisher
             .debounce(for: .milliseconds(120), scheduler: RunLoop.main)
             .sink { text in
@@ -160,6 +178,15 @@ struct HomeView: View {
                 withAnimation(.interactiveSpring()) {
                     self.fittedSize = size
                 }
+            }
+            .store(in: &cancellables)
+
+        // Debounce message saving (slow - only after user stops typing)
+        savePublisher
+            .debounce(for: .seconds(2), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { text in
+                self.saveMessage(text)
             }
             .store(in: &cancellables)
     }
