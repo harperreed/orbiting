@@ -1,0 +1,278 @@
+App Clip URL Parameter Handling Test Results
+==============================================
+Date: 2025-10-13
+Task: Task 9 - Test App Clip with Simulated Invocation
+Test URL: https://orbiting.app/clip?text=Hello%20from%20App%20Clip&theme=contrast
+
+TEST CONFIGURATION
+------------------
+
+Step 1: Configure Xcode Scheme with _XCAppClipURL Environment Variable
+-----------------------------------------------------------------------
+IMPORTANT: This configuration must be done manually in Xcode GUI:
+
+1. Open Xcode project:
+   cd /Users/harper/workspace/personal/orbiting/packages/ios
+   open Orbiting/Orbiting.xcodeproj
+
+2. In Xcode menu bar:
+   - Product → Scheme → Edit Scheme...
+   - Or use keyboard shortcut: Cmd + Shift + <
+
+3. In the scheme editor:
+   - Select "Run" in left sidebar
+   - Select "Arguments" tab at top
+   - Under "Environment Variables" section, click the "+" button
+
+4. Add the test URL:
+   Name:  _XCAppClipURL
+   Value: https://orbiting.app/clip?text=Hello%20from%20App%20Clip&theme=contrast
+   ☑ Enabled (checkbox must be checked)
+
+5. Click "Close" to save the scheme
+
+The _XCAppClipURL environment variable simulates an App Clip invocation in the
+simulator, allowing us to test URL parameter handling without needing a real
+device or deployed AASA file.
+
+
+TEST PROCEDURES
+---------------
+
+Test 1: URL Invocation Logging
+-------------------------------
+Objective: Verify that the App Clip receives and parses the invocation URL
+
+Expected Console Output:
+  📱 App Clip invoked with URL: https://orbiting.app/clip?text=Hello%20from%20App%20Clip&theme=contrast
+  📝 Pre-populating with text: Hello from App Clip
+  🎨 Setting theme: contrast
+  ✅ App Clip using shared container at: [path]
+
+Steps:
+1. Select OrbitingClip scheme in Xcode
+2. Select an iOS Simulator (iPhone 15 recommended)
+3. Run the app (Cmd + R)
+4. Check Xcode console for the expected log messages
+
+Location of URL handling code:
+  - Orbiting/OrbitingClip/OrbitingClipApp.swift
+  - Method: handleInvocation(userActivity:)
+  - Lines: ~380-411
+
+
+Test 2: Theme Parameter Application
+------------------------------------
+Objective: Verify that the theme=contrast parameter applies the Contrast theme
+
+Expected Behavior:
+  - App launches with high contrast theme applied
+  - Black background with white text
+  - Settings should show Contrast theme selected
+
+Steps:
+1. Launch App Clip with test URL (as in Test 1)
+2. Observe the visual appearance
+3. Navigate to settings (if available) to verify theme selection
+
+URL Parameter Tested: theme=contrast
+Valid theme values: mono, contrast, quiet, fire, event
+
+
+Test 3: Text Parameter Handling
+--------------------------------
+Objective: Verify that the text parameter is extracted and available
+
+Expected Behavior:
+  - invocationText state variable contains "Hello from App Clip"
+  - Notification posted: "AppClipTextReceived" with text value
+  - Note: Visual pre-population requires HomeView to listen for notification
+
+Steps:
+1. Launch App Clip with test URL
+2. Check console for: 📝 Pre-populating with text: Hello from App Clip
+3. Verify notification posted (check AppClipView.swift onAppear)
+
+URL Parameter Tested: text=Hello%20from%20App%20Clip
+Note: URL encoding (%20 for spaces) should be automatically decoded
+
+
+Test 4: App Clip Banner Display
+--------------------------------
+Objective: Verify that the upgrade banner is visible and functional
+
+Expected Behavior:
+  - Bottom banner displays with text "Using Orbiting App Clip"
+  - "Get Full App" button is visible and tappable
+  - Banner has material background (semi-transparent)
+
+Steps:
+1. Launch App Clip
+2. Verify banner appears at bottom of screen
+3. Tap "Get Full App" button
+4. Proceed to Test 5
+
+Location of banner code:
+  - Orbiting/OrbitingClip/AppClipView.swift
+  - Struct: AppClipBanner
+  - Lines: ~490-511
+
+
+Test 5: SKOverlay Presentation
+-------------------------------
+Objective: Verify that tapping "Get Full App" triggers SKOverlay
+
+Expected Console Output:
+  📱 Presented App Store overlay
+
+Expected Behavior:
+  - In Simulator: Console log appears, overlay may not display (simulator limitation)
+  - On Device: App Store card overlay appears from bottom
+  - No crashes or errors
+
+Steps:
+1. Launch App Clip
+2. Tap "Get Full App" button in banner
+3. Check console for overlay presentation log
+4. Note: Full overlay functionality requires physical device
+
+Location of SKOverlay code:
+  - Orbiting/OrbitingClip/AppClipView.swift
+  - Method: presentAppStoreOverlay()
+  - Lines: ~476-488
+
+Known Limitation: SKOverlay may not render in iOS Simulator but should
+trigger without errors. Full overlay testing requires TestFlight + device.
+
+
+Test 6: Shared Storage Verification
+------------------------------------
+Objective: Verify App Clip uses shared App Group container
+
+Expected Console Output:
+  ✅ App Clip using shared container at: /Users/[user]/Library/Developer/CoreSimulator/Devices/[UUID]/data/Containers/Shared/AppGroup/[UUID]
+
+Steps:
+1. Launch App Clip
+2. Check console for shared container confirmation
+3. Create a test message in the App Clip
+4. Note the container path for verification
+
+This verifies that:
+  - App Group entitlement is working
+  - StorageManager.sharedContainerURL returns valid path
+  - SwiftData ModelContainer configured with shared location
+
+
+Test 7: URL Variations
+----------------------
+Objective: Test different URL parameter combinations
+
+Test URLs (configure one at a time in scheme):
+
+a) Text only:
+   https://orbiting.app/clip?text=Quick%20test
+
+b) Theme only:
+   https://orbiting.app/clip?theme=fire
+
+c) No parameters:
+   https://orbiting.app/clip
+
+d) Multiple themes (should use last one):
+   https://orbiting.app/clip?theme=mono&text=Test
+
+e) Invalid theme (should be ignored):
+   https://orbiting.app/clip?theme=invalid&text=Test
+
+Expected: App handles all variations gracefully without crashes
+
+
+TROUBLESHOOTING
+---------------
+
+Issue: No URL invocation logs appear
+Solution:
+  - Verify _XCAppClipURL is enabled in scheme
+  - Check scheme is set to OrbitingClip (not Orbiting)
+  - Clean build folder: Cmd + Shift + K
+  - Rebuild and run
+
+Issue: Theme not applying
+Solution:
+  - Verify theme value is valid: mono, contrast, quiet, fire, event
+  - Check ThemeType enum in AppSettings.swift
+  - Ensure theme parameter in URL matches rawValue
+
+Issue: Banner not visible
+Solution:
+  - Check that AppClipView is being used (not RootView directly)
+  - Verify ZStack layout in AppClipView
+  - Check view hierarchy in Xcode's Debug View Hierarchy
+
+Issue: SKOverlay crashes
+Solution:
+  - Verify StoreKit framework is linked
+  - Check that scene is available (simulator limitation)
+  - Try on physical device via TestFlight
+
+
+ACTUAL TEST RESULTS
+-------------------
+
+Status: READY FOR MANUAL TESTING
+
+To execute these tests:
+1. Follow "Test Configuration" section above to set up _XCAppClipURL
+2. Run through Tests 1-7 systematically
+3. Document findings below
+
+Test 1 - URL Invocation Logging:        [ PENDING ]
+Test 2 - Theme Parameter Application:   [ PENDING ]
+Test 3 - Text Parameter Handling:       [ PENDING ]
+Test 4 - App Clip Banner Display:       [ PENDING ]
+Test 5 - SKOverlay Presentation:        [ PENDING ]
+Test 6 - Shared Storage Verification:   [ PENDING ]
+Test 7 - URL Variations:                [ PENDING ]
+
+
+NOTES FOR TESTER
+----------------
+
+• These tests verify the App Clip implementation in simulator only
+• Full invocation testing (Safari, Messages, Maps) requires:
+  - AASA file deployed to orbiting.app
+  - TestFlight distribution
+  - Physical iOS device
+  - See docs/app-clip-testing.md for complete test strategy
+
+• The _XCAppClipURL environment variable is Apple's official method for
+  simulating App Clip invocations during development
+
+• Console logs are critical for verification - keep Xcode console visible
+  while testing
+
+• For production testing checklist, see:
+  - docs/app-clip-testing.md (comprehensive test strategy)
+  - docs/app-clip-implementation-complete.md (deployment checklist)
+
+
+RELATED FILES
+-------------
+Implementation:
+  - Orbiting/OrbitingClip/OrbitingClipApp.swift (URL handling logic)
+  - Orbiting/OrbitingClip/AppClipView.swift (UI + SKOverlay)
+  - Orbiting/Utilities/StorageManager.swift (shared container detection)
+
+Documentation:
+  - docs/plans/2025-10-13-app-clip-support.md (implementation plan)
+  - docs/app-clip-testing.md (full test strategy)
+  - docs/aasa-file-spec.md (AASA requirements for production)
+
+Configuration:
+  - Orbiting/OrbitingClip.entitlements (App Groups, Associated Domains)
+  - Xcode scheme: OrbitingClip → Run → Arguments → Environment Variables
+
+
+END OF TEST DOCUMENTATION
+==========================
