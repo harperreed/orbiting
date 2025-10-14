@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A6A951922E9DD91F004F0B1E /* OrbitingClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = A6A951702E9DD91E004F0B1E /* OrbitingClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A6A9511E2E9D6FB9004F0B1E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,17 +25,88 @@
 			remoteGlobalIDString = A6A951072E9D6E49004F0B1E;
 			remoteInfo = Orbiting;
 		};
+		A6A9517F2E9DD91F004F0B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A6A951002E9D6E49004F0B1E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A6A9516F2E9DD91E004F0B1E;
+			remoteInfo = OrbitingClip;
+		};
+		A6A951892E9DD91F004F0B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A6A951002E9D6E49004F0B1E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A6A9516F2E9DD91E004F0B1E;
+			remoteInfo = OrbitingClip;
+		};
+		A6A951902E9DD91F004F0B1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A6A951002E9D6E49004F0B1E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A6A9516F2E9DD91E004F0B1E;
+			remoteInfo = OrbitingClip;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A6A951972E9DD91F004F0B1E /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				A6A951922E9DD91F004F0B1E /* OrbitingClip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A6A951082E9D6E49004F0B1E /* Orbiting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Orbiting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6A9511A2E9D6FB9004F0B1E /* OrbitingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6A951272E9D6FCB004F0B1E /* OrbitingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6A951702E9DD91E004F0B1E /* OrbitingClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrbitingClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6A9517E2E9DD91F004F0B1E /* OrbitingClipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitingClipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6A951882E9DD91F004F0B1E /* OrbitingClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitingClipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A6A951932E9DD91F004F0B1E /* Exceptions for "OrbitingClip" folder in "OrbitingClip" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A6A9516F2E9DD91E004F0B1E /* OrbitingClip */;
+		};
+		A6A9519F2E9DD9E0004F0B1E /* Exceptions for "Orbiting" folder in "OrbitingClip" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				KeyboardObserver.swift,
+				Models/AppSettings.swift,
+				Models/Message.swift,
+				Models/Theme.swift,
+				Utilities/ShakeDetector.swift,
+				Utilities/TextFitter.swift,
+				Views/AboutView.swift,
+				Views/HelpView.swift,
+				Views/HistoryView.swift,
+				Views/HomeView.swift,
+				Views/RootView.swift,
+				Views/SettingsView.swift,
+				Views/SplashView.swift,
+			);
+			target = A6A9516F2E9DD91E004F0B1E /* OrbitingClip */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A6A9510A2E9D6E49004F0B1E /* Orbiting */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A6A9519F2E9DD9E0004F0B1E /* Exceptions for "Orbiting" folder in "OrbitingClip" target */,
+			);
 			path = Orbiting;
 			sourceTree = "<group>";
 		};
@@ -43,6 +118,24 @@
 		A6A951282E9D6FCB004F0B1E /* OrbitingUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = OrbitingUITests;
+			sourceTree = "<group>";
+		};
+		A6A951712E9DD91E004F0B1E /* OrbitingClip */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A6A951932E9DD91F004F0B1E /* Exceptions for "OrbitingClip" folder in "OrbitingClip" target */,
+			);
+			path = OrbitingClip;
+			sourceTree = "<group>";
+		};
+		A6A951812E9DD91F004F0B1E /* OrbitingClipTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = OrbitingClipTests;
+			sourceTree = "<group>";
+		};
+		A6A9518B2E9DD91F004F0B1E /* OrbitingClipUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = OrbitingClipUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +162,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A6A9516D2E9DD91E004F0B1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6A9517B2E9DD91F004F0B1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6A951852E9DD91F004F0B1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +192,9 @@
 				A6A9510A2E9D6E49004F0B1E /* Orbiting */,
 				A6A9511B2E9D6FB9004F0B1E /* OrbitingTests */,
 				A6A951282E9D6FCB004F0B1E /* OrbitingUITests */,
+				A6A951712E9DD91E004F0B1E /* OrbitingClip */,
+				A6A951812E9DD91F004F0B1E /* OrbitingClipTests */,
+				A6A9518B2E9DD91F004F0B1E /* OrbitingClipUITests */,
 				A6A951092E9D6E49004F0B1E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +205,9 @@
 				A6A951082E9D6E49004F0B1E /* Orbiting.app */,
 				A6A9511A2E9D6FB9004F0B1E /* OrbitingTests.xctest */,
 				A6A951272E9D6FCB004F0B1E /* OrbitingUITests.xctest */,
+				A6A951702E9DD91E004F0B1E /* OrbitingClip.app */,
+				A6A9517E2E9DD91F004F0B1E /* OrbitingClipTests.xctest */,
+				A6A951882E9DD91F004F0B1E /* OrbitingClipUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,10 +222,12 @@
 				A6A951042E9D6E49004F0B1E /* Sources */,
 				A6A951052E9D6E49004F0B1E /* Frameworks */,
 				A6A951062E9D6E49004F0B1E /* Resources */,
+				A6A951972E9DD91F004F0B1E /* Embed App Clips */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A6A951912E9DD91F004F0B1E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A6A9510A2E9D6E49004F0B1E /* Orbiting */,
@@ -163,6 +285,74 @@
 			productReference = A6A951272E9D6FCB004F0B1E /* OrbitingUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		A6A9516F2E9DD91E004F0B1E /* OrbitingClip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6A951942E9DD91F004F0B1E /* Build configuration list for PBXNativeTarget "OrbitingClip" */;
+			buildPhases = (
+				A6A9516C2E9DD91E004F0B1E /* Sources */,
+				A6A9516D2E9DD91E004F0B1E /* Frameworks */,
+				A6A9516E2E9DD91E004F0B1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A6A951712E9DD91E004F0B1E /* OrbitingClip */,
+			);
+			name = OrbitingClip;
+			packageProductDependencies = (
+			);
+			productName = OrbitingClip;
+			productReference = A6A951702E9DD91E004F0B1E /* OrbitingClip.app */;
+			productType = "com.apple.product-type.application.on-demand-install-capable";
+		};
+		A6A9517D2E9DD91F004F0B1E /* OrbitingClipTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6A951982E9DD91F004F0B1E /* Build configuration list for PBXNativeTarget "OrbitingClipTests" */;
+			buildPhases = (
+				A6A9517A2E9DD91F004F0B1E /* Sources */,
+				A6A9517B2E9DD91F004F0B1E /* Frameworks */,
+				A6A9517C2E9DD91F004F0B1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A6A951802E9DD91F004F0B1E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A6A951812E9DD91F004F0B1E /* OrbitingClipTests */,
+			);
+			name = OrbitingClipTests;
+			packageProductDependencies = (
+			);
+			productName = OrbitingClipTests;
+			productReference = A6A9517E2E9DD91F004F0B1E /* OrbitingClipTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A6A951872E9DD91F004F0B1E /* OrbitingClipUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6A9519B2E9DD91F004F0B1E /* Build configuration list for PBXNativeTarget "OrbitingClipUITests" */;
+			buildPhases = (
+				A6A951842E9DD91F004F0B1E /* Sources */,
+				A6A951852E9DD91F004F0B1E /* Frameworks */,
+				A6A951862E9DD91F004F0B1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A6A9518A2E9DD91F004F0B1E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A6A9518B2E9DD91F004F0B1E /* OrbitingClipUITests */,
+			);
+			name = OrbitingClipUITests;
+			packageProductDependencies = (
+			);
+			productName = OrbitingClipUITests;
+			productReference = A6A951882E9DD91F004F0B1E /* OrbitingClipUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +374,17 @@
 						CreatedOnToolsVersion = 26.0.1;
 						TestTargetID = A6A951072E9D6E49004F0B1E;
 					};
+					A6A9516F2E9DD91E004F0B1E = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					A6A9517D2E9DD91F004F0B1E = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = A6A9516F2E9DD91E004F0B1E;
+					};
+					A6A951872E9DD91F004F0B1E = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = A6A9516F2E9DD91E004F0B1E;
+					};
 				};
 			};
 			buildConfigurationList = A6A951032E9D6E49004F0B1E /* Build configuration list for PBXProject "Orbiting" */;
@@ -204,6 +405,9 @@
 				A6A951072E9D6E49004F0B1E /* Orbiting */,
 				A6A951192E9D6FB9004F0B1E /* OrbitingTests */,
 				A6A951262E9D6FCB004F0B1E /* OrbitingUITests */,
+				A6A9516F2E9DD91E004F0B1E /* OrbitingClip */,
+				A6A9517D2E9DD91F004F0B1E /* OrbitingClipTests */,
+				A6A951872E9DD91F004F0B1E /* OrbitingClipUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -224,6 +428,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A6A951252E9D6FCB004F0B1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6A9516E2E9DD91E004F0B1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6A9517C2E9DD91F004F0B1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6A951862E9DD91F004F0B1E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -254,6 +479,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A6A9516C2E9DD91E004F0B1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6A9517A2E9DD91F004F0B1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6A951842E9DD91F004F0B1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -266,6 +512,21 @@
 			isa = PBXTargetDependency;
 			target = A6A951072E9D6E49004F0B1E /* Orbiting */;
 			targetProxy = A6A9512D2E9D6FCB004F0B1E /* PBXContainerItemProxy */;
+		};
+		A6A951802E9DD91F004F0B1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A6A9516F2E9DD91E004F0B1E /* OrbitingClip */;
+			targetProxy = A6A9517F2E9DD91F004F0B1E /* PBXContainerItemProxy */;
+		};
+		A6A9518A2E9DD91F004F0B1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A6A9516F2E9DD91E004F0B1E /* OrbitingClip */;
+			targetProxy = A6A951892E9DD91F004F0B1E /* PBXContainerItemProxy */;
+		};
+		A6A951912E9DD91F004F0B1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A6A9516F2E9DD91E004F0B1E /* OrbitingClip */;
+			targetProxy = A6A951902E9DD91F004F0B1E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -543,6 +804,160 @@
 			};
 			name = Release;
 		};
+		A6A951952E9DD91F004F0B1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OrbitingClip/OrbitingClip.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9TDHQ977J;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OrbitingClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Orbiting;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harperrules.Orbiting.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A6A951962E9DD91F004F0B1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OrbitingClip/OrbitingClip.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9TDHQ977J;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OrbitingClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Orbiting;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harperrules.Orbiting.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A6A951992E9DD91F004F0B1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9TDHQ977J;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harperrules.Orbiting.OrbitingClipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrbitingClip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OrbitingClip";
+			};
+			name = Debug;
+		};
+		A6A9519A2E9DD91F004F0B1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9TDHQ977J;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harperrules.Orbiting.OrbitingClipTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrbitingClip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OrbitingClip";
+			};
+			name = Release;
+		};
+		A6A9519C2E9DD91F004F0B1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9TDHQ977J;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harperrules.Orbiting.OrbitingClipUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = OrbitingClip;
+			};
+			name = Debug;
+		};
+		A6A9519D2E9DD91F004F0B1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N9TDHQ977J;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harperrules.Orbiting.OrbitingClipUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = OrbitingClip;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -578,6 +993,33 @@
 			buildConfigurations = (
 				A6A951302E9D6FCB004F0B1E /* Debug */,
 				A6A951312E9D6FCB004F0B1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6A951942E9DD91F004F0B1E /* Build configuration list for PBXNativeTarget "OrbitingClip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6A951952E9DD91F004F0B1E /* Debug */,
+				A6A951962E9DD91F004F0B1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6A951982E9DD91F004F0B1E /* Build configuration list for PBXNativeTarget "OrbitingClipTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6A951992E9DD91F004F0B1E /* Debug */,
+				A6A9519A2E9DD91F004F0B1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6A9519B2E9DD91F004F0B1E /* Build configuration list for PBXNativeTarget "OrbitingClipUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6A9519C2E9DD91F004F0B1E /* Debug */,
+				A6A9519D2E9DD91F004F0B1E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
