@@ -67,22 +67,35 @@ struct HomeView: View {
             .onAppear {
                 startShake()
                 isEditing = true
-                setupDebounce(available: CGSize(
-                    width: geo.size.width,
+                let available = CGSize(
+                    width: geo.size.width - 24, // Account for horizontal padding
                     height: geo.size.height - kb.keyboardHeight
-                ))
+                )
+                setupDebounce(available: available)
                 // Trigger initial size calculation if there's already text
                 if !typedText.isEmpty {
-                    textPublisher.send(typedText)
+                    let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
+                    withAnimation(.interactiveSpring()) {
+                        fittedSize = size
+                    }
                 } else {
                     fittedSize = CGFloat(settings.startFont)
                 }
             }
             .onChange(of: kb.keyboardHeight) {
-                setupDebounce(available: CGSize(
-                    width: geo.size.width,
+                let available = CGSize(
+                    width: geo.size.width - 24, // Account for horizontal padding
                     height: max(1, geo.size.height - kb.keyboardHeight)
-                ))
+                )
+                setupDebounce(available: available)
+
+                // Recalculate size immediately when keyboard changes
+                if !typedText.isEmpty {
+                    let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
+                    withAnimation(.interactiveSpring()) {
+                        fittedSize = size
+                    }
+                }
             }
             .onChange(of: typedText) { oldValue, newValue in
                 textPublisher.send(newValue)
