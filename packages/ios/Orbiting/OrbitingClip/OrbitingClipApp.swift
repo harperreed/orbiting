@@ -7,7 +7,6 @@ import SwiftData
 @main
 struct OrbitingClip: App {
     @State private var settings = AppSettings()
-    @State private var showSplash = true
     @State private var invocationText: String?
 
     // Configure shared container (same as main app)
@@ -40,26 +39,10 @@ struct OrbitingClip: App {
 
     var body: some Scene {
         WindowGroup {
-            ZStack {
-                AppClipView(settings: settings, invocationText: invocationText)
-
-                if showSplash {
-                    SplashView()
-                        .transition(.opacity)
-                        .zIndex(1)
+            AppClipView(settings: settings, invocationText: invocationText)
+                .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
+                    handleInvocation(userActivity: userActivity)
                 }
-            }
-            .onAppear {
-                // Hide splash screen after 1.5 seconds
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    withAnimation(.easeOut(duration: 0.5)) {
-                        showSplash = false
-                    }
-                }
-            }
-            .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
-                handleInvocation(userActivity: userActivity)
-            }
         }
         .modelContainer(sharedModelContainer)
     }

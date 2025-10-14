@@ -11,7 +11,7 @@ struct TextFitter {
         text: String,
         targetSize: CGSize,
         min: CGFloat = 16,
-        max: CGFloat = 512,
+        max: CGFloat = 100,
         weight: UIFont.Weight = .bold
     ) -> CGFloat {
         guard !text.isEmpty, targetSize.width > 0, targetSize.height > 0 else { return min }
@@ -34,7 +34,7 @@ struct TextFitter {
     /// Check if the string fits within the given size at a font size.
     private static func fits(text: String, in size: CGSize, fontSize: CGFloat, weight: UIFont.Weight) -> Bool {
         let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .center
+        paragraph.alignment = .left  // Match HomeView's .leading alignment
         paragraph.lineBreakMode = .byWordWrapping
 
         let attrs: [NSAttributedString.Key: Any] = [
@@ -46,12 +46,29 @@ struct TextFitter {
         let safeW = size.width * 0.98
         let safeH = size.height * 0.98
 
+        // First check: ensure no individual word is wider than available width
+        // This prevents mid-word breaks
+        let words = text.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
+        for word in words {
+            let wordRect = (word as NSString).boundingRect(
+                with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude),
+                options: [.usesLineFragmentOrigin, .usesFontLeading],
+                attributes: attrs,
+                context: nil
+            )
+            // If any single word is too wide, this font size won't work
+            if wordRect.width > safeW {
+                return false
+            }
+        }
+
+        // Second check: ensure full text fits in height when wrapped
         let rect = (text as NSString).boundingRect(
-            with: CGSize(width: safeW, height: .greatestFiniteMagnitude),
+            with: CGSize(width: safeW, height: CGFloat.greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
             attributes: attrs,
             context: nil
         )
-        return rect.height <= safeH && rect.width <= safeW
+        return rect.height <= safeH
     }
 }

@@ -14,6 +14,7 @@ struct HomeView: View {
     let settings: AppSettings
 
     @State private var typedText: String = ""
+    @State private var isPlaceholder: Bool = true
     @State private var fittedSize: CGFloat = 24
     @State private var viewportSize: CGSize = .zero
     @State private var textPublisher = PassthroughSubject<String, Never>()
@@ -26,6 +27,16 @@ struct HomeView: View {
     private let shake = ShakeDetector()
     private let feedback = UINotificationFeedbackGenerator()
 
+    private let placeholderText = "Tap to type"
+
+    // Display either placeholder or actual text
+    private var displayText: String {
+        if isPlaceholder && typedText.isEmpty {
+            return placeholderText
+        }
+        return typedText.isEmpty ? " " : typedText
+    }
+
     var body: some View {
         GeometryReader { geo in
             let theme = settings.themeType.theme(for: colorScheme)
@@ -34,21 +45,32 @@ struct HomeView: View {
                 theme.background.ignoresSafeArea()
 
                 // The "big text" canvas
-                Text(typedText.isEmpty ? " " : typedText)
+                Text(displayText)
                     .font(.system(size: fittedSize, weight: .bold, design: .rounded))
-                    .foregroundStyle(theme.text)
+                    .foregroundStyle(isPlaceholder ? Color.gray.opacity(0.5) : theme.text)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     .padding(.horizontal, 12)
                     .accessibilityLabel(Text("Displayed message"))
                     .accessibilityHint(Text("Swipe left to clear. Swipe up or right for history."))
+                    .onTapGesture {
+                        if isPlaceholder {
+                            typedText = ""
+                            isPlaceholder = false
+                        }
+                        isEditing = true
+                    }
 
-                // TextField overlay (hidden chrome)
+                // TextField overlay (hidden text, visible cursor)
                 TextField("", text: $typedText, axis: .vertical)
                     .textFieldStyle(.plain)
                     .focused($isEditing)
-                    .opacity(0.01) // keyboard friendly, UI chrome hidden
+                    .foregroundColor(.clear) // Hide the TextField text completely
+                    .opacity(0.01) // Keep TextField nearly invisible
                     .padding()
+                    .font(.system(size: fittedSize, weight: .bold, design: .rounded))
+                    .tint(theme.text.opacity(0.8)) // Make cursor more visible with slight opacity
+                    .accentColor(theme.text) // Ensure cursor uses theme color
                     .accessibilityLabel(Text("Edit message"))
                     .accessibilityHint(Text("Type to change the displayed message"))
 
@@ -85,8 +107,20 @@ struct HomeView: View {
                     print("📏 Using startFont: \(settings.startFont)")
                 }
             }
-            .onChange(of: geo.size) {
-                viewportSize = $1
+            .onChange(of: geo.size) { oldValue, newValue in
+                viewportSize = newValue
+                // Recalculate size immediately when viewport size changes
+                if !typedText.isEmpty {
+                    let available = CGSize(
+                        width: viewportSize.width - 24,
+                        height: viewportSize.height - kb.keyboardHeight
+                    )
+                    let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
+                    print("📏 Viewport size changed: \(size)pt for text in \(available)")
+                    withAnimation(.interactiveSpring()) {
+                        fittedSize = size
+                    }
+                }
             }
             .onChange(of: kb.keyboardHeight) {
                 // Recalculate size immediately when keyboard changes
@@ -102,6 +136,11 @@ struct HomeView: View {
                 }
             }
             .onChange(of: typedText) { oldValue, newValue in
+                // Clear placeholder on first character typed
+                if isPlaceholder && !newValue.isEmpty {
+                    isPlaceholder = false
+                }
+
                 textPublisher.send(newValue)
 
                 // Send to save publisher for debounced saving
@@ -182,13 +221,14 @@ struct HomeView: View {
     // Clear the current text
     private func clearText() {
         // Save current message before clearing
-        if !typedText.isEmpty {
+        if !typedText.isEmpty && !isPlaceholder {
             saveMessage(typedText)
         }
 
         feedback.notificationOccurred(.warning)
         withAnimation {
             typedText = ""
+            isPlaceholder = true
             fittedSize = CGFloat(settings.startFont)
         }
     }
@@ -201,6 +241,14 @@ struct HomeView: View {
         textPublisher
             .debounce(for: .milliseconds(120), scheduler: RunLoop.main)
             .sink { text in
+                // Skip size calculation for empty text (placeholder will show at startFont size)
+                guard !text.isEmpty && !self.isPlaceholder else {
+                    withAnimation(.interactiveSpring()) {
+                        self.fittedSize = CGFloat(self.settings.startFont)
+                    }
+                    return
+                }
+
                 // Recalculate available size from current state
                 let available = CGSize(
                     width: self.viewportSize.width - 24,
