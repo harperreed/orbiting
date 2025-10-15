@@ -92,22 +92,23 @@ struct OrbitingClip: App {
            let encodedText = textItem.value,
            let text = encodedText.removingPercentEncoding {
 
-            // Validate text length
-            guard text.count <= Self.maxTextLength else {
+            // Validate text length and truncate if needed
+            let finalText: String
+            if text.count > Self.maxTextLength {
                 print("⚠️ Text parameter exceeds maximum length (\(text.count) > \(Self.maxTextLength)). Truncating.")
-                invocationText = String(text.prefix(Self.maxTextLength))
-                return
+                finalText = String(text.prefix(Self.maxTextLength))
+            } else {
+                finalText = text
             }
 
             // Validate text contains printable characters
-            let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !trimmedText.isEmpty else {
+            let trimmedText = finalText.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmedText.isEmpty {
+                invocationText = finalText
+                print("📝 Pre-populating with text (\(finalText.count) chars): \(finalText.prefix(50))\(finalText.count > 50 ? "..." : "")")
+            } else {
                 print("⚠️ Text parameter is empty or whitespace only")
-                return
             }
-
-            invocationText = text
-            print("📝 Pre-populating with text (\(text.count) chars): \(text.prefix(50))\(text.count > 50 ? "..." : "")")
         }
 
         // Extract and validate theme parameter

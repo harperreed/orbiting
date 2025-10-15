@@ -256,7 +256,6 @@ struct HomeView: View {
     private func setupDebounce() {
         // Only setup once - check if already configured
         guard cancellables.isEmpty else {
-            print("⚠️ Debounce already configured, skipping setup")
             return
         }
 
