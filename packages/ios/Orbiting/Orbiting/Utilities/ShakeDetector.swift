@@ -43,7 +43,7 @@ class ShakeDetector {
         // On simulator, accelerometer is not available but we still mark as running for testing
         #else
         guard motionManager.isAccelerometerAvailable else {
-            print("Accelerometer not available")
+            print("⚠️ Accelerometer not available on this device")
             isRunning = false
             return
         }
@@ -53,7 +53,7 @@ class ShakeDetector {
             guard let self = self, let data = data else { return }
 
             if let error = error {
-                print("Accelerometer error: \(error.localizedDescription)")
+                print("❌ Accelerometer error: \(error.localizedDescription)")
                 return
             }
 

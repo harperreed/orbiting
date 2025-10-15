@@ -5,8 +5,12 @@ import SwiftUI
 import UIKit
 
 struct TextFitter {
+    // Constants for text fitting algorithm
+    private static let binarySearchPrecision: CGFloat = 0.5 // Font size precision in points
+    private static let safeAreaMargin: CGFloat = 0.98 // Margin to avoid edge clipping (2% padding)
+
     /// Compute the largest font size that allows `text` to fit within `targetSize`
-    /// using UILabel/NSString sizing. Limits to [min, max] and uses a 0.5pt precision.
+    /// using UILabel/NSString sizing. Limits to [min, max] and uses binary search with 0.5pt precision.
     static func bestFontSize(
         text: String,
         targetSize: CGSize,
@@ -19,7 +23,7 @@ struct TextFitter {
         var high = max
         var best = min
 
-        while high - low > 0.5 {
+        while high - low > binarySearchPrecision {
             let mid = (low + high) / 2.0
             if fits(text: text, in: targetSize, fontSize: mid, weight: weight) {
                 best = mid
@@ -42,9 +46,9 @@ struct TextFitter {
             .paragraphStyle: paragraph
         ]
 
-        // Give it a "safe" padding margin to avoid edge clipping
-        let safeW = size.width * 0.98
-        let safeH = size.height * 0.98
+        // Apply safe area margin to avoid edge clipping
+        let safeW = size.width * safeAreaMargin
+        let safeH = size.height * safeAreaMargin
 
         // First check: ensure no individual word is wider than available width
         // This prevents mid-word breaks

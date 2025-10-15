@@ -137,19 +137,36 @@ struct HistoryView: View {
 
     // Delete specific messages
     private func deleteMessages(at offsets: IndexSet) {
-        for index in offsets {
-            let message = filteredMessages[index]
+        let messagesToDelete = offsets.map { filteredMessages[$0] }
+
+        for message in messagesToDelete {
             modelContext.delete(message)
         }
-        try? modelContext.save()
+
+        do {
+            try modelContext.save()
+            print("🗑️ Deleted \(messagesToDelete.count) message(s) from history")
+        } catch {
+            print("❌ Failed to delete messages: \(error.localizedDescription)")
+            // Note: Deletion may be rolled back on next context refresh
+        }
     }
 
     // Clear all messages from history
     private func clearAllMessages() {
+        let messageCount = allMessages.count
+
         for message in allMessages {
             modelContext.delete(message)
         }
-        try? modelContext.save()
+
+        do {
+            try modelContext.save()
+            print("🗑️ Cleared all \(messageCount) messages from history")
+        } catch {
+            print("❌ Failed to clear all messages: \(error.localizedDescription)")
+            // Note: Deletion may be rolled back on next context refresh
+        }
     }
 }
 

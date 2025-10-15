@@ -1,0 +1,211 @@
+// Orbiting iOS App Architecture
+// Complete system diagram showing components, data flow, and relationships
+
+digraph OrbitingArchitecture {
+    // Graph styling
+    rankdir=TB;
+    node [fontname="Helvetica", fontsize=10];
+    edge [fontname="Helvetica", fontsize=8];
+    compound=true;
+
+    // Title
+    labelloc="t";
+    label="Orbiting iOS App - Complete Architecture\nSimple messaging app for visual communication";
+    fontsize=16;
+    fontname="Helvetica-Bold";
+
+    // ========== APP ENTRY POINTS ==========
+    subgraph cluster_apps {
+        label="App Entry Points";
+        style=filled;
+        color=lightblue;
+
+        MainApp [label="OrbitingApp\n(Main)", shape=house, style=filled, fillcolor=skyblue];
+        ClipApp [label="OrbitingClipApp\n(App Clip)", shape=house, style=filled, fillcolor=lightblue];
+    }
+
+    // ========== VIEW LAYER ==========
+    subgraph cluster_views {
+        label="Views Layer (SwiftUI)";
+        style=filled;
+        color=lightgreen;
+
+        // Core Views
+        RootView [label="RootView\n(Navigation Root)", shape=box, style=filled, fillcolor=palegreen];
+        HomeView [label="HomeView\n(Main Canvas)", shape=box, style=filled, fillcolor=green];
+
+        // Secondary Views
+        HistoryView [label="HistoryView\n(Message History)", shape=box, style=filled, fillcolor=palegreen];
+        SettingsView [label="SettingsView\n(Preferences)", shape=box, style=filled, fillcolor=palegreen];
+        WelcomeView [label="WelcomeView\n(First Launch)", shape=box, style=filled, fillcolor=palegreen];
+        AboutView [label="AboutView\n(App Info)", shape=box, style=filled, fillcolor=palegreen];
+
+        // App Clip Specific
+        AppClipView [label="AppClipView\n(Clip Wrapper)", shape=box, style=filled, fillcolor=lightblue];
+    }
+
+    // ========== MODELS LAYER ==========
+    subgraph cluster_models {
+        label="Models & Data";
+        style=filled;
+        color=lightyellow;
+
+        Message [label="Message\n(@Model)\n- text: String\n- timestamp: Date", shape=ellipse, style=filled, fillcolor=gold];
+        AppSettings [label="AppSettings\n(@Observable)\n- language\n- theme\n- startFont\n- shakeAction", shape=ellipse, style=filled, fillcolor=gold];
+        Theme [label="Theme\n(Color Scheme)\n- background\n- text colors\n- accents", shape=ellipse, style=filled, fillcolor=gold];
+    }
+
+    // ========== UTILITIES LAYER ==========
+    subgraph cluster_utilities {
+        label="Utilities & Services";
+        style=filled;
+        color=lavender;
+
+        TextFitter [label="TextFitter\n(Binary Search)\nAuto-size text", shape=component, style=filled, fillcolor=plum];
+        KeyboardObserver [label="KeyboardObserver\n(@StateObject)\nTrack keyboard", shape=component, style=filled, fillcolor=plum];
+        ShakeDetector [label="ShakeDetector\nMotion detection", shape=component, style=filled, fillcolor=plum];
+        StorageManager [label="StorageManager\nShared container", shape=component, style=filled, fillcolor=plum];
+    }
+
+    // ========== DATA PERSISTENCE ==========
+    subgraph cluster_persistence {
+        label="Data Persistence";
+        style=filled;
+        color=mistyrose;
+
+        SwiftData [label="SwiftData\nModelContainer", shape=cylinder, style=filled, fillcolor=lightcoral];
+        AppStorage [label="@AppStorage\nUserDefaults\n- hasSeenWelcome\n- settings", shape=cylinder, style=filled, fillcolor=lightcoral];
+        SharedContainer [label="App Group Container\nShared between\nApp + App Clip", shape=folder, style=filled, fillcolor=coral];
+    }
+
+    // ========== USER INTERACTIONS ==========
+    subgraph cluster_interactions {
+        label="User Interactions";
+        style=filled;
+        color=lightgray;
+
+        Gestures [label="Gestures\n← Swipe left (clear)\n↑ Swipe up (history)\n→ Swipe right (history)", shape=diamond, style=filled, fillcolor=lightgray];
+        Keyboard [label="Keyboard Input\nTextField overlay\nDebounced events", shape=diamond, style=filled, fillcolor=lightgray];
+        ShakeAction [label="Shake Gestures\n- Clear\n- Flash\n- None", shape=diamond, style=filled, fillcolor=lightgray];
+    }
+
+    // ========== DATA FLOW LAYER ==========
+    subgraph cluster_dataflow {
+        label="Reactive Data Flow";
+        style=filled;
+        color=lightskyblue;
+
+        TextPublisher [label="textPublisher\nPassthroughSubject\n120ms debounce", shape=parallelogram, style=filled, fillcolor=skyblue];
+        SavePublisher [label="savePublisher\nPassthroughSubject\n5s debounce", shape=parallelogram, style=filled, fillcolor=skyblue];
+        ScenePhase [label="@Environment\n.scenePhase\nBackground detection", shape=parallelogram, style=filled, fillcolor=skyblue];
+    }
+
+    // ========== TESTING LAYER ==========
+    subgraph cluster_tests {
+        label="Testing Suite";
+        style=filled;
+        color=lightsteelblue;
+
+        UnitTests [label="Unit Tests\n- MessageTests\n- AppSettingsTests\n- TextFitterTests\n- ThemeTests\n- ShakeDetectorTests", shape=folder, style=filled, fillcolor=steelblue];
+        UITests [label="UI Tests\n- HomeViewUITests\n- IntegrationTests", shape=folder, style=filled, fillcolor=steelblue];
+    }
+
+    // ========== APP ENTRY RELATIONSHIPS ==========
+    MainApp -> RootView [label="launches", style=bold];
+    ClipApp -> AppClipView [label="launches", style=bold];
+    AppClipView -> RootView [label="wraps", style=dashed];
+
+    MainApp -> SwiftData [label="configures", style=dotted];
+    ClipApp -> SwiftData [label="configures", style=dotted];
+
+    // ========== VIEW RELATIONSHIPS ==========
+    RootView -> HomeView [label="presents", style=bold];
+    HomeView -> HistoryView [label="sheet", style=solid];
+    HomeView -> SettingsView [label="sheet", style=solid];
+    SettingsView -> WelcomeView [label="help sheet", style=solid];
+    SettingsView -> AboutView [label="about sheet", style=solid];
+
+    MainApp -> WelcomeView [label="first launch", style=dashed];
+    ClipApp -> WelcomeView [label="first launch", style=dashed];
+
+    // ========== VIEW → MODEL RELATIONSHIPS ==========
+    HomeView -> Message [label="@Query\nobserves", style=dashed, color=blue];
+    HomeView -> AppSettings [label="uses", style=solid, color=blue];
+    HistoryView -> Message [label="@Query\ndisplays", style=dashed, color=blue];
+    SettingsView -> AppSettings [label="@Bindable\nedits", style=solid, color=blue];
+
+    AppSettings -> Theme [label="selects", style=solid];
+
+    // ========== VIEW → UTILITY RELATIONSHIPS ==========
+    HomeView -> TextFitter [label="calculates\nfont size", style=solid, color=purple];
+    HomeView -> KeyboardObserver [label="observes", style=dotted, color=purple];
+    HomeView -> ShakeDetector [label="monitors", style=dotted, color=purple];
+
+    // ========== UTILITY → DATA RELATIONSHIPS ==========
+    StorageManager -> SharedContainer [label="manages", style=solid];
+    SwiftData -> SharedContainer [label="stores in", style=dashed];
+
+    // ========== USER INTERACTION FLOWS ==========
+    Gestures -> HomeView [label="triggers", style=solid, color=red];
+    Keyboard -> HomeView [label="input", style=solid, color=red];
+    ShakeAction -> HomeView [label="events", style=solid, color=red];
+
+    HomeView -> Gestures [label="listens", style=dotted, color=red];
+    ShakeDetector -> ShakeAction [label="detects", style=solid];
+    AppSettings -> ShakeAction [label="configures", style=dashed];
+
+    // ========== DATA FLOW PIPELINES ==========
+    HomeView -> TextPublisher [label="sends text", style=bold, color=green];
+    TextPublisher -> TextFitter [label="triggers\nrecalc", style=dashed, color=green];
+    TextFitter -> HomeView [label="returns\nfont size", style=dashed, color=green];
+
+    HomeView -> SavePublisher [label="sends text", style=bold, color=orange];
+    SavePublisher -> Message [label="persists\nafter 5s", style=dashed, color=orange];
+
+    ScenePhase -> HomeView [label="notifies", style=dotted, color=brown];
+    HomeView -> Message [label="saves on\nbackground", style=dashed, color=brown];
+
+    // ========== PERSISTENCE RELATIONSHIPS ==========
+    Message -> SwiftData [label="@Model\npersisted", style=bold, color=red];
+    AppSettings -> AppStorage [label="stored", style=bold, color=red];
+    AppStorage -> WelcomeView [label="hasSeenWelcome", style=dotted];
+
+    // ========== TESTING RELATIONSHIPS ==========
+    UnitTests -> Message [label="tests", style=dotted, color=gray];
+    UnitTests -> AppSettings [label="tests", style=dotted, color=gray];
+    UnitTests -> TextFitter [label="tests", style=dotted, color=gray];
+    UnitTests -> Theme [label="tests", style=dotted, color=gray];
+    UnitTests -> ShakeDetector [label="tests", style=dotted, color=gray];
+
+    UITests -> HomeView [label="tests", style=dotted, color=gray];
+    UITests -> HistoryView [label="tests", style=dotted, color=gray];
+
+    // ========== KEY FEATURES ANNOTATIONS ==========
+    {rank=same; TextFitter; KeyboardObserver; ShakeDetector;}
+    {rank=same; Gestures; Keyboard; ShakeAction;}
+    {rank=same; TextPublisher; SavePublisher; ScenePhase;}
+
+    // Legend
+    subgraph cluster_legend {
+        label="Legend";
+        style=filled;
+        color=white;
+
+        legend_app [label="App Entry", shape=house, style=filled, fillcolor=skyblue];
+        legend_view [label="View", shape=box, style=filled, fillcolor=palegreen];
+        legend_model [label="Model", shape=ellipse, style=filled, fillcolor=gold];
+        legend_util [label="Utility", shape=component, style=filled, fillcolor=plum];
+        legend_data [label="Storage", shape=cylinder, style=filled, fillcolor=lightcoral];
+        legend_test [label="Test", shape=folder, style=filled, fillcolor=steelblue];
+        legend_interact [label="User Action", shape=diamond, style=filled, fillcolor=lightgray];
+        legend_flow [label="Data Flow", shape=parallelogram, style=filled, fillcolor=skyblue];
+
+        legend_app -> legend_view [style=invis];
+        legend_view -> legend_model [style=invis];
+        legend_model -> legend_util [style=invis];
+        legend_util -> legend_data [style=invis];
+        legend_data -> legend_test [style=invis];
+        legend_test -> legend_interact [style=invis];
+        legend_interact -> legend_flow [style=invis];
+    }
+}

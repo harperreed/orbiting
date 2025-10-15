@@ -55,35 +55,70 @@ struct OrbitingClip: App {
         .modelContainer(sharedModelContainer)
     }
 
-    /// Handles App Clip invocation URL parsing
+    // Constants for App Clip configuration
+    private static let expectedDomain = "orbiting.com"
+    private static let maxTextLength = 1000 // Maximum characters for pre-populated text
+
+    /// Handles App Clip invocation URL parsing with validation
     private func handleInvocation(userActivity: NSUserActivity) {
         guard let url = userActivity.webpageURL else {
-            print("⚠️ No webpage URL in user activity")
+            print("⚠️ No webpage URL in user activity. Activity type: \(userActivity.activityType)")
             return
         }
 
-        print("📱 App Clip invoked with URL: \(url)")
+        print("📱 App Clip invoked with URL: \(url.absoluteString)")
 
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
-              let host = components.host,
-              host == "orbiting.app" else {
-            print("⚠️ Invalid App Clip URL host")
+        // Validate URL components
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+            print("❌ Failed to parse URL components from: \(url.absoluteString)")
+            return
+        }
+
+        guard let host = components.host else {
+            print("❌ No host found in URL: \(url.absoluteString)")
+            return
+        }
+
+        // Check domain matches entitlements configuration
+        guard host == Self.expectedDomain else {
+            print("❌ Invalid App Clip URL host. Expected: \(Self.expectedDomain), Got: \(host)")
             return
         }
 
         let queryItems = components.queryItems ?? []
 
-        // Extract text parameter
+        // Extract and validate text parameter
         if let textItem = queryItems.first(where: { $0.name == "text" }),
-           let text = textItem.value?.removingPercentEncoding {
+           let encodedText = textItem.value,
+           let text = encodedText.removingPercentEncoding {
+
+            // Validate text length
+            guard text.count <= Self.maxTextLength else {
+                print("⚠️ Text parameter exceeds maximum length (\(text.count) > \(Self.maxTextLength)). Truncating.")
+                invocationText = String(text.prefix(Self.maxTextLength))
+                return
+            }
+
+            // Validate text contains printable characters
+            let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmedText.isEmpty else {
+                print("⚠️ Text parameter is empty or whitespace only")
+                return
+            }
+
             invocationText = text
-            print("📝 Pre-populating with text: \(text)")
+            print("📝 Pre-populating with text (\(text.count) chars): \(text.prefix(50))\(text.count > 50 ? "..." : "")")
         }
 
-        // Extract theme parameter
+        // Extract and validate theme parameter
         if let themeItem = queryItems.first(where: { $0.name == "theme" }),
-           let themeRaw = themeItem.value,
-           let themeType = ThemeType(rawValue: themeRaw) {
+           let themeRaw = themeItem.value {
+
+            guard let themeType = ThemeType(rawValue: themeRaw) else {
+                print("⚠️ Invalid theme value: '\(themeRaw)'. Available: \(ThemeType.allCases.map { $0.rawValue }.joined(separator: ", "))")
+                return
+            }
+
             settings.themeType = themeType
             print("🎨 Setting theme: \(themeRaw)")
         }

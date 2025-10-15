@@ -95,7 +95,7 @@ struct HomeView: View {
                 // Trigger initial size calculation if there's already text
                 if !typedText.isEmpty {
                     let available = CGSize(
-                        width: viewportSize.width - 24,
+                        width: viewportSize.width - Self.horizontalPadding,
                         height: viewportSize.height - kb.keyboardHeight
                     )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
@@ -113,7 +113,7 @@ struct HomeView: View {
                 // Recalculate size immediately when viewport size changes
                 if !typedText.isEmpty {
                     let available = CGSize(
-                        width: viewportSize.width - 24,
+                        width: viewportSize.width - Self.horizontalPadding,
                         height: viewportSize.height - kb.keyboardHeight
                     )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
@@ -127,7 +127,7 @@ struct HomeView: View {
                 // Recalculate size immediately when keyboard changes
                 if !typedText.isEmpty {
                     let available = CGSize(
-                        width: viewportSize.width - 24,
+                        width: viewportSize.width - Self.horizontalPadding,
                         height: max(1, viewportSize.height - kb.keyboardHeight)
                     )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
@@ -223,7 +223,13 @@ struct HomeView: View {
         }
 
         modelContext.insert(Message(text: text))
-        try? modelContext.save()
+        do {
+            try modelContext.save()
+            print("💾 Saved message to history: '\(text.prefix(50))\(text.count > 50 ? "..." : "")'")
+        } catch {
+            print("❌ Failed to save message to history: \(error.localizedDescription)")
+            // Note: Message is still inserted in context, will be retried on next save
+        }
     }
 
     // Clear the current text
@@ -241,13 +247,22 @@ struct HomeView: View {
         }
     }
 
+    // Constants for debouncing behavior
+    private static let textDebounceMs = 120
+    private static let saveDebounceSeconds = 5
+    private static let horizontalPadding: CGFloat = 24
+
     // Debounce keystrokes to update font sizing
     private func setupDebounce() {
-        cancellables.removeAll()
+        // Only setup once - check if already configured
+        guard cancellables.isEmpty else {
+            print("⚠️ Debounce already configured, skipping setup")
+            return
+        }
 
         // Debounce font sizing (fast)
         textPublisher
-            .debounce(for: .milliseconds(120), scheduler: RunLoop.main)
+            .debounce(for: .milliseconds(Self.textDebounceMs), scheduler: RunLoop.main)
             .sink { text in
                 // Skip size calculation for empty text (placeholder will show at startFont size)
                 guard !text.isEmpty && !self.isPlaceholder else {
@@ -259,7 +274,7 @@ struct HomeView: View {
 
                 // Recalculate available size from current state
                 let available = CGSize(
-                    width: self.viewportSize.width - 24,
+                    width: self.viewportSize.width - Self.horizontalPadding,
                     height: self.viewportSize.height - self.kb.keyboardHeight
                 )
                 let size = TextFitter.bestFontSize(text: text, targetSize: available)
@@ -272,7 +287,7 @@ struct HomeView: View {
 
         // Debounce message saving (longer timeout - 5 seconds after user stops typing)
         savePublisher
-            .debounce(for: .seconds(5), scheduler: RunLoop.main)
+            .debounce(for: .seconds(Self.saveDebounceSeconds), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { text in
                 self.saveMessage(text)
