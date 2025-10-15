@@ -10,6 +10,25 @@ struct WelcomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
+                    // Hero graphic section
+                    VStack(spacing: 16) {
+                        // Try to use custom image first, fallback to SF Symbol
+                        if let _ = UIImage(named: "WelcomeHero") {
+                            Image("WelcomeHero")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxHeight: 150)
+                                .frame(maxWidth: .infinity)
+                        } else {
+                            // Fallback to SF Symbol
+                            Image(systemName: "bubble.left.and.bubble.right.fill")
+                                .font(.system(size: 80))
+                                .foregroundStyle(.blue.gradient)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+                    .padding(.top)
+
                     // Welcome header
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Welcome to Orbiting")
@@ -20,7 +39,6 @@ struct WelcomeView: View {
                             .font(.body)
                             .foregroundStyle(.secondary)
                     }
-                    .padding(.top)
 
                     Divider()
 
@@ -97,11 +115,15 @@ struct GestureRow: View {
     let text: String
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 16) {
             Image(systemName: icon)
-                .font(.title3)
-                .foregroundStyle(.blue)
-                .frame(width: 30)
+                .font(.system(size: 32))
+                .foregroundStyle(.blue.gradient)
+                .frame(width: 44, height: 44)
+                .background(
+                    Circle()
+                        .fill(.blue.opacity(0.1))
+                )
 
             Text(text)
                 .font(.body)
