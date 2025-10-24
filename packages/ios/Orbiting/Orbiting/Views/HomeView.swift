@@ -24,6 +24,7 @@ struct HomeView: View {
     @StateObject private var kb = KeyboardObserver()
     @State private var showingHistory: Bool = false
     @State private var showingSettings: Bool = false
+    @State private var showingAbout: Bool = false
     @State private var showFlash = false
     private let shake = ShakeDetector()
     private let feedback = UINotificationFeedbackGenerator()
@@ -79,10 +80,9 @@ struct HomeView: View {
                 if showFlash {
                     Color.white
                         .ignoresSafeArea()
-                        .transition(.opacity)
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                                withAnimation(.easeOut(duration: 0.15)) { showFlash = false }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                showFlash = false
                             }
                         }
                 }
@@ -100,9 +100,7 @@ struct HomeView: View {
                     )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
                     print("📏 Initial size calculation: \(size)pt for text: '\(typedText)' in \(available)")
-                    withAnimation(.interactiveSpring()) {
-                        fittedSize = size
-                    }
+                    fittedSize = size
                 } else {
                     fittedSize = CGFloat(settings.startFont)
                     print("📏 Using startFont: \(settings.startFont)")
@@ -118,9 +116,7 @@ struct HomeView: View {
                     )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
                     print("📏 Viewport size changed: \(size)pt for text in \(available)")
-                    withAnimation(.interactiveSpring()) {
-                        fittedSize = size
-                    }
+                    fittedSize = size
                 }
             }
             .onChange(of: kb.keyboardHeight) {
@@ -131,9 +127,7 @@ struct HomeView: View {
                         height: max(1, viewportSize.height - kb.keyboardHeight)
                     )
                     let size = TextFitter.bestFontSize(text: typedText, targetSize: available)
-                    withAnimation(.interactiveSpring()) {
-                        fittedSize = size
-                    }
+                    fittedSize = size
                 }
             }
             .onChange(of: typedText) { oldValue, newValue in
@@ -187,8 +181,32 @@ struct HomeView: View {
                         }
                 }
             }
+            .sheet(isPresented: $showingAbout) {
+                NavigationStack {
+                    AboutView()
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Done") {
+                                    showingAbout = false
+                                }
+                            }
+                        }
+                }
+            }
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingAbout = true
+                    } label: {
+                        Image("Logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24, height: 24)
+                    }
+                    .accessibilityLabel("About")
+                }
+
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         showingSettings = true
                     } label: {
@@ -240,11 +258,9 @@ struct HomeView: View {
         }
 
         feedback.notificationOccurred(.warning)
-        withAnimation {
-            typedText = ""
-            isPlaceholder = true
-            fittedSize = CGFloat(settings.startFont)
-        }
+        typedText = ""
+        isPlaceholder = true
+        fittedSize = CGFloat(settings.startFont)
     }
 
     // Constants for debouncing behavior
@@ -265,9 +281,7 @@ struct HomeView: View {
             .sink { text in
                 // Skip size calculation for empty text (placeholder will show at startFont size)
                 guard !text.isEmpty && !self.isPlaceholder else {
-                    withAnimation(.interactiveSpring()) {
-                        self.fittedSize = CGFloat(self.settings.startFont)
-                    }
+                    self.fittedSize = CGFloat(self.settings.startFont)
                     return
                 }
 
@@ -278,9 +292,7 @@ struct HomeView: View {
                 )
                 let size = TextFitter.bestFontSize(text: text, targetSize: available)
                 print("📏 Debounced size: \(size)pt for text: '\(text)' in \(available)")
-                withAnimation(.interactiveSpring()) {
-                    self.fittedSize = size
-                }
+                self.fittedSize = size
             }
             .store(in: &cancellables)
 
@@ -302,7 +314,7 @@ struct HomeView: View {
             case .clear: self.clearText()
             case .flash:
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                withAnimation(.easeIn(duration: 0.1)) { self.showFlash = true }
+                self.showFlash = true
             }
         }
         shake.start()
